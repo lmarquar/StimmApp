@@ -1,7 +1,7 @@
 # StimmApp
 eine App die politische Volksentscheide vereinfachen soll. Auf städtischer, Bundes- und Landesebene.
 
-[StimmAppLayout.pdf](https://github.com/user-attachments/files/23754330/StimmAppLayout.pdf)
+![photo_2025-11-25_20-06-03](https://github.com/user-attachments/assets/c36ef5fb-a589-49cd-bdec-1a949d799bbc)
 
 ## Funktionen
 - gezielter Umfang: vorest Petitionen, Unfragen. Irgentwann erhofft Volksentscheide, Wahlen.
