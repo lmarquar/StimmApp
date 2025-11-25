@@ -6,6 +6,7 @@ eine App die politische Volksentscheide vereinfachen soll. Auf städtischer, Bun
 
 
 ## Funktionen
+- gezielter Umfang: vorest Petitionen, Unfragen. Irgentwann erhofft Volksentscheide, Wahlen.
 - Anmeldung per BundID/e-ID
 - ermöglicht das Erstellen und Ausfüllen von Petitionen sowie Umfragen
 - eventuell auch Landes/-Bundestagswahl Option
