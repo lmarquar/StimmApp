@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,17 +8,33 @@ import 'package:stimmapp/app/mobile/layout/init_app_layout.dart';
 import 'package:stimmapp/core/constants/constants.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/core/firebase/firebase_options.dart';
+import 'package:stimmapp/core/errors/error_log_tool.dart';
+import 'package:stimmapp/core/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    errorLogTool(
+      exception: details.exception,
+      errorCustomMessage: 'Flutter framework error',
+    );
+  };
+  PlatformDispatcher.instance.onError = (error, stack) {
+    errorLogTool(exception: error, errorCustomMessage: 'Uncaught async error');
+    return true;
+  };
+
   SystemChrome.setPreferredOrientations(const [DeviceOrientation.portraitUp]);
+
   await Firebase.initializeApp(
-    name: "dev project",
+    name: 'stimmapp-dev',
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // Note: Only enable this for test builds
   await FirebaseAuth.instance.setSettings(
     appVerificationDisabledForTesting: true,
   );
@@ -33,31 +51,30 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  initState() {
+  void initState() {
     super.initState();
+    initThemeMode();
   }
 
-  void initThemeMode() async {
+  Future<void> initThemeMode() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool? repeat = prefs.getBool(KConstants.themeModeKey);
-    isDarkModeNotifier.value = repeat ?? false;
+    final bool? isDark = prefs.getBool(KConstants.themeModeKey);
+    isDarkModeNotifier.value = isDark ?? false;
   }
 
-  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
+    return ValueListenableBuilder<bool>(
       valueListenable: isDarkModeNotifier,
       builder: (context, isDarkMode, child) {
         return MaterialApp(
           navigatorKey: navigatorKey,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.teal,
-              brightness: isDarkMode ? Brightness.dark : Brightness.light,
-            ),
-          ),
+          title: KConstants.appName,
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
           home: const InitAppLayout(),
+          debugShowCheckedModeBanner: false,
         );
       },
     );
