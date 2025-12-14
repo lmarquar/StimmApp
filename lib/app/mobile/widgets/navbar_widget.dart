@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttericon/elusive_icons.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 
 class NavbarWidget extends StatelessWidget {
@@ -13,11 +12,11 @@ class NavbarWidget extends StatelessWidget {
         return NavigationBar(
           destinations: [
             NavigationDestination(
-              icon: Icon(Icons.people_alt_outlined),
-              label: 'Socials',
+              icon: Icon(Icons.drive_file_rename_outline),
+              label: 'Petitionen',
             ),
-            NavigationDestination(icon: Icon(Icons.home), label: 'home'),
-            NavigationDestination(icon: Icon(Elusive.leaf), label: 'Search'),
+            NavigationDestination(icon: Icon(Icons.mail), label: 'Gestalter'),
+            NavigationDestination(icon: Icon(Icons.ballot), label: 'Umfragen'),
           ],
           onDestinationSelected: (int value) {
             selectedPageNotifier.value = value;
