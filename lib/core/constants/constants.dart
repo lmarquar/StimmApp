@@ -1,5 +1,6 @@
 class KConstants {
   static const String themeModeKey = 'isDarkKey';
+  static const String appName = 'StimmApp';
 }
 
 class KValue {
