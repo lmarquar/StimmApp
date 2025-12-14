@@ -11,6 +11,8 @@ import 'package:stimmapp/core/firebase/firebase_options.dart';
 import 'package:stimmapp/core/errors/error_log_tool.dart';
 import 'package:stimmapp/core/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -31,13 +33,15 @@ void main() async {
   SystemChrome.setPreferredOrientations(const [DeviceOrientation.portraitUp]);
 
   await Firebase.initializeApp(
-    name: 'stimmapp-dev',
+    // name: 'stimmapp-dev',
     options: DefaultFirebaseOptions.currentPlatform,
   );
   // Note: Only enable this for test builds
-  await FirebaseAuth.instance.setSettings(
-    appVerificationDisabledForTesting: true,
-  );
+  if (!kIsWeb) {
+    await FirebaseAuth.instance.setSettings(
+      appVerificationDisabledForTesting: true,
+    );
+  }
 
   runApp(const MyApp());
 }
