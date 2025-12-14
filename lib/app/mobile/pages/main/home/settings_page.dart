@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/profile_page.dart';
 import 'package:stimmapp/core/constants/words.dart';
-import 'package:stimmapp/lib/button_widgets_page.dart';
+import 'package:stimmapp/etc/button_widgets_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, required this.title});
