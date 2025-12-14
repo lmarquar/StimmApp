@@ -3,9 +3,9 @@ import 'package:stimmapp/core/errors/error_log_tool.dart';
 
 import '../errors/error_message.dart';
 
-Future<void> initApp(context) async {
+Future<void> initApp() async {
   await initInternetChecker();
-  await initAppVersionNotifier(context);
+  await initAppVersionNotifier();
 }
 
 Future<void> initInternetChecker() async {
@@ -19,7 +19,7 @@ Future<void> initInternetChecker() async {
   }
 }
 
-Future<void> initAppVersionNotifier(context) async {
+Future<void> initAppVersionNotifier() async {
   try {} catch (e) {
     errorLogTool(
       exception: e,
