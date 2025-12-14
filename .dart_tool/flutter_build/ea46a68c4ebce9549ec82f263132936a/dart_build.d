@@ -1,1 +1,0 @@
- /home/lmarquar/Nextcloud/Projekte/Coding/StudioProjects/stimmapp/.dart_tool/flutter_build/ea46a68c4ebce9549ec82f263132936a/dart_build_result.json: 
