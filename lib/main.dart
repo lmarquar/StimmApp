@@ -11,8 +11,7 @@ import 'package:stimmapp/core/firebase/firebase_options.dart';
 import 'package:stimmapp/core/errors/error_log_tool.dart';
 import 'package:stimmapp/core/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
