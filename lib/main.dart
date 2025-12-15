@@ -12,6 +12,7 @@ import 'package:stimmapp/core/errors/error_log_tool.dart';
 import 'package:stimmapp/core/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:stimmapp/core/di/service_locator.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -32,7 +33,7 @@ void main() async {
   SystemChrome.setPreferredOrientations(const [DeviceOrientation.portraitUp]);
 
   await Firebase.initializeApp(
-    // name: 'stimmapp-dev',
+    name: 'stimmapp-dev',
     options: DefaultFirebaseOptions.currentPlatform,
   );
   // Note: Only enable this for test builds
@@ -41,6 +42,9 @@ void main() async {
       appVerificationDisabledForTesting: true,
     );
   }
+
+  // Initialize service locator (Firestore, repositories, etc.)
+  locator.init();
 
   runApp(const MyApp());
 }
