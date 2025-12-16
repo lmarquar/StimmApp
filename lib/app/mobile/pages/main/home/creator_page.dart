@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class CreatorPage extends StatefulWidget {
+  const CreatorPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<CreatorPage> createState() => _CreatorPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _CreatorPageState extends State<CreatorPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -1,7 +1,7 @@
 class OnboardingWords {
   static const String howIsYourMindsetTheseDays =
       'How is your mindset these days?';
-  static const String whatDoYouNeedMoreHelpWith =
+  static const String whatDoYouNeedPollsHelpWith =
       'What do you need more help with?';
 
   static const String defeated = '🤬';

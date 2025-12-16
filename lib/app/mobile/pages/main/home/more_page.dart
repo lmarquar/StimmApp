@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/widgets/hero_widget.dart';
 
-class MorePage extends StatelessWidget {
-  const MorePage({super.key});
+class PollsPage extends StatelessWidget {
+  const PollsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
