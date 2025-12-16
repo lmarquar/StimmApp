@@ -67,4 +67,9 @@ class PollRepository {
       });
     });
   }
+
+  Future<String> createPoll(Poll poll) async {
+    final docRef = await _col().add(poll);
+    return docRef.id;
+  }
 }
