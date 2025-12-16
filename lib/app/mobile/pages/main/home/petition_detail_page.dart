@@ -37,11 +37,15 @@ class PetitionDetailPage extends StatelessWidget {
                     onPressed: () async {
                       final user = FirebaseAuth.instance.currentUser;
                       if (user == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please sign in')));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Please sign in')),
+                        );
                         return;
                       }
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(const SnackBar(content: Text('Signed')));
                       await repo.sign(p.id, user.uid);
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Signed')));
                     },
                     child: const Text('Sign'),
                   ),

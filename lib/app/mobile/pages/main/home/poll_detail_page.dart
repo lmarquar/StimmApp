@@ -33,30 +33,39 @@ class _PollDetailPageState extends State<PollDetailPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(poll.title, style: Theme.of(context).textTheme.headlineSmall),
+                Text(
+                  poll.title,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
                 const SizedBox(height: 8),
                 Text(poll.description),
                 const SizedBox(height: 16),
                 Expanded(
-                  child: ListView(
-                    children: [
-                      ...poll.options.map((o) {
-                        final count = poll.votes[o.id] ?? 0;
-                        final pct = total == 0 ? 0 : (count / total * 100).round();
-                        return RadioListTile<String>(
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(child: Text(o.label)),
-                              Text('$count • $pct%'),
-                            ],
-                          ),
-                          value: o.id,
-                          groupValue: _selectedOptionId,
-                          onChanged: (v) => setState(() => _selectedOptionId = v),
-                        );
-                      }),
-                    ],
+                  child: RadioGroup<String>(
+                    groupValue: _selectedOptionId,
+                    onChanged: (v) => setState(() => _selectedOptionId = v),
+                    child: ListView(
+                      children: [
+                        ...poll.options.map((o) {
+                          final count = poll.votes[o.id] ?? 0;
+                          final pct = total == 0
+                              ? 0
+                              : (count / total * 100).round();
+                          return ListTile(
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(child: Text(o.label)),
+                                Text('$count • $pct%'),
+                              ],
+                            ),
+                            leading: Radio<String>(value: o.id),
+                            onTap: () =>
+                                setState(() => _selectedOptionId = o.id),
+                          );
+                        }),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -67,11 +76,21 @@ class _PollDetailPageState extends State<PollDetailPage> {
                       if (optionId == null) return;
                       final user = FirebaseAuth.instance.currentUser;
                       if (user == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please sign in')));
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Please sign in')),
+                        );
                         return;
                       }
-                      await repo.vote(pollId: poll.id, optionId: optionId, uid: user.uid);
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Vote submitted')));
+                      await repo.vote(
+                        pollId: poll.id,
+                        optionId: optionId,
+                        uid: user.uid,
+                      );
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Vote submitted')),
+                      );
                     },
                     child: const Text('Vote'),
                   ),

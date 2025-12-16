@@ -7,24 +7,28 @@ class PetitionRepository {
   PetitionRepository(this._fs);
   final FirestoreService _fs;
 
-  static PetitionRepository create() => PetitionRepository(locator.firestoreService);
+  static PetitionRepository create() =>
+      PetitionRepository(locator.firestoreService);
 
   CollectionReference<Petition> _col() => _fs.colRef<Petition>(
-        'petitions',
-        fromFirestore: Petition.fromFirestore,
-        toFirestore: Petition.toFirestore,
-      );
+    'petitions',
+    fromFirestore: Petition.fromFirestore,
+    toFirestore: Petition.toFirestore,
+  );
 
   Stream<List<Petition>> list({String? query, int? limit}) {
     final q = (query ?? '').trim().toLowerCase();
     final ref = _col();
     if (q.isEmpty) {
-      return _fs.watchCol<Petition>(ref.orderBy('createdAt', descending: true), limit: limit);
+      return _fs.watchCol<Petition>(
+        ref.orderBy('createdAt', descending: true),
+        limit: limit,
+      );
     }
     // Requires an index on titleLowercase
     return ref
         .where('titleLowercase', isGreaterThanOrEqualTo: q)
-        .where('titleLowercase', isLessThan: q + '\uf8ff')
+        .where('titleLowercase', isLessThan: '$q\uf8ff')
         .orderBy('titleLowercase')
         .snapshots()
         .map((s) => s.docs.map((d) => d.data()).toList());
