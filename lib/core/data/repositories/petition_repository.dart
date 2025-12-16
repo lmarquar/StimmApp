@@ -43,6 +43,11 @@ class PetitionRepository {
     return _fs.watchDoc(ref);
   }
 
+  Future<String> createPetition(Petition petition) async {
+    final docRef = await _col().add(petition);
+    return docRef.id;
+  }
+
   Future<void> sign(String petitionId, String uid) async {
     final db = locator.firestore;
     final petitionRef = db.collection('petitions').doc(petitionId);
