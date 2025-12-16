@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:stimmapp/app/mobile/layout/init_app_layout.dart';
+import 'package:stimmapp/app/mobile/pages/main/home/petition_detail_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/home/poll_detail_page.dart';
 import 'package:stimmapp/core/constants/constants.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/core/firebase/firebase_options.dart';
@@ -80,6 +82,16 @@ class _MyAppState extends State<MyApp> {
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
           themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          routes: {
+            '/petition': (ctx) {
+              final args = ModalRoute.of(ctx)?.settings.arguments as String?;
+              return PetitionDetailPage(id: args ?? '');
+            },
+            '/poll': (ctx) {
+              final args = ModalRoute.of(ctx)?.settings.arguments as String?;
+              return PollDetailPage(id: args ?? '');
+            },
+          },
           home: const InitAppLayout(),
           debugShowCheckedModeBanner: false,
         );

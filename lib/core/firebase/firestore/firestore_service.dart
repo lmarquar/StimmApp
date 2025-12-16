@@ -42,10 +42,10 @@ class FirestoreService {
     return ref.snapshots().map((s) => s.data());
   }
 
-  Stream<List<T>> watchCol<T>(CollectionReference<T> ref, {int? limit}) {
-    var query = ref as Query<T>;
-    if (limit != null) query = query.limit(limit);
-    return query.snapshots().map((q) => q.docs.map((d) => d.data()).toList());
+  Stream<List<T>> watchCol<T>(Query<T> query, {int? limit}) {
+    var q = query;
+    if (limit != null) q = q.limit(limit);
+    return q.snapshots().map((snap) => snap.docs.map((d) => d.data()).toList());
   }
 
   Future<void> upsert<T>(DocumentReference<T> ref, T data) async {
