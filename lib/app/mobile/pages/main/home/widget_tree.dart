@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/creator_page.dart';
-import 'package:stimmapp/app/mobile/pages/main/home/more_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/home/polls_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/settings_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/petitions_page.dart';
 import 'package:stimmapp/app/mobile/widgets/navbar_widget.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/widgets/search_text_field.dart';
+import 'package:stimmapp/core/constants/words.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 
@@ -17,12 +18,14 @@ class _PetitionsPageState extends State<PetitionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Petitionen')),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            SearchTextField(hint: 'Search petitions', onChanged: (q) => setState(() => _query = q)),
+            SearchTextField(
+              hint: Words.searchTextField,
+              onChanged: (q) => setState(() => _query = q),
+            ),
             const SizedBox(height: 12),
             Expanded(
               child: StreamBuilder<List<Petition>>(
@@ -33,11 +36,12 @@ class _PetitionsPageState extends State<PetitionsPage> {
                   }
                   final items = snap.data ?? const <Petition>[];
                   if (items.isEmpty) {
-                    return const Center(child: Text('No petitions'));
+                    return const Center(child: Text('Keine Petitionen'));
                   }
                   return ListView.separated(
                     itemCount: items.length,
-                    separatorBuilder: (context, index) => const Divider(height: 1),
+                    separatorBuilder: (context, index) =>
+                        const Divider(height: 1),
                     itemBuilder: (context, i) {
                       final p = items[i];
                       return ListTile(
@@ -56,7 +60,9 @@ class _PetitionsPageState extends State<PetitionsPage> {
                           ],
                         ),
                         onTap: () {
-                          Navigator.of(context).pushNamed('/petition', arguments: p.id);
+                          Navigator.of(
+                            context,
+                          ).pushNamed('/petition', arguments: p.id);
                         },
                       );
                     },
