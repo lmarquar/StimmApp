@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/widgets/search_text_field.dart';
+import 'package:stimmapp/core/constants/words.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
 
@@ -17,13 +18,12 @@ class _PollsPageState extends State<PollsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Umfragen')),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
             SearchTextField(
-              hint: 'Search polls',
+              hint: Words.searchTextField,
               onChanged: (q) => setState(() => _query = q),
             ),
             const SizedBox(height: 12),

@@ -51,6 +51,7 @@ class Words {
   static const String products = 'Products';
   static const String register = 'Register';
   static const String resetPassword = 'Reset password';
+  static const String searchTextField = 'Schlagwort';
   static const String signIn = 'Sign in';
   static const String theWelcomePhrase =
       'The ultimate way to exchange about emissions';
