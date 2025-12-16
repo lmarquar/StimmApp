@@ -22,7 +22,10 @@ class _PollsPageState extends State<PollsPage> {
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            SearchTextField(hint: 'Search polls', onChanged: (q) => setState(() => _query = q)),
+            SearchTextField(
+              hint: 'Search polls',
+              onChanged: (q) => setState(() => _query = q),
+            ),
             const SizedBox(height: 12),
             Expanded(
               child: StreamBuilder<List<Poll>>(
@@ -37,7 +40,7 @@ class _PollsPageState extends State<PollsPage> {
                   }
                   return ListView.separated(
                     itemCount: items.length,
-                    separatorBuilder: (_, __) => const Divider(height: 1),
+                    separatorBuilder: (_, _) => const Divider(height: 1),
                     itemBuilder: (context, i) {
                       final p = items[i];
                       final total = p.totalVotes;
@@ -57,7 +60,9 @@ class _PollsPageState extends State<PollsPage> {
                           ],
                         ),
                         onTap: () {
-                          Navigator.of(context).pushNamed('/poll', arguments: p.id);
+                          Navigator.of(
+                            context,
+                          ).pushNamed('/poll', arguments: p.id);
                         },
                       );
                     },
