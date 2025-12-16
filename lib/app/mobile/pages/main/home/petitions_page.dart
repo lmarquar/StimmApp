@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SocialsPage extends StatefulWidget {
-  const SocialsPage({super.key});
+class PetitionsPage extends StatefulWidget {
+  const PetitionsPage({super.key});
 
   @override
-  State<SocialsPage> createState() => _SocialsPageState();
+  State<PetitionsPage> createState() => _PetitionsPageState();
 }
 
-class _SocialsPageState extends State<SocialsPage> {
+class _PetitionsPageState extends State<PetitionsPage> {
   int currentPageIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -58,13 +58,13 @@ class _SocialsPageState extends State<SocialsPage> {
           },
         ),
 
-        /// Home page
+        /// Creator page
         Card(
           shadowColor: Colors.transparent,
           margin: const EdgeInsets.all(8.0),
           child: SizedBox.expand(
             child: Center(
-              child: Text('Home page', style: theme.textTheme.titleLarge),
+              child: Text('Creator page', style: theme.textTheme.titleLarge),
             ),
           ),
         ),

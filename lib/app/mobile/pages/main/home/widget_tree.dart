@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
-import 'package:stimmapp/app/mobile/pages/main/home/home_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/home/creator_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/more_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/settings_page.dart';
-import 'package:stimmapp/app/mobile/pages/main/home/socials_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/home/petitions_page.dart';
 import 'package:stimmapp/app/mobile/widgets/navbar_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-List<Widget> pages = [SocialsPage(), HomePage(), MorePage()];
+List<Widget> pages = [PetitionsPage(), CreatorPage(), PollsPage()];
 
 class WidgetTree extends StatelessWidget {
   const WidgetTree({super.key});
@@ -16,7 +16,7 @@ class WidgetTree extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Widget Tree'),
+        title: Text('Menu'),
         actions: [
           IconButton(
             onPressed: () async {

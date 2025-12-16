@@ -114,7 +114,7 @@ class _CoursePageState extends State<CoursePage> {
                                 // launch(activity.link);
                               },
                               icon: const Icon(Icons.link),
-                              label: const Text('Learn More'),
+                              label: const Text('Learn Polls'),
                             ),
                           ],
                         ],
