@@ -52,7 +52,7 @@ class ProfileWidget extends StatelessWidget {
               Text(
                 authService.value.currentUser!.email ??
                     'error retrieving email',
-                style: AppTextStyles.m.copyWith(color: Colors.white54),
+                style: AppTextStyles.m,
               ),
               const SizedBox(height: AppDimensions.kPadding5),
             ],

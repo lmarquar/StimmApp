@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants/app_dimensions.dart';
+import '../constants/constants.dart';
 import 'app_text_styles.dart';
-
-Color _appColor = Colors.greenAccent;
 
 class AppTheme {
   static final ThemeData light = ThemeData(
@@ -16,8 +15,8 @@ class AppTheme {
       ),
     ),
     colorScheme: ColorScheme.fromSeed(
-      seedColor: _appColor,
-      primary: _appColor,
+      seedColor: KConstants.appColor,
+      primary: KConstants.lightColor,
       brightness: Brightness.light,
     ),
   );
@@ -33,8 +32,8 @@ class AppTheme {
       ),
     ),
     colorScheme: ColorScheme.fromSeed(
-      seedColor: _appColor,
-      primary: _appColor,
+      seedColor: KConstants.appColor,
+      primary: KConstants.appColor,
       brightness: Brightness.dark,
     ),
   );

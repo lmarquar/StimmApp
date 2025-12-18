@@ -25,62 +25,70 @@ class _AppBarScaffoldState extends State<AppBarScaffold> {
   bool didAddFeedback = false;
   @override
   Widget build(BuildContext context) {
-    return NotificationListener<ScrollNotification>(
-      onNotification: (notification) {
-        isCollapsed = scrollController.hasClients &&
-            scrollController.offset > (expandedBarHeight - collapsedBarHeight);
-        if (isCollapsed && !didAddFeedback) {
-          HapticFeedback.mediumImpact();
-          didAddFeedback = true;
-        } else if (!isCollapsed) {
-          didAddFeedback = false;
-        }
-        setState(() {});
-        return false;
-      },
-      child: CustomScrollView(
-        controller: scrollController,
-        slivers: <Widget>[
-          SliverAppBar(
-            expandedHeight: expandedBarHeight,
-            collapsedHeight: collapsedBarHeight,
-            pinned: true,
-            snap: false,
-            floating: false,
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            surfaceTintColor: null,
-            scrolledUnderElevation: 0,
-            actions: widget.actions,
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding: const EdgeInsets.only(left: 15.0),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    widget.title,
-                  ),
-                  AnimatedOpacity(
-                    duration: const Duration(milliseconds: 200),
-                    opacity: isCollapsed ? 0 : 1,
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return Divider(
-                          color: Theme.of(context).colorScheme.primary,
-                          thickness: 3,
-                          endIndent: constraints.maxWidth * 0.9,
-                        );
-                      },
+    return Scaffold(
+      body: NotificationListener<ScrollNotification>(
+        onNotification: (notification) {
+          isCollapsed =
+              scrollController.hasClients &&
+              scrollController.offset >
+                  (expandedBarHeight - collapsedBarHeight);
+          if (isCollapsed && !didAddFeedback) {
+            HapticFeedback.mediumImpact();
+            didAddFeedback = true;
+          } else if (!isCollapsed) {
+            didAddFeedback = false;
+          }
+          setState(() {});
+          return false;
+        },
+        child: CustomScrollView(
+          controller: scrollController,
+          slivers: <Widget>[
+            SliverAppBar(
+              title: Text(widget.title),
+              expandedHeight: expandedBarHeight,
+              collapsedHeight: collapsedBarHeight,
+              pinned: true,
+              snap: false,
+              floating: false,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              surfaceTintColor: null,
+              scrolledUnderElevation: 0,
+              actions: widget.actions,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Positioned(
+                      left: 15.0,
+                      bottom:
+                          15.0, // Position at the bottom of the expanded bar
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AnimatedOpacity(
+                            duration: const Duration(milliseconds: 200),
+                            opacity: isCollapsed ? 0 : 1,
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Divider(
+                                color: Theme.of(context).colorScheme.primary,
+                                thickness: 5,
+                                endIndent: MediaQuery.of(context).size.width,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: widget.child,
-          ),
-        ],
+            SliverToBoxAdapter(child: widget.child),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/core/constants/app_dimensions.dart';
-import 'package:stimmapp/core/theme/app_text_styles.dart';
+import 'package:stimmapp/core/constants/constants.dart';
 import '../../../../core/functions/get_border_radius.dart';
 
 class NeonPaddingWidget extends StatelessWidget {
@@ -28,7 +28,11 @@ class NeonPaddingWidget extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         boxShadow: const [
-          BoxShadow(color: Colors.black26, blurRadius: 10, spreadRadius: 0),
+          BoxShadow(
+            color: KConstants.appColor,
+            blurRadius: 10,
+            spreadRadius: 0,
+          ),
         ],
         gradient: SweepGradient(
           startAngle: 0.5,
@@ -50,9 +54,13 @@ class NeonPaddingWidget extends StatelessWidget {
         margin: const EdgeInsets.all(AppDimensions.kMargin3),
         decoration: BoxDecoration(
           boxShadow: const [
-            BoxShadow(color: Colors.black12, blurRadius: 20, spreadRadius: 0),
+            BoxShadow(
+              color: KConstants.appColor,
+              blurRadius: 20,
+              spreadRadius: 0,
+            ),
           ],
-          color: Colors.black87,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(AppDimensions.kBorderRadius10),
         ),
         child: Column(
@@ -61,8 +69,8 @@ class NeonPaddingWidget extends StatelessWidget {
               : CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (title != null) Text(title!, style: AppTextStyles.xlBold),
-            if (label1 != null) Text(label1!, style: AppTextStyles.l),
+            if (title != null) Text(title!),
+            if (label1 != null) Text(label1!),
             if (child != null) child!,
           ],
         ),
