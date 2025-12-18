@@ -33,20 +33,28 @@ class _SettingsPageState extends State<SettingsPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ProfilePage();
-                      },
+              UnaffectedChildWidget(
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: ListTile(
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      color: Colors.white38,
                     ),
-                  );
-                },
-                child: Text(Words.myProfile),
+                    title: const Text(Words.myProfile),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ProfilePage();
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
-              Divider(color: Colors.teal, thickness: 5),
               UnaffectedChildWidget(
                 child: ListTile(
                   title: const Text(Words.aboutThisApp),
@@ -57,7 +65,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         return AlertDialog(
                           title: const Text(Words.flutterPro),
                           content: const Text(
-                            Words.aboutThisApp,
+                            Words.myProfile,
                             style: AppTextStyles.m,
                           ),
                           actions: [
@@ -95,7 +103,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 },
                 child: Text('Developer Sandbox'),
               ),
-              Divider(color: Colors.teal, thickness: 5),
             ],
           ),
         ),

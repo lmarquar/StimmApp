@@ -1,5 +1,6 @@
 class Words {
   //acbde
+  static const String alert = 'Alert';
   static const String aboutThisApp = 'About this app';
   static const String activityHistory = 'Activity History';
   static const String
