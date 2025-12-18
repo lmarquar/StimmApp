@@ -9,10 +9,10 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AppBarScaffold(
+    return AppBarScaffold(
       title: Words.myProfile,
       actions: [
-        /* Badge.count(
+        Badge.count(
           offset: const Offset(-5, 5),
           count: 3,
           child: IconButton(
@@ -23,7 +23,7 @@ class ProfilePage extends StatelessWidget {
         IconButton(
           onPressed: () {},
           icon: const Icon(Icons.bookmark_added_outlined),
-        ), */
+        ),
       ],
       child: ProfileWidget(),
     );
