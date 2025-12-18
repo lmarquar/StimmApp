@@ -1,11 +1,9 @@
+import 'package:flutter/material.dart';
+
 class KConstants {
   static const String themeModeKey = 'isDarkKey';
   static const String appName = 'StimmApp';
-}
 
-class KValue {
-  static const String basicLayout = 'Basic Layout';
-  static const String cleanUi = 'clean UI';
-  static const String fixBugs = 'fix bugs';
-  static const String keyConcepts = 'key concepts';
+  static const Color appColor = Colors.greenAccent;
+  static const Color lightColor = Colors.black;
 }
