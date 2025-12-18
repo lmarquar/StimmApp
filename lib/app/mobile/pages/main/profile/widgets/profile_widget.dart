@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/others/change_password_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/update_username_page.dart';
+import 'package:stimmapp/app/mobile/pages/others/user_history.dart';
 import 'package:stimmapp/core/constants/app_dimensions.dart';
 import 'package:stimmapp/core/constants/words.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
@@ -129,42 +130,29 @@ class ProfileWidget extends StatelessWidget {
           ),
         ),
 
-        // About this app
+        const ListTileWidget(
+          title: Text(Words.other, style: AppTextStyles.xlBold),
+        ),
+
         UnaffectedChildWidget(
           child: ListTile(
-            title: const Text(Words.aboutThisApp),
+            trailing: const Icon(
+              Icons.arrow_forward_ios_outlined,
+              color: Colors.white38,
+            ),
+            title: const Text(Words.activityHistory),
             onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: const Text(Words.flutterPro),
-                    content: const Text(
-                      Words.aboutThisApp,
-                      style: AppTextStyles.m,
-                    ),
-                    actions: [
-                      FilledButton(
-                        onPressed: () async {
-                          popUntilLast();
-                          showLicensePage(context: context);
-                        },
-                        child: const Text(Words.viewLicenses),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          popUntilLast();
-                        },
-                        child: const Text(Words.close),
-                      ),
-                    ],
-                  );
-                },
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const UserHistoryPage();
+                  },
+                ),
               );
             },
           ),
         ),
-
         // Logout
         UnaffectedChildWidget(
           child: ListTile(

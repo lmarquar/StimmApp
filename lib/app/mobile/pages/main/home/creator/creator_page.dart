@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stimmapp/app/mobile/pages/main/home/petition_creator_page.dart';
-import 'package:stimmapp/app/mobile/pages/main/home/poll_creator_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/home/creator/petition_creator_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/home/creator/poll_creator_page.dart';
 
 class CreatorPage extends StatefulWidget {
   const CreatorPage({super.key});
@@ -13,7 +13,6 @@ class _CreatorPageState extends State<CreatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Creator Hub')),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(

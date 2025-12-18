@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/profile_page.dart';
+import 'package:stimmapp/app/mobile/widgets/unaffected_child_widget.dart';
 import 'package:stimmapp/core/constants/words.dart';
+import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:stimmapp/etc/button_widgets_page.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -13,6 +15,10 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  void popUntilLast() {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+  }
+
   TextEditingController controller = TextEditingController();
   bool isChecked = false;
   bool isSwitched = false;
@@ -39,6 +45,41 @@ class _SettingsPageState extends State<SettingsPage> {
                   );
                 },
                 child: Text(Words.myProfile),
+              ),
+              Divider(color: Colors.teal, thickness: 5),
+              UnaffectedChildWidget(
+                child: ListTile(
+                  title: const Text(Words.aboutThisApp),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text(Words.flutterPro),
+                          content: const Text(
+                            Words.aboutThisApp,
+                            style: AppTextStyles.m,
+                          ),
+                          actions: [
+                            FilledButton(
+                              onPressed: () async {
+                                popUntilLast();
+                                showLicensePage(context: context);
+                              },
+                              child: const Text(Words.viewLicenses),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                popUntilLast();
+                              },
+                              child: const Text(Words.close),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
               Divider(color: Colors.teal, thickness: 5),
               ElevatedButton(

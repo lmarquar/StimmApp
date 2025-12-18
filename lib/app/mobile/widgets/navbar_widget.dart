@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
+import '../pages/main/home/home_navigation_config.dart';
 
 class NavbarWidget extends StatelessWidget {
   const NavbarWidget({super.key});
@@ -10,14 +11,12 @@ class NavbarWidget extends StatelessWidget {
       valueListenable: selectedPageNotifier,
       builder: (context, selectedPage, child) {
         return NavigationBar(
-          destinations: [
-            NavigationDestination(
-              icon: Icon(Icons.drive_file_rename_outline),
-              label: 'Petitionen',
-            ),
-            NavigationDestination(icon: Icon(Icons.mail), label: 'Gestalter'),
-            NavigationDestination(icon: Icon(Icons.ballot), label: 'Umfragen'),
-          ],
+          destinations: mainPagesConfig.map((config) {
+            return NavigationDestination(
+              icon: Icon(config.icon),
+              label: config.title,
+            );
+          }).toList(),
           onDestinationSelected: (int value) {
             selectedPageNotifier.value = value;
           },

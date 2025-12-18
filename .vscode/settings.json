@@ -1,3 +1,4 @@
 {
-	"cmake.sourceDirectory": "/home/lmarquar/Downloads/stimmapp/linux"
+	"cmake.sourceDirectory": "/home/lmarquar/Downloads/stimmapp/linux",
+	"CodeGPT.apiKey": "Perplexity"
 }

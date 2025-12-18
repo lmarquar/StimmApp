@@ -1,6 +1,7 @@
 class Words {
   //acbde
   static const String aboutThisApp = 'About this app';
+  static const String activityHistory = 'Activity History';
   static const String
   areYouSureYouWantToDeleteYourAccountThisActionIsIrreversible =
       'Are you sure you want to delete your account? This action is irreversible';
@@ -41,6 +42,8 @@ class Words {
   static const String nameChangeFailed = 'Name change failed';
   static const String newPassword = 'New password';
   static const String newUsername = 'New username';
+  static const String noActivityFound = 'No activity found yet.';
+  static const String other = "other";
 
   //pqrst
   static const String password = 'Password';

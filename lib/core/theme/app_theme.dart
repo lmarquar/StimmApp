@@ -17,6 +17,7 @@ class AppTheme {
     colorScheme: ColorScheme.fromSeed(
       seedColor: KConstants.appColor,
       primary: KConstants.lightColor,
+      secondary: KConstants.appColor,
       brightness: Brightness.light,
     ),
   );

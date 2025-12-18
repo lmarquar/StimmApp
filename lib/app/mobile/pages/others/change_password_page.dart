@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
@@ -82,17 +80,17 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 60.0),
-              const Text(Words.changePassword, style: AppTextStyles.xxlBold),
-              const SizedBox(height: 20.0),
-              const Text('🔐', style: AppTextStyles.icons),
-              const SizedBox(height: 50),
-              Form(
-                key: formKey,
-                child: Center(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                const SizedBox(height: 60.0),
+                const Text(Words.changePassword, style: AppTextStyles.xxlBold),
+                const SizedBox(height: 20.0),
+                const Text('🔐', style: AppTextStyles.icons),
+                const SizedBox(height: 50),
+                Form(
+                  key: formKey,
                   child: Column(
                     children: [
                       TextFormField(
@@ -152,9 +150,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     ],
                   ),
                 ),
-              ),
-              const Spacer(),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -164,11 +161,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           label: Words.changePassword,
           callback: () async {
             if (formKey.currentState!.validate()) {
-              if (Random().nextBool()) {
-                showSnackBarFailure();
-              } else {
-                showSnackBarSuccess();
-              }
+              updatePassword();
             }
           },
         ),
