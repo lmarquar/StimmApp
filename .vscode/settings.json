@@ -1,4 +1,5 @@
 {
 	"cmake.sourceDirectory": "/home/lmarquar/Downloads/stimmapp/linux",
-	"CodeGPT.apiKey": "Perplexity"
+	"CodeGPT.apiKey": "Claude Code",
+	"codium.codeCompletion.enable": true
 }

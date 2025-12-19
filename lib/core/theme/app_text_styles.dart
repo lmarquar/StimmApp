@@ -45,6 +45,14 @@ class AppTextStyles {
   static const TextStyle xxlBlack = TextStyle(
     fontSize: _xxlSize,
     fontWeight: FontWeight.w900,
+    color: Colors.black,
+  );
+
+  //REd
+  static const TextStyle xxlRed = TextStyle(
+    fontSize: _xxlSize,
+    fontWeight: FontWeight.w900,
+    color: Colors.red,
   );
 
   //Others
