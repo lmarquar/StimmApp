@@ -110,17 +110,335 @@ abstract class AppLocalizations {
   /// **'You have {newMessages, plural, =0{No new messages} =1 {One new message} two{Two new Messages} other {{newMessages} new messages}}'**
   String newMessages(int newMessages);
 
-  /// No description provided for @aboutthisapp.
-  ///
-  /// In en, this message translates to:
-  /// **'About this app'**
-  String get aboutthisapp;
-
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
+
+  /// No description provided for @alert.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert'**
+  String get alert;
+
+  /// No description provided for @aboutThisApp.
+  ///
+  /// In en, this message translates to:
+  /// **'About this app'**
+  String get aboutThisApp;
+
+  /// No description provided for @activityHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity History'**
+  String get activityHistory;
+
+  /// No description provided for @areYouSureYouWantToDeleteYourAccountThisActionIsIrreversible.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete your account? This action is irreversible'**
+  String get areYouSureYouWantToDeleteYourAccountThisActionIsIrreversible;
+
+  /// No description provided for @areYouSureYouWantToLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get areYouSureYouWantToLogout;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get changePassword;
+
+  /// No description provided for @consumption.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumption'**
+  String get consumption;
+
+  /// No description provided for @continueNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueNext;
+
+  /// No description provided for @currentPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get currentPassword;
+
+  /// No description provided for @dailyHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily habit'**
+  String get dailyHabit;
+
+  /// No description provided for @deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get deleted;
+
+  /// No description provided for @deleteMyAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete my account'**
+  String get deleteMyAccount;
+
+  /// No description provided for @deletePermanently.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Permanently'**
+  String get deletePermanently;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @energy.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy'**
+  String get energy;
+
+  /// No description provided for @enterSomething.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter something'**
+  String get enterSomething;
+
+  /// No description provided for @enterYourEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get enterYourEmail;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @exercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise'**
+  String get exercise;
+
+  /// No description provided for @explore.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get explore;
+
+  /// No description provided for @finalNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Final notice'**
+  String get finalNotice;
+
+  /// No description provided for @flutterPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Flutter Pro'**
+  String get flutterPro;
+
+  /// No description provided for @flutterProEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Flutter@pro.com'**
+  String get flutterProEmail;
+
+  /// No description provided for @getStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get getStarted;
+
+  /// No description provided for @growthStartsWithin.
+  ///
+  /// In en, this message translates to:
+  /// **'Growth starts within'**
+  String get growthStartsWithin;
+
+  /// No description provided for @stimmapp.
+  ///
+  /// In en, this message translates to:
+  /// **'stimmapp'**
+  String get stimmapp;
+
+  /// No description provided for @invalidEmailEntered.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email entered'**
+  String get invalidEmailEntered;
+
+  /// No description provided for @lastStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Last step!'**
+  String get lastStep;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @myProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'My Profile'**
+  String get myProfile;
+
+  /// No description provided for @nameChangeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Name change failed'**
+  String get nameChangeFailed;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get newPassword;
+
+  /// No description provided for @newUsername.
+  ///
+  /// In en, this message translates to:
+  /// **'New username'**
+  String get newUsername;
+
+  /// No description provided for @noActivityFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No activity found yet.'**
+  String get noActivityFound;
+
+  /// No description provided for @other.
+  ///
+  /// In en, this message translates to:
+  /// **'other'**
+  String get other;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @passwordChangedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed successfully'**
+  String get passwordChangedSuccessfully;
+
+  /// No description provided for @passwordChangeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Password change failed'**
+  String get passwordChangeFailed;
+
+  /// No description provided for @pleaseCheckYourEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your email'**
+  String get pleaseCheckYourEmail;
+
+  /// No description provided for @products.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get products;
+
+  /// No description provided for @register.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
+  /// No description provided for @resetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get resetPassword;
+
+  /// No description provided for @searchTextField.
+  ///
+  /// In en, this message translates to:
+  /// **'Schlagwort'**
+  String get searchTextField;
+
+  /// No description provided for @signIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get signIn;
+
+  /// No description provided for @theWelcomePhrase.
+  ///
+  /// In en, this message translates to:
+  /// **'The ultimate way to exchange about emissions'**
+  String get theWelcomePhrase;
+
+  /// No description provided for @travel.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel'**
+  String get travel;
+
+  /// No description provided for @updateUsername.
+  ///
+  /// In en, this message translates to:
+  /// **'Update username'**
+  String get updateUsername;
+
+  /// No description provided for @usernameChangedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Username changed successfully'**
+  String get usernameChangedSuccessfully;
+
+  /// No description provided for @usernameChangeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Username change failed'**
+  String get usernameChangeFailed;
+
+  /// No description provided for @viewLicenses.
+  ///
+  /// In en, this message translates to:
+  /// **'View licenses'**
+  String get viewLicenses;
+
+  /// No description provided for @welcomeTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to '**
+  String get welcomeTo;
 }
 
 class _AppLocalizationsDelegate

@@ -5,6 +5,7 @@ import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/core/constants/app_assets.dart';
 import 'package:stimmapp/core/constants/words.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:lottie/lottie.dart';
 
@@ -45,14 +46,14 @@ class WelcomePage extends StatelessWidget {
                     children: [
                       FittedBox(
                         child: RichText(
-                          text: const TextSpan(
+                          text: TextSpan(
                             children: [
                               TextSpan(
-                                text: Words.welcomeTo,
+                                text: context.l10n.welcomeTo,
                                 style: AppTextStyles.xxlRed,
                               ),
                               TextSpan(
-                                text: Words.stimmapp,
+                                text: context.l10n.stimmapp,
                                 style: AppTextStyles.xxlRed,
                               ),
                             ],
