@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
-import 'package:stimmapp/core/constants/words.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
 import 'package:stimmapp/core/functions/utils.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
@@ -26,10 +26,14 @@ class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
   }
 
   void updateUsername() async {
+    final username = controllerUsername.text;
+    final successMessage = context.l10n.usernameChangedSuccessfully;
     try {
-      await authService.value.updateUsername(username: controllerUsername.text);
-      Utils.showSuccessSnackBar(Words.usernameChangedSuccessfully);
+      await authService.value.updateUsername(username: username);
+      if (!mounted) return;
+      Utils.showSuccessSnackBar(successMessage);
     } catch (e) {
+      if (!mounted) return;
       showSnackBarFailure();
     }
   }
@@ -41,7 +45,7 @@ class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         behavior: SnackBarBehavior.floating,
         content: Text(
-          Words.usernameChangedSuccessfully,
+          context.l10n.usernameChangedSuccessfully,
           style: AppTextStyles.m,
         ),
         showCloseIcon: true,
@@ -55,7 +59,10 @@ class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
       SnackBar(
         backgroundColor: Theme.of(context).colorScheme.error,
         behavior: SnackBarBehavior.floating,
-        content: Text(Words.usernameChangeFailed, style: AppTextStyles.m),
+        content: Text(
+          context.l10n.usernameChangeFailed,
+          style: AppTextStyles.m,
+        ),
         showCloseIcon: true,
       ),
     );
@@ -78,7 +85,7 @@ class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
           child: Column(
             children: [
               const SizedBox(height: 60.0),
-              const Text(Words.updateUsername, style: AppTextStyles.xxlBold),
+              Text(context.l10n.updateUsername, style: AppTextStyles.xxlBold),
               const SizedBox(height: 20.0),
               const Text('✏️', style: AppTextStyles.icons),
               const SizedBox(height: 50),
@@ -89,15 +96,15 @@ class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
                     children: [
                       TextFormField(
                         controller: controllerUsername,
-                        decoration: const InputDecoration(
-                          labelText: Words.newUsername,
+                        decoration: InputDecoration(
+                          labelText: context.l10n.newUsername,
                         ),
                         validator: (String? value) {
                           if (value == null) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           if (value.trim().isEmpty) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           return null;
                         },
@@ -121,7 +128,7 @@ class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
       buttons: [
         ButtonWidget(
           isFilled: true,
-          label: Words.updateUsername,
+          label: context.l10n.updateUsername,
           callback: () async {
             if (formKey.currentState!.validate()) {
               updateUsername();

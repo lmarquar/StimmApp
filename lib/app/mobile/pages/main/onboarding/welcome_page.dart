@@ -4,7 +4,6 @@ import 'package:stimmapp/app/mobile/pages/main/onboarding/onboarding_page.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/core/constants/app_assets.dart';
-import 'package:stimmapp/core/constants/words.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:lottie/lottie.dart';
@@ -62,7 +61,7 @@ class WelcomePage extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        Words.theWelcomePhrase,
+                        context.l10n.theWelcomePhrase,
                         style: AppTextStyles.m.copyWith(color: Colors.blue),
                       ),
                     ],
@@ -75,7 +74,7 @@ class WelcomePage extends StatelessWidget {
       ),
       buttons: [
         ButtonWidget(
-          label: Words.getStarted,
+          label: context.l10n.getStarted,
           isFilled: true,
           callback: () {
             Navigator.push(
@@ -90,7 +89,7 @@ class WelcomePage extends StatelessWidget {
         ),
         const SizedBox(height: 10.0),
         ButtonWidget(
-          label: Words.login,
+          label: context.l10n.login,
           callback: () {
             Navigator.push(
               context,

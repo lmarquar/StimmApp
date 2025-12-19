@@ -110,6 +110,36 @@ abstract class AppLocalizations {
   /// **'You have {newMessages, plural, =0{No new messages} =1 {One new message} two{Two new Messages} other {{newMessages} new messages}}'**
   String newMessages(int newMessages);
 
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'language'**
+  String get language;
+
+  /// No description provided for @changeLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Language'**
+  String get changeLanguage;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'english'**
+  String get english;
+
+  /// No description provided for @german.
+  ///
+  /// In en, this message translates to:
+  /// **'german'**
+  String get german;
+
+  /// No description provided for @french.
+  ///
+  /// In en, this message translates to:
+  /// **'french'**
+  String get french;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:

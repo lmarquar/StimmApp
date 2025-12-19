@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
-import 'package:stimmapp/core/constants/words.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
@@ -47,7 +47,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         behavior: SnackBarBehavior.floating,
         content: Text(
-          Words.passwordChangedSuccessfully,
+          context.l10n.passwordChangedSuccessfully,
           style: AppTextStyles.m,
         ),
         showCloseIcon: true,
@@ -61,7 +61,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       SnackBar(
         backgroundColor: Theme.of(context).colorScheme.error,
         behavior: SnackBarBehavior.floating,
-        content: Text(Words.passwordChangeFailed, style: AppTextStyles.m),
+        content: Text(
+          context.l10n.passwordChangeFailed,
+          style: AppTextStyles.m,
+        ),
         showCloseIcon: true,
       ),
     );
@@ -85,7 +88,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             child: Column(
               children: [
                 const SizedBox(height: 60.0),
-                const Text(Words.changePassword, style: AppTextStyles.xxlBold),
+                Text(context.l10n.changePassword, style: AppTextStyles.xxlBold),
                 const SizedBox(height: 20.0),
                 const Text('🔐', style: AppTextStyles.icons),
                 const SizedBox(height: 50),
@@ -95,15 +98,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     children: [
                       TextFormField(
                         controller: controllerEmail,
-                        decoration: const InputDecoration(
-                          labelText: Words.email,
+                        decoration: InputDecoration(
+                          labelText: context.l10n.email,
                         ),
                         validator: (String? value) {
                           if (value == null) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           if (value.trim().isEmpty) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           return null;
                         },
@@ -111,15 +114,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       const SizedBox(height: 10),
                       TextFormField(
                         controller: controllerCurrentPassword,
-                        decoration: const InputDecoration(
-                          labelText: Words.currentPassword,
+                        decoration: InputDecoration(
+                          labelText: context.l10n.currentPassword,
                         ),
                         validator: (String? value) {
                           if (value == null) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           if (value.trim().isEmpty) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           return null;
                         },
@@ -127,15 +130,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       const SizedBox(height: 10),
                       TextFormField(
                         controller: controllerNewPassword,
-                        decoration: const InputDecoration(
-                          labelText: Words.newPassword,
+                        decoration: InputDecoration(
+                          labelText: context.l10n.newPassword,
                         ),
                         validator: (String? value) {
                           if (value == null) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           if (value.trim().isEmpty) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           return null;
                         },
@@ -158,7 +161,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       buttons: [
         ButtonWidget(
           isFilled: true,
-          label: Words.changePassword,
+          label: context.l10n.changePassword,
           callback: () async {
             if (formKey.currentState!.validate()) {
               updatePassword();

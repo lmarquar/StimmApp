@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
-import 'package:stimmapp/core/constants/words.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
 import 'package:stimmapp/core/functions/utils.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
@@ -39,7 +39,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       await authService.value.resetPassword(email: controllerEmail.text);
     } on FirebaseAuthException catch (e) {
       setState(() {
-        errorMessage = e.message ?? Words.error;
+        errorMessage = e.message ?? context.l10n.error;
         Utils.showErrorSnackBar('Error resetting password: $errorMessage');
       });
     }
@@ -50,7 +50,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        content: Text(Words.pleaseCheckYourEmail, style: AppTextStyles.m),
+        content: Text(
+          context.l10n.pleaseCheckYourEmail,
+          style: AppTextStyles.m,
+        ),
         showCloseIcon: true,
       ),
     );
@@ -73,7 +76,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           child: Column(
             children: [
               const SizedBox(height: 60.0),
-              const Text(Words.resetPassword, style: AppTextStyles.xxlBold),
+              Text(context.l10n.resetPassword, style: AppTextStyles.xxlBold),
               const SizedBox(height: 20.0),
               const Text('🔐', style: AppTextStyles.icons),
               const SizedBox(height: 50),
@@ -84,15 +87,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     children: [
                       TextFormField(
                         controller: controllerEmail,
-                        decoration: const InputDecoration(
-                          labelText: Words.email,
+                        decoration: InputDecoration(
+                          labelText: context.l10n.email,
                         ),
                         validator: (String? value) {
                           if (value == null) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           if (value.trim().isEmpty) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           return null;
                         },
@@ -116,7 +119,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       buttons: [
         ButtonWidget(
           isFilled: true,
-          label: Words.resetPassword,
+          label: context.l10n.resetPassword,
           callback: () async {
             resetPassword();
             if (formKey.currentState!.validate()) {

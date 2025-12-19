@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
-import 'package:stimmapp/core/constants/words.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
@@ -71,15 +71,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       children: [
                         TextFormField(
                           controller: controllerEm,
-                          decoration: const InputDecoration(
-                            labelText: Words.email,
+                          decoration: InputDecoration(
+                            labelText: context.l10n.email,
                           ),
                           validator: (String? value) {
                             if (value == null) {
-                              return Words.enterSomething;
+                              return context.l10n.enterSomething;
                             }
                             if (value.trim().isEmpty) {
-                              return Words.enterSomething;
+                              return context.l10n.enterSomething;
                             }
                             return null;
                           },
@@ -87,15 +87,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         const SizedBox(height: 10),
                         TextFormField(
                           controller: controllerPw,
-                          decoration: const InputDecoration(
-                            labelText: Words.password,
+                          decoration: InputDecoration(
+                            labelText: context.l10n.password,
                           ),
                           validator: (String? value) {
                             if (value == null) {
-                              return Words.enterSomething;
+                              return context.l10n.enterSomething;
                             }
                             if (value.trim().isEmpty) {
-                              return Words.enterSomething;
+                              return context.l10n.enterSomething;
                             }
                             return null;
                           },
@@ -114,7 +114,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       buttons: [
         ButtonWidget(
           isFilled: true,
-          label: Words.register,
+          label: context.l10n.register,
           callback: () {
             if (_formKey.currentState!.validate()) {
               register();

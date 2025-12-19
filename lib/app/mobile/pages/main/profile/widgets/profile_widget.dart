@@ -1,13 +1,13 @@
+import 'package:stimmapp/core/extensions/context_extensions.dart';
+import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/others/change_password_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/update_username_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/user_history.dart';
 import 'package:stimmapp/core/constants/app_dimensions.dart';
-import 'package:stimmapp/core/constants/words.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
 import 'package:stimmapp/core/functions/utils.dart';
-import 'package:stimmapp/core/theme/app_text_styles.dart';
 import '../../../../../../core/notifiers/notifiers.dart';
 import '../../../../scaffolds/app_padding_scaffold.dart';
 import '../../../../widgets/list_tile_widget.dart';
@@ -60,8 +60,8 @@ class ProfileWidget extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20.0),
-        const ListTileWidget(
-          title: Text(Words.settings, style: AppTextStyles.xlBold),
+        ListTileWidget(
+          title: Text(context.l10n.settings, style: AppTextStyles.xlBold),
         ),
 
         // Update username
@@ -73,7 +73,7 @@ class ProfileWidget extends StatelessWidget {
                 Icons.arrow_forward_ios_outlined,
                 color: Colors.white38,
               ),
-              title: const Text(Words.updateUsername),
+              title: Text(context.l10n.updateUsername),
               onTap: () {
                 Navigator.push(
                   context,
@@ -95,7 +95,7 @@ class ProfileWidget extends StatelessWidget {
               Icons.arrow_forward_ios_outlined,
               color: Colors.white38,
             ),
-            title: const Text(Words.changePassword),
+            title: Text(context.l10n.changePassword),
             onTap: () {
               Navigator.push(
                 context,
@@ -116,7 +116,7 @@ class ProfileWidget extends StatelessWidget {
               Icons.arrow_forward_ios_outlined,
               color: Colors.white38,
             ),
-            title: const Text(Words.deleteMyAccount),
+            title: Text(context.l10n.deleteMyAccount),
             onTap: () {
               Navigator.push(
                 context,
@@ -130,8 +130,8 @@ class ProfileWidget extends StatelessWidget {
           ),
         ),
 
-        const ListTileWidget(
-          title: Text(Words.other, style: AppTextStyles.xlBold),
+        ListTileWidget(
+          title: Text(context.l10n.other, style: AppTextStyles.xlBold),
         ),
 
         UnaffectedChildWidget(
@@ -140,7 +140,7 @@ class ProfileWidget extends StatelessWidget {
               Icons.arrow_forward_ios_outlined,
               color: Colors.white38,
             ),
-            title: const Text(Words.activityHistory),
+            title: Text(context.l10n.activityHistory),
             onTap: () {
               Navigator.push(
                 context,
@@ -156,15 +156,15 @@ class ProfileWidget extends StatelessWidget {
         // Logout
         UnaffectedChildWidget(
           child: ListTile(
-            title: const Text(Words.logout, style: AppTextStyles.red),
+            title: Text(context.l10n.logout, style: AppTextStyles.red),
             onTap: () {
               showDialog(
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: const Text(Words.logout),
-                    content: const Text(
-                      Words.areYouSureYouWantToLogout,
+                    title: Text(context.l10n.logout),
+                    content: Text(
+                      context.l10n.areYouSureYouWantToLogout,
                       style: AppTextStyles.m,
                     ),
                     actions: [
@@ -172,13 +172,13 @@ class ProfileWidget extends StatelessWidget {
                         onPressed: () async {
                           logout();
                         },
-                        child: const Text(Words.logout),
+                        child: Text(context.l10n.logout),
                       ),
                       TextButton(
                         onPressed: () {
                           popUntilLast();
                         },
-                        child: const Text(Words.cancel),
+                        child: Text(context.l10n.cancel),
                       ),
                     ],
                   );
