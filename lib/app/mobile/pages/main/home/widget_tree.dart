@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:stimmapp/core/constants/words.dart';
+import 'package:stimmapp/app/mobile/pages/main/home/home_navigation_config.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/pages/main/settings/settings_page.dart';
 import 'package:stimmapp/app/mobile/widgets/navbar_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stimmapp/l10n/app_localizations.dart';
-import 'home_navigation_config.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 
 class WidgetTree extends StatelessWidget {
   const WidgetTree({super.key});
@@ -24,7 +24,7 @@ class WidgetTree extends StatelessWidget {
                   isDarkModeNotifier.value = !isDarkModeNotifier.value;
                   final SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  await prefs.setBool('repeat', isDarkModeNotifier.value);
+                  await prefs.setBool('isDarkMode', isDarkModeNotifier.value);
                 },
                 icon: ValueListenableBuilder(
                   valueListenable: isDarkModeNotifier,
@@ -40,11 +40,8 @@ class WidgetTree extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) {
-                        return SettingsPage(
-                          title: AppLocalizations.of(context)!.settings,
-                        );
-                      },
+                      builder: (context) =>
+                          SettingsPage(title: context.l10n.settings),
                     ),
                   );
                 },
