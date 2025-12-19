@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:stimmapp/core/constants/words.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/pages/main/settings/settings_page.dart';
 import 'package:stimmapp/app/mobile/widgets/navbar_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stimmapp/l10n/app_localizations.dart';
 import 'home_navigation_config.dart';
 
 class WidgetTree extends StatelessWidget {
@@ -39,7 +41,9 @@ class WidgetTree extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return const SettingsPage(title: 'Settings');
+                        return SettingsPage(
+                          title: AppLocalizations.of(context)!.settings,
+                        );
                       },
                     ),
                   );

@@ -49,11 +49,11 @@ class WelcomePage extends StatelessWidget {
                             children: [
                               TextSpan(
                                 text: Words.welcomeTo,
-                                style: AppTextStyles.xxl,
+                                style: AppTextStyles.xxlRed,
                               ),
                               TextSpan(
                                 text: Words.stimmapp,
-                                style: AppTextStyles.xxlBlack,
+                                style: AppTextStyles.xxlRed,
                               ),
                             ],
                           ),
@@ -62,7 +62,7 @@ class WelcomePage extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         Words.theWelcomePhrase,
-                        style: AppTextStyles.m.copyWith(color: Colors.white54),
+                        style: AppTextStyles.m.copyWith(color: Colors.blue),
                       ),
                     ],
                   ),

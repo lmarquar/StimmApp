@@ -53,7 +53,10 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       ),
       body: SingleChildScrollView(

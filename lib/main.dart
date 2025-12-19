@@ -15,6 +15,8 @@ import 'package:stimmapp/core/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:stimmapp/core/di/service_locator.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:stimmapp/l10n/app_localizations.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -92,8 +94,10 @@ class _MyAppState extends State<MyApp> {
               return PollDetailPage(id: args ?? '');
             },
           },
-          home: const InitAppLayout(),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           debugShowCheckedModeBanner: false,
+          home: const InitAppLayout(),
         );
       },
     );

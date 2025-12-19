@@ -4,10 +4,8 @@ import 'package:stimmapp/core/firebase/auth_service.dart';
 import 'package:stimmapp/core/constants/words.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
-import 'package:stimmapp/app/mobile/pages/main/onboarding/login_page.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
-import 'package:lottie/lottie.dart';
 
 TextEditingController controllerPw = TextEditingController();
 TextEditingController controllerEm = TextEditingController();
@@ -64,13 +62,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Lottie.asset('assets/lotties/Ancient Man.json', height: 200),
-                SizedBox(height: 50),
-                const Text(
-                  Words.register,
-                  style: AppTextStyles.descriptionText,
-                ),
-                const SizedBox(height: 20.0),
                 const Text('🔑', style: AppTextStyles.icons),
                 const SizedBox(height: 50),
                 Form(
@@ -110,27 +101,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           },
                         ),
                         const SizedBox(height: 10),
-                        Text(errorMessage, style: TextStyle(color: Colors.red)),
-                        const SizedBox(height: 10),
                       ],
                     ),
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return LoginPage();
-                        },
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 40.0),
-                  ),
-                  child: Text('default'),
                 ),
                 SizedBox(height: 50),
               ],

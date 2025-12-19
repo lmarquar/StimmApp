@@ -19,7 +19,7 @@ class ButtonWidget extends StatelessWidget {
         onPressed: callback,
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Colors.black87,
+          foregroundColor: Colors.black,
           minimumSize: const Size(double.infinity, 50),
         ),
         child: Text(label),
@@ -28,7 +28,7 @@ class ButtonWidget extends StatelessWidget {
       widget = ElevatedButton(
         onPressed: callback,
         style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white,
+          foregroundColor: Theme.of(context).colorScheme.primary,
           minimumSize: const Size(double.infinity, 50),
         ),
         child: Text(label),
