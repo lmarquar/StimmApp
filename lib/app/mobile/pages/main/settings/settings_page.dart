@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/profile_page.dart';
 import 'package:stimmapp/app/mobile/widgets/unaffected_child_widget.dart';
-import 'package:stimmapp/core/constants/words.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:stimmapp/etc/button_widgets_page.dart';
 
@@ -41,7 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       Icons.arrow_forward_ios_outlined,
                       color: Colors.white38,
                     ),
-                    title: const Text(Words.myProfile),
+                    title: Text(context.l10n.myProfile),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -57,30 +57,60 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               UnaffectedChildWidget(
                 child: ListTile(
-                  title: const Text(Words.aboutThisApp),
+                  title: Text(context.l10n.aboutThisApp),
                   onTap: () {
                     showDialog(
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: const Text(Words.flutterPro),
-                          content: const Text(
-                            Words.myProfile,
+                          title: Text(context.l10n.flutterPro),
+                          content: Text(
+                            context.l10n.myProfile,
                             style: AppTextStyles.m,
                           ),
                           actions: [
                             FilledButton(
                               onPressed: () async {
-                                popUntilLast();
                                 showLicensePage(context: context);
                               },
-                              child: const Text(Words.viewLicenses),
+                              child: Text(context.l10n.viewLicenses),
                             ),
                             TextButton(
                               onPressed: () {
-                                popUntilLast();
+                                Navigator.pop(context);
                               },
-                              child: const Text(Words.close),
+                              child: Text(context.l10n.close),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+              UnaffectedChildWidget(
+                child: ListTile(
+                  title: Text(context.l10n.aboutThisApp),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text(context.l10n.stimmapp),
+                          content: Text(
+                            context.l10n.myProfile,
+                            style: AppTextStyles.m,
+                          ),
+                          actions: [
+                            FilledButton(
+                              onPressed: () async {},
+                              child: Text(context.l10n.changeLanguage),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(context.l10n.close),
                             ),
                           ],
                         );

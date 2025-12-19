@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
-import 'package:stimmapp/core/constants/words.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
 class UserHistoryPage extends StatefulWidget {
@@ -102,7 +102,7 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
   Widget build(BuildContext context) {
     return AppBottomBarButtons(
       appBar: AppBar(
-        title: const Text(Words.activityHistory, style: AppTextStyles.lBold),
+        title: Text(context.l10n.activityHistory, style: AppTextStyles.lBold),
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
@@ -120,8 +120,8 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text(Words.noActivityFound, style: AppTextStyles.m),
+            return Center(
+              child: Text(context.l10n.noActivityFound, style: AppTextStyles.m),
             );
           }
 

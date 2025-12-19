@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
 import 'package:stimmapp/core/functions/utils.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
-import '../../../../core/constants/words.dart';
 import '../../../../core/notifiers/notifiers.dart';
 
 class DeleteAccountPage extends StatefulWidget {
@@ -46,7 +46,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        content: Text(Words.deleted, style: AppTextStyles.m),
+        content: Text(context.l10n.deleted, style: AppTextStyles.m),
         showCloseIcon: true,
       ),
     );
@@ -69,7 +69,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
           child: Column(
             children: [
               const SizedBox(height: 60.0),
-              const Text(Words.deleteMyAccount, style: AppTextStyles.xxlBold),
+              Text(context.l10n.deleteMyAccount, style: AppTextStyles.xxlBold),
               const SizedBox(height: 20.0),
               const Text('❌', style: AppTextStyles.icons),
               const SizedBox(height: 50),
@@ -80,18 +80,18 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                     children: [
                       TextFormField(
                         controller: controllerEmail,
-                        decoration: const InputDecoration(
-                          labelText: Words.enterYourEmail,
+                        decoration: InputDecoration(
+                          labelText: context.l10n.enterYourEmail,
                         ),
                         validator: (String? value) {
                           if (value == null) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           if (value.trim().isEmpty) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           if (controllerEmail.text.contains('@') == false) {
-                            return Words.invalidEmailEntered;
+                            return context.l10n.invalidEmailEntered;
                           }
                           return null;
                         },
@@ -99,15 +99,15 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                       const SizedBox(height: 10),
                       TextFormField(
                         controller: controllerPassword,
-                        decoration: const InputDecoration(
-                          labelText: Words.currentPassword,
+                        decoration: InputDecoration(
+                          labelText: context.l10n.currentPassword,
                         ),
                         validator: (String? value) {
                           if (value == null) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           if (value.trim().isEmpty) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           return null;
                         },
@@ -129,7 +129,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
       ),
       buttons: [
         ButtonWidget(
-          label: Words.deletePermanently,
+          label: context.l10n.deletePermanently,
           isFilled: true,
           callback: () {
             if (formKey.currentState!.validate()) {
@@ -137,9 +137,10 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: const Text(Words.finalNotice),
-                    content: const Text(
-                      Words
+                    title: Text(context.l10n.finalNotice),
+                    content: Text(
+                      context
+                          .l10n
                           .areYouSureYouWantToDeleteYourAccountThisActionIsIrreversible,
                       style: AppTextStyles.m,
                     ),
@@ -149,13 +150,13 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                           popUntilLast();
                           deleteAccount();
                         },
-                        child: const Text(Words.deletePermanently),
+                        child: Text(context.l10n.deletePermanently),
                       ),
                       TextButton(
                         onPressed: () {
                           popUntilLast();
                         },
-                        child: const Text(Words.cancel),
+                        child: Text(context.l10n.cancel),
                       ),
                     ],
                   );

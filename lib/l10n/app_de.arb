@@ -1,4 +1,9 @@
 {
+	"language": "Sprache",
+	"changeLanguage": "Sprache ändern",
+	"english": "Englisch",
+	"german": "Deutsch",
+	"french": "Französisch",
 	"settings": "Einstellungen",
 	"alert": "Warnung",
 	"aboutThisApp": "Über diese App",

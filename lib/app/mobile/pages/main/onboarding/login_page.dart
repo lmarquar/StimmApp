@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/main/onboarding/reset_password_page.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
-import 'package:stimmapp/core/constants/words.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
 import 'package:stimmapp/core/functions/utils.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
@@ -65,9 +65,9 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               const SizedBox(height: 60.0),
-              const Text(Words.signIn, style: AppTextStyles.xxlBold),
+              Text(context.l10n.signIn, style: AppTextStyles.xxlBold),
               const SizedBox(height: 20.0),
-              const Text('🔑', style: AppTextStyles.icons),
+              Text('🔑', style: AppTextStyles.icons),
               const SizedBox(height: 50),
               Form(
                 key: formKey,
@@ -76,15 +76,15 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       TextFormField(
                         controller: controllerEm,
-                        decoration: const InputDecoration(
-                          labelText: Words.email,
+                        decoration: InputDecoration(
+                          labelText: context.l10n.email,
                         ),
                         validator: (String? value) {
                           if (value == null) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           if (value.trim().isEmpty) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           return null;
                         },
@@ -92,15 +92,15 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(height: 10),
                       TextFormField(
                         controller: controllerPw,
-                        decoration: const InputDecoration(
-                          labelText: Words.password,
+                        decoration: InputDecoration(
+                          labelText: context.l10n.password,
                         ),
                         validator: (String? value) {
                           if (value == null) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           if (value.trim().isEmpty) {
-                            return Words.enterSomething;
+                            return context.l10n.enterSomething;
                           }
                           return null;
                         },
@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             );
                           },
-                          child: const Text(Words.resetPassword),
+                          child: Text(context.l10n.resetPassword),
                         ),
                       ),
                     ],
@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
       buttons: [
         ButtonWidget(
           isFilled: true,
-          label: Words.signIn,
+          label: context.l10n.signIn,
           callback: () {
             if (formKey.currentState!.validate()) {
               signIn();

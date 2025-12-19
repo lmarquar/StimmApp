@@ -23,6 +23,11 @@
             }
         }
     },
+	"language": "language",
+	"changeLanguage": "Change Language",
+	"english": "english",
+	"german": "german",
+	"french": "french",
     "settings": "Settings",
     "alert": "Alert",
     "aboutThisApp": "About this app",

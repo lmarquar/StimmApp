@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/widgets/search_text_field.dart';
-import 'package:stimmapp/core/constants/words.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 
 class PollsPage extends StatefulWidget {
   const PollsPage({super.key});
@@ -23,7 +23,7 @@ class _PollsPageState extends State<PollsPage> {
         child: Column(
           children: [
             SearchTextField(
-              hint: Words.searchTextField,
+              hint: context.l10n.searchTextField,
               onChanged: (q) => setState(() => _query = q),
             ),
             const SizedBox(height: 12),

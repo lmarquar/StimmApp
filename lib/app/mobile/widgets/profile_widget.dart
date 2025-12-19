@@ -4,7 +4,7 @@ import 'package:stimmapp/app/mobile/pages/others/change_password_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/delete_account_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/update_username_page.dart';
 import 'package:stimmapp/core/constants/app_dimensions.dart';
-import 'package:stimmapp/core/constants/words.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
 import '../../../../core/notifiers/notifiers.dart';
@@ -47,9 +47,9 @@ class ProfileWidget extends StatelessWidget {
           child: Column(
             children: [
               const Text('😊', style: AppTextStyles.icons),
-              Text(Words.flutterPro, style: AppTextStyles.l),
+              Text(context.l10n.flutterPro, style: AppTextStyles.l),
               Text(
-                Words.flutterProEmail,
+                context.l10n.flutterProEmail,
                 style: AppTextStyles.m.copyWith(color: Colors.white54),
               ),
               const SizedBox(height: AppDimensions.kPadding5),
@@ -57,8 +57,8 @@ class ProfileWidget extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20.0),
-        const ListTileWidget(
-          title: Text(Words.settings, style: AppTextStyles.xlBold),
+        ListTileWidget(
+          title: Text(context.l10n.settings, style: AppTextStyles.xlBold),
         ),
 
         // Update username
@@ -68,7 +68,7 @@ class ProfileWidget extends StatelessWidget {
               Icons.arrow_forward_ios_outlined,
               color: Colors.white38,
             ),
-            title: const Text(Words.updateUsername),
+            title: Text(context.l10n.updateUsername),
             onTap: () {
               Navigator.push(
                 context,
@@ -89,7 +89,7 @@ class ProfileWidget extends StatelessWidget {
               Icons.arrow_forward_ios_outlined,
               color: Colors.white38,
             ),
-            title: const Text(Words.changePassword),
+            title: Text(context.l10n.changePassword),
             onTap: () {
               Navigator.push(
                 context,
@@ -110,7 +110,7 @@ class ProfileWidget extends StatelessWidget {
               Icons.arrow_forward_ios_outlined,
               color: Colors.white38,
             ),
-            title: const Text(Words.deleteMyAccount),
+            title: Text(context.l10n.deleteMyAccount),
             onTap: () {
               Navigator.push(
                 context,
@@ -127,15 +127,15 @@ class ProfileWidget extends StatelessWidget {
         // About this app
         UnaffectedChildWidget(
           child: ListTile(
-            title: const Text(Words.aboutThisApp),
+            title: Text(context.l10n.aboutThisApp),
             onTap: () {
               showDialog(
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: const Text(Words.flutterPro),
-                    content: const Text(
-                      Words.aboutThisApp,
+                    title: Text(context.l10n.flutterPro),
+                    content: Text(
+                      context.l10n.aboutThisApp,
                       style: AppTextStyles.m,
                     ),
                     actions: [
@@ -144,13 +144,13 @@ class ProfileWidget extends StatelessWidget {
                           popPage();
                           showLicensePage(context: context);
                         },
-                        child: const Text(Words.viewLicenses),
+                        child: Text(context.l10n.viewLicenses),
                       ),
                       TextButton(
                         onPressed: () {
                           popPage();
                         },
-                        child: const Text(Words.close),
+                        child: Text(context.l10n.close),
                       ),
                     ],
                   );
@@ -163,15 +163,15 @@ class ProfileWidget extends StatelessWidget {
         // Logout
         UnaffectedChildWidget(
           child: ListTile(
-            title: const Text(Words.logout, style: AppTextStyles.red),
+            title: Text(context.l10n.logout, style: AppTextStyles.red),
             onTap: () {
               showDialog(
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: const Text(Words.logout),
-                    content: const Text(
-                      Words.areYouSureYouWantToLogout,
+                    title: Text(context.l10n.logout),
+                    content: Text(
+                      context.l10n.areYouSureYouWantToLogout,
                       style: AppTextStyles.m,
                     ),
                     actions: [
@@ -179,13 +179,13 @@ class ProfileWidget extends StatelessWidget {
                         onPressed: () async {
                           logout();
                         },
-                        child: const Text(Words.logout),
+                        child: Text(context.l10n.logout),
                       ),
                       TextButton(
                         onPressed: () {
                           popPage();
                         },
-                        child: const Text(Words.cancel),
+                        child: Text(context.l10n.cancel),
                       ),
                     ],
                   );

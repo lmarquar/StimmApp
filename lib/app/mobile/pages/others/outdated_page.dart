@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/core/errors/error_message.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
-import '../../../../core/constants/words.dart';
 import '../../scaffolds/app_bar_scaffold.dart';
 import '../../scaffolds/app_padding_scaffold.dart';
 import '../../widgets/neon_padding_widget.dart';
@@ -11,10 +11,10 @@ class OutdatedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: AppBarScaffold(
-        title: Words.flutterPro,
-        child: AppPaddingScaffold(
+        title: context.l10n.flutterPro,
+        child: const AppPaddingScaffold(
           child: NeonPaddingWidget(
             child: Text(
               ErrorMessage.appVersionIsOutdated,

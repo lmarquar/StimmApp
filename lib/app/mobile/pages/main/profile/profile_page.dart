@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stimmapp/core/constants/words.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 
 import '../../../scaffolds/app_bar_scaffold.dart';
 import 'widgets/profile_widget.dart';
@@ -10,7 +10,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBarScaffold(
-      title: Words.myProfile,
+      title: context.l10n.myProfile,
       actions: [
         Badge.count(
           offset: const Offset(-5, 5),

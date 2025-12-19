@@ -4,7 +4,6 @@ import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/pages/main/settings/settings_page.dart';
 import 'package:stimmapp/app/mobile/widgets/navbar_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:stimmapp/l10n/app_localizations.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 
 class WidgetTree extends StatelessWidget {
