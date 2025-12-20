@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/profile_page.dart';
 import 'package:stimmapp/app/mobile/widgets/unaffected_child_widget.dart';
+import 'package:stimmapp/core/constants/constants.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
+import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:stimmapp/etc/button_widgets_page.dart';
-import 'package:stimmapp/widgets/language_selector_dialog.dart';
+import 'package:stimmapp/l10n/app_localizations.dart';
+import 'package:stimmapp/widgets/selection_notifier_dialog.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, required this.title});
@@ -95,7 +99,36 @@ class _SettingsPageState extends State<SettingsPage> {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (context) => const LanguageSelectorDialog(),
+                      builder: (context) => SelectionNotifierDialog<Locale>(
+                        notifier: appLocale,
+                        options: AppLocalizations.supportedLocales,
+                        optionLabel: (ctx, locale) {
+                          switch (locale.languageCode) {
+                            case 'en':
+                              return 'English';
+                            case 'de':
+                              return 'German';
+                            default:
+                              return locale.languageCode.toUpperCase();
+                          }
+                        },
+                        title: context.l10n.language,
+                        confirmLabel: context.l10n.confirm,
+                        cancelLabel: context.l10n.cancel,
+                        onConfirm: (Locale? selected) async {
+                          // persist selection for next app start
+                          final prefs = await SharedPreferences.getInstance();
+                          String toSave = '';
+                          if (selected != null) {
+                            toSave =
+                                selected.countryCode == null ||
+                                    selected.countryCode!.isEmpty
+                                ? selected.languageCode
+                                : '${selected.languageCode}_${selected.countryCode}';
+                          }
+                          await prefs.setString(KConstants.localeKey, toSave);
+                        },
+                      ),
                     );
                   },
                 ),

@@ -83,5 +83,10 @@
     "usernameChangedSuccessfully": "Username changed successfully",
     "usernameChangeFailed": "Username change failed",
     "viewLicenses": "View licenses",
-    "welcomeTo": "Welcome to "
+    "welcomeTo": "Welcome to ",
+	"petition": "Petition",
+	"profile": "Profile",
+	"registerAccount": "Register Account",
+	"creator": "Creator",
+	"polls": "Polls"
 }

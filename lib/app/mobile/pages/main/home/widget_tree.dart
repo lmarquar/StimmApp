@@ -14,9 +14,10 @@ class WidgetTree extends StatelessWidget {
     return ValueListenableBuilder<int>(
       valueListenable: selectedPageNotifier,
       builder: (context, selectedPage, child) {
+        final pages = mainPagesConfig(context);
         return Scaffold(
           appBar: AppBar(
-            title: Text(mainPagesConfig[selectedPage].title),
+            title: Text(pages[selectedPage].title),
             actions: [
               IconButton(
                 onPressed: () async {
@@ -48,7 +49,7 @@ class WidgetTree extends StatelessWidget {
               ),
             ],
           ),
-          body: mainPagesConfig[selectedPage].page,
+          body: pages[selectedPage].page,
           bottomNavigationBar: const NavbarWidget(),
         );
       },

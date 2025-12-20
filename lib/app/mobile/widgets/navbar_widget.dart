@@ -7,11 +7,13 @@ class NavbarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pages = mainPagesConfig(context);
+
     return ValueListenableBuilder(
       valueListenable: selectedPageNotifier,
       builder: (context, selectedPage, child) {
         return NavigationBar(
-          destinations: mainPagesConfig.map((config) {
+          destinations: pages.map((config) {
             return NavigationDestination(
               icon: Icon(config.icon),
               label: config.title,

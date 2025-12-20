@@ -73,14 +73,32 @@ class _MyAppState extends State<MyApp> {
   Future<void> _initAsync() async {
     // load persisted theme first
     await initThemeMode();
+    // load persisted locale (if any) before creating composite notifier
+    await initLocale();
     // only create the composite notifier after persisted state is loaded to avoid immediate circular updates
     appStateNotifier = AppStateNotifier(
       isDarkModeNotifier.value,
       appLocale.value,
     );
+
+    // Persist runtime locale changes immediately so selection becomes global/persistent.
+    appLocale.addListener(_onLocaleChanged);
+
     setState(() {
       _initialized = true;
     });
+  }
+
+  void _onLocaleChanged() async {
+    final Locale? loc = appLocale.value;
+    final prefs = await SharedPreferences.getInstance();
+    final String toSave = (loc == null)
+        ? ''
+        : (loc.countryCode == null || loc.countryCode!.isEmpty)
+        ? loc.languageCode
+        : '${loc.languageCode}_${loc.countryCode}';
+    await prefs.setString(KConstants.localeKey, toSave);
+    debugPrint('[main] persisted locale: $toSave');
   }
 
   Future<void> initThemeMode() async {
@@ -89,8 +107,25 @@ class _MyAppState extends State<MyApp> {
     isDarkModeNotifier.value = isDark ?? false;
   }
 
+  Future<void> initLocale() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? localeStr = prefs.getString(KConstants.localeKey);
+    if (localeStr != null && localeStr.isNotEmpty) {
+      appLocale.value = _localeFromString(localeStr);
+    }
+  }
+
+  Locale? _localeFromString(String s) {
+    // "en" or "en_US"
+    if (s.isEmpty) return null;
+    final parts = s.split('_');
+    if (parts.length == 1) return Locale(parts[0]);
+    return Locale(parts[0], parts[1]);
+  }
+
   @override
   void dispose() {
+    appLocale.removeListener(_onLocaleChanged);
     appStateNotifier?.dispose();
     super.dispose();
   }
