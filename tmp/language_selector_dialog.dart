@@ -23,47 +23,37 @@ class _LanguageSelectorDialogState extends State<LanguageSelectorDialog> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
-
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        constraints: const BoxConstraints(maxWidth: 400),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Title
             Text(
-              context.l10n.language,
+              'Select Language',
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            const SizedBox(height: 24),
-            // Language options
+            const SizedBox(height: 16),
             Flexible(
-              child: RadioGroup(
-                groupValue: _selectedLocale,
-                onChanged: (Locale? value) {
-                  setState(() {
-                    if (value != null) {
-                      _selectedLocale = value;
-                    }
-                  });
-                },
-                child: ListView(
-                  shrinkWrap: true,
-                  children: AppLocalizations.supportedLocales.map((locale) {
-                    return RadioListTile<Locale>(
-                      title: Text(_getLanguageName(appLocalizations, locale)),
-                      value: locale,
-                    );
-                  }).toList(),
-                ),
+              child: ListView(
+                shrinkWrap: true,
+                children: AppLocalizations.supportedLocales.map((locale) {
+                  return RadioListTile<Locale>(
+                    title: Text(_getLanguageName(appLocalizations, locale)),
+                    value: locale,
+                    groupValue: _selectedLocale,
+                    onChanged: (value) {
+                      setState(() {
+                        if (value != null) {
+                          _selectedLocale = value;
+                        }
+                      });
+                    },
+                  );
+                }).toList(),
               ),
             ),
-            const SizedBox(height: 24),
-            // Action buttons
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
