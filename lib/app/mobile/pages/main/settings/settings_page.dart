@@ -4,6 +4,7 @@ import 'package:stimmapp/app/mobile/widgets/unaffected_child_widget.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:stimmapp/etc/button_widgets_page.dart';
+import 'package:stimmapp/widgets/language_selector_dialog.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, required this.title});
@@ -90,31 +91,11 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               UnaffectedChildWidget(
                 child: ListTile(
-                  title: Text(context.l10n.aboutThisApp),
+                  title: Text(context.l10n.changeLanguage),
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text(context.l10n.stimmapp),
-                          content: Text(
-                            context.l10n.myProfile,
-                            style: AppTextStyles.m,
-                          ),
-                          actions: [
-                            FilledButton(
-                              onPressed: () async {},
-                              child: Text(context.l10n.changeLanguage),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text(context.l10n.close),
-                            ),
-                          ],
-                        );
-                      },
+                      builder: (context) => const LanguageSelectorDialog(),
                     );
                   },
                 ),

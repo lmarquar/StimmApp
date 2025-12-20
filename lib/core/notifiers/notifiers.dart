@@ -22,3 +22,4 @@ class AppData {
 //leon
 ValueNotifier<int> selectedPageNotifier = ValueNotifier(0);
 ValueNotifier<bool> isDarkModeNotifier = ValueNotifier(true);
+final ValueNotifier<Locale?> appLocale = ValueNotifier<Locale?>(null);
