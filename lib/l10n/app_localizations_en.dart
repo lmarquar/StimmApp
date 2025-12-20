@@ -76,6 +76,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get continueNext => 'Continue';
 
   @override
+  String get confirm => 'Confirm';
+
+  @override
   String get currentPassword => 'Current password';
 
   @override

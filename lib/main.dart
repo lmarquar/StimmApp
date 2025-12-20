@@ -8,6 +8,7 @@ import 'package:stimmapp/app/mobile/layout/init_app_layout.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/petitions/petition_detail_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/polls/poll_detail_page.dart';
 import 'package:stimmapp/core/constants/constants.dart';
+import 'package:stimmapp/core/notifiers/app_state_notifier.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/core/firebase/firebase_options.dart';
 import 'package:stimmapp/core/errors/error_log_tool.dart';
@@ -60,10 +61,26 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  AppStateNotifier? appStateNotifier;
+  bool _initialized = false;
+
   @override
   void initState() {
     super.initState();
-    initThemeMode();
+    _initAsync();
+  }
+
+  Future<void> _initAsync() async {
+    // load persisted theme first
+    await initThemeMode();
+    // only create the composite notifier after persisted state is loaded to avoid immediate circular updates
+    appStateNotifier = AppStateNotifier(
+      isDarkModeNotifier.value,
+      appLocale.value,
+    );
+    setState(() {
+      _initialized = true;
+    });
   }
 
   Future<void> initThemeMode() async {
@@ -73,16 +90,49 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
+  void dispose() {
+    appStateNotifier?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: isDarkModeNotifier,
-      builder: (context, isDarkMode, child) {
+    // If not initialized yet, use the simple notifiers to render a stable app while prefs load.
+    if (!_initialized || appStateNotifier == null) {
+      return MaterialApp(
+        navigatorKey: navigatorKey,
+        title: KConstants.appName,
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
+        themeMode: isDarkModeNotifier.value ? ThemeMode.dark : ThemeMode.light,
+        locale: appLocale.value,
+        routes: {
+          '/petition': (ctx) {
+            final args = ModalRoute.of(ctx)?.settings.arguments as String?;
+            return PetitionDetailPage(id: args ?? '');
+          },
+          '/poll': (ctx) {
+            final args = ModalRoute.of(ctx)?.settings.arguments as String?;
+            return PollDetailPage(id: args ?? '');
+          },
+        },
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        debugShowCheckedModeBanner: false,
+        home: const InitAppLayout(),
+      );
+    }
+
+    return ValueListenableBuilder<AppState>(
+      valueListenable: appStateNotifier!,
+      builder: (context, state, child) {
         return MaterialApp(
           navigatorKey: navigatorKey,
           title: KConstants.appName,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
-          themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          themeMode: state.isDark ? ThemeMode.dark : ThemeMode.light,
+          locale: state.locale,
           routes: {
             '/petition': (ctx) {
               final args = ModalRoute.of(ctx)?.settings.arguments as String?;
