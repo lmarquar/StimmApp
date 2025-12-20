@@ -475,6 +475,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Welcome to '**
   String get welcomeTo;
+
+  /// No description provided for @petition.
+  ///
+  /// In en, this message translates to:
+  /// **'Petition'**
+  String get petition;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @registerAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Register Account'**
+  String get registerAccount;
+
+  /// No description provided for @creator.
+  ///
+  /// In en, this message translates to:
+  /// **'Creator'**
+  String get creator;
+
+  /// No description provided for @polls.
+  ///
+  /// In en, this message translates to:
+  /// **'Polls'**
+  String get polls;
 }
 
 class _AppLocalizationsDelegate

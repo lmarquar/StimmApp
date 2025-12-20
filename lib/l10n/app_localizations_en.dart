@@ -209,4 +209,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get welcomeTo => 'Welcome to ';
+
+  @override
+  String get petition => 'Petition';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get registerAccount => 'Register Account';
+
+  @override
+  String get creator => 'Creator';
+
+  @override
+  String get polls => 'Polls';
 }

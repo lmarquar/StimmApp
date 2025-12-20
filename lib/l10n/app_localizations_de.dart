@@ -212,4 +212,19 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get welcomeTo => 'Willkommen bei ';
+
+  @override
+  String get petition => 'Petition';
+
+  @override
+  String get profile => 'Profil';
+
+  @override
+  String get registerAccount => 'Konto registrieren';
+
+  @override
+  String get creator => 'Ersteller';
+
+  @override
+  String get polls => 'Polls';
 }
