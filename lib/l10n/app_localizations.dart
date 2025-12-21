@@ -505,6 +505,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Polls'**
   String get polls;
+
+  /// No description provided for @select.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick'**
+  String get select;
+
+  /// No description provided for @noOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'no options'**
+  String get noOptions;
+
+  /// No description provided for @createPetition.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Petition'**
+  String get createPetition;
+
+  /// No description provided for @createPoll.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Poll'**
+  String get createPoll;
 }
 
 class _AppLocalizationsDelegate

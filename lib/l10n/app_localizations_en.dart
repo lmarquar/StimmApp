@@ -224,4 +224,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get polls => 'Polls';
+
+  @override
+  String get select => 'Pick';
+
+  @override
+  String get noOptions => 'no options';
+
+  @override
+  String get createPetition => 'Create Petition';
+
+  @override
+  String get createPoll => 'Create Poll';
 }

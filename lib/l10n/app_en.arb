@@ -88,5 +88,10 @@
 	"profile": "Profile",
 	"registerAccount": "Register Account",
 	"creator": "Creator",
-	"polls": "Polls"
+	"polls": "Polls",
+	"select": "Pick",
+	"noOptions": "no options",
+	"createPetition": "Create Petition",
+	"createPoll": "Create Poll"
 }
+

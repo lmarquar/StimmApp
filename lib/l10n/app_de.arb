@@ -50,9 +50,11 @@
 	"pleaseCheckYourEmail": "Bitte überprüfen Sie Ihre E-Mails",
 	"products": "Produkte",
 	"petition": "Petition",
+	"select": "Auswählen",
+	"noOptions": "Keine Optionen",
+	"creator": "Ersteller",
 	"profile": "Profil",
 	"registerAccount": "Konto registrieren",
-	"creator": "Ersteller",
 	"Polls": "Umfragen",
 	"registrationSuccessful": "Registrierung erfolgreich",
 	"registrationUnsuccessful": "Registrierung fehlgeschlagen",
@@ -66,5 +68,7 @@
 	"usernameChangedSuccessfully": "Benutzername erfolgreich geändert",
 	"usernameChangeFailed": "Änderung des Benutzernamens fehlgeschlagen",
 	"viewLicenses": "Lizenzen anzeigen",
-	"welcomeTo": "Willkommen bei "
+	"welcomeTo": "Willkommen bei ",
+	"createPetition": "Petitition erstellen",
+	"createPoll": "Umfrage erstellen"
 }

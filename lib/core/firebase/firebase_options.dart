@@ -23,20 +23,11 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -50,20 +41,48 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC0vK2FOyE1WHodDqNgM7m6A5X3mffGifQ',
-    appId: '1:526341362187:web:8c694a8bfb021d7323ad0e',
-    messagingSenderId: '526341362187',
-    projectId: 'stimmapp-25a13',
-    authDomain: 'stimmapp-25a13.firebaseapp.com',
-    storageBucket: 'stimmapp-25a13.firebasestorage.app',
-    measurementId: 'G-6BV1N3FQW8',
+    apiKey: 'AIzaSyD8neBcTS2fkkRJf_GG-l4hD5dGArstQW8',
+    appId: '1:223242419578:web:5c0bac160b62f35888aac3',
+    messagingSenderId: '223242419578',
+    projectId: 'stimmapp-f0141',
+    authDomain: 'stimmapp-f0141.firebaseapp.com',
+    storageBucket: 'stimmapp-f0141.firebasestorage.app',
+    measurementId: 'G-MYC8QX024F',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCyhaSKLGW6j6FBCwlDqQ-2rHqzaFNcx1w',
-    appId: '1:526341362187:android:cba6652c36646ca323ad0e',
-    messagingSenderId: '526341362187',
-    projectId: 'stimmapp-25a13',
-    storageBucket: 'stimmapp-25a13.firebasestorage.app',
+    apiKey: 'AIzaSyDb6UoJK2XZDSPvDIPssSHS9L5QQ4T-u8A',
+    appId: '1:223242419578:android:05c6b7df0cf5ec3488aac3',
+    messagingSenderId: '223242419578',
+    projectId: 'stimmapp-f0141',
+    storageBucket: 'stimmapp-f0141.firebasestorage.app',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDufQ7DMs7iytGJnQMlWQw8vw5boFUmna8',
+    appId: '1:223242419578:ios:3e93442161af012588aac3',
+    messagingSenderId: '223242419578',
+    projectId: 'stimmapp-f0141',
+    storageBucket: 'stimmapp-f0141.firebasestorage.app',
+    iosBundleId: 'com.example.stimmapp',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDufQ7DMs7iytGJnQMlWQw8vw5boFUmna8',
+    appId: '1:223242419578:ios:3e93442161af012588aac3',
+    messagingSenderId: '223242419578',
+    projectId: 'stimmapp-f0141',
+    storageBucket: 'stimmapp-f0141.firebasestorage.app',
+    iosBundleId: 'com.example.stimmapp',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyD8neBcTS2fkkRJf_GG-l4hD5dGArstQW8',
+    appId: '1:223242419578:web:7cda0be0bcd7db8b88aac3',
+    messagingSenderId: '223242419578',
+    projectId: 'stimmapp-f0141',
+    authDomain: 'stimmapp-f0141.firebaseapp.com',
+    storageBucket: 'stimmapp-f0141.firebasestorage.app',
+    measurementId: 'G-DQNLQ9J9SJ',
   );
 }

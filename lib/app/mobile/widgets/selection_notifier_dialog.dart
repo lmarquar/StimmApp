@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 
 /// Generic dialog that shows a list of selectable options and writes the
 /// selected value back to [notifier] on Confirm.
@@ -6,15 +7,16 @@ import 'package:flutter/material.dart';
 /// - notifier: ValueNotifier T? that will be updated on confirm.
 /// - options: available options to choose from.
 /// - optionLabel: builds a label for each option.
-/// - title / confirmLabel / cancelLabel: optional UI text.
+/// - title / confirmLabel / cancelLabel: optional UI text. These are resolved
+///   inside build() so callers may pass context.l10n.* when constructing the dialog.
 /// - onConfirm: optional callback executed after notifier is updated.
 class SelectionNotifierDialog<T> extends StatefulWidget {
   final ValueNotifier<T?> notifier;
   final List<T> options;
   final String Function(BuildContext, T) optionLabel;
-  final String title;
-  final String confirmLabel;
-  final String cancelLabel;
+  final String? title;
+  final String? confirmLabel;
+  final String? cancelLabel;
   final void Function(T?)? onConfirm;
 
   const SelectionNotifierDialog({
@@ -22,9 +24,9 @@ class SelectionNotifierDialog<T> extends StatefulWidget {
     required this.notifier,
     required this.options,
     required this.optionLabel,
-    this.title = 'Select',
-    this.confirmLabel = 'Confirm',
-    this.cancelLabel = 'Cancel',
+    this.title,
+    this.confirmLabel,
+    this.cancelLabel,
     this.onConfirm,
   });
 
@@ -47,6 +49,11 @@ class _SelectionNotifierDialogState<T>
 
   @override
   Widget build(BuildContext context) {
+    // Resolve labels here where BuildContext is available.
+    final String title = widget.title ?? context.l10n.select;
+    final String confirmLabel = widget.confirmLabel ?? context.l10n.confirm;
+    final String cancelLabel = widget.cancelLabel ?? context.l10n.cancel;
+
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -57,13 +64,13 @@ class _SelectionNotifierDialogState<T>
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.title, style: Theme.of(context).textTheme.titleLarge),
+            Text(title, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 16),
             if (widget.options.isEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
-                  'No options',
+                  context.l10n.noOptions,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               )
@@ -93,7 +100,7 @@ class _SelectionNotifierDialogState<T>
               children: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Text(widget.cancelLabel),
+                  child: Text(cancelLabel),
                 ),
                 const SizedBox(width: 8),
                 FilledButton(
@@ -105,7 +112,7 @@ class _SelectionNotifierDialogState<T>
                     );
                     Navigator.of(context).pop();
                   },
-                  child: Text(widget.confirmLabel),
+                  child: Text(confirmLabel),
                 ),
               ],
             ),
