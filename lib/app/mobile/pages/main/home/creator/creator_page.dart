@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/creator/petition_creator_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/creator/poll_creator_page.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 
 class CreatorPage extends StatefulWidget {
   const CreatorPage({super.key});
@@ -26,7 +27,7 @@ class _CreatorPageState extends State<CreatorPage> {
                   ),
                 );
               },
-              child: const Text("Petition entwerfen"),
+              child: Text(context.l10n.createPetition),
             ),
             ElevatedButton(
               onPressed: () {
@@ -37,7 +38,7 @@ class _CreatorPageState extends State<CreatorPage> {
                   ),
                 );
               },
-              child: const Text("Umfrage entwerfen"),
+              child: Text(context.l10n.createPoll),
             ),
             const Divider(color: Colors.teal, thickness: 5),
           ],

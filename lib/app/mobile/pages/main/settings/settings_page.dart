@@ -8,7 +8,7 @@ import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:stimmapp/etc/button_widgets_page.dart';
 import 'package:stimmapp/l10n/app_localizations.dart';
-import 'package:stimmapp/widgets/selection_notifier_dialog.dart';
+import 'package:stimmapp/app/mobile/widgets/selection_notifier_dialog.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, required this.title});
