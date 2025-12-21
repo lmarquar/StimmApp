@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 
 class PetitionDetailPage extends StatelessWidget {
   const PetitionDetailPage({super.key, required this.id});
@@ -11,7 +13,7 @@ class PetitionDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final repo = PetitionRepository.create();
     return Scaffold(
-      appBar: AppBar(title: const Text('Petition')),
+      appBar: AppBar(title: Text(context.l10n.petitionDetails)),
       body: StreamBuilder<Petition?>(
         stream: repo.watch(id),
         builder: (context, snap) {
@@ -19,7 +21,7 @@ class PetitionDetailPage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           final p = snap.data;
-          if (p == null) return const Center(child: Text('Not found'));
+          if (p == null) return Center(child: Text(context.l10n.notFound));
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -37,14 +39,10 @@ class PetitionDetailPage extends StatelessWidget {
                     onPressed: () async {
                       final user = FirebaseAuth.instance.currentUser;
                       if (user == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Please sign in')),
-                        );
+                        showErrorSnackBar(context.l10n.pleaseSignInFirst);
                         return;
                       }
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(const SnackBar(content: Text('Signed')));
+                      showSuccessSnackBar(context.l10n.signed);
                       await repo.sign(p.id, user.uid);
                     },
                     child: const Text('Sign'),

@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 
 class PollDetailPage extends StatefulWidget {
   const PollDetailPage({super.key, required this.id});
@@ -18,7 +20,7 @@ class _PollDetailPageState extends State<PollDetailPage> {
   Widget build(BuildContext context) {
     final repo = PollRepository.create();
     return Scaffold(
-      appBar: AppBar(title: const Text('Poll')),
+      appBar: AppBar(title: Text(context.l10n.pollDetails)),
       body: StreamBuilder<Poll?>(
         stream: repo.watch(widget.id),
         builder: (context, snap) {
@@ -26,7 +28,7 @@ class _PollDetailPageState extends State<PollDetailPage> {
             return const Center(child: CircularProgressIndicator());
           }
           final poll = snap.data;
-          if (poll == null) return const Center(child: Text('Not found'));
+          if (poll == null) return Center(child: Text(context.l10n.notFound));
           final total = poll.totalVotes;
           return Padding(
             padding: const EdgeInsets.all(16.0),
@@ -77,9 +79,7 @@ class _PollDetailPageState extends State<PollDetailPage> {
                       final user = FirebaseAuth.instance.currentUser;
                       if (user == null) {
                         if (!context.mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Please sign in')),
-                        );
+                        showErrorSnackBar(context.l10n.pleaseSignInFirst);
                         return;
                       }
                       await repo.vote(
@@ -88,9 +88,7 @@ class _PollDetailPageState extends State<PollDetailPage> {
                         uid: user.uid,
                       );
                       if (!context.mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Vote submitted')),
-                      );
+                      showSuccessSnackBar(context.l10n.voted);
                     },
                     child: const Text('Vote'),
                   ),

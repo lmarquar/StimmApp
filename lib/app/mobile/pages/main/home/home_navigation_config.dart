@@ -22,7 +22,7 @@ class MainPageConfig {
 List<MainPageConfig> mainPagesConfig(BuildContext context) => [
   MainPageConfig(
     page: const PetitionsPage(),
-    title: context.l10n.petition,
+    title: context.l10n.petitions,
     icon: Icons.drive_file_rename_outline,
   ),
   MainPageConfig(

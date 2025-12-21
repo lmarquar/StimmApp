@@ -36,7 +36,7 @@ class _PollsPageState extends State<PollsPage> {
                   }
                   final items = snap.data ?? const <Poll>[];
                   if (items.isEmpty) {
-                    return const Center(child: Text('No polls'));
+                    return Center(child: Text(context.l10n.noData));
                   }
                   return ListView.separated(
                     itemCount: items.length,

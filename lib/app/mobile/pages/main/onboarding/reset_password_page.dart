@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
+import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
-import 'package:stimmapp/core/functions/utils.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
 import '../../../widgets/button_widget.dart';
@@ -40,23 +40,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message ?? context.l10n.error;
-        Utils.showErrorSnackBar('Error resetting password: $errorMessage');
+        showErrorSnackBar(errorMessage);
       });
     }
-  }
-
-  void showSnackBar() {
-    ScaffoldMessenger.of(context).clearMaterialBanners();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        content: Text(
-          context.l10n.pleaseCheckYourEmail,
-          style: AppTextStyles.m,
-        ),
-        showCloseIcon: true,
-      ),
-    );
   }
 
   @override
@@ -123,7 +109,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           callback: () async {
             resetPassword();
             if (formKey.currentState!.validate()) {
-              showSnackBar();
+              showSuccessSnackBar(context.l10n.resetPasswordLinkSent);
             }
           },
         ),

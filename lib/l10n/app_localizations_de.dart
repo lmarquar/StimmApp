@@ -27,6 +27,9 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get hintTextTags => 'z.B. umwelt, verkehr';
+
+  @override
   String get language => 'Sprache';
 
   @override
@@ -217,6 +220,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get petition => 'Petition';
 
   @override
+  String get petitions => 'Petitionen';
+
+  @override
   String get profile => 'Profil';
 
   @override
@@ -226,7 +232,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get creator => 'Ersteller';
 
   @override
-  String get polls => 'Polls';
+  String get polls => 'Umfragen';
 
   @override
   String get select => 'Auswählen';
@@ -239,4 +245,98 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get createPoll => 'Umfrage erstellen';
+
+  @override
+  String get developerSandbox => 'Entwickler-Sandbox';
+
+  @override
+  String get testingWidgetsHere => 'Widgets testen';
+
+  @override
+  String get pleaseSignInFirst => 'Bitte zuerst anmelden';
+
+  @override
+  String get createdPetition => 'Petition erstellt';
+
+  @override
+  String get errorCreatingPetition => 'Fehler beim Erstellen der Petition';
+
+  @override
+  String get createdPoll => 'Umfrage erstellt';
+
+  @override
+  String get failedToCreatePoll => 'Fehler beim Erstellen der Umfrage';
+
+  @override
+  String get petitionDetails => 'Petitionsdetails';
+
+  @override
+  String get pollDetails => 'Umfragedetails';
+
+  @override
+  String get notFound => 'Nicht gefunden';
+
+  @override
+  String get noData => 'Keine Daten';
+
+  @override
+  String get signed => 'Unterzeichnet';
+
+  @override
+  String get voted => 'Abgestimmt';
+
+  @override
+  String get successfullyLoggedIn => 'Erfolgreich angemeldet';
+
+  @override
+  String get resetPasswordLinkSent =>
+      'Link zum Zurücksetzen des Passworts gesendet';
+
+  @override
+  String get title => 'Titel';
+
+  @override
+  String get enterTitle => 'Titel eingeben';
+
+  @override
+  String get titleRequired => 'Titel ist erforderlich';
+
+  @override
+  String get titleTooShort => 'Titel ist zu kurz';
+
+  @override
+  String get description => 'Beschreibung';
+
+  @override
+  String get enterDescription => 'Beschreibung eingeben';
+
+  @override
+  String get descriptionRequired => 'Beschreibung ist erforderlich';
+
+  @override
+  String get descriptionTooShort => 'Beschreibung ist zu kurz';
+
+  @override
+  String get descriptioRequired => 'Beschreibung ist erforderlich';
+
+  @override
+  String get tags => 'Tags';
+
+  @override
+  String get tagsHint => 'Komma-getrennte Tags';
+
+  @override
+  String get tagsRequired => 'Mindestens ein Tag ist erforderlich';
+
+  @override
+  String get options => 'Optionen';
+
+  @override
+  String get option => 'Option';
+
+  @override
+  String get optionRequired => 'Option ist erforderlich';
+
+  @override
+  String get addOption => 'Option hinzufügen';
 }

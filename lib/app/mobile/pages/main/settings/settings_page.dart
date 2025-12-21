@@ -62,6 +62,46 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               UnaffectedChildWidget(
                 child: ListTile(
+                  title: Text(context.l10n.changeLanguage),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => SelectionNotifierDialog<Locale>(
+                        notifier: appLocale,
+                        options: AppLocalizations.supportedLocales,
+                        optionLabel: (ctx, locale) {
+                          switch (locale.languageCode) {
+                            case 'en':
+                              return ctx.l10n.english;
+                            case 'de':
+                              return ctx.l10n.german;
+                            default:
+                              return locale.languageCode.toUpperCase();
+                          }
+                        },
+                        title: context.l10n.language,
+                        confirmLabel: context.l10n.confirm,
+                        cancelLabel: context.l10n.cancel,
+                        onConfirm: (Locale? selected) async {
+                          // persist selection for next app start
+                          final prefs = await SharedPreferences.getInstance();
+                          String toSave = '';
+                          if (selected != null) {
+                            toSave =
+                                selected.countryCode == null ||
+                                    selected.countryCode!.isEmpty
+                                ? selected.languageCode
+                                : '${selected.languageCode}_${selected.countryCode}';
+                          }
+                          await prefs.setString(KConstants.localeKey, toSave);
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+              UnaffectedChildWidget(
+                child: ListTile(
                   title: Text(context.l10n.aboutThisApp),
                   onTap: () {
                     showDialog(
@@ -93,46 +133,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
               ),
-              UnaffectedChildWidget(
-                child: ListTile(
-                  title: Text(context.l10n.changeLanguage),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => SelectionNotifierDialog<Locale>(
-                        notifier: appLocale,
-                        options: AppLocalizations.supportedLocales,
-                        optionLabel: (ctx, locale) {
-                          switch (locale.languageCode) {
-                            case 'en':
-                              return 'English';
-                            case 'de':
-                              return 'German';
-                            default:
-                              return locale.languageCode.toUpperCase();
-                          }
-                        },
-                        title: context.l10n.language,
-                        confirmLabel: context.l10n.confirm,
-                        cancelLabel: context.l10n.cancel,
-                        onConfirm: (Locale? selected) async {
-                          // persist selection for next app start
-                          final prefs = await SharedPreferences.getInstance();
-                          String toSave = '';
-                          if (selected != null) {
-                            toSave =
-                                selected.countryCode == null ||
-                                    selected.countryCode!.isEmpty
-                                ? selected.languageCode
-                                : '${selected.languageCode}_${selected.countryCode}';
-                          }
-                          await prefs.setString(KConstants.localeKey, toSave);
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
+
               Divider(color: Colors.teal, thickness: 5),
               ElevatedButton(
                 onPressed: () {
@@ -140,12 +141,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return ButtonWidgetsPage(title: "Testing Widgets here");
+                        return ButtonWidgetsPage(
+                          title: context.l10n.testingWidgetsHere,
+                        );
                       },
                     ),
                   );
                 },
-                child: Text('Developer Sandbox'),
+                child: Text(context.l10n.developerSandbox),
               ),
             ],
           ),
