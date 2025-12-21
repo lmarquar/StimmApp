@@ -36,7 +36,7 @@ class _PetitionsPageState extends State<PetitionsPage> {
                   }
                   final items = snap.data ?? const <Petition>[];
                   if (items.isEmpty) {
-                    return const Center(child: Text('Keine Petitionen'));
+                    return Center(child: Text(context.l10n.noData));
                   }
                   return ListView.separated(
                     itemCount: items.length,

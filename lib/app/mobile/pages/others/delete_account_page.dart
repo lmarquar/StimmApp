@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
+import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
-import 'package:stimmapp/core/functions/utils.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
 import '../../../../core/notifiers/notifiers.dart';
@@ -37,7 +37,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
       showSnackBar();
       popUntilLast();
     } catch (e) {
-      Utils.showErrorSnackBar(e);
+      showErrorSnackBar(e.toString());
     }
   }
 

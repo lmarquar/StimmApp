@@ -1,3 +1,4 @@
+import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,7 +8,6 @@ import 'package:stimmapp/app/mobile/pages/others/update_username_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/user_history.dart';
 import 'package:stimmapp/core/constants/app_dimensions.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
-import 'package:stimmapp/core/functions/utils.dart';
 import '../../../../../../core/notifiers/notifiers.dart';
 import '../../../../scaffolds/app_padding_scaffold.dart';
 import '../../../../widgets/list_tile_widget.dart';
@@ -32,7 +32,7 @@ class ProfileWidget extends StatelessWidget {
         AppData.onboardingCurrentIndexNotifier.value = 0;
         popUntilLast();
       } on FirebaseAuthException catch (e) {
-        Utils.showErrorSnackBar(e);
+        showErrorSnackBar(e.message);
       }
     }
 

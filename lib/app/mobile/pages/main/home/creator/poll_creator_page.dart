@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -55,9 +57,7 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
 
     final currentUser = authService.value.currentUser;
     if (currentUser == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('You must be logged in to create a poll')),
-      );
+      showErrorSnackBar(context.l10n.pleaseSignInFirst);
       return;
     }
 
@@ -93,22 +93,12 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
       final pollId = await _repository.createPoll(poll);
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Poll created successfully! ID: $pollId'),
-            backgroundColor: Colors.green,
-          ),
-        );
+        showSuccessSnackBar(context.l10n.createdPoll + pollId);
         Navigator.of(context).pop();
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error creating poll: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        showErrorSnackBar(context.l10n.failedToCreatePoll + e.toString());
       }
     } finally {
       if (mounted) {
@@ -122,7 +112,7 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Create a Poll')),
+      appBar: AppBar(title: Text(context.l10n.createPoll)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Form(
@@ -132,37 +122,38 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
               const SizedBox(height: 30),
               TextFormField(
                 controller: _titleController,
-                decoration: const InputDecoration(
-                  labelText: 'Title',
+                decoration: InputDecoration(
+                  labelText: context.l10n.title,
                   border: OutlineInputBorder(),
                 ),
-                validator: (v) =>
-                    (v?.trim().isEmpty ?? true) ? 'Please enter a title' : null,
+                validator: (v) => (v?.trim().isEmpty ?? true)
+                    ? context.l10n.titleRequired
+                    : null,
               ),
               const SizedBox(height: 20),
               TextFormField(
                 controller: _descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
+                decoration: InputDecoration(
+                  labelText: context.l10n.description,
                   border: OutlineInputBorder(),
                 ),
                 maxLines: 4,
                 validator: (v) => (v?.trim().isEmpty ?? true)
-                    ? 'Please enter a description'
+                    ? context.l10n.descriptioRequired
                     : null,
               ),
               const SizedBox(height: 20),
               TextFormField(
                 controller: _tagsController,
-                decoration: const InputDecoration(
-                  labelText: 'Tags',
-                  hintText: 'e.g., politics, environment',
+                decoration: InputDecoration(
+                  labelText: context.l10n.tags,
+                  hintText: context.l10n.hintTextTags,
                   border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
-                'Options',
+              Text(
+                context.l10n.options,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               ..._optionControllers.asMap().entries.map((entry) {
@@ -176,11 +167,12 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
                         child: TextFormField(
                           controller: controller,
                           decoration: InputDecoration(
-                            labelText: 'Option ${index + 1}',
+                            labelText:
+                                context.l10n.option + (index + 1).toString(),
                             border: const OutlineInputBorder(),
                           ),
                           validator: (v) => (v?.trim().isEmpty ?? true)
-                              ? 'Option cannot be empty'
+                              ? context.l10n.optionRequired
                               : null,
                         ),
                       ),
@@ -195,7 +187,7 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
               }),
               TextButton.icon(
                 icon: const Icon(Icons.add),
-                label: const Text('Add Option'),
+                label: Text(context.l10n.addOption),
                 onPressed: _addOption,
               ),
               const SizedBox(height: 30),
@@ -208,7 +200,10 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
                     ? const CircularProgressIndicator(
                         valueColor: AlwaysStoppedAnimation(Colors.white),
                       )
-                    : const Text('Create Poll', style: TextStyle(fontSize: 16)),
+                    : Text(
+                        context.l10n.createPoll,
+                        style: TextStyle(fontSize: 16),
+                      ),
               ),
               const SizedBox(height: 20),
             ],

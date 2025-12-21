@@ -27,6 +27,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get hintTextTags => 'e.g. environment, transport';
+
+  @override
   String get language => 'language';
 
   @override
@@ -214,6 +217,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get petition => 'Petition';
 
   @override
+  String get petitions => 'Petitions';
+
+  @override
   String get profile => 'Profile';
 
   @override
@@ -236,4 +242,97 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get createPoll => 'Create Poll';
+
+  @override
+  String get developerSandbox => 'Developer Sandbox';
+
+  @override
+  String get testingWidgetsHere => 'Testing widgets here';
+
+  @override
+  String get pleaseSignInFirst => 'Please sign in first';
+
+  @override
+  String get createdPetition => 'Petition created';
+
+  @override
+  String get errorCreatingPetition => 'Error creating petition';
+
+  @override
+  String get createdPoll => 'Poll created';
+
+  @override
+  String get failedToCreatePoll => 'Failed to create poll';
+
+  @override
+  String get petitionDetails => 'Petition details';
+
+  @override
+  String get pollDetails => 'Poll details';
+
+  @override
+  String get notFound => 'Not found';
+
+  @override
+  String get noData => 'No data';
+
+  @override
+  String get signed => 'Signed';
+
+  @override
+  String get voted => 'Voted';
+
+  @override
+  String get successfullyLoggedIn => 'Successfully logged in';
+
+  @override
+  String get resetPasswordLinkSent => 'Reset password link sent';
+
+  @override
+  String get title => 'Title';
+
+  @override
+  String get enterTitle => 'Enter title';
+
+  @override
+  String get titleRequired => 'Title is required';
+
+  @override
+  String get titleTooShort => 'Title is too short';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get enterDescription => 'Enter description';
+
+  @override
+  String get descriptionRequired => 'Description is required';
+
+  @override
+  String get descriptionTooShort => 'Description is too short';
+
+  @override
+  String get descriptioRequired => 'Description is required';
+
+  @override
+  String get tags => 'Tags';
+
+  @override
+  String get tagsHint => 'Comma-separated tags';
+
+  @override
+  String get tagsRequired => 'At least one tag is required';
+
+  @override
+  String get options => 'Options';
+
+  @override
+  String get option => 'Option';
+
+  @override
+  String get optionRequired => 'Option is required';
+
+  @override
+  String get addOption => 'Add option';
 }

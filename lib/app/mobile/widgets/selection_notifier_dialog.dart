@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stimmapp/core/extensions/context_extensions.dart';
+import 'package:stimmapp/l10n/app_localizations.dart';
 
 /// Generic dialog that shows a list of selectable options and writes the
 /// selected value back to [notifier] on Confirm.
@@ -50,9 +50,10 @@ class _SelectionNotifierDialogState<T>
   @override
   Widget build(BuildContext context) {
     // Resolve labels here where BuildContext is available.
-    final String title = widget.title ?? context.l10n.select;
-    final String confirmLabel = widget.confirmLabel ?? context.l10n.confirm;
-    final String cancelLabel = widget.cancelLabel ?? context.l10n.cancel;
+    final l10n = AppLocalizations.of(context)!;
+    final String title = widget.title ?? l10n.select;
+    final String confirmLabel = widget.confirmLabel ?? l10n.confirm;
+    final String cancelLabel = widget.cancelLabel ?? l10n.cancel;
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -70,7 +71,7 @@ class _SelectionNotifierDialogState<T>
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
-                  context.l10n.noOptions,
+                  l10n.noOptions,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               )

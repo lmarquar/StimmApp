@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
 
 class PetitionCreatorPage extends StatefulWidget {
@@ -33,11 +35,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
 
     final currentUser = authService.value.currentUser;
     if (currentUser == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('You must be logged in to create a petition'),
-        ),
-      );
+      showErrorSnackBar(context.l10n.pleaseSignInFirst);
       return;
     }
 
@@ -68,12 +66,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
       final petitionId = await _repository.createPetition(petition);
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Petition created successfully! ID: $petitionId'),
-            backgroundColor: Colors.green,
-          ),
-        );
+        showSuccessSnackBar(context.l10n.createdPetition + petitionId);
 
         // Clear form
         _titleController.clear();
@@ -83,12 +76,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error creating petition: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        showErrorSnackBar(context.l10n.errorCreatingPetition + e.toString());
       }
     } finally {
       if (mounted) {
@@ -102,7 +90,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Create a Petition')),
+      appBar: AppBar(title: Text(context.l10n.createPetition)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Form(
@@ -112,17 +100,17 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
               const SizedBox(height: 30),
               TextFormField(
                 controller: _titleController,
-                decoration: const InputDecoration(
-                  labelText: 'Title',
-                  hintText: 'Enter petition title',
+                decoration: InputDecoration(
+                  labelText: context.l10n.title,
+                  hintText: context.l10n.enterTitle,
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please enter a title';
+                    return context.l10n.titleRequired;
                   }
                   if (value.trim().length < 5) {
-                    return 'Title must be at least 5 characters';
+                    return context.l10n.titleTooShort;
                   }
                   return null;
                 },
@@ -131,19 +119,19 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
               const SizedBox(height: 20),
               TextFormField(
                 controller: _descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
-                  hintText: 'Describe your petition',
+                decoration: InputDecoration(
+                  labelText: context.l10n.description,
+                  hintText: context.l10n.enterDescription,
                   border: OutlineInputBorder(),
                   alignLabelWithHint: true,
                 ),
                 maxLines: 8,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please enter a description';
+                    return context.l10n.descriptionRequired;
                   }
                   if (value.trim().length < 20) {
-                    return 'Description must be at least 20 characters';
+                    return context.l10n.descriptionTooShort;
                   }
                   return null;
                 },
@@ -152,15 +140,14 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
               const SizedBox(height: 20),
               TextFormField(
                 controller: _tagsController,
-                decoration: const InputDecoration(
-                  labelText: 'Tags',
-                  hintText:
-                      'Enter tags separated by commas (e.g., climate, education)',
+                decoration: InputDecoration(
+                  labelText: context.l10n.tags,
+                  hintText: context.l10n.tagsHint,
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Please enter at least one tag';
+                    return context.l10n.tagsRequired;
                   }
                   return null;
                 },
@@ -177,9 +164,9 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
                         width: 20,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : const Text(
-                        'Create Petition',
-                        style: TextStyle(fontSize: 16),
+                    : Text(
+                        context.l10n.createPetition,
+                        style: const TextStyle(fontSize: 16),
                       ),
               ),
               const SizedBox(height: 20),

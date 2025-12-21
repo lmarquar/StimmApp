@@ -110,6 +110,12 @@ abstract class AppLocalizations {
   /// **'You have {newMessages, plural, =0{No new messages} =1 {One new message} two{Two new Messages} other {{newMessages} new messages}}'**
   String newMessages(int newMessages);
 
+  /// No description provided for @hintTextTags.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. environment, transport'**
+  String get hintTextTags;
+
   /// No description provided for @language.
   ///
   /// In en, this message translates to:
@@ -482,6 +488,12 @@ abstract class AppLocalizations {
   /// **'Petition'**
   String get petition;
 
+  /// No description provided for @petitions.
+  ///
+  /// In en, this message translates to:
+  /// **'Petitions'**
+  String get petitions;
+
   /// No description provided for @profile.
   ///
   /// In en, this message translates to:
@@ -529,6 +541,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create Poll'**
   String get createPoll;
+
+  /// No description provided for @developerSandbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer Sandbox'**
+  String get developerSandbox;
+
+  /// No description provided for @testingWidgetsHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Testing widgets here'**
+  String get testingWidgetsHere;
+
+  /// No description provided for @pleaseSignInFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in first'**
+  String get pleaseSignInFirst;
+
+  /// No description provided for @createdPetition.
+  ///
+  /// In en, this message translates to:
+  /// **'Petition created'**
+  String get createdPetition;
+
+  /// No description provided for @errorCreatingPetition.
+  ///
+  /// In en, this message translates to:
+  /// **'Error creating petition'**
+  String get errorCreatingPetition;
+
+  /// No description provided for @createdPoll.
+  ///
+  /// In en, this message translates to:
+  /// **'Poll created'**
+  String get createdPoll;
+
+  /// No description provided for @failedToCreatePoll.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create poll'**
+  String get failedToCreatePoll;
+
+  /// No description provided for @petitionDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Petition details'**
+  String get petitionDetails;
+
+  /// No description provided for @pollDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Poll details'**
+  String get pollDetails;
+
+  /// No description provided for @notFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Not found'**
+  String get notFound;
+
+  /// No description provided for @noData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data'**
+  String get noData;
+
+  /// No description provided for @signed.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed'**
+  String get signed;
+
+  /// No description provided for @voted.
+  ///
+  /// In en, this message translates to:
+  /// **'Voted'**
+  String get voted;
+
+  /// No description provided for @successfullyLoggedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully logged in'**
+  String get successfullyLoggedIn;
+
+  /// No description provided for @resetPasswordLinkSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password link sent'**
+  String get resetPasswordLinkSent;
+
+  /// No description provided for @title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get title;
+
+  /// No description provided for @enterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter title'**
+  String get enterTitle;
+
+  /// No description provided for @titleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Title is required'**
+  String get titleRequired;
+
+  /// No description provided for @titleTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Title is too short'**
+  String get titleTooShort;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @enterDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter description'**
+  String get enterDescription;
+
+  /// No description provided for @descriptionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Description is required'**
+  String get descriptionRequired;
+
+  /// No description provided for @descriptionTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Description is too short'**
+  String get descriptionTooShort;
+
+  /// No description provided for @descriptioRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Description is required'**
+  String get descriptioRequired;
+
+  /// No description provided for @tags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get tags;
+
+  /// No description provided for @tagsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Comma-separated tags'**
+  String get tagsHint;
+
+  /// No description provided for @tagsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'At least one tag is required'**
+  String get tagsRequired;
+
+  /// No description provided for @options.
+  ///
+  /// In en, this message translates to:
+  /// **'Options'**
+  String get options;
+
+  /// No description provided for @option.
+  ///
+  /// In en, this message translates to:
+  /// **'Option'**
+  String get option;
+
+  /// No description provided for @optionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Option is required'**
+  String get optionRequired;
+
+  /// No description provided for @addOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Add option'**
+  String get addOption;
 }
 
 class _AppLocalizationsDelegate

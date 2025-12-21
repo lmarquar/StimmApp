@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
+import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
@@ -28,46 +29,22 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   }
 
   void updatePassword() async {
+    // Capture localized messages before the async gap
+    final successMessage = context.l10n.passwordChangedSuccessfully;
+    final failureMessage = context.l10n.passwordChangeFailed;
+
     try {
       await authService.value.resetPasswordfromCurrentPassword(
         currentPassword: controllerCurrentPassword.text,
         newPassword: controllerNewPassword.text,
         email: controllerEmail.text,
       );
-      showSnackBarSuccess();
+      if (!mounted) return;
+      showSuccessSnackBar(successMessage);
     } catch (e) {
-      showSnackBarFailure();
+      if (!mounted) return;
+      showErrorSnackBar(failureMessage);
     }
-  }
-
-  void showSnackBarSuccess() {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        behavior: SnackBarBehavior.floating,
-        content: Text(
-          context.l10n.passwordChangedSuccessfully,
-          style: AppTextStyles.m,
-        ),
-        showCloseIcon: true,
-      ),
-    );
-  }
-
-  void showSnackBarFailure() {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Theme.of(context).colorScheme.error,
-        behavior: SnackBarBehavior.floating,
-        content: Text(
-          context.l10n.passwordChangeFailed,
-          style: AppTextStyles.m,
-        ),
-        showCloseIcon: true,
-      ),
-    );
   }
 
   @override
