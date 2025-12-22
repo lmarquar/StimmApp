@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:stimmapp/core/di/service_locator.dart';
 import 'package:stimmapp/l10n/app_localizations.dart';
+import 'package:stimmapp/core/services/profile_picture_service.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -63,6 +65,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   AppStateNotifier? appStateNotifier;
   bool _initialized = false;
+  StreamSubscription<User?>? _authSub;
 
   @override
   void initState() {
@@ -83,6 +86,15 @@ class _MyAppState extends State<MyApp> {
 
     // Persist runtime locale changes immediately so selection becomes global/persistent.
     appLocale.addListener(_onLocaleChanged);
+
+    // Load profile URL when user signs in and clear on sign-out
+    _authSub = FirebaseAuth.instance.authStateChanges().listen((user) {
+      if (user != null) {
+        ProfilePictureService.instance.loadProfileUrl(user.uid);
+      } else {
+        ProfilePictureService.instance.profileUrlNotifier.value = null;
+      }
+    });
 
     setState(() {
       _initialized = true;
@@ -125,6 +137,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
+    _authSub?.cancel();
+    _authSub = null;
     appLocale.removeListener(_onLocaleChanged);
     appStateNotifier?.dispose();
     super.dispose();

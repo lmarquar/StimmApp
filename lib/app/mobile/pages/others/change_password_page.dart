@@ -77,6 +77,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   child: Column(
                     children: [
                       TextFormField(
+                        obscureText: true,
                         controller: controllerCurrentPassword,
                         decoration: InputDecoration(
                           labelText: context.l10n.currentPassword,
@@ -93,6 +94,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
+                        obscureText: true,
                         controller: controllerNewPassword,
                         decoration: InputDecoration(
                           labelText: context.l10n.newPassword,

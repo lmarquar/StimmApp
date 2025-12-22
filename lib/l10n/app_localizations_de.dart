@@ -363,4 +363,76 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get signedPetitions => 'Unterzeichnete Petitionen';
+
+  @override
+  String get signPetition => 'Petition unterzeichnen';
+
+  @override
+  String get entryNotYetImplemented =>
+      'Lexikon-Eintrag noch nicht implementiert';
+
+  @override
+  String get signatures => 'Unterschriften';
+
+  @override
+  String get supporters => 'Unterstützer';
+
+  @override
+  String get daysLeft => 'Verbleibende Tage';
+
+  @override
+  String get goal => 'Ziel';
+
+  @override
+  String get petitionBy => 'Petition von';
+
+  @override
+  String get sharePetition => 'Petition teilen';
+
+  @override
+  String get recentPetitions => 'Aktuelle Petitionen';
+
+  @override
+  String get popularPetitions => 'Beliebte Petitionen';
+
+  @override
+  String get myPetitions => 'Meine Petitionen';
+
+  @override
+  String get victory => 'Sieg!';
+
+  @override
+  String get petitionSuccessfullySigned =>
+      'Petition erfolgreich unterzeichnet!';
+
+  @override
+  String get thankYouForSigning => 'Danke für deine Unterschrift!';
+
+  @override
+  String get shareThisPetition => 'Teile diese Petition';
+
+  @override
+  String get updates => 'Updates';
+
+  @override
+  String get reasonsForSigning => 'Gründe für die Unterzeichnung';
+
+  @override
+  String get comments => 'Kommentare';
+
+  @override
+  String get addComment => 'Einen Kommentar hinzufügen';
+
+  @override
+  String get anonymous => 'Anonym';
+
+  @override
+  String get editPetition => 'Petition bearbeiten';
+
+  @override
+  String get deletePetition => 'Petition löschen';
+
+  @override
+  String get areYouSureYouWantToDeleteThisPetition =>
+      'Sind Sie sicher, dass Sie diese Petition löschen möchten?';
 }

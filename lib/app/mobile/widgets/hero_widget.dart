@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:stimmapp/core/firebase/auth_service.dart';
 
 class HeroWidget extends StatelessWidget {
-  const HeroWidget({super.key, required this.title, this.nextPage});
+  const HeroWidget({super.key, this.title, this.nextPage});
 
-  final String title;
+  final String? title;
   final Widget? nextPage;
 
   @override
   Widget build(BuildContext context) {
+    final currentUrl = authService.value.currentUser?.photoURL;
     return GestureDetector(
       onTap: nextPage != null
           ? () {
@@ -28,11 +30,11 @@ class HeroWidget extends StatelessWidget {
             tag: 'hero1',
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
-              child: Image.asset('assets/images/tiles.png'),
+              child: Image.network(currentUrl!, fit: BoxFit.cover),
             ),
           ),
           Text(
-            title,
+            title != null ? title! : '',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 50,

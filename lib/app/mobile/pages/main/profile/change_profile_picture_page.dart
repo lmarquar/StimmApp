@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
+import 'package:stimmapp/core/services/profile_picture_service.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:stimmapp/l10n/app_localizations.dart';
 
@@ -60,66 +60,26 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
     }
 
     final uid = user.uid;
-    final storageRef = FirebaseStorage.instance.ref('users/$uid/profile.jpg');
 
     setState(() {
       _uploading = true;
       _progress = 0;
     });
 
-    // Attach contentType metadata to help Storage identify the file quickly.
-    final metadata = SettableMetadata(contentType: 'image/jpeg');
-    final uploadTask = storageRef.putFile(_imageFile!, metadata);
-
-    // listen and throttle progress updates
-    _uploadSub = uploadTask.snapshotEvents.listen(
-      (snap) {
-        final total = snap.totalBytes == 0 ? 1 : snap.totalBytes;
-        final prog = snap.bytesTransferred / total;
-        if (!mounted) return;
-        if ((prog - _progress).abs() > 0.01) {
-          setState(() {
-            _progress = prog;
-          });
-        }
-      },
-      onError: (e) {
-        debugPrint('[ChangeProfilePicture] upload snapshot error: $e');
-        // don't show snackbar here to avoid spamming; final catch below will handle.
-      },
-    );
-
     try {
-      // Await the task and inspect final snapshot state
-      final TaskSnapshot taskSnapshot = await uploadTask;
-      // cancel listener after upload completes
-      await _uploadSub?.cancel();
-      _uploadSub = null;
-
-      if (taskSnapshot.state == TaskState.canceled) {
-        debugPrint('[ChangeProfilePicture] upload was cancelled by Storage');
-        if (mounted) showErrorSnackBar('Upload cancelled');
-        return;
-      }
-      if (taskSnapshot.state != TaskState.success) {
-        debugPrint(
-          '[ChangeProfilePicture] upload finished with state: ${taskSnapshot.state}',
-        );
-        if (mounted) {
-          showErrorSnackBar('Upload failed (state: ${taskSnapshot.state})');
-        }
-        return;
-      }
-
-      // Sometimes getDownloadURL can fail with object-not-found immediately after upload.
-      // Retry a few times with a short delay before giving up.
-      final url = await _getDownloadUrlWithRetry(
-        storageRef,
-        attempts: 5,
-        delayMs: 500,
+      final url = await ProfilePictureService.instance.uploadProfilePicture(
+        uid,
+        _imageFile!,
+        onProgress: (p) {
+          if (!mounted) return;
+          // throttle UI updates
+          if ((p - _progress).abs() > 0.01) {
+            setState(() => _progress = p);
+          }
+        },
       );
 
-      // update auth profile and firestore safely
+      // update FirebaseAuth photoURL (best-effort)
       try {
         await user.updatePhotoURL(url);
         await user.reload();
@@ -127,75 +87,15 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
         debugPrint('[ChangeProfilePicture] error updating user photoURL: $e');
       }
 
-      try {
-        await FirebaseFirestore.instance.collection('users').doc(uid).set({
-          'profilePictureUrl': url,
-        }, SetOptions(merge: true));
-      } catch (e) {
-        debugPrint('[ChangeProfilePicture] error writing to firestore: $e');
-      }
-
       if (!mounted) return;
       showSuccessSnackBar(l10n.profilePictureUpdated);
-      if (mounted) Navigator.of(context).pop();
-    } on FirebaseException catch (e) {
-      debugPrint(
-        '[ChangeProfilePicture] FirebaseException: ${e.code} ${e.message}',
-      );
-      final msg = e.message ?? 'Failed to upload image: ${e.code}';
-      if (e.code == 'object-not-found') {
-        debugPrint(
-          '[ChangeProfilePicture] object-not-found after upload; storage rules or timing issue.',
-        );
-        if (mounted) {
-          showErrorSnackBar(
-            'Upload incomplete: file not found in storage yet. Try again shortly.',
-          );
-        }
-      } else {
-        if (mounted) showErrorSnackBar(msg);
-      }
+      Navigator.of(context).pop();
     } catch (e, st) {
       debugPrint('[ChangeProfilePicture] upload failed: $e\n$st');
       if (mounted) showErrorSnackBar('Failed to upload image: $e');
     } finally {
-      if (mounted) {
-        setState(() {
-          _uploading = false;
-        });
-      }
-      await _uploadSub?.cancel();
-      _uploadSub = null;
+      if (mounted) setState(() => _uploading = false);
     }
-  }
-
-  // Helper: retry getDownloadURL a few times with delay
-  Future<String> _getDownloadUrlWithRetry(
-    Reference ref, {
-    int attempts = 3,
-    int delayMs = 300,
-  }) async {
-    FirebaseException? lastEx;
-    for (var i = 0; i < attempts; i++) {
-      try {
-        final url = await ref.getDownloadURL();
-        return url;
-      } on FirebaseException catch (e) {
-        lastEx = e;
-        debugPrint(
-          '[ChangeProfilePicture] getDownloadURL attempt ${i + 1} failed: ${e.code} ${e.message}',
-        );
-        // if object-not-found, wait and retry; other errors probably won't succeed
-        if (i < attempts - 1) {
-          await Future.delayed(Duration(milliseconds: delayMs));
-        }
-      }
-    }
-    throw lastEx ??
-        FirebaseException(
-          plugin: 'firebase_storage',
-          message: 'Unknown error getting download URL',
-        );
   }
 
   @override

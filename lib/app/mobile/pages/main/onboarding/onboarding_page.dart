@@ -86,6 +86,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         ),
                         const SizedBox(height: 10),
                         TextFormField(
+                          obscureText: true,
                           controller: controllerPw,
                           decoration: InputDecoration(
                             labelText: context.l10n.password,

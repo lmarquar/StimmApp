@@ -359,4 +359,74 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signedPetitions => 'Signed Petitions';
+
+  @override
+  String get signPetition => 'Sign Petition';
+
+  @override
+  String get entryNotYetImplemented => 'Lexicon entry not yet implemented';
+
+  @override
+  String get signatures => 'Signatures';
+
+  @override
+  String get supporters => 'Supporters';
+
+  @override
+  String get daysLeft => 'Days Left';
+
+  @override
+  String get goal => 'Goal';
+
+  @override
+  String get petitionBy => 'Petition by';
+
+  @override
+  String get sharePetition => 'Share Petition';
+
+  @override
+  String get recentPetitions => 'Recent Petitions';
+
+  @override
+  String get popularPetitions => 'Popular Petitions';
+
+  @override
+  String get myPetitions => 'My Petitions';
+
+  @override
+  String get victory => 'Victory!';
+
+  @override
+  String get petitionSuccessfullySigned => 'Petition successfully signed!';
+
+  @override
+  String get thankYouForSigning => 'Thank you for signing!';
+
+  @override
+  String get shareThisPetition => 'Share this petition';
+
+  @override
+  String get updates => 'Updates';
+
+  @override
+  String get reasonsForSigning => 'Reasons for signing';
+
+  @override
+  String get comments => 'Comments';
+
+  @override
+  String get addComment => 'Add a comment';
+
+  @override
+  String get anonymous => 'Anonymous';
+
+  @override
+  String get editPetition => 'Edit Petition';
+
+  @override
+  String get deletePetition => 'Delete Petition';
+
+  @override
+  String get areYouSureYouWantToDeleteThisPetition =>
+      'Are you sure you want to delete this petition?';
 }

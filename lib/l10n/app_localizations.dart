@@ -775,6 +775,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Signed Petitions'**
   String get signedPetitions;
+
+  /// No description provided for @signPetition.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Petition'**
+  String get signPetition;
+
+  /// No description provided for @entryNotYetImplemented.
+  ///
+  /// In en, this message translates to:
+  /// **'Lexicon entry not yet implemented'**
+  String get entryNotYetImplemented;
+
+  /// No description provided for @signatures.
+  ///
+  /// In en, this message translates to:
+  /// **'Signatures'**
+  String get signatures;
+
+  /// No description provided for @supporters.
+  ///
+  /// In en, this message translates to:
+  /// **'Supporters'**
+  String get supporters;
+
+  /// No description provided for @daysLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Days Left'**
+  String get daysLeft;
+
+  /// No description provided for @goal.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal'**
+  String get goal;
+
+  /// No description provided for @petitionBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Petition by'**
+  String get petitionBy;
+
+  /// No description provided for @sharePetition.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Petition'**
+  String get sharePetition;
+
+  /// No description provided for @recentPetitions.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Petitions'**
+  String get recentPetitions;
+
+  /// No description provided for @popularPetitions.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular Petitions'**
+  String get popularPetitions;
+
+  /// No description provided for @myPetitions.
+  ///
+  /// In en, this message translates to:
+  /// **'My Petitions'**
+  String get myPetitions;
+
+  /// No description provided for @victory.
+  ///
+  /// In en, this message translates to:
+  /// **'Victory!'**
+  String get victory;
+
+  /// No description provided for @petitionSuccessfullySigned.
+  ///
+  /// In en, this message translates to:
+  /// **'Petition successfully signed!'**
+  String get petitionSuccessfullySigned;
+
+  /// No description provided for @thankYouForSigning.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for signing!'**
+  String get thankYouForSigning;
+
+  /// No description provided for @shareThisPetition.
+  ///
+  /// In en, this message translates to:
+  /// **'Share this petition'**
+  String get shareThisPetition;
+
+  /// No description provided for @updates.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates'**
+  String get updates;
+
+  /// No description provided for @reasonsForSigning.
+  ///
+  /// In en, this message translates to:
+  /// **'Reasons for signing'**
+  String get reasonsForSigning;
+
+  /// No description provided for @comments.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get comments;
+
+  /// No description provided for @addComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a comment'**
+  String get addComment;
+
+  /// No description provided for @anonymous.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous'**
+  String get anonymous;
+
+  /// No description provided for @editPetition.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Petition'**
+  String get editPetition;
+
+  /// No description provided for @deletePetition.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Petition'**
+  String get deletePetition;
+
+  /// No description provided for @areYouSureYouWantToDeleteThisPetition.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this petition?'**
+  String get areYouSureYouWantToDeleteThisPetition;
 }
 
 class _AppLocalizationsDelegate
