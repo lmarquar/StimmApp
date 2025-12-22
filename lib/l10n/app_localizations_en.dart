@@ -145,7 +145,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logout => 'Logout';
 
   @override
+  String get colorTheme => 'Color Theme';
+
+  @override
+  String get colorMode => 'Color Mode';
+
+  @override
   String get login => 'Login';
+
+  @override
+  String get darkMode => 'Dark Mode';
+
+  @override
+  String get lightMode => 'Light Mode';
+
+  @override
+  String get systemDefault => 'System Default';
 
   @override
   String get myProfile => 'My Profile';
@@ -335,4 +350,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addOption => 'Add option';
+
+  @override
+  String get profilePictureUpdated => 'Profile picture updated';
+
+  @override
+  String get noImageSelected => 'No image selected';
 }

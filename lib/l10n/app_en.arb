@@ -62,7 +62,12 @@
     "invalidEmailEntered": "Invalid email entered",
     "lastStep": "Last step!",
     "logout": "Logout",
+	"colorTheme": "Color Theme",
+	"colorMode": "Color Mode",
     "login": "Login",
+	"darkMode": "Dark Mode",
+	"lightMode": "Light Mode",
+	"systemDefault": "System Default",
     "myProfile": "My Profile",
     "nameChangeFailed": "Name change failed",
     "newPassword": "New password",
@@ -127,6 +132,8 @@
     "options": "Options",
     "option": "Option",
     "optionRequired": "Option is required",
-    "addOption": "Add option"
+    "addOption": "Add option",
+    "profilePictureUpdated": "Profile picture updated",
+    "noImageSelected": "No image selected"
 }
 

@@ -344,11 +344,41 @@ abstract class AppLocalizations {
   /// **'Logout'**
   String get logout;
 
+  /// No description provided for @colorTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Color Theme'**
+  String get colorTheme;
+
+  /// No description provided for @colorMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Color Mode'**
+  String get colorMode;
+
   /// No description provided for @login.
   ///
   /// In en, this message translates to:
   /// **'Login'**
   String get login;
+
+  /// No description provided for @darkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get darkMode;
+
+  /// No description provided for @lightMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get lightMode;
+
+  /// No description provided for @systemDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'System Default'**
+  String get systemDefault;
 
   /// No description provided for @myProfile.
   ///
@@ -727,6 +757,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add option'**
   String get addOption;
+
+  /// No description provided for @profilePictureUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile picture updated'**
+  String get profilePictureUpdated;
+
+  /// No description provided for @noImageSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'No image selected'**
+  String get noImageSelected;
 }
 
 class _AppLocalizationsDelegate

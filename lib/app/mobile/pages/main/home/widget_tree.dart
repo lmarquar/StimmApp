@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/home_navigation_config.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/profile_page.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/pages/main/settings/settings_page.dart';
 import 'package:stimmapp/app/mobile/widgets/navbar_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 
 class WidgetTree extends StatelessWidget {
@@ -20,20 +20,14 @@ class WidgetTree extends StatelessWidget {
             title: Text(pages[selectedPage].title),
             actions: [
               IconButton(
-                onPressed: () async {
-                  isDarkModeNotifier.value = !isDarkModeNotifier.value;
-                  final SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  await prefs.setBool('isDarkMode', isDarkModeNotifier.value);
+                icon: Image.asset('assets/images/tiles.png'),
+                //icon: const Icon(Icons.person),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                  );
                 },
-                icon: ValueListenableBuilder(
-                  valueListenable: isDarkModeNotifier,
-                  builder: (context, isDarkMode, child) {
-                    return Icon(
-                      isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                    );
-                  },
-                ),
               ),
               IconButton(
                 onPressed: () {

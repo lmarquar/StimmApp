@@ -146,7 +146,22 @@ class AppLocalizationsDe extends AppLocalizations {
   String get logout => 'Abmelden';
 
   @override
+  String get colorTheme => 'Farbthema';
+
+  @override
+  String get colorMode => 'Farbmodus';
+
+  @override
   String get login => 'Anmelden';
+
+  @override
+  String get darkMode => 'Dunkler Modus';
+
+  @override
+  String get lightMode => 'Heller Modus';
+
+  @override
+  String get systemDefault => 'Systemstandard';
 
   @override
   String get myProfile => 'Mein Profil';
@@ -339,4 +354,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get addOption => 'Option hinzufügen';
+
+  @override
+  String get profilePictureUpdated => 'Profilbild aktualisiert';
+
+  @override
+  String get noImageSelected => 'Kein Bild ausgewählt';
 }
