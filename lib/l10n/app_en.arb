@@ -134,6 +134,7 @@
     "optionRequired": "Option is required",
     "addOption": "Add option",
     "profilePictureUpdated": "Profile picture updated",
-    "noImageSelected": "No image selected"
+    "noImageSelected": "No image selected",
+	"signedPetitions": "Signed Petitions"
 }
 

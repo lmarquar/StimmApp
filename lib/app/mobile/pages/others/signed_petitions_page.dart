@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 
 class SignedPetitionsPage extends StatelessWidget {
   const SignedPetitionsPage({super.key});
@@ -21,15 +22,13 @@ class SignedPetitionsPage extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
-      return const Scaffold(
-        body: Center(
-          child: Text('You must be signed in to view signed petitions.'),
-        ),
+      return Scaffold(
+        body: Center(child: Text(context.l10n.pleaseSignInFirst)),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Signed Petitions')),
+      appBar: AppBar(title: Text(context.l10n.signedPetitions)),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: _signedPetitionsStream(user.uid),
         builder: (context, snapshot) {
@@ -38,15 +37,13 @@ class SignedPetitionsPage extends StatelessWidget {
           }
 
           if (snapshot.hasError) {
-            return const Center(
-              child: Text('Something went wrong while loading data.'),
-            );
+            return Center(child: Text(context.l10n.error));
           }
 
           final docs = snapshot.data?.docs ?? [];
 
           if (docs.isEmpty) {
-            return const Center(child: Text('No signed petitions yet.'));
+            return Center(child: Text(context.l10n.notFound));
           }
 
           return ListView.separated(

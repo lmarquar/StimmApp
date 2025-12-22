@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
@@ -14,7 +15,6 @@ class ChangePasswordPage extends StatefulWidget {
 }
 
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
-  TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerCurrentPassword = TextEditingController();
   TextEditingController controllerNewPassword = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -22,7 +22,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   @override
   void dispose() {
-    controllerEmail.dispose();
     controllerCurrentPassword.dispose();
     controllerNewPassword.dispose();
     super.dispose();
@@ -37,13 +36,17 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       await authService.value.resetPasswordfromCurrentPassword(
         currentPassword: controllerCurrentPassword.text,
         newPassword: controllerNewPassword.text,
-        email: controllerEmail.text,
+        email: AuthService().currentUser!.email!,
       );
       if (!mounted) return;
       showSuccessSnackBar(successMessage);
     } catch (e) {
       if (!mounted) return;
-      showErrorSnackBar(failureMessage);
+      if (e is FirebaseException) {
+        showErrorSnackBar(e.message ?? 'Unknown error');
+        return;
+      }
+      showErrorSnackBar(failureMessage + e.toString());
     }
   }
 
@@ -73,22 +76,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   key: formKey,
                   child: Column(
                     children: [
-                      TextFormField(
-                        controller: controllerEmail,
-                        decoration: InputDecoration(
-                          labelText: context.l10n.email,
-                        ),
-                        validator: (String? value) {
-                          if (value == null) {
-                            return context.l10n.enterSomething;
-                          }
-                          if (value.trim().isEmpty) {
-                            return context.l10n.enterSomething;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 10),
                       TextFormField(
                         controller: controllerCurrentPassword,
                         decoration: InputDecoration(
