@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/home_navigation_config.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/profile_page.dart';
+import 'package:stimmapp/core/firebase/auth_service.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/pages/main/settings/settings_page.dart';
 import 'package:stimmapp/app/mobile/widgets/navbar_widget.dart';
@@ -11,6 +12,8 @@ class WidgetTree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentUrl = authService.value.currentUser?.photoURL;
+
     return ValueListenableBuilder<int>(
       valueListenable: selectedPageNotifier,
       builder: (context, selectedPage, child) {
@@ -20,14 +23,23 @@ class WidgetTree extends StatelessWidget {
             title: Text(pages[selectedPage].title),
             actions: [
               IconButton(
-                icon: Image.asset('assets/images/tiles.png'),
-                //icon: const Icon(Icons.person),
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ProfilePage()),
                   );
                 },
+                icon: currentUrl != null
+                    ? CircleAvatar(
+                        radius: 18,
+                        backgroundImage: NetworkImage(currentUrl),
+                        backgroundColor: Colors.transparent,
+                      )
+                    : const CircleAvatar(
+                        radius: 18,
+                        child: Icon(Icons.person, size: 18),
+                      ),
+                tooltip: context.l10n.myProfile,
               ),
               IconButton(
                 onPressed: () {

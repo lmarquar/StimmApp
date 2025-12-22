@@ -9,13 +9,14 @@ import 'package:stimmapp/app/mobile/pages/others/update_username_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/user_history.dart';
 import 'package:stimmapp/core/constants/app_dimensions.dart';
 import 'package:stimmapp/core/firebase/auth_service.dart';
+import 'package:stimmapp/core/services/profile_picture_service.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/change_profile_picture_page.dart';
 import '../../../../../../core/notifiers/notifiers.dart';
 import '../../../../scaffolds/app_padding_scaffold.dart';
 import '../../../../widgets/list_tile_widget.dart';
 import '../../../../widgets/neon_padding_widget.dart';
 import '../../../../widgets/unaffected_child_widget.dart';
 import '../../../others/delete_account_page.dart';
-import 'package:stimmapp/app/mobile/pages/main/profile/change_profile_picture_page.dart';
 
 class ProfileWidget extends StatelessWidget {
   const ProfileWidget({super.key});
@@ -46,11 +47,7 @@ class ProfileWidget extends StatelessWidget {
           isCentered: true,
           child: Column(
             children: [
-              HeroWidget(
-                title: context.l10n.profile,
-                nextPage: const ChangeProfilePicturePage(),
-                //  child: Image.asset('assets/images/StimmApp_Logo.png'),
-              ),
+              HeroWidget(nextPage: const ChangeProfilePicturePage()),
               Text(
                 authService.value.currentUser!.displayName ??
                     'no username found',
@@ -66,8 +63,14 @@ class ProfileWidget extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20.0),
-        ListTileWidget(
-          title: Text(context.l10n.settings, style: AppTextStyles.xlBold),
+        // avatar display: use service notifier (updates after upload)
+        ValueListenableBuilder<String?>(
+          valueListenable: ProfilePictureService.instance.profileUrlNotifier,
+          builder: (context, profileUrl, child) {
+            return ListTileWidget(
+              title: Text(context.l10n.settings, style: AppTextStyles.xlBold),
+            );
+          },
         ),
 
         // Update username
