@@ -1,3 +1,4 @@
+import 'package:stimmapp/app/mobile/widgets/hero_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
@@ -14,6 +15,7 @@ import '../../../../widgets/list_tile_widget.dart';
 import '../../../../widgets/neon_padding_widget.dart';
 import '../../../../widgets/unaffected_child_widget.dart';
 import '../../../others/delete_account_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/change_profile_picture_page.dart';
 
 class ProfileWidget extends StatelessWidget {
   const ProfileWidget({super.key});
@@ -44,7 +46,11 @@ class ProfileWidget extends StatelessWidget {
           isCentered: true,
           child: Column(
             children: [
-              const Text('😊', style: AppTextStyles.icons),
+              HeroWidget(
+                title: context.l10n.profile,
+                nextPage: const ChangeProfilePicturePage(),
+                //  child: Image.asset('assets/images/StimmApp_Logo.png'),
+              ),
               Text(
                 authService.value.currentUser!.displayName ??
                     'no username found',

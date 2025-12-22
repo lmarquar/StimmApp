@@ -6,7 +6,6 @@ import 'package:stimmapp/core/constants/constants.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
-import 'package:stimmapp/etc/button_widgets_page.dart';
 import 'package:stimmapp/l10n/app_localizations.dart';
 import 'package:stimmapp/app/mobile/widgets/selection_notifier_dialog.dart';
 
@@ -55,6 +54,25 @@ class _SettingsPageState extends State<SettingsPage> {
                             return ProfilePage();
                           },
                         ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              UnaffectedChildWidget(
+                child: ListTile(
+                  title: Text(context.l10n.colorTheme),
+                  onTap: () async {
+                    isDarkModeNotifier.value = !isDarkModeNotifier.value;
+                    final SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.setBool('isDarkMode', isDarkModeNotifier.value);
+                  },
+                  trailing: ValueListenableBuilder(
+                    valueListenable: isDarkModeNotifier,
+                    builder: (context, isDarkMode, child) {
+                      return Icon(
+                        isDarkMode ? Icons.light_mode : Icons.dark_mode,
                       );
                     },
                   ),
@@ -135,21 +153,6 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
 
               Divider(color: Colors.teal, thickness: 5),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ButtonWidgetsPage(
-                          title: context.l10n.testingWidgetsHere,
-                        );
-                      },
-                    ),
-                  );
-                },
-                child: Text(context.l10n.developerSandbox),
-              ),
             ],
           ),
         ),

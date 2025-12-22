@@ -104,5 +104,12 @@
 	"option": "Option",
 	"optionRequired": "Option ist erforderlich",
 	"addOption": "Option hinzufügen",
-	"hintTextTags": "z.B. umwelt, verkehr"
+	"hintTextTags": "z.B. umwelt, verkehr",
+	"darkMode": "Dunkler Modus",
+	"lightMode": "Heller Modus",
+	"colorTheme": "Farbthema",
+	"colorMode": "Farbmodus",
+	"systemDefault": "Systemstandard",
+	"profilePictureUpdated": "Profilbild aktualisiert",
+	"noImageSelected": "Kein Bild ausgewählt"
 }
