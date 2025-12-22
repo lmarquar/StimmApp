@@ -769,6 +769,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No image selected'**
   String get noImageSelected;
+
+  /// No description provided for @signedPetitions.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed Petitions'**
+  String get signedPetitions;
 }
 
 class _AppLocalizationsDelegate

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
@@ -34,38 +35,12 @@ class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
       showSuccessSnackBar(successMessage);
     } catch (e) {
       if (!mounted) return;
-      showSnackBarFailure();
+      if (e is FirebaseException) {
+        showErrorSnackBar(e.message ?? 'Unknown error');
+        return;
+      }
+      showErrorSnackBar(context.l10n.usernameChangeFailed + e.toString());
     }
-  }
-
-  void showSnackBarSuccess() {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        behavior: SnackBarBehavior.floating,
-        content: Text(
-          context.l10n.usernameChangedSuccessfully,
-          style: AppTextStyles.m,
-        ),
-        showCloseIcon: true,
-      ),
-    );
-  }
-
-  void showSnackBarFailure() {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Theme.of(context).colorScheme.error,
-        behavior: SnackBarBehavior.floating,
-        content: Text(
-          context.l10n.usernameChangeFailed,
-          style: AppTextStyles.m,
-        ),
-        showCloseIcon: true,
-      ),
-    );
   }
 
   @override

@@ -360,4 +360,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get noImageSelected => 'Kein Bild ausgewählt';
+
+  @override
+  String get signedPetitions => 'Unterzeichnete Petitionen';
 }

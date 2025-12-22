@@ -356,4 +356,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noImageSelected => 'No image selected';
+
+  @override
+  String get signedPetitions => 'Signed Petitions';
 }
