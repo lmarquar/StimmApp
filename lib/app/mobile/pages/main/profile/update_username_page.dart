@@ -15,7 +15,7 @@ class UpdateUsernamePage extends StatefulWidget {
 }
 
 class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
-  TextEditingController controllerUsername = TextEditingController();
+  final TextEditingController controllerUsername = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
   String errorMessage = '';
@@ -57,46 +57,47 @@ class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 60.0),
-              Text(context.l10n.updateUsername, style: AppTextStyles.xxlBold),
-              const SizedBox(height: 20.0),
-              const Text('✏️', style: AppTextStyles.icons),
-              const SizedBox(height: 50),
-              Form(
-                key: formKey,
-                child: Center(
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: controllerUsername,
-                        decoration: InputDecoration(
-                          labelText: context.l10n.newUsername,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 60.0),
+                Text(context.l10n.updateUsername, style: AppTextStyles.xxlBold),
+                const SizedBox(height: 20.0),
+                const Text('✏️', style: AppTextStyles.icons),
+                const SizedBox(height: 50),
+                Form(
+                  key: formKey,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: controllerUsername,
+                          decoration: InputDecoration(
+                            labelText: context.l10n.newUsername,
+                          ),
+                          validator: (String? value) {
+                            if (value == null) {
+                              return context.l10n.enterSomething;
+                            }
+                            if (value.trim().isEmpty) {
+                              return context.l10n.enterSomething;
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (String? value) {
-                          if (value == null) {
-                            return context.l10n.enterSomething;
-                          }
-                          if (value.trim().isEmpty) {
-                            return context.l10n.enterSomething;
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        errorMessage,
-                        style: AppTextStyles.m.copyWith(
-                          color: Colors.redAccent,
+                        const SizedBox(height: 10),
+                        Text(
+                          errorMessage,
+                          style: AppTextStyles.m.copyWith(
+                            color: Colors.redAccent,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const Spacer(),
-            ],
+              ],
+            ),
           ),
         ),
       ),

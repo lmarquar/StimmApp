@@ -4,9 +4,9 @@ import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:stimmapp/app/mobile/pages/others/change_password_page.dart';
-import 'package:stimmapp/app/mobile/pages/others/update_username_page.dart';
-import 'package:stimmapp/app/mobile/pages/others/user_history.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/change_password_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/update_username_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/user_history.dart';
 import 'package:stimmapp/core/constants/app_dimensions.dart';
 import 'package:stimmapp/core/services/auth_service.dart';
 import 'package:stimmapp/core/services/profile_picture_service.dart';
@@ -16,7 +16,7 @@ import '../../../../scaffolds/app_padding_scaffold.dart';
 import '../../../../widgets/list_tile_widget.dart';
 import '../../../../widgets/neon_padding_widget.dart';
 import '../../../../widgets/unaffected_child_widget.dart';
-import '../../../others/delete_account_page.dart';
+import '../delete_account_page.dart';
 
 class ProfileWidget extends StatelessWidget {
   const ProfileWidget({super.key});
