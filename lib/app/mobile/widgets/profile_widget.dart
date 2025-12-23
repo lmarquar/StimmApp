@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:stimmapp/app/mobile/pages/others/change_password_page.dart';
-import 'package:stimmapp/app/mobile/pages/others/delete_account_page.dart';
-import 'package:stimmapp/app/mobile/pages/others/update_username_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/change_password_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/delete_account_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/update_username_page.dart';
 import 'package:stimmapp/core/constants/app_dimensions.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';

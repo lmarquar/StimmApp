@@ -6,7 +6,7 @@ import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/services/auth_service.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
-import '../../../../core/notifiers/notifiers.dart';
+import '../../../../../core/notifiers/notifiers.dart';
 
 class DeleteAccountPage extends StatefulWidget {
   const DeleteAccountPage({super.key});
