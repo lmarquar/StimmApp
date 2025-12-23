@@ -1,10 +1,16 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
-import 'package:stimmapp/core/firebase/auth_service.dart';
+import 'package:stimmapp/core/services/auth_service.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
+import 'package:stimmapp/core/services/profile_picture_service.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
 TextEditingController controllerPw = TextEditingController();
@@ -20,6 +26,7 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> {
   final _formKey = GlobalKey<FormState>();
   String errorMessage = 'Error message';
+  double _progress = 0.0;
 
   void register() async {
     try {
@@ -31,6 +38,45 @@ class _OnboardingPageState extends State<OnboardingPage> {
         username: controllerEm.text.split('@')[0],
       );
       AppData.isAuthConnected.value = true;
+
+      // Try to upload a default profile picture from assets.
+      // If anything fails here we log but don't block registration.
+      try {
+        final user = authService.value.currentUser;
+        if (user != null) {
+          // Load asset bytes
+          final bytes = await rootBundle.load(
+            'assets/images/default_avatar.png',
+          );
+          final Uint8List list = bytes.buffer.asUint8List();
+
+          // Write to a temporary file
+          final tempDir = await getTemporaryDirectory();
+          final tmpFile = File(
+            '${tempDir.path}/default_avatar_${user.uid}.jpg',
+          );
+          await tmpFile.writeAsBytes(list, flush: true);
+
+          // Upload using the service (updates Firestore and notifier internally)
+          await ProfilePictureService.instance.uploadProfilePicture(
+            user.uid,
+            tmpFile,
+            onProgress: (p) {
+              if (!mounted) return;
+              if ((p - _progress).abs() > 0.01) setState(() => _progress = p);
+            },
+          );
+
+          // Optionally remove the temp file (non-blocking)
+          try {
+            await tmpFile.delete();
+          } catch (_) {}
+        }
+      } catch (e, st) {
+        // don't break registration for asset/upload failures — log for debugging
+        debugPrint('Default avatar upload failed: $e\n$st');
+      }
+
       popPage();
     } on FirebaseAuthException catch (e) {
       // e.code contains the Firebase error code (e.g. 'invalid-email', 'weak-password')
@@ -42,7 +88,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
       setState(() {
         errorMessage = 'Unexpected error: $e';
       });
-      // Optional: print stack trace to help debugging
       debugPrintStack(label: 'register error', stackTrace: st);
     }
   }

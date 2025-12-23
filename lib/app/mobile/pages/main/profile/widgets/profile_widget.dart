@@ -8,7 +8,7 @@ import 'package:stimmapp/app/mobile/pages/others/change_password_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/update_username_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/user_history.dart';
 import 'package:stimmapp/core/constants/app_dimensions.dart';
-import 'package:stimmapp/core/firebase/auth_service.dart';
+import 'package:stimmapp/core/services/auth_service.dart';
 import 'package:stimmapp/core/services/profile_picture_service.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/change_profile_picture_page.dart';
 import '../../../../../../core/notifiers/notifiers.dart';

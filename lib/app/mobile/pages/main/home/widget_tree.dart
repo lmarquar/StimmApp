@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/home_navigation_config.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/profile_page.dart';
-import 'package:stimmapp/core/firebase/auth_service.dart';
+import 'package:stimmapp/core/services/auth_service.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/pages/main/settings/settings_page.dart';
 import 'package:stimmapp/app/mobile/widgets/navbar_widget.dart';
