@@ -41,6 +41,16 @@ class PollRepository {
     return _fs.watchDoc(ref);
   }
 
+  Future<Poll?> get(String id) async {
+    final ref = _fs.docRef<Poll>(
+      'polls/$id',
+      fromFirestore: Poll.fromFirestore,
+      toFirestore: Poll.toFirestore,
+    );
+    final snap = await ref.get();
+    return snap.data();
+  }
+
   Future<void> vote({
     required String pollId,
     required String optionId,
