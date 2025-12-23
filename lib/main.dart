@@ -13,6 +13,7 @@ import 'package:stimmapp/core/notifiers/app_state_notifier.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/core/firebase/firebase_options.dart';
 import 'package:stimmapp/core/errors/error_log_tool.dart';
+import 'package:stimmapp/core/services/auth_service.dart';
 import 'package:stimmapp/core/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -51,7 +52,7 @@ void main() async {
 
   // Initialize service locator (Firestore, repositories, etc.)
   locator.init();
-
+  initializeAuthService();
   runApp(const MyApp());
 }
 

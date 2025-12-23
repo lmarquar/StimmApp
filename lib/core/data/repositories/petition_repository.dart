@@ -43,6 +43,16 @@ class PetitionRepository {
     return _fs.watchDoc(ref);
   }
 
+  Future<Petition?> get(String id) async {
+    final ref = _fs.docRef<Petition>(
+      'petitions/$id',
+      fromFirestore: Petition.fromFirestore,
+      toFirestore: Petition.toFirestore,
+    );
+    final snap = await ref.get();
+    return snap.data();
+  }
+
   Future<String> createPetition(Petition petition) async {
     final docRef = await _col().add(petition);
     return docRef.id;

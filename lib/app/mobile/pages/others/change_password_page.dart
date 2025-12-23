@@ -36,7 +36,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       await authService.value.resetPasswordfromCurrentPassword(
         currentPassword: controllerCurrentPassword.text,
         newPassword: controllerNewPassword.text,
-        email: AuthService().currentUser!.email!,
+        email: authService.value.currentUser!.email!,
       );
       if (!mounted) return;
       showSuccessSnackBar(successMessage);

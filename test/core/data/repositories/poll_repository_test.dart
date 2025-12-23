@@ -54,7 +54,7 @@ void main() {
 
       await pollRepository.vote(pollId: pollId, optionId: 'opt1', uid: 'user1');
 
-      final poll = await pollRepository.watch(pollId).first;
+      final poll = await pollRepository.get(pollId);
       expect(poll, isNotNull);
       expect(poll!.votes['opt1'], 1);
     });
@@ -65,7 +65,7 @@ void main() {
       await pollRepository.vote(pollId: pollId, optionId: 'opt1', uid: 'user1');
       await pollRepository.vote(pollId: pollId, optionId: 'opt1', uid: 'user1');
 
-      final poll = await pollRepository.watch(pollId).first;
+      final poll = await pollRepository.get(pollId);
       expect(poll, isNotNull);
       expect(poll!.votes['opt1'], 1);
     });

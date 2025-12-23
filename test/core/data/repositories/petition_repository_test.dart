@@ -53,7 +53,7 @@ void main() {
 
       await petitionRepository.sign(petitionId, 'user1');
 
-      final petition = await petitionRepository.watch(petitionId).first;
+      final petition = await petitionRepository.get(petitionId);
       expect(petition, isNotNull);
       expect(petition!.signatureCount, 1);
     });
@@ -64,7 +64,7 @@ void main() {
       await petitionRepository.sign(petitionId, 'user1');
       await petitionRepository.sign(petitionId, 'user1');
 
-      final petition = await petitionRepository.watch(petitionId).first;
+      final petition = await petitionRepository.get(petitionId);
       expect(petition, isNotNull);
       expect(petition!.signatureCount, 1);
     });

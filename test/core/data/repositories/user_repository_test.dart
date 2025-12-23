@@ -43,14 +43,20 @@ void main() {
       expect(result, isNull);
     });
 
-    test('watchById returns a stream of UserProfile', () async {
+    test('watchById returns a stream of UserProfile', () {
       final stream = userRepository.watchById('1');
-      
-      expect(stream, emits(isNull));
 
-      await userRepository.upsert(tUserProfile);
+      expectLater(
+        stream,
+        emitsInOrder(
+          [
+            isNull,
+            predicate<UserProfile?>((p) => p != null && p.uid == '1'),
+          ],
+        ),
+      );
 
-      expect(stream, emits(predicate<UserProfile?>((p) => p != null && p.uid == '1')));
+      userRepository.upsert(tUserProfile);
     });
 
     test('watchAll returns a stream of list of UserProfile', () async {
