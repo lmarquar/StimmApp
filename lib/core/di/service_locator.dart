@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:stimmapp/core/firebase/firestore/firestore_service.dart';
 
 class ServiceLocator {
@@ -6,8 +7,8 @@ class ServiceLocator {
   factory ServiceLocator() => _instance;
   ServiceLocator._internal();
 
-  late final FirebaseFirestore _firestore;
-  late final FirestoreService _firestoreService;
+  late FirebaseFirestore _firestore;
+  late FirestoreService _firestoreService;
 
   void init() {
     _firestore = FirebaseFirestore.instance;
@@ -16,6 +17,12 @@ class ServiceLocator {
 
   FirebaseFirestore get firestore => _firestore;
   FirestoreService get firestoreService => _firestoreService;
+
+  @visibleForTesting
+  void setFirestoreForTest(FirebaseFirestore firestore) {
+    _firestore = firestore;
+    _firestoreService = FirestoreService(firestore);
+  }
 }
 
 final locator = ServiceLocator();
