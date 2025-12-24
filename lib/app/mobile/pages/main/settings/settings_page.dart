@@ -126,9 +126,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text(context.l10n.flutterPro),
+                          title: Text(context.l10n.aboutThisApp),
                           content: Text(
-                            context.l10n.myProfile,
+                            context.l10n.stimmapp,
                             style: AppTextStyles.m,
                           ),
                           actions: [

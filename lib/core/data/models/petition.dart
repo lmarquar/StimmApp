@@ -8,6 +8,8 @@ class Petition {
   final int signatureCount;
   final String createdBy;
   final DateTime createdAt;
+  final bool isRegional;
+  final String? state;
 
   Petition({
     required this.id,
@@ -17,6 +19,8 @@ class Petition {
     required this.signatureCount,
     required this.createdBy,
     required this.createdAt,
+    this.isRegional = false,
+    this.state,
   });
 
   Petition copyWith({
@@ -27,6 +31,8 @@ class Petition {
     int? signatureCount,
     String? createdBy,
     DateTime? createdAt,
+    bool? isRegional,
+    String? state,
   }) {
     return Petition(
       id: id ?? this.id,
@@ -36,6 +42,8 @@ class Petition {
       signatureCount: signatureCount ?? this.signatureCount,
       createdBy: createdBy ?? this.createdBy,
       createdAt: createdAt ?? this.createdAt,
+      isRegional: isRegional ?? this.isRegional,
+      state: state ?? this.state,
     );
   }
 
@@ -52,6 +60,8 @@ class Petition {
       signatureCount: (data['signatureCount'] ?? 0) as int,
       createdBy: (data['createdBy'] ?? '') as String,
       createdAt: (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      isRegional: (data['isRegional'] ?? false) as bool,
+      state: data['state'] as String?,
     );
   }
 
@@ -64,6 +74,8 @@ class Petition {
       'createdBy': p.createdBy,
       'createdAt': Timestamp.fromDate(p.createdAt),
       'titleLowercase': p.title.toLowerCase(),
+      'isRegional': p.isRegional,
+      'state': p.state,
     };
   }
 }

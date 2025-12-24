@@ -4,6 +4,7 @@ class UserProfile {
   final String uid;
   final String? displayName;
   final String? email;
+  final String? state;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -11,6 +12,7 @@ class UserProfile {
     required this.uid,
     this.displayName,
     this.email,
+    this.state,
     this.createdAt,
     this.updatedAt,
   });
@@ -19,6 +21,7 @@ class UserProfile {
     String? uid,
     String? displayName,
     String? email,
+    String? state,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -26,6 +29,7 @@ class UserProfile {
       uid: uid ?? this.uid,
       displayName: displayName ?? this.displayName,
       email: email ?? this.email,
+      state: state ?? this.state,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -36,6 +40,7 @@ class UserProfile {
       uid: uid,
       displayName: json['displayName'] as String?,
       email: json['email'] as String?,
+      state: json['state'] as String?,
       createdAt: (json['createdAt'] as Timestamp?)?.toDate(),
       updatedAt: (json['updatedAt'] as Timestamp?)?.toDate(),
     );
@@ -45,6 +50,7 @@ class UserProfile {
     return <String, Object?>{
       'displayName': displayName,
       'email': email,
+      'state': state,
       'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
       'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
     };

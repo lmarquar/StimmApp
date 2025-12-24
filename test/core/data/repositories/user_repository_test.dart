@@ -20,6 +20,7 @@ void main() {
       uid: '1',
       displayName: 'Test User',
       email: 'test@example.com',
+      state: 'Bayern',
       createdAt: DateTime(2023),
       updatedAt: DateTime(2023),
     );

@@ -1,5 +1,7 @@
 import 'package:stimmapp/app/mobile/widgets/hero_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
+import 'package:stimmapp/core/data/models/user_profile.dart';
+import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,24 +45,43 @@ class ProfileWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(height: 10.0),
-        NeonPaddingWidget(
-          isCentered: true,
-          child: Column(
-            children: [
-              HeroWidget(nextPage: const ChangeProfilePicturePage()),
-              Text(
-                authService.value.currentUser!.displayName ??
-                    'no username found',
-                style: AppTextStyles.l,
+        StreamBuilder<UserProfile?>(
+          stream:
+              UserRepository.create().watchById(authService.value.currentUser!.uid),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+            if (!snapshot.hasData || snapshot.data == null) {
+              return const Text('User not found');
+            }
+
+            final userProfile = snapshot.data!;
+
+            return NeonPaddingWidget(
+              isCentered: true,
+              child: Column(
+                children: [
+                  HeroWidget(nextPage: const ChangeProfilePicturePage()),
+                  Text(
+                    userProfile.displayName ?? 'no username found',
+                    style: AppTextStyles.l,
+                  ),
+                  Text(
+                    userProfile.email ?? 'error retrieving email',
+                    style: AppTextStyles.m,
+                  ),
+                  Text(
+                    userProfile.state ?? 'no state found',
+                  ),
+                  const SizedBox(height: AppDimensions.kPadding5),
+                ],
               ),
-              Text(
-                authService.value.currentUser!.email ??
-                    'error retrieving email',
-                style: AppTextStyles.m,
-              ),
-              const SizedBox(height: AppDimensions.kPadding5),
-            ],
-          ),
+            );
+          },
         ),
         const SizedBox(height: 20.0),
         // avatar display: use service notifier (updates after upload)
