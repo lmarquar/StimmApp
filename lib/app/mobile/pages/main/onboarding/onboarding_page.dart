@@ -5,11 +5,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
+import 'package:stimmapp/core/constants/german_states.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/services/auth_service.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
+import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
+import 'package:stimmapp/core/data/models/user_profile.dart';
+import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/services/profile_picture_service.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
@@ -27,16 +31,29 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final _formKey = GlobalKey<FormState>();
   String errorMessage = 'Error message';
   double _progress = 0.0;
+  String? _selectedState;
 
   void register() async {
     try {
-      await authService.value.createAccount(
+      final cred = await authService.value.createAccount(
         email: controllerEm.text,
         password: controllerPw.text,
       );
       await authService.value.updateUsername(
         username: controllerEm.text.split('@')[0],
       );
+
+      if (cred.user != null) {
+        final profile = UserProfile(
+          uid: cred.user!.uid,
+          email: cred.user!.email,
+          displayName: cred.user!.displayName,
+          state: _selectedState,
+          createdAt: DateTime.now(),
+        );
+        await UserRepository.create().upsert(profile);
+      }
+
       AppData.isAuthConnected.value = true;
 
       // Try to upload a default profile picture from assets.
@@ -96,6 +113,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
     Navigator.pop(context);
   }
 
+  void registerWithPostId() {
+    // TODO: Implement PostID integration.
+    // This typically requires the Deutsche Post PostIdent SDK (proprietary).
+    // You would invoke the native SDK via MethodChannel here.
+    // For now, we just show a message.
+    showSuccessSnackBar('PostID integration requires native SDK setup.');
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBottomBarButtons(
@@ -146,6 +171,29 @@ class _OnboardingPageState extends State<OnboardingPage> {
                             return null;
                           },
                         ),
+
+                        const SizedBox(height: 10),
+                        DropdownButtonFormField<String>(
+                          decoration: const InputDecoration(
+                            labelText: 'Bundesland',
+                            border: OutlineInputBorder(),
+                          ),
+                          hint: const Text('Bitte Bundesland auswählen'),
+                          initialValue: _selectedState,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedState = newValue;
+                            });
+                          },
+                          items: germanStates.map<DropdownMenuItem<String>>((
+                            String value,
+                          ) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
                         const SizedBox(height: 10),
                       ],
                     ),
@@ -166,6 +214,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
               register();
             }
           },
+        ),
+        const SizedBox(height: 10),
+        ButtonWidget(
+          isFilled: false,
+          label: 'PostID (NFC)',
+          callback: registerWithPostId,
         ),
       ],
     );
