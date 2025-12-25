@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
+import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/services/auth_service.dart';
 
@@ -52,6 +53,14 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
           .where((tag) => tag.isNotEmpty)
           .toList();
 
+      String? state;
+      if (_isStateDependent) {
+        final userProfile = await UserRepository.create().getById(
+          currentUser.uid,
+        );
+        state = userProfile?.state;
+      }
+
       // Create the petition object
       final petition = Petition(
         id: '', // Will be set by Firestore
@@ -61,6 +70,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
         signatureCount: 0,
         createdBy: currentUser.uid,
         createdAt: DateTime.now(),
+        state: state,
       );
 
       // Save to Firestore using toFirestore
