@@ -1,12 +1,17 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:stimmapp/core/data/firebase/firestore/firestore_service.dart';
+import 'package:stimmapp/core/di/service_locator.dart';
 
 class ProfilePictureService {
-  ProfilePictureService._();
-  static final ProfilePictureService instance = ProfilePictureService._();
+  ProfilePictureService._(this._firestoreService);
+  static final ProfilePictureService instance = ProfilePictureService._(
+    locator.firestoreService,
+  );
+
+  final FirestoreService _firestoreService;
 
   // Notifier that UI can listen to
   final ValueNotifier<String?> profileUrlNotifier = ValueNotifier<String?>(
@@ -14,20 +19,28 @@ class ProfilePictureService {
   );
 
   Future<String?> loadProfileUrl(String uid) async {
-    final doc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .get();
-    final url = doc.data()?['profilePictureUrl'] as String?;
+    final doc = await _firestoreService.getDoc(
+      _firestoreService.docRef(
+        'users/$uid',
+        fromFirestore: (snap, _) => snap.data(),
+        toFirestore: (data, _) => data!,
+      ),
+    );
+    final url = doc?['profilePictureUrl'] as String?;
     profileUrlNotifier.value = url;
     return url;
   }
 
   Future<void> setProfileUrl(String uid, String? url) async {
     if (url == null) return;
-    await FirebaseFirestore.instance.collection('users').doc(uid).set({
-      'profilePictureUrl': url,
-    }, SetOptions(merge: true));
+    await _firestoreService.upsert(
+      _firestoreService.docRef(
+        'users/$uid',
+        fromFirestore: (snap, _) => snap.data(),
+        toFirestore: (data, _) => data!,
+      ),
+      {'profilePictureUrl': url},
+    );
     profileUrlNotifier.value = url;
   }
 
