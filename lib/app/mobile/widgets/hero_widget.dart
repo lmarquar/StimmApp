@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stimmapp/core/services/auth_service.dart';
+import 'package:stimmapp/core/data/services/auth_service.dart';
 
 class HeroWidget extends StatelessWidget {
   const HeroWidget({super.key, this.title, this.nextPage});

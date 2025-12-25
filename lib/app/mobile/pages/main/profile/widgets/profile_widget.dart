@@ -2,6 +2,8 @@ import 'package:stimmapp/app/mobile/widgets/hero_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
+import 'package:stimmapp/core/data/services/auth_service.dart';
+import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,8 +12,6 @@ import 'package:stimmapp/app/mobile/pages/main/profile/change_password_page.dart
 import 'package:stimmapp/app/mobile/pages/main/profile/update_username_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/user_history.dart';
 import 'package:stimmapp/core/constants/app_dimensions.dart';
-import 'package:stimmapp/core/services/auth_service.dart';
-import 'package:stimmapp/core/services/profile_picture_service.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/change_profile_picture_page.dart';
 import '../../../../../../core/notifiers/notifiers.dart';
 import '../../../../scaffolds/app_padding_scaffold.dart';
@@ -46,8 +46,9 @@ class ProfileWidget extends StatelessWidget {
       children: [
         const SizedBox(height: 10.0),
         StreamBuilder<UserProfile?>(
-          stream:
-              UserRepository.create().watchById(authService.value.currentUser!.uid),
+          stream: UserRepository.create().watchById(
+            authService.value.currentUser!.uid,
+          ),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -74,9 +75,7 @@ class ProfileWidget extends StatelessWidget {
                     userProfile.email ?? 'error retrieving email',
                     style: AppTextStyles.m,
                   ),
-                  Text(
-                    userProfile.state ?? 'no state found',
-                  ),
+                  Text(userProfile.state ?? 'no state found'),
                   const SizedBox(height: AppDimensions.kPadding5),
                 ],
               ),

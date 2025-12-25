@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/update_username_page.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
-import 'package:stimmapp/core/services/auth_service.dart';
+import 'package:stimmapp/core/data/services/auth_service.dart';
 
 import '../test/mocks.dart';
 import '../test/test_helper.dart';

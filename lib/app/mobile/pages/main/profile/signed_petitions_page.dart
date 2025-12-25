@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
+import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
-import 'package:stimmapp/core/services/auth_service.dart';
 
 class SignedPetitionsPage extends StatelessWidget {
   const SignedPetitionsPage({super.key});
