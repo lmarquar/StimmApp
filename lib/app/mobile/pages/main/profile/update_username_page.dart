@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
-import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/services/auth_service.dart';
@@ -34,6 +33,17 @@ class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
     final successMessage = context.l10n.usernameChangedSuccessfully;
     try {
       await authService.value.updateUsername(username: username);
+      final userRepository = UserRepository.create();
+      final uid = authService.value.currentUser!.uid;
+      final userProfile = await userRepository.getById(uid);
+      if (userProfile != null) {
+        await userRepository.upsert(
+          userProfile.copyWith(displayName: username),
+        );
+      } else {
+        throw Exception('User profile not found');
+      }
+
       if (!mounted) return;
       showSuccessSnackBar(successMessage);
     } catch (e) {

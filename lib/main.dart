@@ -11,7 +11,7 @@ import 'package:stimmapp/app/mobile/pages/main/home/polls/poll_detail_page.dart'
 import 'package:stimmapp/core/constants/constants.dart';
 import 'package:stimmapp/core/notifiers/app_state_notifier.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
-import 'package:stimmapp/core/firebase/firebase_options.dart';
+import 'package:stimmapp/core/data/firebase/firebase_options.dart';
 import 'package:stimmapp/core/errors/error_log_tool.dart';
 import 'package:stimmapp/core/services/auth_service.dart';
 import 'package:stimmapp/core/theme/app_theme.dart';

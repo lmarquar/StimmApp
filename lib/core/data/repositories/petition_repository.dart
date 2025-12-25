@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
-import 'package:stimmapp/core/firebase/firestore/firestore_service.dart';
+import 'package:stimmapp/core/data/firebase/firestore/firestore_service.dart';
 
 class PetitionRepository {
   PetitionRepository(this._fs);
