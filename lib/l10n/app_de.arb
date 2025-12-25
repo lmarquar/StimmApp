@@ -135,5 +135,6 @@
 	"editPetition": "Petition bearbeiten",
 	"deletePetition": "Petition löschen",
 	"entryNotYetImplemented": "Lexikon-Eintrag noch nicht implementiert",
-	"areYouSureYouWantToDeleteThisPetition": "Sind Sie sicher, dass Sie diese Petition löschen möchten?"
+	"areYouSureYouWantToDeleteThisPetition": "Sind Sie sicher, dass Sie diese Petition löschen möchten?",
+	"stateDependent": "Bundeslandabhängig"
 }

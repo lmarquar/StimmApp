@@ -913,6 +913,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this petition?'**
   String get areYouSureYouWantToDeleteThisPetition;
+
+  /// No description provided for @stateDependent.
+  ///
+  /// In en, this message translates to:
+  /// **'State dependent'**
+  String get stateDependent;
 }
 
 class _AppLocalizationsDelegate

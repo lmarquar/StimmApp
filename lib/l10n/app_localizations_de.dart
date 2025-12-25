@@ -435,4 +435,7 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get areYouSureYouWantToDeleteThisPetition =>
       'Sind Sie sicher, dass Sie diese Petition löschen möchten?';
+
+  @override
+  String get stateDependent => 'Bundeslandabhängig';
 }

@@ -158,5 +158,6 @@
 	"anonymous": "Anonymous",
 	"editPetition": "Edit Petition",
 	"deletePetition": "Delete Petition",
-	"areYouSureYouWantToDeleteThisPetition": "Are you sure you want to delete this petition?"
+	"areYouSureYouWantToDeleteThisPetition": "Are you sure you want to delete this petition?",
+	"stateDependent": "State dependent"
 }

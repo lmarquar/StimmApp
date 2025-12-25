@@ -429,4 +429,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get areYouSureYouWantToDeleteThisPetition =>
       'Are you sure you want to delete this petition?';
+
+  @override
+  String get stateDependent => 'State dependent';
 }
