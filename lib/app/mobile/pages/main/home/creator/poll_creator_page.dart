@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
+import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/services/auth_service.dart';
 import 'package:uuid/uuid.dart';
@@ -24,6 +25,7 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
   ];
   final _repository = PollRepository.create();
   bool _isLoading = false;
+  bool _isStateDependent = false;
   final _uuid = const Uuid();
 
   @override
@@ -79,6 +81,14 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
           )
           .toList();
 
+      String? state;
+      if (_isStateDependent) {
+        final userProfile = await UserRepository.create().getById(
+          currentUser.uid,
+        );
+        state = userProfile?.state;
+      }
+
       final poll = Poll(
         id: '', // Will be set by Firestore
         title: _titleController.text.trim(),
@@ -88,6 +98,7 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
         votes: {for (var option in options) option.id: 0},
         createdBy: currentUser.uid,
         createdAt: DateTime.now(),
+        state: state,
       );
 
       final pollId = await _repository.createPoll(poll);
@@ -152,6 +163,16 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
                 ),
               ),
               const SizedBox(height: 20),
+              CheckboxListTile(
+                title: Text(context.l10n.stateDependent),
+                value: _isStateDependent,
+                onChanged: (newValue) {
+                  setState(() {
+                    _isStateDependent = newValue!;
+                  });
+                },
+                controlAffinity: ListTileControlAffinity.leading,
+              ),
               Text(
                 context.l10n.options,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

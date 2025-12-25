@@ -19,6 +19,7 @@ class Poll {
   final Map<String, int> votes; // optionId -> count
   final String createdBy;
   final DateTime createdAt;
+  final String? state;
 
   Poll({
     required this.id,
@@ -29,6 +30,7 @@ class Poll {
     required this.votes,
     required this.createdBy,
     required this.createdAt,
+    this.state,
   });
 
   int get totalVotes => votes.values.fold(0, (a, b) => a + b);
@@ -42,6 +44,7 @@ class Poll {
     Map<String, int>? votes,
     String? createdBy,
     DateTime? createdAt,
+    String? state,
   }) {
     return Poll(
       id: id ?? this.id,
@@ -52,6 +55,7 @@ class Poll {
       votes: votes ?? this.votes,
       createdBy: createdBy ?? this.createdBy,
       createdAt: createdAt ?? this.createdAt,
+      state: state ?? this.state,
     );
   }
 
@@ -72,6 +76,7 @@ class Poll {
       votes: Map<String, int>.from(data['votes'] ?? const <String, int>{}),
       createdBy: (data['createdBy'] ?? '') as String,
       createdAt: (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      state: data['state'] as String?,
     );
   }
 
@@ -85,6 +90,7 @@ class Poll {
       'createdBy': p.createdBy,
       'createdAt': Timestamp.fromDate(p.createdAt),
       'titleLowercase': p.title.toLowerCase(),
+      'state': p.state,
     };
   }
 }

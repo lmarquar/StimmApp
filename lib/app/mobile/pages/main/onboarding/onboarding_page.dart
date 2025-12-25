@@ -113,7 +113,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     Navigator.pop(context);
   }
 
-  void registerWithPostId() {
+  void registerWithId() {
     // TODO: Implement PostID integration.
     // This typically requires the Deutsche Post PostIdent SDK (proprietary).
     // You would invoke the native SDK via MethodChannel here.
@@ -219,7 +219,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         ButtonWidget(
           isFilled: false,
           label: 'PostID (NFC)',
-          callback: registerWithPostId,
+          callback: registerWithId,
         ),
       ],
     );

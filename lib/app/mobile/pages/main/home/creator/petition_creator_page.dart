@@ -19,6 +19,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
   final _tagsController = TextEditingController();
   final _repository = PetitionRepository.create();
   bool _isLoading = false;
+  bool _isStateDependent = false;
 
   @override
   void dispose() {
@@ -152,7 +153,18 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
+              CheckboxListTile(
+                title: Text(context.l10n.stateDependent),
+                value: _isStateDependent,
+                onChanged: (newValue) {
+                  setState(() {
+                    _isStateDependent = newValue!;
+                  });
+                },
+                controlAffinity: ListTileControlAffinity.leading,
+              ),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: _isLoading ? null : _createPetition,
                 style: ElevatedButton.styleFrom(
