@@ -4,8 +4,8 @@ import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
+import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
-import 'package:stimmapp/core/services/auth_service.dart';
 
 class PollsPage extends StatefulWidget {
   const PollsPage({super.key});

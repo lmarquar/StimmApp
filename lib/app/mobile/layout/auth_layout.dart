@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/others/app_loading_page.dart';
+import 'package:stimmapp/core/data/services/auth_service.dart';
+import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
-import 'package:stimmapp/core/services/auth_service.dart';
 import 'package:stimmapp/app/mobile/pages/main/onboarding/welcome_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/widget_tree.dart';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
-import 'package:stimmapp/core/services/profile_picture_service.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/delete_account_page.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';

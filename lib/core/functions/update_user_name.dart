@@ -1,6 +1,6 @@
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
-import 'package:stimmapp/core/services/auth_service.dart';
+import 'package:stimmapp/core/data/services/auth_service.dart';
 
 Future<void> updateUsername(String username) async {
   await authService.value.updateUsername(username: username);
