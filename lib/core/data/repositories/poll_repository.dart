@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
-import 'package:stimmapp/core/data/firebase/firestore/firestore_service.dart';
+import 'package:stimmapp/core/data/firebase/firestore/database_service.dart';
 
 class PollRepository {
   PollRepository(this._fs);
-  final FirestoreService _fs;
+  final DatabaseService _fs;
 
-  static PollRepository create() => PollRepository(locator.firestoreService);
+  static PollRepository create() => PollRepository(locator.databaseService);
 
   CollectionReference<Poll> _col() => _fs.colRef<Poll>(
     'polls',
