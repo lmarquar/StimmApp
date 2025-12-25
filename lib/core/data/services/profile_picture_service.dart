@@ -2,16 +2,16 @@ import 'dart:async';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:stimmapp/core/data/firebase/firestore/firestore_service.dart';
+import 'package:stimmapp/core/data/firebase/firestore/database_service.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
 
 class ProfilePictureService {
   ProfilePictureService._(this._firestoreService);
   static final ProfilePictureService instance = ProfilePictureService._(
-    locator.firestoreService,
+    locator.databaseService,
   );
 
-  final FirestoreService _firestoreService;
+  final DatabaseService _firestoreService;
 
   // Notifier that UI can listen to
   final ValueNotifier<String?> profileUrlNotifier = ValueNotifier<String?>(

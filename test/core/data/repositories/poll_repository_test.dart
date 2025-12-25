@@ -1,19 +1,19 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:stimmapp/core/data/firebase/firestore/database_service.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:stimmapp/core/data/firebase/firestore/firestore_service.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
 
 void main() {
   late PollRepository pollRepository;
   late FakeFirebaseFirestore fakeFirebaseFirestore;
-  late FirestoreService firestoreService;
+  late DatabaseService databaseService;
 
   setUp(() {
     fakeFirebaseFirestore = FakeFirebaseFirestore();
-    firestoreService = FirestoreService(fakeFirebaseFirestore);
-    pollRepository = PollRepository(firestoreService);
+    databaseService = DatabaseService(fakeFirebaseFirestore);
+    pollRepository = PollRepository(databaseService);
     locator.setFirestoreForTest(fakeFirebaseFirestore);
   });
 

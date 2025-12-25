@@ -2,17 +2,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:stimmapp/core/data/firebase/firestore/firestore_service.dart';
+import 'package:stimmapp/core/data/firebase/firestore/database_service.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
 
 void main() {
   late PetitionRepository petitionRepository;
   late FakeFirebaseFirestore fakeFirebaseFirestore;
-  late FirestoreService firestoreService;
+  late DatabaseService firestoreService;
 
   setUp(() {
     fakeFirebaseFirestore = FakeFirebaseFirestore();
-    firestoreService = FirestoreService(fakeFirebaseFirestore);
+    firestoreService = DatabaseService(fakeFirebaseFirestore);
     petitionRepository = PetitionRepository(firestoreService);
     locator.setFirestoreForTest(fakeFirebaseFirestore);
   });
