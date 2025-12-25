@@ -47,7 +47,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         final profile = UserProfile(
           uid: cred.user!.uid,
           email: cred.user!.email,
-          displayName: cred.user!.displayName,
+          displayName: authService.value.currentUser!.displayName,
           state: _selectedState,
           createdAt: DateTime.now(),
         );

@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
-import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
-import 'package:stimmapp/core/services/auth_service.dart';
+import 'package:stimmapp/core/functions/update_user_name.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
 class UpdateUsernamePage extends StatefulWidget {
@@ -21,28 +20,17 @@ class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
   final formKey = GlobalKey<FormState>();
 
   String errorMessage = '';
-  //final userProfile =
   @override
   void dispose() {
     controllerUsername.dispose();
     super.dispose();
   }
 
-  void updateUsername() async {
+  void changeUsername() async {
     final username = controllerUsername.text;
     final successMessage = context.l10n.usernameChangedSuccessfully;
     try {
-      await authService.value.updateUsername(username: username);
-      final userRepository = UserRepository.create();
-      final uid = authService.value.currentUser!.uid;
-      final userProfile = await userRepository.getById(uid);
-      if (userProfile != null) {
-        await userRepository.upsert(
-          userProfile.copyWith(displayName: username),
-        );
-      } else {
-        throw Exception('User profile not found');
-      }
+      await updateUsername(username);
 
       if (!mounted) return;
       showSuccessSnackBar(successMessage);
@@ -120,7 +108,7 @@ class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
           label: context.l10n.updateUsername,
           callback: () async {
             if (formKey.currentState!.validate()) {
-              updateUsername();
+              changeUsername();
             }
           },
         ),
