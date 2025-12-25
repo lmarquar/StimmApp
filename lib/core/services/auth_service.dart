@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
 late ValueNotifier<AuthService> authService;
 
 void setAuthServiceMock(AuthService mock) {
@@ -11,7 +10,6 @@ void setAuthServiceMock(AuthService mock) {
 void initializeAuthService() {
   authService = ValueNotifier(AuthService());
 }
-
 
 class AuthService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
