@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:stimmapp/core/firebase/firestore/firestore_service.dart';
+import 'package:stimmapp/core/data/firebase/firestore/firestore_service.dart';
 
 class ServiceLocator {
   static final ServiceLocator _instance = ServiceLocator._internal();

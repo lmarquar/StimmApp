@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:stimmapp/core/firebase/firestore/firestore_service.dart';
+import 'package:stimmapp/core/data/firebase/firestore/firestore_service.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
 
 void main() {
@@ -33,9 +33,11 @@ void main() {
       final stream = petitionRepository.watch(petitionId);
 
       expect(
-          stream,
-          emits(predicate<Petition?>(
-              (p) => p != null && p.title == tPetition.title)));
+        stream,
+        emits(
+          predicate<Petition?>((p) => p != null && p.title == tPetition.title),
+        ),
+      );
     });
 
     test('list returns a stream of petitions', () async {
@@ -43,9 +45,13 @@ void main() {
       final stream = petitionRepository.list();
 
       expect(
-          stream,
-          emits(predicate<List<Petition>>(
-              (list) => list.isNotEmpty && list.first.title == tPetition.title)));
+        stream,
+        emits(
+          predicate<List<Petition>>(
+            (list) => list.isNotEmpty && list.first.title == tPetition.title,
+          ),
+        ),
+      );
     });
 
     test('sign increments the signature count', () async {

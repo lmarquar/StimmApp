@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:stimmapp/core/firebase/firestore/firestore_service.dart';
+import 'package:stimmapp/core/data/firebase/firestore/firestore_service.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
 
 void main() {
@@ -34,9 +34,9 @@ void main() {
       final stream = pollRepository.watch(pollId);
 
       expect(
-          stream,
-          emits(predicate<Poll?>(
-              (p) => p != null && p.title == tPoll.title)));
+        stream,
+        emits(predicate<Poll?>((p) => p != null && p.title == tPoll.title)),
+      );
     });
 
     test('list returns a stream of polls', () async {
@@ -44,13 +44,19 @@ void main() {
       final stream = pollRepository.list();
 
       expect(
-          stream,
-          emits(predicate<List<Poll>>(
-              (list) => list.isNotEmpty && list.first.title == tPoll.title)));
+        stream,
+        emits(
+          predicate<List<Poll>>(
+            (list) => list.isNotEmpty && list.first.title == tPoll.title,
+          ),
+        ),
+      );
     });
 
     test('vote increments the vote count', () async {
-      final pollId = await pollRepository.createPoll(tPoll.copyWith(votes: {'opt1': 0}));
+      final pollId = await pollRepository.createPoll(
+        tPoll.copyWith(votes: {'opt1': 0}),
+      );
 
       await pollRepository.vote(pollId: pollId, optionId: 'opt1', uid: 'user1');
 
@@ -60,7 +66,9 @@ void main() {
     });
 
     test('a user can only vote once', () async {
-      final pollId = await pollRepository.createPoll(tPoll.copyWith(votes: {'opt1': 0}));
+      final pollId = await pollRepository.createPoll(
+        tPoll.copyWith(votes: {'opt1': 0}),
+      );
 
       await pollRepository.vote(pollId: pollId, optionId: 'opt1', uid: 'user1');
       await pollRepository.vote(pollId: pollId, optionId: 'opt1', uid: 'user1');

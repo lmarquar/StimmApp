@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_interface.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
-import 'package:stimmapp/core/firebase/firestore/collections.dart';
-import 'package:stimmapp/core/firebase/firestore/firestore_service.dart';
+import 'package:stimmapp/core/data/firebase/firestore/collections.dart';
+import 'package:stimmapp/core/data/firebase/firestore/firestore_service.dart';
 
 class UserRepository implements UserInterface {
   UserRepository(this._fs);

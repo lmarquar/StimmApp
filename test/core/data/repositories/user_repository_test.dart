@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:stimmapp/core/firebase/firestore/firestore_service.dart';
+import 'package:stimmapp/core/data/firebase/firestore/firestore_service.dart';
 
 void main() {
   late UserRepository userRepository;
@@ -49,12 +49,10 @@ void main() {
 
       expectLater(
         stream,
-        emitsInOrder(
-          [
-            isNull,
-            predicate<UserProfile?>((p) => p != null && p.uid == '1'),
-          ],
-        ),
+        emitsInOrder([
+          isNull,
+          predicate<UserProfile?>((p) => p != null && p.uid == '1'),
+        ]),
       );
 
       userRepository.upsert(tUserProfile);
@@ -67,7 +65,14 @@ void main() {
 
       await userRepository.upsert(tUserProfile);
 
-      expect(stream, emits(predicate<List<UserProfile>>((list) => list.isNotEmpty && list.first.uid == '1')));
+      expect(
+        stream,
+        emits(
+          predicate<List<UserProfile>>(
+            (list) => list.isNotEmpty && list.first.uid == '1',
+          ),
+        ),
+      );
     });
   });
 }
