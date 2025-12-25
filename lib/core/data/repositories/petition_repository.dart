@@ -59,7 +59,7 @@ class PetitionRepository {
   }
 
   Future<void> sign(String petitionId, String uid) async {
-    final db = locator.firestore;
+    final db = _fs.instance;
     final petitionRef = db.collection('petitions').doc(petitionId);
     final userRef = db.collection('users').doc(uid);
     final signatureRef = petitionRef.collection('signatures').doc(uid);
@@ -77,5 +77,14 @@ class PetitionRepository {
         'signedAt': FieldValue.serverTimestamp(),
       });
     });
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> watchSignedPetitions(String uid) {
+    return _fs.instance
+        .collection('users')
+        .doc(uid)
+        .collection('signedPetitions')
+        .orderBy('signedAt', descending: true)
+        .snapshots();
   }
 }

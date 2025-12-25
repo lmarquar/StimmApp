@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
+import 'package:stimmapp/core/services/auth_service.dart';
 
 class SignedPetitionsPage extends StatelessWidget {
   const SignedPetitionsPage({super.key});
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> _signedPetitionsStream(
-    String uid,
-  ) {
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .collection('signedPetitions')
-        .orderBy('signedAt', descending: true)
-        .snapshots();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
+    final user = authService.value.currentUser;
 
     if (user == null) {
       return Scaffold(
@@ -30,7 +20,7 @@ class SignedPetitionsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.signedPetitions)),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: _signedPetitionsStream(user.uid),
+        stream: PetitionRepository.create().watchSignedPetitions(user.uid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
