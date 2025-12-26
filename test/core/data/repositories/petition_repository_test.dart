@@ -3,7 +3,7 @@ import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
-import 'package:stimmapp/core/di/service_locator.dart';
+import 'package:stimmapp/core/data/di/service_locator.dart';
 
 void main() {
   late PetitionRepository petitionRepository;

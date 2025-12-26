@@ -1,3 +1,4 @@
+import 'package:stimmapp/app/mobile/pages/main/profile/update_living_address_page.dart';
 import 'package:stimmapp/app/mobile/widgets/hero_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
@@ -108,6 +109,30 @@ class ProfileWidget extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) {
                       return UpdateUsernamePage();
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+
+        // Update username
+        UnaffectedChildWidget(
+          child: Material(
+            type: MaterialType.transparency,
+            child: ListTile(
+              trailing: const Icon(
+                Icons.arrow_forward_ios_outlined,
+                color: Colors.white38,
+              ),
+              title: Text(context.l10n.updateUsername),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return UpdateLivingAddressPage();
                     },
                   ),
                 );
