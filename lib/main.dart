@@ -43,16 +43,17 @@ void main() async {
     name: 'stimmapp-dev',
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  locator.init();
+  initializeAuthService();
   // Note: Only enable this for test builds
   if (!kIsWeb) {
-    await FirebaseAuth.instance.setSettings(
+    await authService.value.setSettings(
       appVerificationDisabledForTesting: true,
     );
   }
 
   // Initialize service locator (Firestore, repositories, etc.)
-  locator.init();
-  initializeAuthService();
+
   runApp(const MyApp());
 }
 
@@ -89,7 +90,7 @@ class _MyAppState extends State<MyApp> {
     appLocale.addListener(_onLocaleChanged);
 
     // Load profile URL when user signs in and clear on sign-out
-    _authSub = FirebaseAuth.instance.authStateChanges().listen((user) {
+    _authSub = authService.value.authStateChanges.listen((user) {
       if (user != null) {
         ProfilePictureService.instance.loadProfileUrl(user.uid);
       } else {

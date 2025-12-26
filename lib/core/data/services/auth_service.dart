@@ -75,4 +75,12 @@ class AuthService {
     await currentUser!.reauthenticateWithCredential(credential);
     await currentUser!.updatePassword(newPassword);
   }
+
+  Future<void> setSettings({
+    bool appVerificationDisabledForTesting = false,
+  }) async {
+    await FirebaseAuth.instance.setSettings(
+      appVerificationDisabledForTesting: appVerificationDisabledForTesting,
+    );
+  }
 }
