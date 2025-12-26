@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
@@ -37,7 +36,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   void resetPassword() async {
     try {
       await authService.value.resetPassword(email: controllerEmail.text);
-    } on FirebaseAuthException catch (e) {
+    } on AuthException catch (e) {
       setState(() {
         errorMessage = e.message ?? context.l10n.error;
         showErrorSnackBar(errorMessage);

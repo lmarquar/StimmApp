@@ -3,7 +3,7 @@ import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_interface.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
 import 'package:stimmapp/core/data/firebase/firestore/collections.dart';
-import 'package:stimmapp/core/data/firebase/firestore/database_service.dart';
+import 'package:stimmapp/core/data/services/database_service.dart';
 
 class UserRepository implements UserInterface {
   UserRepository(this._fs);
@@ -14,7 +14,7 @@ class UserRepository implements UserInterface {
 
   CollectionReference<UserProfile> _col() {
     return _fs.colRef<UserProfile>(
-      FirestoreCollections.users,
+      DatabaseCollections.users,
       fromFirestore: (snap, _) =>
           UserProfile.fromJson(snap.data() as Map<String, dynamic>, snap.id),
       toFirestore: (model, _) => model.toJson(),

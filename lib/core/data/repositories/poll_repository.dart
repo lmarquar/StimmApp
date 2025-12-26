@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
-import 'package:stimmapp/core/data/firebase/firestore/database_service.dart';
+import 'package:stimmapp/core/data/services/database_service.dart';
 
 class PollRepository {
   PollRepository(this._fs);
@@ -56,7 +56,7 @@ class PollRepository {
     required String optionId,
     required String uid,
   }) async {
-    final db = locator.firestore;
+    final db = locator.database;
     final pollRef = db.collection('polls').doc(pollId);
     final voteRef = pollRef.collection('votes').doc(uid);
     final userRef = db.collection('users').doc(uid);

@@ -40,10 +40,8 @@ class _AuthLayoutState extends State<AuthLayout> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               content = const AppLoadingPage();
             } else if (snapshot.hasData) {
-              final user = snapshot.data as dynamic; // firebase User
+              final user = snapshot.data as dynamic;
               final uid = user.uid as String?;
-
-              // start or reuse ensureFuture for this user
               if (uid != null && uid != _currentUid) {
                 _currentUid = uid;
                 _ensureFuture = _ensureProfileValid(user, context);
@@ -188,8 +186,6 @@ class _AuthLayoutState extends State<AuthLayout> {
             // optional: could show small progress via snackbar or notifier
           },
         );
-
-        // best-effort set FirebaseAuth photo URL (non-blocking)
         try {
           final url = ProfilePictureService.instance.profileUrlNotifier.value;
           if (url != null) {

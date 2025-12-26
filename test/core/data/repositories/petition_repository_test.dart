@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:stimmapp/core/data/firebase/firestore/database_service.dart';
+import 'package:stimmapp/core/data/services/database_service.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
 
 void main() {
@@ -14,7 +14,7 @@ void main() {
     fakeFirebaseFirestore = FakeFirebaseFirestore();
     firestoreService = DatabaseService(fakeFirebaseFirestore);
     petitionRepository = PetitionRepository(firestoreService);
-    locator.setFirestoreForTest(fakeFirebaseFirestore);
+    locator.setDatabaseForTest(fakeFirebaseFirestore);
   });
 
   group('PetitionRepository', () {

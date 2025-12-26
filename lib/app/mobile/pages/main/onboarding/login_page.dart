@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/main/onboarding/reset_password_page.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
@@ -30,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
   void signIn() async {
     // Capture localized messages before the async gap.
     final successMessage = context.l10n.successfullyLoggedIn;
-    final genericError = context.l10n.error;
 
     try {
       await authService.value.signIn(
@@ -39,8 +37,8 @@ class _LoginPageState extends State<LoginPage> {
       );
       if (!mounted) return;
       showSuccessSnackBar(successMessage);
-    } on FirebaseAuthException catch (e) {
-      errorMessage = e.message ?? genericError;
+    } on AuthException catch (e) {
+      errorMessage = e.toString();
       if (!mounted) return;
       showErrorSnackBar(errorMessage);
     }
