@@ -78,8 +78,6 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
           }
         },
       );
-
-      // update FirebaseAuth photoURL (best-effort)
       try {
         await user.updatePhotoURL(url);
         await user.reload();

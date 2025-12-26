@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
+import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 
 class PetitionDetailPage extends StatelessWidget {
@@ -37,7 +37,7 @@ class PetitionDetailPage extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
-                      final user = FirebaseAuth.instance.currentUser;
+                      final user = authService.value.currentUser;
                       if (user == null) {
                         showErrorSnackBar(context.l10n.pleaseSignInFirst);
                         return;

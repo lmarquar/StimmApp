@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
+import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
@@ -23,7 +23,7 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
   }
 
   Future<List<Map<String, dynamic>>> _fetchUserHistory() async {
-    final user = FirebaseAuth.instance.currentUser;
+    final user = authService.value.currentUser;
     if (user == null) {
       // Handle case where user is not logged in
       return [];
