@@ -28,7 +28,7 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
       // Handle case where user is not logged in
       return [];
     }
-    final db = locator.firestore;
+    final db = locator.database;
     final userDocRef = db.collection('users').doc(user.uid);
 
     // Fetch documents from subcollections to get the IDs.

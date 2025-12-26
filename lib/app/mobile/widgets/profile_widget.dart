@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/change_password_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/delete_account_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/update_username_page.dart';
 import 'package:stimmapp/core/constants/app_dimensions.dart';
+import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
@@ -28,7 +28,7 @@ class ProfileWidget extends StatelessWidget {
         AppData.navBarCurrentIndexNotifier.value = 0;
         AppData.onboardingCurrentIndexNotifier.value = 0;
         popPage();
-      } on FirebaseAuthException catch (e) {
+      } on AuthException catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Unexpected error: $e'),

@@ -1,7 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
@@ -95,8 +93,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       }
 
       popPage();
-    } on FirebaseAuthException catch (e) {
-      // e.code contains the Firebase error code (e.g. 'invalid-email', 'weak-password')
+    } on AuthException catch (e) {
       setState(() {
         errorMessage = '${e.code}: ${e.message ?? 'Unknown error'}';
       });

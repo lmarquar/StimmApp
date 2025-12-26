@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stimmapp/core/data/firebase/firestore/database_service.dart';
+import 'package:stimmapp/core/data/services/database_service.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
@@ -14,7 +14,7 @@ void main() {
     fakeFirebaseFirestore = FakeFirebaseFirestore();
     databaseService = DatabaseService(fakeFirebaseFirestore);
     pollRepository = PollRepository(databaseService);
-    locator.setFirestoreForTest(fakeFirebaseFirestore);
+    locator.setDatabaseForTest(fakeFirebaseFirestore);
   });
 
   group('PollRepository', () {

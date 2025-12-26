@@ -22,45 +22,69 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    return await firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      return await firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e);
+    }
   }
 
   Future<UserCredential> createAccount({
     required String email,
     required String password,
   }) async {
-    return await firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      return await firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e);
+    }
   }
 
   Future<void> signOut() async {
-    await firebaseAuth.signOut();
+    try {
+      await firebaseAuth.signOut();
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e);
+    }
   }
 
   Future<void> resetPassword({required String email}) async {
-    await firebaseAuth.sendPasswordResetEmail(email: email);
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e);
+    }
   }
 
   Future<void> updateUsername({required String username}) async {
-    await currentUser!.updateDisplayName(username);
+    try {
+      await currentUser!.updateDisplayName(username);
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e);
+    }
   }
 
   Future<void> deleteAccount({
     required String email,
     required String password,
   }) async {
-    AuthCredential credential = EmailAuthProvider.credential(
-      email: email,
-      password: password,
-    );
-    await currentUser!.reauthenticateWithCredential(credential);
-    await currentUser!.delete();
-    await firebaseAuth.signOut();
+    try {
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: email,
+        password: password,
+      );
+      await currentUser!.reauthenticateWithCredential(credential);
+      await currentUser!.delete();
+      await firebaseAuth.signOut();
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e);
+    }
   }
 
   Future<void> resetPasswordfromCurrentPassword({
@@ -68,19 +92,41 @@ class AuthService {
     required String newPassword,
     required String email,
   }) async {
-    AuthCredential credential = EmailAuthProvider.credential(
-      email: email,
-      password: currentPassword,
-    );
-    await currentUser!.reauthenticateWithCredential(credential);
-    await currentUser!.updatePassword(newPassword);
+    try {
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: email,
+        password: currentPassword,
+      );
+      await currentUser!.reauthenticateWithCredential(credential);
+      await currentUser!.updatePassword(newPassword);
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e);
+    }
   }
 
   Future<void> setSettings({
     bool appVerificationDisabledForTesting = false,
   }) async {
-    await FirebaseAuth.instance.setSettings(
-      appVerificationDisabledForTesting: appVerificationDisabledForTesting,
-    );
+    try {
+      await FirebaseAuth.instance.setSettings(
+        appVerificationDisabledForTesting: appVerificationDisabledForTesting,
+      );
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e);
+    }
+  }
+}
+
+class AuthException implements Exception {
+  final FirebaseAuthException firebaseAuthException;
+
+  AuthException(this.firebaseAuthException);
+
+  String? get message => firebaseAuthException.message;
+  String get code => firebaseAuthException.code;
+
+  @override
+  String toString() {
+    return 'AuthException (code: $code): $message';
   }
 }

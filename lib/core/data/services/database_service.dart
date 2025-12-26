@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirestoreService {
-  FirestoreService(this._db);
+class DatabaseService {
+  DatabaseService(this._db);
 
   final FirebaseFirestore _db;
 
@@ -54,5 +54,19 @@ class FirestoreService {
 
   Future<void> delete<T>(DocumentReference<T> ref) async {
     await ref.delete();
+  }
+}
+
+class DatabaseException implements Exception {
+  final DatabaseException firestoreException;
+
+  DatabaseException(this.firestoreException);
+
+  String? get message => firestoreException.message;
+  String get code => firestoreException.code;
+
+  @override
+  String toString() {
+    return 'DatabaseException (code: $code): $message';
   }
 }

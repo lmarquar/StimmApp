@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:stimmapp/core/data/firebase/firestore/database_service.dart';
+import 'package:stimmapp/core/data/services/database_service.dart';
 import 'package:stimmapp/core/di/service_locator.dart';
 
 class ProfilePictureService {
@@ -66,31 +66,24 @@ class ProfilePictureService {
     try {
       final TaskSnapshot snap = await uploadTask;
       if (snap.state != TaskState.success) {
-        throw FirebaseException(
-          plugin: 'firebase_storage',
-          message: 'Upload failed (state: ${snap.state})',
-        );
+        throw Exception('Upload failed');
       }
 
       // Retry getDownloadURL until available
       String url;
-      FirebaseException? lastEx;
+      DatabaseException? lastEx;
       for (var i = 0; i < retryAttempts; i++) {
         try {
           url = await ref.getDownloadURL();
           // persist to Firestore and update notifier
           await setProfileUrl(uid, url);
           return url;
-        } on FirebaseException catch (e) {
+        } on DatabaseException catch (e) {
           lastEx = e;
           await Future.delayed(Duration(milliseconds: retryDelayMs));
         }
       }
-      throw lastEx ??
-          FirebaseException(
-            plugin: 'firebase_storage',
-            message: 'Unknown error getting download URL',
-          );
+      throw lastEx ?? Exception('Unknown error getting download URL');
     } finally {
       await sub.cancel();
     }
