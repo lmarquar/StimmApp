@@ -101,7 +101,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         confirmLabel: context.l10n.confirm,
                         cancelLabel: context.l10n.cancel,
                         onConfirm: (Locale? selected) async {
-                          // persist selection for next app start
                           final prefs = await SharedPreferences.getInstance();
                           String toSave = '';
                           if (selected != null) {

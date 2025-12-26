@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
-import 'package:stimmapp/core/di/service_locator.dart';
+import 'package:stimmapp/core/data/di/service_locator.dart';
 
 class ProfilePictureService {
   ProfilePictureService._(this._firestoreService);

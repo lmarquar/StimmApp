@@ -18,7 +18,7 @@ import 'package:stimmapp/core/errors/error_log_tool.dart';
 import 'package:stimmapp/core/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:stimmapp/core/di/service_locator.dart';
+import 'package:stimmapp/core/data/di/service_locator.dart';
 import 'package:stimmapp/l10n/app_localizations.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
