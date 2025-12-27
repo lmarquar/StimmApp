@@ -444,4 +444,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get stateDependent => 'Bundeslandabhängig';
+
+  @override
+  String relatedToState(String state) {
+    return 'Bezogen auf $state';
+  }
 }
