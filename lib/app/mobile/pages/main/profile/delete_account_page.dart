@@ -16,7 +16,6 @@ class DeleteAccountPage extends StatefulWidget {
 }
 
 class _DeleteAccountPageState extends State<DeleteAccountPage> {
-  final formKey = GlobalKey<FormState>();
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   String errorMessage = '';
@@ -74,7 +73,6 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
               const Text('❌', style: AppTextStyles.icons),
               const SizedBox(height: 50),
               Form(
-                key: formKey,
                 child: Center(
                   child: Column(
                     children: [
@@ -132,7 +130,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
           label: context.l10n.deletePermanently,
           isFilled: true,
           callback: () {
-            if (formKey.currentState!.validate()) {
+            if (Form.of(context).validate()) {
               showDialog(
                 context: context,
                 builder: (context) {

@@ -10,9 +10,7 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/delete_account_page.dart';
-import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
-import 'package:stimmapp/main.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/change_profile_picture_page.dart';
 
 class AuthLayout extends StatefulWidget {
@@ -199,18 +197,12 @@ class _AuthLayoutState extends State<AuthLayout> {
         try {
           await tmpFile.delete();
         } catch (_) {}
-
-        // re-check
         final newProfileUrl =
             ProfilePictureService.instance.profileUrlNotifier.value;
         return newProfileUrl != null ||
             authService.value.currentUser?.photoURL != null;
       } catch (e, st) {
         debugPrint('Auto default avatar upload failed: $e\n$st');
-        // show a short message to the user
-        if (navigatorKey.currentContext != null) {
-          showErrorSnackBar('Could not create a default profile picture.');
-        }
         return false;
       }
     } catch (e, st) {

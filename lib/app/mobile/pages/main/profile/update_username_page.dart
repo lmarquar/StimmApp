@@ -17,8 +17,6 @@ class UpdateUsernamePage extends StatefulWidget {
 class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
   final TextEditingController controllerUsername = TextEditingController();
 
-  final formKey = GlobalKey<FormState>();
-
   String errorMessage = '';
   @override
   void dispose() {
@@ -67,7 +65,6 @@ class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
                 const Text('✏️', style: AppTextStyles.icons),
                 const SizedBox(height: 50),
                 Form(
-                  key: formKey,
                   child: Center(
                     child: Column(
                       children: [
@@ -107,7 +104,7 @@ class _UpdateUsernamePageState extends State<UpdateUsernamePage> {
           isFilled: true,
           label: context.l10n.updateUsername,
           callback: () async {
-            if (formKey.currentState!.validate()) {
+            if (Form.of(context).validate()) {
               changeUsername();
             }
           },

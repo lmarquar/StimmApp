@@ -14,7 +14,6 @@ class PetitionCreatorPage extends StatefulWidget {
 }
 
 class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
-  final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _tagsController = TextEditingController();
@@ -30,8 +29,8 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
     super.dispose();
   }
 
-  Future<void> _createPetition() async {
-    if (!_formKey.currentState!.validate()) {
+  Future<void> _createPetition(FormState form) async {
+    if (!form.validate()) {
       return;
     }
 
@@ -83,7 +82,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
         _titleController.clear();
         _descriptionController.clear();
         _tagsController.clear();
-        _formKey.currentState!.reset();
+        form.reset();
       }
     } catch (e) {
       if (mounted) {
@@ -105,7 +104,6 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Form(
-          key: _formKey,
           child: ListView(
             children: [
               const SizedBox(height: 30),
@@ -175,21 +173,30 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
                 controlAffinity: ListTileControlAffinity.leading,
               ),
               const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: _isLoading ? null : _createPetition,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                child: _isLoading
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Text(
-                        context.l10n.createPetition,
-                        style: const TextStyle(fontSize: 16),
-                      ),
+              Builder(
+                builder: (context) {
+                  return ElevatedButton(
+                    onPressed: _isLoading
+                        ? null
+                        : () {
+                            final form = Form.of(context);
+                            _createPetition(form);
+                          },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    child: _isLoading
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Text(
+                            context.l10n.createPetition,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                  );
+                },
               ),
               const SizedBox(height: 20),
             ],

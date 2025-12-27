@@ -19,7 +19,6 @@ class UpdateLivingAddressPage extends StatefulWidget {
 
 class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage>
     with WidgetsBindingObserver {
-  final formKey = GlobalKey<FormState>();
   String? _selectedState;
   String errorMessage = '';
 
@@ -66,7 +65,6 @@ class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage>
                 const Text('✏️', style: AppTextStyles.icons),
                 const SizedBox(height: 50),
                 Form(
-                  key: formKey,
                   child: Center(
                     child: Column(
                       children: [
@@ -99,7 +97,7 @@ class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage>
           isFilled: true,
           label: context.l10n.updateState,
           callback: () async {
-            if (formKey.currentState!.validate()) {
+            if (Form.of(context).validate()) {
               try {
                 updateState(_selectedState!);
               } catch (e) {
