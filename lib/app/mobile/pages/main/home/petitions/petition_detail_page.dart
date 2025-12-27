@@ -5,17 +5,22 @@ import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 
-class PetitionDetailPage extends StatelessWidget {
+class PetitionDetailPage extends StatefulWidget {
   const PetitionDetailPage({super.key, required this.id});
   final String id;
 
+  @override
+  State<PetitionDetailPage> createState() => _PetitionDetailPageState();
+}
+
+class _PetitionDetailPageState extends State<PetitionDetailPage> {
   @override
   Widget build(BuildContext context) {
     final repo = PetitionRepository.create();
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.petitionDetails)),
       body: StreamBuilder<Petition?>(
-        stream: repo.watch(id),
+        stream: repo.watch(widget.id),
         builder: (context, snap) {
           if (snap.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -27,8 +32,13 @@ class PetitionDetailPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(p.title, style: Theme.of(context).textTheme.headlineSmall),
+                if (p.state != null && p.state!.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Chip(label: Text(context.l10n.relatedToState(p.state!))),
+                ],
                 const SizedBox(height: 8),
+                const SizedBox(height: 16),
+                Text(p.title, style: Theme.of(context).textTheme.headlineSmall),
                 Text(p.description),
                 const SizedBox(height: 16),
                 Text('Signatures: ${p.signatureCount}'),

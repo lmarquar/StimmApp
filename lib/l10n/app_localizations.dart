@@ -931,6 +931,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'State dependent'**
   String get stateDependent;
+
+  /// No description provided for @relatedToState.
+  ///
+  /// In en, this message translates to:
+  /// **'Related to {state}'**
+  String relatedToState(String state);
 }
 
 class _AppLocalizationsDelegate

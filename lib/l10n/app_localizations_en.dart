@@ -438,4 +438,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stateDependent => 'State dependent';
+
+  @override
+  String relatedToState(String state) {
+    return 'Related to $state';
+  }
 }

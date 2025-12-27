@@ -12,6 +12,15 @@ class UserRepository implements UserInterface {
 
   static UserRepository create() => UserRepository(locator.databaseService);
 
+  static Future<UserProfile?> currentUser() {
+    final uid = locator.authService.currentUser?.uid;
+    if (uid == null) {
+      return Future.value(null);
+    }
+    return create().getById(uid);
+  }
+
+
   CollectionReference<UserProfile> _col() {
     return _fs.colRef<UserProfile>(
       DatabaseCollections.users,
