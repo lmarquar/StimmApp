@@ -35,6 +35,10 @@ class _PollDetailPageState extends State<PollDetailPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (poll.state != null && poll.state!.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Chip(label: Text(context.l10n.relatedToState(poll.state!))),
+                ],
                 Text(
                   poll.title,
                   style: Theme.of(context).textTheme.headlineSmall,

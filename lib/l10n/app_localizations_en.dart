@@ -27,9 +27,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get hintTextTags => 'e.g. environment, transport';
-
-  @override
   String get language => 'language';
 
   @override
@@ -271,9 +268,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testingWidgetsHere => 'Testing widgets here';
 
   @override
-  String get pleaseSignInFirst => 'Please sign in first';
-
-  @override
   String get createdPetition => 'Petition created';
 
   @override
@@ -296,6 +290,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noData => 'No data';
+
+  @override
+  String get pleaseSignInFirst => 'Please sign in first';
 
   @override
   String get signed => 'Signed';
@@ -341,6 +338,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tagsHint => 'Comma-separated tags';
+
+  @override
+  String get hintTextTags => 'e.g. environment, transport';
 
   @override
   String get tagsRequired => 'At least one tag is required';

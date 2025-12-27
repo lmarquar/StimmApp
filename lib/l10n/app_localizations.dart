@@ -110,12 +110,6 @@ abstract class AppLocalizations {
   /// **'You have {newMessages, plural, =0{No new messages} =1 {One new message} two{Two new Messages} other {{newMessages} new messages}}'**
   String newMessages(int newMessages);
 
-  /// No description provided for @hintTextTags.
-  ///
-  /// In en, this message translates to:
-  /// **'e.g. environment, transport'**
-  String get hintTextTags;
-
   /// No description provided for @language.
   ///
   /// In en, this message translates to:
@@ -596,12 +590,6 @@ abstract class AppLocalizations {
   /// **'Testing widgets here'**
   String get testingWidgetsHere;
 
-  /// No description provided for @pleaseSignInFirst.
-  ///
-  /// In en, this message translates to:
-  /// **'Please sign in first'**
-  String get pleaseSignInFirst;
-
   /// No description provided for @createdPetition.
   ///
   /// In en, this message translates to:
@@ -649,6 +637,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No data'**
   String get noData;
+
+  /// No description provided for @pleaseSignInFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in first'**
+  String get pleaseSignInFirst;
 
   /// No description provided for @signed.
   ///
@@ -739,6 +733,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comma-separated tags'**
   String get tagsHint;
+
+  /// No description provided for @hintTextTags.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. environment, transport'**
+  String get hintTextTags;
 
   /// No description provided for @tagsRequired.
   ///
