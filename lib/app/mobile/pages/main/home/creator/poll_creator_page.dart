@@ -15,7 +15,6 @@ class PollCreatorPage extends StatefulWidget {
 }
 
 class _PollCreatorPageState extends State<PollCreatorPage> {
-  final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _tagsController = TextEditingController();
@@ -52,8 +51,8 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
     });
   }
 
-  Future<void> _createPoll() async {
-    if (!_formKey.currentState!.validate()) {
+  Future<void> _createPoll(FormState form) async {
+    if (!form.validate()) {
       return;
     }
 
@@ -127,7 +126,6 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Form(
-          key: _formKey,
           child: ListView(
             children: [
               const SizedBox(height: 30),
@@ -213,7 +211,12 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
               ),
               const SizedBox(height: 30),
               ElevatedButton(
-                onPressed: _isLoading ? null : _createPoll,
+                onPressed: _isLoading
+                    ? null
+                    : () {
+                        final form = Form.of(context);
+                        _createPoll(form);
+                      },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),

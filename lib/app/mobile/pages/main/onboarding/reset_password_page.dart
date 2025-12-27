@@ -18,7 +18,6 @@ class ResetPasswordPage extends StatefulWidget {
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
   TextEditingController controllerEmail = TextEditingController();
-  final formKey = GlobalKey<FormState>();
   String errorMessage = '';
 
   @override
@@ -67,7 +66,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 const Text('🔐', style: AppTextStyles.icons),
                 const SizedBox(height: 50),
                 Form(
-                  key: formKey,
                   child: Center(
                     child: Column(
                       children: [
@@ -103,14 +101,18 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         ),
       ),
       buttons: [
-        ButtonWidget(
-          isFilled: true,
-          label: context.l10n.resetPassword,
-          callback: () async {
-            resetPassword();
-            if (formKey.currentState!.validate()) {
-              showSuccessSnackBar(context.l10n.resetPasswordLinkSent);
-            }
+        Builder(
+          builder: (context) {
+            return ButtonWidget(
+              isFilled: true,
+              label: context.l10n.resetPassword,
+              callback: () async {
+                resetPassword();
+                if (Form.of(context).validate()) {
+                  showSuccessSnackBar(context.l10n.resetPasswordLinkSent);
+                }
+              },
+            );
           },
         ),
       ],

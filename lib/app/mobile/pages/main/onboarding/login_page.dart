@@ -16,7 +16,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController controllerEm = TextEditingController(text: '');
   TextEditingController controllerPw = TextEditingController(text: '');
-  final formKey = GlobalKey<FormState>();
   String errorMessage = '';
 
   @override
@@ -51,31 +50,30 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AppBottomBarButtons(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Theme.of(context).colorScheme.primary,
+    return Form(
+      child: AppBottomBarButtons(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Theme.of(context).colorScheme.primary,
+            ),
           ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 60.0),
-              Text(context.l10n.signIn, style: AppTextStyles.xxlBold),
-              const SizedBox(height: 20.0),
-              Text('🔑', style: AppTextStyles.icons),
-              const SizedBox(height: 50),
-              Form(
-                key: formKey,
-                child: Center(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(
+              children: [
+                const SizedBox(height: 60.0),
+                Text(context.l10n.signIn, style: AppTextStyles.xxlBold),
+                const SizedBox(height: 20.0),
+                Text('🔑', style: AppTextStyles.icons),
+                const SizedBox(height: 50),
+                Center(
                   child: Column(
                     children: [
                       TextFormField(
@@ -132,22 +130,24 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
+        buttons: [
+          Builder(builder: (context) {
+            return ButtonWidget(
+              isFilled: true,
+              label: context.l10n.signIn,
+              callback: () {
+                if (Form.of(context).validate()) {
+                  signIn();
+                }
+              },
+            );
+          }),
+        ],
       ),
-      buttons: [
-        ButtonWidget(
-          isFilled: true,
-          label: context.l10n.signIn,
-          callback: () {
-            if (formKey.currentState!.validate()) {
-              signIn();
-            }
-          },
-        ),
-      ],
     );
   }
 }

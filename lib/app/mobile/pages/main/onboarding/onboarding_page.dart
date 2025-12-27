@@ -26,7 +26,6 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  final _formKey = GlobalKey<FormState>();
   String errorMessage = 'Error message';
   double _progress = 0.0;
   String? _selectedState;
@@ -132,7 +131,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 const Text('🔑', style: AppTextStyles.icons),
                 const SizedBox(height: 50),
                 Form(
-                  key: _formKey,
                   child: Center(
                     child: Column(
                       children: [
@@ -190,13 +188,17 @@ class _OnboardingPageState extends State<OnboardingPage> {
         ),
       ),
       buttons: [
-        ButtonWidget(
-          isFilled: true,
-          label: context.l10n.register,
-          callback: () {
-            if (_formKey.currentState!.validate()) {
-              register();
-            }
+        Builder(
+          builder: (context) {
+            return ButtonWidget(
+              isFilled: true,
+              label: context.l10n.register,
+              callback: () {
+                if (Form.of(context).validate()) {
+                  register();
+                }
+              },
+            );
           },
         ),
         const SizedBox(height: 10),

@@ -17,7 +17,6 @@ class ChangePasswordPage extends StatefulWidget {
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
   TextEditingController controllerCurrentPassword = TextEditingController();
   TextEditingController controllerNewPassword = TextEditingController();
-  final formKey = GlobalKey<FormState>();
   String errorMessage = '';
 
   @override
@@ -73,7 +72,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 const Text('🔐', style: AppTextStyles.icons),
                 const SizedBox(height: 50),
                 Form(
-                  key: formKey,
                   child: Column(
                     children: [
                       TextFormField(
@@ -129,7 +127,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           isFilled: true,
           label: context.l10n.changePassword,
           callback: () async {
-            if (formKey.currentState!.validate()) {
+            if (Form.of(context).validate()) {
               updatePassword();
             }
           },
