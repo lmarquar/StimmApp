@@ -39,6 +39,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get english => 'Englisch';
 
   @override
+  String get stateUpdatedSuccessfully => 'Bundesland erfolgreich aktualisiert';
+
+  @override
   String get german => 'Deutsch';
 
   @override
@@ -147,6 +150,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get colorTheme => 'Farbthema';
+
+  @override
+  String get updateState => 'Bundesland aktualisieren';
 
   @override
   String get colorMode => 'Farbmodus';

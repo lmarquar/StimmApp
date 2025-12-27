@@ -126,7 +126,7 @@ class ProfileWidget extends StatelessWidget {
                 Icons.arrow_forward_ios_outlined,
                 color: Colors.white38,
               ),
-              title: Text(context.l10n.updateUsername),
+              title: Text(context.l10n.updateState),
               onTap: () {
                 Navigator.push(
                   context,

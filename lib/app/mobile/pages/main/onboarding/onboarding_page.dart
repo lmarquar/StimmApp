@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
-import 'package:stimmapp/core/constants/german_states.dart';
+import 'package:stimmapp/app/mobile/widgets/select_adress_widget.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
@@ -170,26 +170,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         ),
 
                         const SizedBox(height: 10),
-                        DropdownButtonFormField<String>(
-                          decoration: const InputDecoration(
-                            labelText: 'Bundesland',
-                            border: OutlineInputBorder(),
-                          ),
-                          hint: const Text('Bitte Bundesland auswählen'),
-                          initialValue: _selectedState,
-                          onChanged: (String? newValue) {
+                        SelectAddressWidget(
+                          selectedState: _selectedState,
+                          onStateChanged: (newValue) {
                             setState(() {
                               _selectedState = newValue;
                             });
                           },
-                          items: germanStates.map<DropdownMenuItem<String>>((
-                            String value,
-                          ) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
                         ),
                         const SizedBox(height: 10),
                       ],
