@@ -10,7 +10,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String helloAndWelcome(String firstName, String lastName) {
-    return 'Welcome $firstName $lastName!';
+    return 'Wilkommen $firstName $lastName!';
   }
 
   @override
@@ -18,16 +18,13 @@ class AppLocalizationsDe extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       newMessages,
       locale: localeName,
-      other: '$newMessages new messages',
-      two: 'Two new Messages',
-      one: 'One new message',
-      zero: 'No new messages',
+      other: '$newMessages neue Nachrichten',
+      two: 'zwei neue Nachrichten',
+      one: 'Eine neue Nachricht',
+      zero: 'Keine neuen Nachrichten',
     );
-    return 'You have $_temp0';
+    return 'Sie haben $_temp0';
   }
-
-  @override
-  String get hintTextTags => 'z.B. umwelt, verkehr';
 
   @override
   String get language => 'Sprache';
@@ -274,9 +271,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get testingWidgetsHere => 'Widgets testen';
 
   @override
-  String get pleaseSignInFirst => 'Bitte zuerst anmelden';
-
-  @override
   String get createdPetition => 'Petition erstellt';
 
   @override
@@ -299,6 +293,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get noData => 'Keine Daten';
+
+  @override
+  String get pleaseSignInFirst => 'Bitte zuerst anmelden';
 
   @override
   String get signed => 'Unterzeichnet';
@@ -345,6 +342,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get tagsHint => 'Komma-getrennte Tags';
+
+  @override
+  String get hintTextTags => 'z.B. umwelt, verkehr';
 
   @override
   String get tagsRequired => 'Mindestens ein Tag ist erforderlich';

@@ -1,4 +1,28 @@
 {
+	"@@locale": "de",
+	"@@context": "HomePage",
+	"helloAndWelcome": "Wilkommen {firstName} {lastName}!",
+	"@helloAndWelcome": {
+		"description": "Willkommensnachricht",
+		"placeholders": {
+			"firstName": {
+				"type": "String"
+			},
+			"lastName": {
+				"type": "String"
+			}
+		}
+	},
+	"newMessages": "Sie haben {newMessages, plural, =0{Keine neuen Nachrichten} =1 {Eine neue Nachricht} two{zwei neue Nachrichten} other {{newMessages} neue Nachrichten}}",
+	"@newMessages": {
+		"type": "text",
+		"description": "Number of new messages in inbox.",
+		"placeholders": {
+			"newMessages": {
+				"type": "int"
+			}
+		}
+	},
 	"language": "Sprache",
 	"changeLanguage": "Sprache ändern",
 	"english": "Englisch",
@@ -101,7 +125,6 @@
 	"descriptioRequired": "Beschreibung ist erforderlich",
 	"tags": "Tags",
 	"tagsHint": "Komma-getrennte Tags",
-	"hintTextTags": "z.B. umwelt, verkehr",
 	"tagsRequired": "Mindestens ein Tag ist erforderlich",
 	"options": "Optionen",
 	"option": "Option",

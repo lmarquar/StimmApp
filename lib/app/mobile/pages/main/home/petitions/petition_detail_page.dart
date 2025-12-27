@@ -36,7 +36,6 @@ class _PetitionDetailPageState extends State<PetitionDetailPage> {
                   const SizedBox(height: 8),
                   Chip(label: Text(context.l10n.relatedToState(p.state!))),
                 ],
-                const SizedBox(height: 8),
                 const SizedBox(height: 16),
                 Text(p.title, style: Theme.of(context).textTheme.headlineSmall),
                 Text(p.description),
