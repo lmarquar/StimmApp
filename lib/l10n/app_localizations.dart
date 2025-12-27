@@ -134,6 +134,12 @@ abstract class AppLocalizations {
   /// **'english'**
   String get english;
 
+  /// No description provided for @stateUpdatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'State updated successfully'**
+  String get stateUpdatedSuccessfully;
+
   /// No description provided for @german.
   ///
   /// In en, this message translates to:
@@ -349,6 +355,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Color Theme'**
   String get colorTheme;
+
+  /// No description provided for @updateState.
+  ///
+  /// In en, this message translates to:
+  /// **'Update state'**
+  String get updateState;
 
   /// No description provided for @colorMode.
   ///

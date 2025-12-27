@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
+import 'package:stimmapp/app/mobile/widgets/select_adress_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
-import 'package:stimmapp/core/data/services/database_service.dart';
+import 'package:stimmapp/core/data/repositories/user_repository.dart';
+import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
-import 'package:stimmapp/core/functions/update_user_name.dart';
+import 'package:stimmapp/core/functions/update_state.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
 class UpdateLivingAddressPage extends StatefulWidget {
@@ -15,33 +17,26 @@ class UpdateLivingAddressPage extends StatefulWidget {
       _UpdateLivingAddressPageState();
 }
 
-class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage> {
-  final TextEditingController controllerUsername = TextEditingController();
-
+class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage>
+    with WidgetsBindingObserver {
   final formKey = GlobalKey<FormState>();
-
+  String? _selectedState;
   String errorMessage = '';
+
   @override
-  void dispose() {
-    controllerUsername.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _loadInitialState();
   }
 
-  void changeUsername() async {
-    final username = controllerUsername.text;
-    final successMessage = context.l10n.usernameChangedSuccessfully;
-    try {
-      await updateUsername(username);
-
-      if (!mounted) return;
-      showSuccessSnackBar(successMessage);
-    } catch (e) {
-      if (!mounted) return;
-      if (e is DatabaseException) {
-        showErrorSnackBar(e.message ?? 'Unknown error');
-        return;
-      }
-      showErrorSnackBar(context.l10n.usernameChangeFailed + e.toString());
+  Future<void> _loadInitialState() async {
+    final userProfile = await UserRepository.create().getById(
+      authService.value.currentUser!.uid,
+    );
+    if (userProfile != null) {
+      setState(() {
+        _selectedState = userProfile.state;
+      });
     }
   }
 
@@ -75,19 +70,12 @@ class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage> {
                   child: Center(
                     child: Column(
                       children: [
-                        TextFormField(
-                          controller: controllerUsername,
-                          decoration: InputDecoration(
-                            labelText: context.l10n.entryNotYetImplemented,
-                          ),
-                          validator: (String? value) {
-                            if (value == null) {
-                              return context.l10n.enterSomething;
-                            }
-                            if (value.trim().isEmpty) {
-                              return context.l10n.enterSomething;
-                            }
-                            return null;
+                        SelectAddressWidget(
+                          selectedState: _selectedState,
+                          onStateChanged: (newValue) {
+                            setState(() {
+                              _selectedState = newValue;
+                            });
                           },
                         ),
                         const SizedBox(height: 10),
@@ -109,10 +97,16 @@ class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage> {
       buttons: [
         ButtonWidget(
           isFilled: true,
-          label: context.l10n.updateUsername,
+          label: context.l10n.updateState,
           callback: () async {
             if (formKey.currentState!.validate()) {
-              changeUsername();
+              try {
+                updateState(_selectedState!);
+              } catch (e) {
+                showErrorSnackBar(e.toString());
+                return;
+              }
+              showSuccessSnackBar(context.l10n.stateUpdatedSuccessfully);
             }
           },
         ),
