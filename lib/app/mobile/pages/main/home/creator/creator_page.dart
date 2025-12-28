@@ -29,6 +29,7 @@ class _CreatorPageState extends State<CreatorPage> {
               },
               child: Text(context.l10n.createPetition),
             ),
+            const Divider(thickness: 5),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -40,7 +41,7 @@ class _CreatorPageState extends State<CreatorPage> {
               },
               child: Text(context.l10n.createPoll),
             ),
-            const Divider(color: Colors.teal, thickness: 5),
+            const Divider(thickness: 5),
           ],
         ),
       ),
