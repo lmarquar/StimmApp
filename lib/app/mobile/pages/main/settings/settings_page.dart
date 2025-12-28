@@ -110,7 +110,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ? selected.languageCode
                                 : '${selected.languageCode}_${selected.countryCode}';
                           }
-                          await prefs.setString(KConstants.localeKey, toSave);
+                          await prefs.setString(KConst.localeKey, toSave);
                         },
                       ),
                     );

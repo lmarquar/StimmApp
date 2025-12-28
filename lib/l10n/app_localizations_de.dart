@@ -430,6 +430,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get addComment => 'Einen Kommentar hinzufügen';
 
   @override
+  String get updateLivingAddress => 'Anschrift ändern';
+
+  @override
   String get anonymous => 'Anonym';
 
   @override

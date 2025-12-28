@@ -39,14 +39,7 @@ class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage>
   @override
   Widget build(BuildContext context) {
     return AppBottomBarButtons(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-        ),
-      ),
+      appBar: AppBar(title: Text(context.l10n.updateLivingAddress)),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Center(

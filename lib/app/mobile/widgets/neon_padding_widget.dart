@@ -28,11 +28,7 @@ class NeonPaddingWidget extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         boxShadow: const [
-          BoxShadow(
-            color: KConstants.appColor,
-            blurRadius: 10,
-            spreadRadius: 0,
-          ),
+          BoxShadow(color: KConst.appColor, blurRadius: 10, spreadRadius: 0),
         ],
         gradient: SweepGradient(
           startAngle: 0.5,
@@ -54,11 +50,7 @@ class NeonPaddingWidget extends StatelessWidget {
         margin: const EdgeInsets.all(AppDimensions.kMargin3),
         decoration: BoxDecoration(
           boxShadow: const [
-            BoxShadow(
-              color: KConstants.appColor,
-              blurRadius: 20,
-              spreadRadius: 0,
-            ),
+            BoxShadow(color: KConst.appColor, blurRadius: 20, spreadRadius: 0),
           ],
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(AppDimensions.kBorderRadius10),

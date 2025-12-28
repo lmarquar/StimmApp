@@ -902,6 +902,12 @@ abstract class AppLocalizations {
   /// **'Add a comment'**
   String get addComment;
 
+  /// No description provided for @updateLivingAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Change address'**
+  String get updateLivingAddress;
+
   /// No description provided for @anonymous.
   ///
   /// In en, this message translates to:
