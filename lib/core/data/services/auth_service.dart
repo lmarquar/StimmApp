@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 late ValueNotifier<AuthService> authService;
@@ -12,7 +13,8 @@ void initializeAuthService() {
 }
 
 class AuthService {
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth firebaseAuth =
+      FirebaseAuth.instanceFor(app: Firebase.app('stimmapp-dev'));
 
   User? get currentUser => firebaseAuth.currentUser;
 
@@ -108,7 +110,8 @@ class AuthService {
     bool appVerificationDisabledForTesting = false,
   }) async {
     try {
-      await FirebaseAuth.instance.setSettings(
+      await FirebaseAuth.instanceFor(app: Firebase.app('stimmapp-dev'))
+          .setSettings(
         appVerificationDisabledForTesting: appVerificationDisabledForTesting,
       );
     } on FirebaseAuthException catch (e) {
