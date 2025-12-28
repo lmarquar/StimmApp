@@ -18,7 +18,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   TextEditingController controllerCurrentPassword = TextEditingController();
   TextEditingController controllerNewPassword = TextEditingController();
   String errorMessage = '';
-  final _formKey = GlobalKey<FormFieldState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -33,6 +33,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     final failureMessage = context.l10n.passwordChangeFailed;
 
     try {
+      debugPrint("updating password");
+      debugPrint(authService.value.currentUser!.email!);
       await authService.value.resetPasswordfromCurrentPassword(
         currentPassword: controllerCurrentPassword.text,
         newPassword: controllerNewPassword.text,

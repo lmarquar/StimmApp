@@ -443,7 +443,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get stateDependent => 'State dependent';
 
   @override
+  String get devContactInformation =>
+      'This app is developed by Team LeEd with help of yannic';
+
+  @override
   String relatedToState(String state) {
     return 'Related to $state';
   }
+
+  @override
+  String get about => 'About';
 }

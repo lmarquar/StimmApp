@@ -161,6 +161,7 @@
 	"deletePetition": "Delete Petition",
 	"areYouSureYouWantToDeleteThisPetition": "Are you sure you want to delete this petition?",
 	"stateDependent": "State dependent",
+	"devContactInformation": "This app is developed by Team LeEd with help of yannic",
 	"relatedToState": "Related to {state}",
 	"@relatedToState": {
 		"placeholders": {
@@ -168,5 +169,6 @@
 				"type": "String"
 			}
 		}
-	}
+	},
+	"about": "About"
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:stimmapp/app/mobile/pages/main/profile/update_username_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/update_username_page.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 

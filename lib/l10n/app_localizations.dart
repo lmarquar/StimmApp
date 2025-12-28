@@ -938,11 +938,23 @@ abstract class AppLocalizations {
   /// **'State dependent'**
   String get stateDependent;
 
+  /// No description provided for @devContactInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'This app is developed by Team LeEd with help of yannic'**
+  String get devContactInformation;
+
   /// No description provided for @relatedToState.
   ///
   /// In en, this message translates to:
   /// **'Related to {state}'**
   String relatedToState(String state);
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
 }
 
 class _AppLocalizationsDelegate

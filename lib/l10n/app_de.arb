@@ -170,5 +170,7 @@
 				"type": "String"
 			}
 		}
-	}
+	},
+	"about": "Über",
+	"devContactInformation": "Diese App wurde von Team LeEd mit Hilfe von Yannic entwickelt"
 }

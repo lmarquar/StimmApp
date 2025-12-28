@@ -449,7 +449,14 @@ class AppLocalizationsDe extends AppLocalizations {
   String get stateDependent => 'Bundeslandabhängig';
 
   @override
+  String get devContactInformation =>
+      'Diese App wurde von Team LeEd mit Hilfe von Yannic entwickelt';
+
+  @override
   String relatedToState(String state) {
     return 'Bezogen auf $state';
   }
+
+  @override
+  String get about => 'Über';
 }
