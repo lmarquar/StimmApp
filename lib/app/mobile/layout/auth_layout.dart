@@ -11,7 +11,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/delete_account_page.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
-import 'package:stimmapp/app/mobile/pages/main/profile/change_profile_picture_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/change_profile_picture_page.dart';
 
 class AuthLayout extends StatefulWidget {
   const AuthLayout({super.key, this.pageIfNotConnected});

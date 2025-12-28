@@ -125,9 +125,11 @@ class _SettingsPageState extends State<SettingsPage> {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text(context.l10n.aboutThisApp),
+                          title: Text(
+                            '${context.l10n.about} ${context.l10n.stimmapp}',
+                          ),
                           content: Text(
-                            context.l10n.stimmapp,
+                            context.l10n.devContactInformation,
                             style: AppTextStyles.m,
                           ),
                           actions: [
@@ -150,7 +152,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
               ),
-
               Divider(color: Colors.teal, thickness: 5),
             ],
           ),

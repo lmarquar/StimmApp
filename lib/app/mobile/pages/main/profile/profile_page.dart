@@ -14,15 +14,11 @@ class ProfilePage extends StatelessWidget {
       actions: [
         Badge.count(
           offset: const Offset(-5, 5),
-          count: 3,
+          count: 0,
           child: IconButton(
             onPressed: () {},
             icon: const Icon(Icons.notifications_none),
           ),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.bookmark_added_outlined),
         ),
       ],
       child: ProfileWidget(),
