@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
@@ -52,7 +53,9 @@ class ProfilePictureService {
     int retryAttempts = 5,
     int retryDelayMs = 500,
   }) async {
-    final ref = FirebaseStorage.instance.ref('users/$uid/profile.jpg');
+    final ref =
+        FirebaseStorage.instanceFor(app: Firebase.app('stimmapp-dev'))
+            .ref('users/$uid/profile.jpg');
     final metadata = SettableMetadata(contentType: 'image/jpeg');
 
     final uploadTask = ref.putFile(file, metadata);
