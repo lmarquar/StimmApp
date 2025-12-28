@@ -424,6 +424,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addComment => 'Add a comment';
 
   @override
+  String get updateLivingAddress => 'Change address';
+
+  @override
   String get anonymous => 'Anonymous';
 
   @override

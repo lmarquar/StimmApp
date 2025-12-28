@@ -155,6 +155,7 @@
 	"reasonsForSigning": "Reasons for signing",
 	"comments": "Comments",
 	"addComment": "Add a comment",
+	"updateLivingAddress": "Change address",
 	"anonymous": "Anonymous",
 	"editPetition": "Edit Petition",
 	"deletePetition": "Delete Petition",

@@ -103,10 +103,6 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
     return AppBottomBarButtons(
       appBar: AppBar(
         title: Text(context.l10n.activityHistory, style: AppTextStyles.lBold),
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-        ),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _historyFuture,

@@ -40,7 +40,7 @@ void main() async {
   SystemChrome.setPreferredOrientations(const [DeviceOrientation.portraitUp]);
 
   await Firebase.initializeApp(
-    name: 'stimmapp-dev',
+    name: KConst.appName,
     options: DefaultFirebaseOptions.currentPlatform,
   );
   locator.init();
@@ -111,19 +111,19 @@ class _MyAppState extends State<MyApp> {
         : (loc.countryCode == null || loc.countryCode!.isEmpty)
         ? loc.languageCode
         : '${loc.languageCode}_${loc.countryCode}';
-    await prefs.setString(KConstants.localeKey, toSave);
+    await prefs.setString(KConst.localeKey, toSave);
     debugPrint('[main] persisted locale: $toSave');
   }
 
   Future<void> initThemeMode() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool? isDark = prefs.getBool(KConstants.themeModeKey);
+    final bool? isDark = prefs.getBool(KConst.themeModeKey);
     isDarkModeNotifier.value = isDark ?? false;
   }
 
   Future<void> initLocale() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? localeStr = prefs.getString(KConstants.localeKey);
+    final String? localeStr = prefs.getString(KConst.localeKey);
     if (localeStr != null && localeStr.isNotEmpty) {
       appLocale.value = _localeFromString(localeStr);
     }
@@ -152,7 +152,7 @@ class _MyAppState extends State<MyApp> {
     if (!_initialized || appStateNotifier == null) {
       return MaterialApp(
         navigatorKey: navigatorKey,
-        title: KConstants.appName,
+        title: KConst.appName,
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: isDarkModeNotifier.value ? ThemeMode.dark : ThemeMode.light,
@@ -179,7 +179,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, state, child) {
         return MaterialApp(
           navigatorKey: navigatorKey,
-          title: KConstants.appName,
+          title: KConst.appName,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
           themeMode: state.isDark ? ThemeMode.dark : ThemeMode.light,

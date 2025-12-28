@@ -15,8 +15,8 @@ class AppTheme {
       ),
     ),
     colorScheme: ColorScheme.fromSeed(
-      seedColor: KConstants.appColor,
-      primary: KConstants.lightColor,
+      seedColor: KConst.appColor,
+      primary: KConst.lightColor,
       secondary: Colors.red,
       brightness: Brightness.light,
     ),
@@ -33,8 +33,8 @@ class AppTheme {
       ),
     ),
     colorScheme: ColorScheme.fromSeed(
-      seedColor: KConstants.appColor,
-      primary: KConstants.appColor,
+      seedColor: KConst.appColor,
+      primary: KConst.appColor,
       brightness: Brightness.dark,
     ),
   );
