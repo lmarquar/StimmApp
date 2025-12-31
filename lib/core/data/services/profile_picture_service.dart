@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stimmapp/core/constants/constants.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
@@ -49,7 +50,7 @@ class ProfilePictureService {
   // Uploads file, reports progress via onProgress and returns the download URL.
   Future<String> uploadProfilePicture(
     String uid,
-    File file, {
+    XFile file, {
     void Function(double progress)? onProgress,
     int retryAttempts = 5,
     int retryDelayMs = 500,
@@ -59,7 +60,9 @@ class ProfilePictureService {
     ).ref('users/$uid/profile.jpg');
     final metadata = SettableMetadata(contentType: 'image/jpeg');
 
-    final uploadTask = ref.putFile(file, metadata);
+    final uploadTask = kIsWeb
+        ? ref.putData(await file.readAsBytes(), metadata)
+        : ref.putFile(File(file.path), metadata);
 
     final sub = uploadTask.snapshotEvents.listen((snap) {
       final total = snap.totalBytes == 0 ? 1 : snap.totalBytes;

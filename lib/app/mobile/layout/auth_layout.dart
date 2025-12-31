@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stimmapp/app/mobile/pages/others/app_loading_page.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/app/mobile/pages/main/onboarding/welcome_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/widget_tree.dart';
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:path_provider/path_provider.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/delete_account_page.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/change_profile_picture_page.dart';
@@ -173,13 +172,15 @@ class _AuthLayoutState extends State<AuthLayout> {
       try {
         final bytes = await rootBundle.load('assets/images/default_avatar.png');
         final Uint8List list = bytes.buffer.asUint8List();
-        final tempDir = await getTemporaryDirectory();
-        final tmpFile = File('${tempDir.path}/default_avatar.png');
-        await tmpFile.writeAsBytes(list, flush: true);
+        final xFile = XFile.fromData(
+          list,
+          name: 'default_avatar.png',
+          mimeType: 'image/png',
+        );
 
         await ProfilePictureService.instance.uploadProfilePicture(
           uid,
-          tmpFile,
+          xFile,
           onProgress: (p) {
             // optional: could show small progress via snackbar or notifier
           },
@@ -193,10 +194,7 @@ class _AuthLayoutState extends State<AuthLayout> {
         } catch (e) {
           debugPrint('Could not update auth photoURL: $e');
         }
-
-        try {
-          await tmpFile.delete();
-        } catch (_) {}
+        
         final newProfileUrl =
             ProfilePictureService.instance.profileUrlNotifier.value;
         return newProfileUrl != null ||
