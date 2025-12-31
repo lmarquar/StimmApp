@@ -1,8 +1,7 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:path_provider/path_provider.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stimmapp/app/mobile/widgets/select_adress_widget.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
@@ -64,27 +63,21 @@ class _OnboardingPageState extends State<OnboardingPage> {
           );
           final Uint8List list = bytes.buffer.asUint8List();
 
-          // Write to a temporary file
-          final tempDir = await getTemporaryDirectory();
-          final tmpFile = File(
-            '${tempDir.path}/default_avatar_${user.uid}.jpg',
+          final xFile = XFile.fromData(
+            list,
+            name: 'default_avatar.png',
+            mimeType: 'image/png',
           );
-          await tmpFile.writeAsBytes(list, flush: true);
 
           // Upload using the service (updates Firestore and notifier internally)
           await ProfilePictureService.instance.uploadProfilePicture(
             user.uid,
-            tmpFile,
+            xFile,
             onProgress: (p) {
               if (!mounted) return;
               if ((p - _progress).abs() > 0.01) setState(() => _progress = p);
             },
           );
-
-          // Optionally remove the temp file (non-blocking)
-          try {
-            await tmpFile.delete();
-          } catch (_) {}
         }
       } catch (e, st) {
         // don't break registration for asset/upload failures — log for debugging

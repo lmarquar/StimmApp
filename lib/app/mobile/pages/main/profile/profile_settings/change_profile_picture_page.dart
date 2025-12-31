@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
@@ -18,7 +19,7 @@ class ChangeProfilePicturePage extends StatefulWidget {
 }
 
 class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
-  File? _imageFile;
+  XFile? _imageFile;
   bool _uploading = false;
   double _progress = 0.0;
   final ImagePicker _picker = ImagePicker();
@@ -34,7 +35,7 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
       imageQuality: 85,
     );
     if (picked == null) return;
-    setState(() => _imageFile = File(picked.path));
+    setState(() => _imageFile = picked);
   }
 
   Future<void> _removeImage() async {
@@ -45,11 +46,6 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
     final l10n = AppLocalizations.of(context)!;
     if (_imageFile == null) {
       showErrorSnackBar(l10n.noImageSelected);
-      return;
-    }
-
-    if (!await _imageFile!.exists()) {
-      showErrorSnackBar('Selected file does not exist');
       return;
     }
 
@@ -108,11 +104,16 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
     final l10n = AppLocalizations.of(context)!;
     final currentUrl = authService.value.currentUser?.photoURL;
 
-    final preview = _imageFile != null
-        ? Image.file(_imageFile!, fit: BoxFit.cover)
-        : (currentUrl != null
-              ? Image.network(currentUrl, fit: BoxFit.cover)
-              : null);
+    Widget? preview;
+    if (_imageFile != null) {
+      if (kIsWeb) {
+        preview = Image.network(_imageFile!.path, fit: BoxFit.cover);
+      } else {
+        preview = Image.file(File(_imageFile!.path), fit: BoxFit.cover);
+      }
+    } else if (currentUrl != null) {
+      preview = Image.network(currentUrl, fit: BoxFit.cover);
+    }
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.profile)),
@@ -134,18 +135,17 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
                       child: SizedBox(
                         width: 128,
                         height: 128,
-                        child:
-                            preview ??
+                        child: preview ??
                             Center(
                               child: Text(
                                 (authService.value.currentUser?.displayName ??
                                             '')
                                         .isNotEmpty
                                     ? authService
-                                          .value
-                                          .currentUser!
-                                          .displayName![0]
-                                          .toUpperCase()
+                                        .value
+                                        .currentUser!
+                                        .displayName![0]
+                                        .toUpperCase()
                                     : '?',
                                 style: AppTextStyles.xxlBold,
                               ),
