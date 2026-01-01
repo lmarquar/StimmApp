@@ -58,7 +58,7 @@ class _PetitionDetailPageState extends State<PetitionDetailPage> {
                       showSuccessSnackBar(context.l10n.signed);
                       await repo.sign(p.id, user.uid);
                     },
-                    child: const Text('Sign'),
+                    child: Text(context.l10n.sign),
                   ),
                 ),
               ],
