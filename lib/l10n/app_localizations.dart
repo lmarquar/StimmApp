@@ -194,6 +194,12 @@ abstract class AppLocalizations {
   /// **'Close'**
   String get close;
 
+  /// No description provided for @expiresOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires on'**
+  String get expiresOn;
+
   /// No description provided for @changePassword.
   ///
   /// In en, this message translates to:

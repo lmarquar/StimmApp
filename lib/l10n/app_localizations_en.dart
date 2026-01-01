@@ -70,6 +70,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get close => 'Close';
 
   @override
+  String get expiresOn => 'Expires on';
+
+  @override
   String get changePassword => 'Change password';
 
   @override

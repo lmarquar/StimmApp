@@ -31,35 +31,41 @@ void main() {
       votes: {'opt1': 10},
       createdBy: 'user1',
       createdAt: timestamp.toDate(),
+      expiresAt: timestamp.toDate(),
     );
 
     final pollFirestoreData = {
       'title': 'Test Poll',
       'description': 'This is a test poll.',
       'tags': ['test', 'poll'],
-      'options': [{'id': 'opt1', 'label': 'Option 1'}],
+      'options': [
+        {'id': 'opt1', 'label': 'Option 1'},
+      ],
       'votes': {'opt1': 10},
       'createdBy': 'user1',
       'createdAt': timestamp,
       'titleLowercase': 'test poll',
     };
 
-    test('fromFirestore creates a Poll object from a firestore snapshot', () async {
-      final firestore = FakeFirebaseFirestore();
-      final snap = await firestore.collection('polls').add(pollFirestoreData);
+    test(
+      'fromFirestore creates a Poll object from a firestore snapshot',
+      () async {
+        final firestore = FakeFirebaseFirestore();
+        final snap = await firestore.collection('polls').add(pollFirestoreData);
 
-      final result = Poll.fromFirestore(await snap.get(), null);
+        final result = Poll.fromFirestore(await snap.get(), null);
 
-      expect(result.id, isNotEmpty);
-      expect(result.title, poll.title);
-      expect(result.description, poll.description);
-      expect(result.tags, poll.tags);
-      expect(result.options.first.id, poll.options.first.id);
-      expect(result.votes, poll.votes);
-      expect(result.createdBy, poll.createdBy);
-      // Timestamps are not identical, but should be close
-      expect(result.createdAt.year, poll.createdAt.year);
-    });
+        expect(result.id, isNotEmpty);
+        expect(result.title, poll.title);
+        expect(result.description, poll.description);
+        expect(result.tags, poll.tags);
+        expect(result.options.first.id, poll.options.first.id);
+        expect(result.votes, poll.votes);
+        expect(result.createdBy, poll.createdBy);
+        // Timestamps are not identical, but should be close
+        expect(result.createdAt.year, poll.createdAt.year);
+      },
+    );
 
     test('toFirestore returns a map from a Poll object', () {
       final result = Poll.toFirestore(poll, null);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
@@ -41,6 +42,9 @@ class _PetitionDetailPageState extends State<PetitionDetailPage> {
                 Text(p.description),
                 const SizedBox(height: 16),
                 Text('Signatures: ${p.signatureCount}'),
+                Text(
+                  'Expires: ${DateFormat('dd.MM.yyyy').format(p.expiresAt)}',
+                ),
                 const Spacer(),
                 SizedBox(
                   width: double.infinity,
