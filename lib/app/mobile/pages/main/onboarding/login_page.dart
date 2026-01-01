@@ -51,102 +51,103 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      child: AppBottomBarButtons(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Column(
-              children: [
-                const SizedBox(height: 60.0),
-                Text(context.l10n.signIn, style: AppTextStyles.xxlBold),
-                const SizedBox(height: 20.0),
-                Text('🔑', style: AppTextStyles.icons),
-                const SizedBox(height: 50),
-                Center(
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: controllerEm,
-                        decoration: InputDecoration(
-                          labelText: context.l10n.email,
-                        ),
-                        validator: (String? value) {
-                          if (value == null) {
-                            return context.l10n.enterSomething;
-                          }
-                          if (value.trim().isEmpty) {
-                            return context.l10n.enterSomething;
-                          }
-                          return null;
-                        },
+      child: Builder(
+        builder: (context) {
+          return AppBottomBarButtons(
+            appBar: AppBar(),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 60.0),
+                    Text(context.l10n.signIn, style: AppTextStyles.xxlBold),
+                    const SizedBox(height: 20.0),
+                    Text('🔑', style: AppTextStyles.icons),
+                    const SizedBox(height: 50),
+                    Center(
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: controllerEm,
+                            decoration: InputDecoration(
+                              labelText: context.l10n.email,
+                            ),
+                            validator: (String? value) {
+                              if (value == null) {
+                                return context.l10n.enterSomething;
+                              }
+                              if (value.trim().isEmpty) {
+                                return context.l10n.enterSomething;
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          TextFormField(
+                            obscureText: true,
+                            controller: controllerPw,
+                            decoration: InputDecoration(
+                              labelText: context.l10n.password,
+                            ),
+                            validator: (String? value) {
+                              if (value == null) {
+                                return context.l10n.enterSomething;
+                              }
+                              if (value.trim().isEmpty) {
+                                return context.l10n.enterSomething;
+                              }
+                              return null;
+                            },
+                            style: AppTextStyles.m,
+                            onFieldSubmitted: (value) {
+                              if (Form.of(context).validate()) {
+                                signIn();
+                              } else {
+                                showErrorSnackBar(errorMessage);
+                              }
+                            },
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return ResetPasswordPage(
+                                        email: controllerEm.text,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Text(context.l10n.resetPassword),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        obscureText: true,
-                        controller: controllerPw,
-                        decoration: InputDecoration(
-                          labelText: context.l10n.password,
-                        ),
-                        validator: (String? value) {
-                          if (value == null) {
-                            return context.l10n.enterSomething;
-                          }
-                          if (value.trim().isEmpty) {
-                            return context.l10n.enterSomething;
-                          }
-                          return null;
-                        },
-                        style: AppTextStyles.m,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ResetPasswordPage(
-                                    email: controllerEm.text,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                          child: Text(context.l10n.resetPassword),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-        buttons: [
-          Builder(builder: (context) {
-            return ButtonWidget(
-              isFilled: true,
-              label: context.l10n.signIn,
-              callback: () {
-                if (Form.of(context).validate()) {
-                  signIn();
-                }
-              },
-            );
-          }),
-        ],
+            buttons: [
+              ButtonWidget(
+                isFilled: true,
+                label: context.l10n.signIn,
+                callback: () {
+                  if (Form.of(context).validate()) {
+                    signIn();
+                  } else {
+                    showErrorSnackBar(errorMessage);
+                  }
+                },
+              ),
+            ],
+          );
+        },
       ),
     );
   }

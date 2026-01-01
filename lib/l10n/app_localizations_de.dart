@@ -212,8 +212,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get signIn => 'Anmelden';
 
   @override
-  String get theWelcomePhrase =>
-      'Der ultimative Weg, sich über Emissionen auszutauschen';
+  String get theWelcomePhrase => 'Der ultimative Weg deine Meinung zu äußern';
 
   @override
   String get travel => 'Reisen';

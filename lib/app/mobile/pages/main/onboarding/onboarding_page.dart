@@ -112,95 +112,103 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AppBottomBarButtons(
-      appBar: AppBar(title: Text("register here")),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('🔑', style: AppTextStyles.icons),
-                const SizedBox(height: 50),
-                Form(
-                  child: Center(
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          controller: controllerEm,
-                          decoration: InputDecoration(
-                            labelText: context.l10n.email,
-                          ),
-                          validator: (String? value) {
-                            if (value == null) {
-                              return context.l10n.enterSomething;
-                            }
-                            if (value.trim().isEmpty) {
-                              return context.l10n.enterSomething;
-                            }
-                            return null;
-                          },
+    return Form(
+      child: Builder(
+        builder: (context) {
+          return AppBottomBarButtons(
+            appBar: AppBar(title: Text("register here")),
+            body: Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('🔑', style: AppTextStyles.icons),
+                      const SizedBox(height: 50),
+                      Center(
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: controllerEm,
+                              decoration: InputDecoration(
+                                labelText: context.l10n.email,
+                              ),
+                              validator: (String? value) {
+                                if (value == null) {
+                                  return context.l10n.enterSomething;
+                                }
+                                if (value.trim().isEmpty) {
+                                  return context.l10n.enterSomething;
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              obscureText: true,
+                              controller: controllerPw,
+                              decoration: InputDecoration(
+                                labelText: context.l10n.password,
+                              ),
+                              validator: (String? value) {
+                                if (value == null) {
+                                  return context.l10n.enterSomething;
+                                }
+                                if (value.trim().isEmpty) {
+                                  return context.l10n.enterSomething;
+                                }
+                                return null;
+                              },
+                              onFieldSubmitted: (value) {
+                                if (Form.of(context).validate()) {
+                                  register();
+                                } else {
+                                  showErrorSnackBar(context.l10n.error);
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            SelectAddressWidget(
+                              selectedState: _selectedState,
+                              onStateChanged: (newValue) {
+                                setState(() {
+                                  _selectedState = newValue;
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                          ],
                         ),
-                        const SizedBox(height: 10),
-                        TextFormField(
-                          obscureText: true,
-                          controller: controllerPw,
-                          decoration: InputDecoration(
-                            labelText: context.l10n.password,
-                          ),
-                          validator: (String? value) {
-                            if (value == null) {
-                              return context.l10n.enterSomething;
-                            }
-                            if (value.trim().isEmpty) {
-                              return context.l10n.enterSomething;
-                            }
-                            return null;
-                          },
-                        ),
-
-                        const SizedBox(height: 10),
-                        SelectAddressWidget(
-                          selectedState: _selectedState,
-                          onStateChanged: (newValue) {
-                            setState(() {
-                              _selectedState = newValue;
-                            });
-                          },
-                        ),
-                        const SizedBox(height: 10),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 50),
+                    ],
                   ),
                 ),
-                SizedBox(height: 50),
-              ],
+              ),
             ),
-          ),
-        ),
+            buttons: [
+              ButtonWidget(
+                isFilled: true,
+                label: context.l10n.register,
+                callback: () {
+                  if (Form.of(context).validate()) {
+                    register();
+                  } else {
+                    showErrorSnackBar(errorMessage);
+                  }
+                },
+              ),
+              const SizedBox(height: 10),
+              ButtonWidget(
+                isFilled: false,
+                label: 'PostID (NFC)',
+                callback: registerWithId,
+              ),
+            ],
+          );
+        },
       ),
-      buttons: [
-        Builder(
-          builder: (context) {
-            return ButtonWidget(
-              isFilled: true,
-              label: context.l10n.register,
-              callback: () {
-                if (Form.of(context).validate()) {
-                  register();
-                }
-              },
-            );
-          },
-        ),
-        const SizedBox(height: 10),
-        ButtonWidget(
-          isFilled: false,
-          label: 'PostID (NFC)',
-          callback: registerWithId,
-        ),
-      ],
     );
   }
 }

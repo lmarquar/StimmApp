@@ -479,7 +479,7 @@ abstract class AppLocalizations {
   /// No description provided for @theWelcomePhrase.
   ///
   /// In en, this message translates to:
-  /// **'The ultimate way to exchange about emissions'**
+  /// **'The ultimate way to share your opinion'**
   String get theWelcomePhrase;
 
   /// No description provided for @travel.
