@@ -92,6 +92,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get deleted => 'Gelöscht';
 
   @override
+  String get active => 'Aktiv';
+
+  @override
+  String get inactive => 'Inaktiv';
+
+  @override
+  String get closed => 'Beended';
+
+  @override
   String get deleteMyAccount => 'Mein Konto löschen';
 
   @override

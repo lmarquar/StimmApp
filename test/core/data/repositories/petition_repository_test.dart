@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
@@ -26,6 +27,7 @@ void main() {
       signatureCount: 0,
       createdBy: 'user1',
       createdAt: DateTime(2023),
+      expiresAt: DateTime(2024),
     );
 
     test('createPetition and watch work correctly', () async {
@@ -42,7 +44,7 @@ void main() {
 
     test('list returns a stream of petitions', () async {
       await petitionRepository.createPetition(tPetition);
-      final stream = petitionRepository.list();
+      final stream = petitionRepository.list(status: IConst.active);
 
       expect(
         stream,

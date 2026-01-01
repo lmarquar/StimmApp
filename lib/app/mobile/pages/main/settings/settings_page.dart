@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/profile_page.dart';
 import 'package:stimmapp/app/mobile/widgets/unaffected_child_widget.dart';
-import 'package:stimmapp/core/constants/constants.dart';
+import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
@@ -110,7 +110,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ? selected.languageCode
                                 : '${selected.languageCode}_${selected.countryCode}';
                           }
-                          await prefs.setString(KConst.localeKey, toSave);
+                          await prefs.setString(IConst.localeKey, toSave);
                         },
                       ),
                     );
