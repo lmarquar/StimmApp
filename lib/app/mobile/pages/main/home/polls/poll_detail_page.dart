@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
@@ -70,6 +71,10 @@ class _PollDetailPageState extends State<PollDetailPage> {
                                 setState(() => _selectedOptionId = o.id),
                           );
                         }),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Expires: ${DateFormat('dd.MM.yyyy').format(poll.expiresAt)}',
+                        ),
                       ],
                     ),
                   ),

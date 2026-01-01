@@ -97,16 +97,14 @@ class _PollsPageState extends State<PollsPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.polls),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: [
-            Tab(text: IConst.active),
-            Tab(text: IConst.closed),
-          ],
-        ),
+      appBar: TabBar(
+        controller: _tabController,
+        tabs: [
+          Tab(text: context.l10n.active),
+          Tab(text: context.l10n.closed),
+        ],
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
