@@ -23,6 +23,15 @@
 			}
 		}
 	},
+	"expiresAt": "Läuft ab am: {date}",
+	"@expiresAt": {
+		"type": "text",
+		"placeholders": {
+			"date": {
+				"type": "String"
+			}
+		}
+	},
 	"language": "Sprache",
 	"changeLanguage": "Sprache ändern",
 	"english": "Englisch",
@@ -105,6 +114,7 @@
 	"createPoll": "Umfrage erstellen",
 	"developerSandbox": "Entwickler-Sandbox",
 	"testingWidgetsHere": "Widgets testen",
+	"sign": "Unterzeichen",
 	"pleaseSignInFirst": "Bitte zuerst anmelden",
 	"createdPetition": "Petition erstellt",
 	"errorCreatingPetition": "Fehler beim Erstellen der Petition",

@@ -23,6 +23,7 @@
 			}
 		}
 	},
+	"sign": "Sign",
 	"language": "language",
 	"changeLanguage": "Change Language",
 	"english": "english",

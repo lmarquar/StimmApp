@@ -27,6 +27,9 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get sign => 'Unterzeichen';
+
+  @override
   String get language => 'Sprache';
 
   @override

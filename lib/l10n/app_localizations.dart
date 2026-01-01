@@ -110,6 +110,12 @@ abstract class AppLocalizations {
   /// **'You have {newMessages, plural, =0{No new messages} =1 {One new message} two{Two new Messages} other {{newMessages} new messages}}'**
   String newMessages(int newMessages);
 
+  /// No description provided for @sign.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign'**
+  String get sign;
+
   /// No description provided for @language.
   ///
   /// In en, this message translates to:

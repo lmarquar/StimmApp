@@ -27,6 +27,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get sign => 'Sign';
+
+  @override
   String get language => 'language';
 
   @override
