@@ -71,6 +71,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get close => 'Schließen';
 
   @override
+  String get expiresOn => 'Läuft ab am';
+
+  @override
   String get changePassword => 'Passwort ändern';
 
   @override

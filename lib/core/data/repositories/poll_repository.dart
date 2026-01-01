@@ -15,21 +15,28 @@ class PollRepository {
     toFirestore: Poll.toFirestore,
   );
 
-  Stream<List<Poll>> list({String? query, int? limit}) {
+  Stream<List<Poll>> list({String? query, int? limit, required String status}) {
     final q = (query ?? '').trim().toLowerCase();
-    final ref = _col();
+    final queryRef = _col();
+
+    Stream<List<Poll>> stream;
     if (q.isEmpty) {
-      return _fs.watchCol<Poll>(
-        ref.orderBy('createdAt', descending: true),
+      stream = _fs.watchCol<Poll>(
+        queryRef.orderBy('createdAt', descending: true),
         limit: limit,
       );
+    } else {
+      stream = queryRef
+          .where('titleLowercase', isGreaterThanOrEqualTo: q)
+          .where('titleLowercase', isLessThan: '$q\uf8ff')
+          .orderBy('titleLowercase')
+          .snapshots()
+          .map((s) => s.docs.map((d) => d.data()).toList());
     }
-    return ref
-        .where('titleLowercase', isGreaterThanOrEqualTo: q)
-        .where('titleLowercase', isLessThan: '$q\uf8ff')
-        .orderBy('titleLowercase')
-        .snapshots()
-        .map((s) => s.docs.map((d) => d.data()).toList());
+
+    return stream.map((polls) {
+      return polls.where((p) => p.status == status).toList();
+    });
   }
 
   Stream<Poll?> watch(String id) {
@@ -81,5 +88,18 @@ class PollRepository {
   Future<String> createPoll(Poll poll) async {
     final docRef = await _col().add(poll);
     return docRef.id;
+  }
+
+  Future<void> closeExpiredPolls() async {
+    final batch = _fs.instance.batch();
+    final expired = await _col()
+        .where('status', isEqualTo: 'active')
+        .where('expiresAt', isLessThan: DateTime.now())
+        .get();
+
+    for (final doc in expired.docs) {
+      batch.update(doc.reference, {'status': 'closed'});
+    }
+    await batch.commit();
   }
 }

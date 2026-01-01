@@ -92,6 +92,7 @@
 	"resetPassword": "Passwort zurücksetzen",
 	"searchTextField": "Schlagwort",
 	"signIn": "Anmelden",
+	"expiresOn": "Läuft ab am",
 	"stateUpdatedSuccessfully": "Bundesland erfolgreich aktualisiert",
 	"theWelcomePhrase": "Der ultimative Weg deine Meinung zu äußern",
 	"travel": "Reisen",

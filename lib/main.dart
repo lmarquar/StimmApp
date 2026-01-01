@@ -12,6 +12,7 @@ import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
+import 'package:stimmapp/core/data/repositories/poll_repository.dart';
 import 'package:stimmapp/core/notifiers/app_state_notifier.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/core/data/firebase/firebase_options.dart';
@@ -84,6 +85,7 @@ class _MyAppState extends State<MyApp> {
 
     // Close expired petitions on startup
     await PetitionRepository.create().closeExpiredPetitions();
+    await PollRepository.create().closeExpiredPolls();
 
     // only create the composite notifier after persisted state is loaded to avoid immediate circular updates
     appStateNotifier = AppStateNotifier(

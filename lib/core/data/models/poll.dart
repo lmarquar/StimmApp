@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:stimmapp/core/constants/internal_constants.dart';
 
 class PollOption {
   final String id;
@@ -19,6 +20,8 @@ class Poll {
   final Map<String, int> votes; // optionId -> count
   final String createdBy;
   final DateTime createdAt;
+  final DateTime expiresAt;
+  final String status;
   final String? state;
 
   Poll({
@@ -30,6 +33,8 @@ class Poll {
     required this.votes,
     required this.createdBy,
     required this.createdAt,
+    required this.expiresAt,
+    this.status = IConst.active,
     this.state,
   });
 
@@ -44,6 +49,8 @@ class Poll {
     Map<String, int>? votes,
     String? createdBy,
     DateTime? createdAt,
+    DateTime? expiresAt,
+    String? status,
     String? state,
   }) {
     return Poll(
@@ -55,6 +62,8 @@ class Poll {
       votes: votes ?? this.votes,
       createdBy: createdBy ?? this.createdBy,
       createdAt: createdAt ?? this.createdAt,
+      expiresAt: expiresAt ?? this.expiresAt,
+      status: status ?? this.status,
       state: state ?? this.state,
     );
   }
@@ -64,18 +73,25 @@ class Poll {
     SnapshotOptions? _,
   ) {
     final data = snap.data()!;
+    final createdAt =
+        (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now();
     return Poll(
       id: snap.id,
       title: (data['title'] ?? '') as String,
       description: (data['description'] ?? '') as String,
       tags: (data['tags'] as List?)?.cast<String>() ?? const [],
-      options: (data['options'] as List?)
+      options:
+          (data['options'] as List?)
               ?.map((e) => PollOption.fromMap(Map<String, dynamic>.from(e)))
               .toList() ??
           const [],
       votes: Map<String, int>.from(data['votes'] ?? const <String, int>{}),
       createdBy: (data['createdBy'] ?? '') as String,
-      createdAt: (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      createdAt: createdAt,
+      expiresAt:
+          (data['expiresAt'] as Timestamp?)?.toDate() ??
+          createdAt.add(const Duration(days: 7)),
+      status: (data['status'] ?? IConst.active) as String,
       state: data['state'] as String?,
     );
   }
@@ -89,6 +105,8 @@ class Poll {
       'votes': p.votes,
       'createdBy': p.createdBy,
       'createdAt': Timestamp.fromDate(p.createdAt),
+      'expiresAt': Timestamp.fromDate(p.expiresAt),
+      'status': p.status,
       'titleLowercase': p.title.toLowerCase(),
       'state': p.state,
     };
