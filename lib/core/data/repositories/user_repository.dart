@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
-import 'package:stimmapp/core/data/repositories/user_interface.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
-import 'package:stimmapp/core/data/firebase/firestore/collections.dart';
+import 'package:stimmapp/core/constants/database_collections.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
 
-class UserRepository implements UserInterface {
+class UserRepository {
   UserRepository(this._fs);
 
   final DatabaseService _fs;
@@ -20,7 +19,6 @@ class UserRepository implements UserInterface {
     return create().getById(uid);
   }
 
-
   CollectionReference<UserProfile> _col() {
     return _fs.colRef<UserProfile>(
       DatabaseCollections.users,
@@ -34,12 +32,10 @@ class UserRepository implements UserInterface {
     return _col().doc(uid);
   }
 
-  @override
   Future<UserProfile?> getById(String uid) async {
     return _fs.getDoc(_doc(uid));
   }
 
-  @override
   Future<void> upsert(UserProfile profile) async {
     await _fs.upsert(
       _doc(profile.uid),
@@ -47,17 +43,14 @@ class UserRepository implements UserInterface {
     );
   }
 
-  @override
   Future<void> delete(String uid) {
     return _fs.delete(_doc(uid));
   }
 
-  @override
   Stream<UserProfile?> watchById(String uid) {
     return _fs.watchDoc(_doc(uid));
   }
 
-  @override
   Stream<List<UserProfile>> watchAll({int? limit}) {
     return _fs.watchCol(_col(), limit: limit);
   }

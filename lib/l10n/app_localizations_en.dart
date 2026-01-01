@@ -211,7 +211,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signIn => 'Sign in';
 
   @override
-  String get theWelcomePhrase => 'The ultimate way to exchange about emissions';
+  String get theWelcomePhrase => 'The ultimate way to share your opinion';
 
   @override
   String get travel => 'Travel';
