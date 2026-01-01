@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/app_dimensions.dart';
-import '../constants/constants.dart';
+import '../constants/internal_constants.dart';
 import 'app_text_styles.dart';
 
 class AppTheme {
@@ -15,8 +15,8 @@ class AppTheme {
       ),
     ),
     colorScheme: ColorScheme.fromSeed(
-      seedColor: KConst.appColor,
-      primary: KConst.lightColor,
+      seedColor: IConst.appColor,
+      primary: IConst.lightColor,
       secondary: Colors.red,
       brightness: Brightness.light,
     ),
@@ -33,8 +33,8 @@ class AppTheme {
       ),
     ),
     colorScheme: ColorScheme.fromSeed(
-      seedColor: KConst.appColor,
-      primary: KConst.appColor,
+      seedColor: IConst.appColor,
+      primary: IConst.appColor,
       brightness: Brightness.dark,
     ),
   );

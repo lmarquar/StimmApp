@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:stimmapp/core/constants/constants.dart';
+import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
@@ -17,7 +17,7 @@ class ServiceLocator {
   late AuthService _authService;
 
   void init() {
-    final app = Firebase.app(KConst.appName);
+    final app = Firebase.app(IConst.appName);
     _database = FirebaseFirestore.instanceFor(app: app);
     _databaseService = DatabaseService(_database);
     _auth = FirebaseAuth.instanceFor(app: app);

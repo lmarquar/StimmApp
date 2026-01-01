@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
@@ -16,22 +17,45 @@ class PetitionRepository {
     toFirestore: Petition.toFirestore,
   );
 
-  Stream<List<Petition>> list({String? query, int? limit}) {
+  Stream<List<Petition>> list({
+    String? query,
+    int? limit,
+    required String status,
+  }) {
     final q = (query ?? '').trim().toLowerCase();
-    final ref = _col();
+    final queryRef = _col();
+
+    Stream<List<Petition>> stream;
     if (q.isEmpty) {
-      return _fs.watchCol<Petition>(
-        ref.orderBy('createdAt', descending: true),
+      stream = _fs.watchCol<Petition>(
+        queryRef.orderBy('createdAt', descending: true),
         limit: limit,
       );
+    } else {
+      stream = queryRef
+          .where('titleLowercase', isGreaterThanOrEqualTo: q)
+          .where('titleLowercase', isLessThan: '$q\uf8ff')
+          .orderBy('titleLowercase')
+          .snapshots()
+          .map((s) => s.docs.map((d) => d.data()).toList());
     }
-    // Requires an index on titleLowercase
-    return ref
-        .where('titleLowercase', isGreaterThanOrEqualTo: q)
-        .where('titleLowercase', isLessThan: '$q\uf8ff')
-        .orderBy('titleLowercase')
-        .snapshots()
-        .map((s) => s.docs.map((d) => d.data()).toList());
+
+    return stream.map((petitions) {
+      return petitions.where((p) => p.status == status).toList();
+    });
+  }
+
+  Future<void> closeExpiredPetitions() async {
+    final batch = _fs.instance.batch();
+    final expired = await _col()
+        .where('status', isEqualTo: IConst.active)
+        .where('expiresAt', isLessThan: DateTime.now())
+        .get();
+
+    for (final doc in expired.docs) {
+      batch.update(doc.reference, {'status': 'closed'});
+    }
+    await batch.commit();
   }
 
   Stream<Petition?> watch(String id) {

@@ -8,9 +8,10 @@ import 'package:flutter/services.dart';
 import 'package:stimmapp/app/mobile/layout/init_app_layout.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/petitions/petition_detail_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/polls/poll_detail_page.dart';
-import 'package:stimmapp/core/constants/constants.dart';
+import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
+import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:stimmapp/core/notifiers/app_state_notifier.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/core/data/firebase/firebase_options.dart';
@@ -40,7 +41,7 @@ void main() async {
   SystemChrome.setPreferredOrientations(const [DeviceOrientation.portraitUp]);
 
   await Firebase.initializeApp(
-    name: KConst.appName,
+    name: IConst.appName,
     options: DefaultFirebaseOptions.currentPlatform,
   );
   locator.init();
@@ -80,6 +81,10 @@ class _MyAppState extends State<MyApp> {
     await initThemeMode();
     // load persisted locale (if any) before creating composite notifier
     await initLocale();
+
+    // Close expired petitions on startup
+    await PetitionRepository.create().closeExpiredPetitions();
+
     // only create the composite notifier after persisted state is loaded to avoid immediate circular updates
     appStateNotifier = AppStateNotifier(
       isDarkModeNotifier.value,
@@ -111,19 +116,19 @@ class _MyAppState extends State<MyApp> {
         : (loc.countryCode == null || loc.countryCode!.isEmpty)
         ? loc.languageCode
         : '${loc.languageCode}_${loc.countryCode}';
-    await prefs.setString(KConst.localeKey, toSave);
+    await prefs.setString(IConst.localeKey, toSave);
     debugPrint('[main] persisted locale: $toSave');
   }
 
   Future<void> initThemeMode() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool? isDark = prefs.getBool(KConst.themeModeKey);
+    final bool? isDark = prefs.getBool(IConst.themeModeKey);
     isDarkModeNotifier.value = isDark ?? false;
   }
 
   Future<void> initLocale() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? localeStr = prefs.getString(KConst.localeKey);
+    final String? localeStr = prefs.getString(IConst.localeKey);
     if (localeStr != null && localeStr.isNotEmpty) {
       appLocale.value = _localeFromString(localeStr);
     }
@@ -152,7 +157,7 @@ class _MyAppState extends State<MyApp> {
     if (!_initialized || appStateNotifier == null) {
       return MaterialApp(
         navigatorKey: navigatorKey,
-        title: KConst.appName,
+        title: IConst.appName,
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: isDarkModeNotifier.value ? ThemeMode.dark : ThemeMode.light,
@@ -179,7 +184,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, state, child) {
         return MaterialApp(
           navigatorKey: navigatorKey,
-          title: KConst.appName,
+          title: IConst.appName,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
           themeMode: state.isDark ? ThemeMode.dark : ThemeMode.light,

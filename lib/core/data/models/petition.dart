@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:stimmapp/core/constants/internal_constants.dart';
 
 class Petition {
   final String id;
@@ -8,6 +9,8 @@ class Petition {
   final int signatureCount;
   final String createdBy;
   final DateTime createdAt;
+  final DateTime expiresAt;
+  final String status;
   final String? state;
 
   Petition({
@@ -18,6 +21,8 @@ class Petition {
     required this.signatureCount,
     required this.createdBy,
     required this.createdAt,
+    required this.expiresAt,
+    this.status = IConst.active,
     this.state,
   });
 
@@ -29,6 +34,8 @@ class Petition {
     int? signatureCount,
     String? createdBy,
     DateTime? createdAt,
+    DateTime? expiresAt,
+    String? status,
     String? state,
   }) {
     return Petition(
@@ -39,6 +46,8 @@ class Petition {
       signatureCount: signatureCount ?? this.signatureCount,
       createdBy: createdBy ?? this.createdBy,
       createdAt: createdAt ?? this.createdAt,
+      expiresAt: expiresAt ?? this.expiresAt,
+      status: status ?? this.status,
       state: state ?? this.state,
     );
   }
@@ -48,6 +57,8 @@ class Petition {
     SnapshotOptions? _,
   ) {
     final data = snap.data()!;
+    final createdAt =
+        (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now();
     return Petition(
       id: snap.id,
       title: (data['title'] ?? '') as String,
@@ -55,7 +66,11 @@ class Petition {
       tags: (data['tags'] as List?)?.cast<String>() ?? const [],
       signatureCount: (data['signatureCount'] ?? 0) as int,
       createdBy: (data['createdBy'] ?? '') as String,
-      createdAt: (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      createdAt: createdAt,
+      expiresAt:
+          (data['expiresAt'] as Timestamp?)?.toDate() ??
+          createdAt.add(const Duration(days: 28)),
+      status: (data['status'] ?? IConst.active) as String,
       state: data['state'] as String?,
     );
   }
@@ -68,6 +83,8 @@ class Petition {
       'signatureCount': p.signatureCount,
       'createdBy': p.createdBy,
       'createdAt': Timestamp.fromDate(p.createdAt),
+      'expiresAt': Timestamp.fromDate(p.expiresAt),
+      'status': p.status,
       'titleLowercase': p.title.toLowerCase(),
       'state': p.state,
     };

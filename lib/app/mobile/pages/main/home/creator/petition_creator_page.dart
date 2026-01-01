@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
+import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
@@ -61,6 +62,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
       }
 
       // Create the petition object
+      final now = DateTime.now();
       final petition = Petition(
         id: '', // Will be set by Firestore
         title: _titleController.text.trim(),
@@ -68,7 +70,9 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
         tags: tags,
         signatureCount: 0,
         createdBy: currentUser.uid,
-        createdAt: DateTime.now(),
+        createdAt: now,
+        expiresAt: now.add(const Duration(days: 28)),
+        status: IConst.active,
         state: state,
       );
 

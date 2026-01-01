@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:stimmapp/core/constants/constants.dart';
+import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
 
@@ -56,7 +56,7 @@ class ProfilePictureService {
     int retryDelayMs = 500,
   }) async {
     final ref = FirebaseStorage.instanceFor(
-      app: Firebase.app(KConst.appName),
+      app: Firebase.app(IConst.appName),
     ).ref('users/$uid/profile.jpg');
     final metadata = SettableMetadata(contentType: 'image/jpeg');
 
