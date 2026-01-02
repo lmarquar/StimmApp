@@ -44,7 +44,10 @@ void main() {
       'votes': {'opt1': 10},
       'createdBy': 'user1',
       'createdAt': timestamp,
+      'expiresAt': timestamp,
+      'status': 'active',
       'titleLowercase': 'test poll',
+      'state': null,
     };
 
     test(
@@ -64,6 +67,7 @@ void main() {
         expect(result.createdBy, poll.createdBy);
         // Timestamps are not identical, but should be close
         expect(result.createdAt.year, poll.createdAt.year);
+        expect(result.expiresAt, poll.expiresAt);
       },
     );
 
