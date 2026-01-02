@@ -8,6 +8,7 @@ void main() {
     final userProfile = UserProfile(
       uid: '123',
       displayName: 'Test User',
+      state: 'Hessen',
       email: 'test@example.com',
       createdAt: timestamp.toDate(),
       updatedAt: timestamp.toDate(),
@@ -16,6 +17,7 @@ void main() {
     final userProfileJson = {
       'displayName': 'Test User',
       'email': 'test@example.com',
+      'state': 'Hessen',
       'createdAt': timestamp,
       'updatedAt': timestamp,
     };
@@ -27,6 +29,7 @@ void main() {
       expect(result.email, userProfile.email);
       expect(result.createdAt, userProfile.createdAt);
       expect(result.updatedAt, userProfile.updatedAt);
+      expect(result.state, userProfile.state);
     });
 
     test('toJson returns a map from a UserProfile object', () {

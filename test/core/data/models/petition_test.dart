@@ -26,7 +26,10 @@ void main() {
       'signatureCount': 100,
       'createdBy': 'user1',
       'createdAt': timestamp,
+      'expiresAt': timestamp,
+      'status': 'active',
       'titleLowercase': 'test petition',
+      'state': null,
     };
 
     test(
@@ -45,6 +48,9 @@ void main() {
         expect(result.signatureCount, petition.signatureCount);
         expect(result.createdBy, petition.createdBy);
         expect(result.createdAt.year, petition.createdAt.year);
+        expect(result.expiresAt, petition.expiresAt);
+        expect(result.status, petition.status);
+        expect(result.state, petition.state);
       },
     );
 
