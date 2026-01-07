@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="feature-connectivity_plus">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/build/connectivity_plus/intermediates/merged_java_res/debug/mergeDebugJavaResource/feature-connectivity_plus.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

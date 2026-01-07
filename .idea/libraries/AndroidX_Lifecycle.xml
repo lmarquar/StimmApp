@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="AndroidX Lifecycle">
+    <CLASSES>
+      <root url="jar:///home/lmarquar/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-common/2.7.0/85334205d65cca70ed0109c3acbd29e22a2d9cb1/lifecycle-common-2.7.0.jar!/" />
+      <root url="jar:///home/lmarquar/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-runtime/2.7.0/e46d7c73ab6cb3e288f51a0ad96bf372e90ceb31/lifecycle-runtime-2.7.0.aar!/" />
+      <root url="jar:///home/lmarquar/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-viewmodel/2.7.0/ea64fb2e504d200f2b7f03c76f51edd7e9ef62a9/lifecycle-viewmodel-2.7.0.aar!/" />
+      <root url="jar:///home/lmarquar/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-livedata-core/2.7.0/d95c9c0b74a6b9882c416c688f6cf201dc416bed/lifecycle-livedata-core-2.7.0.aar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="android.app" target="21" />
+      <module name="android.cloud_firestore" target="21" />
+      <module name="android.connectivity_plus" target="21" />
+      <module name="android.firebase_auth" target="21" />
+      <module name="android.firebase_core" target="21" />
+      <module name="android.firebase_storage" target="21" />
+      <module name="android.flutter_plugin_android_lifecycle" target="21" />
+      <module name="android.image_picker_android" target="21" />
+      <module name="android.path_provider_android" target="21" />
+      <module name="android.shared_preferences_android" target="21" />
+      <module name="gradle" target="21" />
+      <module name="gradle.main" target="11" />
+      <module name="gradle.test" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
