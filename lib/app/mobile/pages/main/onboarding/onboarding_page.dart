@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show rootBundle, MethodChannel;
 import 'package:image_picker/image_picker.dart';
 import 'package:stimmapp/app/mobile/widgets/select_adress_widget.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
@@ -13,6 +13,7 @@ import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 TextEditingController controllerPw = TextEditingController();
 TextEditingController controllerEm = TextEditingController();
@@ -25,6 +26,7 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
+  static const platform = MethodChannel('com.example.stimmapp/eid');
   String errorMessage = 'Error message';
   double _progress = 0.0;
   String? _selectedState;
@@ -102,12 +104,23 @@ class _OnboardingPageState extends State<OnboardingPage> {
     Navigator.pop(context);
   }
 
-  void registerWithId() {
-    // TODO: Implement PostID integration.
-    // This typically requires the Deutsche Post PostIdent SDK (proprietary).
-    // You would invoke the native SDK via MethodChannel here.
-    // For now, we just show a message.
-    showSuccessSnackBar('PostID integration requires native SDK setup.');
+  Future<void> registerWithId() async {
+    var result = "defaultUser";
+    var randomName = "HANA";
+    if (kIsWeb) {
+      showSuccessSnackBar('use your Phone for registering please');
+    } else {
+      final Map<dynamic, dynamic> callResult = await platform.invokeMethod('passDataToNative', [
+        {"text": "HANA"}
+      ]);
+      result = callResult['userName'] ?? "defaultUser";
+      if (result == randomName) {
+        showSuccessSnackBar(result);
+      } else {
+        showErrorSnackBar("expected: $randomName, got: $result");
+      }
+    }
+
   }
 
   @override
