@@ -5,39 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d6f3465-2f01-4299-a9a0-b5155cadad56" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/AndroidProjectSystem.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/CupertinoIcons_ttf.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/MaterialIcons_Regular_otf.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/base.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/feature_cloud_firestore.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/feature_connectivity_plus.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/feature_firebase_auth.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/feature_firebase_core.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/feature_firebase_storage.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/feature_flutter_plugin_android_lifecycle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/feature_image_picker_android.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/feature_path_provider_android.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/feature_shared_preferences_android.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/flutter_assets.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/fonts.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/fonts2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/gradle_wrapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/images.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/libs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lotties.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/out.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/shaders.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/app/src/main/kotlin/com/example/stimmapp/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/kotlin/com/example/stimmapp/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/stimmapp_android.iml" beforeDir="false" afterPath="$PROJECT_DIR$/android/stimmapp_android.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/onboarding_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/onboarding_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stimmapp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/stimmapp.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,9 +22,10 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="1662" />
+    <option name="cachedIndexableFilesCount" value="1828" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/home/lmarquar/.android/avd/Medium_Phone.avd)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/android">
       <ProjectState />
@@ -92,7 +67,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Android App.android.app.executor": "Run",
     "Flutter.main.dart.executor": "Run",
+    "Flutter.runWeb.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -102,7 +79,6 @@
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "android.gradle.sync.needed": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
@@ -118,7 +94,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.pluginManager",
@@ -127,10 +103,49 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
-      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
-      <method v="2" />
+  <component name="RunManager" selected="Flutter.runWeb">
+    <configuration name="android.app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+      <module name="android.app" />
+      <option name="ANDROID_RUN_CONFIGURATION_SCHEMA_VERSION" value="1" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="ALLOW_ASSUME_VERIFIED" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="RESTORE_ENABLED" value="false" />
+      <option name="RESTORE_FILE" value="" />
+      <option name="RESTORE_FRESH_INSTALL_ONLY" value="false" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <Java>
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Java>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="android" />
@@ -179,6 +194,11 @@
       <option name="RUN_TOOL" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Android App.android.app" />
+      <item itemvalue="Flutter.runWeb" />
+      <item itemvalue="Flutter.main.dart" />
+    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -202,19 +222,37 @@
       <workItem from="1767774909626" duration="725000" />
       <workItem from="1767776558924" duration="2894000" />
       <workItem from="1767789168512" duration="3607000" />
-      <workItem from="1767793866979" duration="6780000" />
+      <workItem from="1767793866979" duration="8800000" />
+      <workItem from="1767860698331" duration="480000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-function">
           <url>file://$PROJECT_DIR$/android/app/src/main/kotlin/com/example/stimmapp/MainActivity.kt</url>
-          <line>17</line>
+          <line>18</line>
           <properties class="com.example.stimmapp.MainActivity" method="configureFlutterEngine">
             <option name="WATCH_EXIT" value="false" />
           </properties>
