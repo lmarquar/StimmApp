@@ -42,6 +42,18 @@ android {
     }
 }
 
+dependencies {
+    // implementation("com.governikus:ausweisapp2:1.26.6") // Commented out because no internet
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testImplementation("org.mockito:mockito-core:5.5.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
+    testImplementation("org.json:json:20230227")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 flutter {
     source = "../.."
 }
