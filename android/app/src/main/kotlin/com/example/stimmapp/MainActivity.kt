@@ -31,9 +31,11 @@ import com.governikus.ausweisapp.sdkwrapper.card.core.WrapperError
 import com.governikus.ausweisapp.sdkwrapper.card.core.Cause
 import android.net.Uri
 
-class RealAusweisAppSdkWrapper(private val context: Context) : AusweisAppSdkWrapper, WorkflowCallbacks {
+class RealAusweisAppSdkWrapper(
+    private val context: Context,
+    private val workflowController: com.governikus.ausweisapp.sdkwrapper.card.core.WorkflowController = SDKWrapper.workflowController
+) : AusweisAppSdkWrapper, WorkflowCallbacks {
     private var callback: ((String) -> Unit)? = null
-    private val workflowController = SDKWrapper.workflowController
 
     init {
         workflowController.registerCallbacks(this)
@@ -68,14 +70,15 @@ class RealAusweisAppSdkWrapper(private val context: Context) : AusweisAppSdkWrap
     }
 
     override fun onStarted() {
-        // Not directly mapped in EidController yet
+        Log.i("RealAusweisAppSDK", "AusweisApp SDK started successfully")
     }
 
     override fun onAuthenticationStarted() {
-        // Not directly mapped in EidController yet
+        Log.i("RealAusweisAppSDK", "Authentication workflow started")
     }
 
     override fun onAuthenticationStartFailed(error: String) {
+        Log.e("RealAusweisAppSDK", "Authentication start failed: $error")
         val json = JSONObject()
         json.put("msg", "AUTH_START_FAILED")
         json.put("error", error)
@@ -83,6 +86,7 @@ class RealAusweisAppSdkWrapper(private val context: Context) : AusweisAppSdkWrap
     }
 
     override fun onAuthenticationCompleted(authResult: AuthResult) {
+        Log.i("RealAusweisAppSDK", "Authentication completed: ${authResult.result?.major}")
         val json = JSONObject()
         if (authResult.result?.major?.endsWith("ok") == true || authResult.url != null) {
             json.put("msg", "AUTH_SUCCESS")
@@ -94,9 +98,12 @@ class RealAusweisAppSdkWrapper(private val context: Context) : AusweisAppSdkWrap
         sendToFlutter(json)
     }
 
-    override fun onChangePinStarted() {}
+    override fun onChangePinStarted() {
+        Log.i("RealAusweisAppSDK", "Change PIN workflow started")
+    }
 
     override fun onAccessRights(error: String?, accessRights: AccessRights?) {
+        Log.d("RealAusweisAppSDK", "Access rights received. Error: $error")
         val json = JSONObject()
         json.put("msg", "ACCESS_RIGHTS")
         error?.let { json.put("error", it) }
@@ -107,15 +114,19 @@ class RealAusweisAppSdkWrapper(private val context: Context) : AusweisAppSdkWrap
     override fun onCertificate(certificateDescription: CertificateDescription) {}
 
     override fun onInsertCard(error: String?) {
+        Log.d("RealAusweisAppSDK", "Requesting card insertion. Error: $error")
         val json = JSONObject()
         json.put("msg", "INSERT_CARD")
         error?.let { json.put("error", it) }
         sendToFlutter(json)
     }
 
-    override fun onPause(cause: Cause) {}
+    override fun onPause(cause: Cause) {
+        Log.d("RealAusweisAppSDK", "Workflow paused. Cause: $cause")
+    }
 
     override fun onReader(reader: SdkReader?) {
+        Log.d("RealAusweisAppSDK", "Reader update: ${reader?.name}, card available: ${reader?.card != null}")
         val json = JSONObject()
         json.put("msg", "READER")
         json.put("name", reader?.name)
@@ -125,9 +136,12 @@ class RealAusweisAppSdkWrapper(private val context: Context) : AusweisAppSdkWrap
         sendToFlutter(json)
     }
 
-    override fun onReaderList(readers: List<SdkReader>?) {}
+    override fun onReaderList(readers: List<SdkReader>?) {
+        Log.d("RealAusweisAppSDK", "Reader list update. Count: ${readers?.size ?: 0}")
+    }
 
     override fun onEnterPin(error: String?, reader: SdkReader) {
+        Log.i("RealAusweisAppSDK", "Requesting PIN entry")
         val json = JSONObject()
         json.put("msg", "ENTER_PIN")
         json.put("reader", reader.name)
@@ -136,18 +150,21 @@ class RealAusweisAppSdkWrapper(private val context: Context) : AusweisAppSdkWrap
     }
 
     override fun onEnterNewPin(error: String?, reader: SdkReader) {
+        Log.i("RealAusweisAppSDK", "Requesting NEW PIN entry")
         val json = JSONObject()
         json.put("msg", "ENTER_NEW_PIN")
         sendToFlutter(json)
     }
 
     override fun onEnterPuk(error: String?, reader: SdkReader) {
+        Log.i("RealAusweisAppSDK", "Requesting PUK entry")
         val json = JSONObject()
         json.put("msg", "ENTER_PUK")
         sendToFlutter(json)
     }
 
     override fun onEnterCan(error: String?, reader: SdkReader) {
+        Log.i("RealAusweisAppSDK", "Requesting CAN entry")
         val json = JSONObject()
         json.put("msg", "ENTER_CAN")
         sendToFlutter(json)
@@ -156,15 +173,19 @@ class RealAusweisAppSdkWrapper(private val context: Context) : AusweisAppSdkWrap
     override fun onChangePinCompleted(changePinResult: ChangePinResult) {}
 
     override fun onWrapperError(error: WrapperError) {
+        Log.e("RealAusweisAppSDK", "Wrapper error: ${error.error} in ${error.msg}")
         val json = JSONObject()
         json.put("msg", "INTERNAL_ERROR")
         json.put("error", error.error)
         sendToFlutter(json)
     }
 
-    override fun onStatus(workflowProgress: WorkflowProgress) {}
+    override fun onStatus(workflowProgress: WorkflowProgress) {
+        Log.d("RealAusweisAppSDK", "Workflow status: ${workflowProgress.workflow}, progress: ${workflowProgress.progress}")
+    }
 
     override fun onInfo(versionInfo: SdkVersionInfo) {
+        Log.i("RealAusweisAppSDK", "SDK Info: ${versionInfo.name} ${versionInfo.implementationVersion}")
         val json = JSONObject()
         json.put("msg", "INFO")
         val vInfo = JSONObject()
@@ -174,9 +195,12 @@ class RealAusweisAppSdkWrapper(private val context: Context) : AusweisAppSdkWrap
         sendToFlutter(json)
     }
 
-    override fun onInternalError(error: String) {}
+    override fun onInternalError(error: String) {
+        Log.e("RealAusweisAppSDK", "Internal SDK error: $error")
+    }
 
     override fun onBadState(error: String) {
+        Log.e("RealAusweisAppSDK", "Bad state error: $error")
         val json = JSONObject()
         json.put("msg", "BAD_STATE")
         json.put("error", error)
