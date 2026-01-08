@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle, MethodChannel;
+import 'package:flutter/services.dart' show MethodChannel;
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
@@ -113,8 +113,12 @@ class _ReadNfcPageState extends State<ReadNfcPage> {
         showSuccessSnackBar('Verification Successful');
         setState(() => _statusMessage = 'Verification Successful');
       } else {
-        showErrorSnackBar('Verification Failed: $result');
-        setState(() => _statusMessage = 'Verification Failed: $result');
+        String errorMsg = result ?? 'Unknown error';
+        if (errorMsg.contains('Process_Certificates_From_Eac2_Cvc_Chain_Missing')) {
+          errorMsg = 'Authenticity could not be confirmed.\n\nNote: The test server usually requires a Test ID card. Real ID cards might fail here.';
+        }
+        showErrorSnackBar('Verification Failed');
+        setState(() => _statusMessage = 'Verification Failed:\n$errorMsg');
       }
     } catch (e) {
       showErrorSnackBar('Error: $e');
@@ -124,10 +128,48 @@ class _ReadNfcPageState extends State<ReadNfcPage> {
     }
   }
 
+  void _showInfoDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('eID Information'),
+        content: const SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Test Server vs Real ID:', style: TextStyle(fontWeight: FontWeight.bold)),
+              SizedBox(height: 8),
+              Text('The current test server (governikus-eid.de) is designed for Test ID cards. Using a real, personal ID card will often result in a certificate error (CVC Chain Missing).'),
+              SizedBox(height: 16),
+              Text('Requirements:', style: TextStyle(fontWeight: FontWeight.bold)),
+              SizedBox(height: 8),
+              Text('• NFC-enabled device\n• eID function activated\n• Correct 6-digit PIN\n• (For developers) Test ID card for the test environment'),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBottomBarButtons(
-      appBar: AppBar(title: const Text("Confirm Identity")),
+      appBar: AppBar(
+        title: const Text("Confirm Identity"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: _showInfoDialog,
+          ),
+        ],
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
