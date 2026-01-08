@@ -21,6 +21,9 @@ class _ReadNfcPageState extends State<ReadNfcPage> {
   bool _isScanning = false;
   String? _readerName;
   bool _cardAvailable = false;
+  final TextEditingController _tcTokenController = TextEditingController(
+    text: 'https://test.governikus-eid.de/AusweisAuskunft/WebServiceRequesterServlet',
+  );
 
   @override
   void initState() {
@@ -104,13 +107,13 @@ class _ReadNfcPageState extends State<ReadNfcPage> {
       _statusMessage = 'Initializing scan...';
     });
     try {
-      final result = await platform.invokeMethod('startVerification', {'tcTokenURL': 'https://test.governikus-eid.de/gov_autent/async?refID=123456'});
+      final result = await platform.invokeMethod('startVerification', {'tcTokenURL': _tcTokenController.text});
       if (result == 'Success') {
         showSuccessSnackBar('Verification Successful');
         setState(() => _statusMessage = 'Verification Successful');
       } else {
-        showErrorSnackBar('Verification Failed');
-        setState(() => _statusMessage = 'Verification Failed');
+        showErrorSnackBar('Verification Failed: $result');
+        setState(() => _statusMessage = 'Verification Failed: $result');
       }
     } catch (e) {
       showErrorSnackBar('Error: $e');
@@ -146,7 +149,16 @@ class _ReadNfcPageState extends State<ReadNfcPage> {
                   const SizedBox(height: 16),
                   Text('Reader: $_readerName', style: AppTextStyles.m),
                 ],
-                const SizedBox(height: 48),
+                const SizedBox(height: 32),
+                TextField(
+                  controller: _tcTokenController,
+                  decoration: const InputDecoration(
+                    labelText: 'tcTokenURL',
+                    border: OutlineInputBorder(),
+                  ),
+                  style: const TextStyle(fontSize: 12),
+                ),
+                const SizedBox(height: 16),
                 if (_isScanning)
                   const CircularProgressIndicator()
                 else

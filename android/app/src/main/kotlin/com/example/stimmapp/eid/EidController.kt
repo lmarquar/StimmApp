@@ -53,6 +53,10 @@ class EidController(
         val msg = json.optString("msg")
 
         when (msg) {
+            "AUTH_FAILED" -> {
+                resultCallback?.invoke("Error: ${json.optJSONObject("result")?.optString("message") ?: "Unknown error"}")
+                isSessionStarted = false
+            }
             "AUTH_SUCCESS" -> {
                 resultCallback?.invoke("Success")
                 isSessionStarted = false
