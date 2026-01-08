@@ -18,6 +18,171 @@ import com.example.stimmapp.eid.processUserName
 import com.example.stimmapp.eid.EidController
 import com.example.stimmapp.eid.FlutterEidInteraction
 import com.example.stimmapp.eid.AusweisAppSdkWrapper
+import com.governikus.ausweisapp.sdkwrapper.SDKWrapper
+import com.governikus.ausweisapp.sdkwrapper.card.core.WorkflowCallbacks
+import com.governikus.ausweisapp.sdkwrapper.card.core.AuthResult
+import com.governikus.ausweisapp.sdkwrapper.card.core.AccessRights
+import com.governikus.ausweisapp.sdkwrapper.card.core.CertificateDescription
+import com.governikus.ausweisapp.sdkwrapper.card.core.ChangePinResult
+import com.governikus.ausweisapp.sdkwrapper.card.core.Reader as SdkReader
+import com.governikus.ausweisapp.sdkwrapper.card.core.VersionInfo as SdkVersionInfo
+import com.governikus.ausweisapp.sdkwrapper.card.core.WorkflowProgress
+import com.governikus.ausweisapp.sdkwrapper.card.core.WrapperError
+import com.governikus.ausweisapp.sdkwrapper.card.core.Cause
+import android.net.Uri
+
+class RealAusweisAppSdkWrapper(private val context: Context) : AusweisAppSdkWrapper, WorkflowCallbacks {
+    private var callback: ((String) -> Unit)? = null
+    private val workflowController = SDKWrapper.workflowController
+
+    init {
+        workflowController.registerCallbacks(this)
+        workflowController.start(context)
+    }
+
+    override fun sendCommand(cmd: String) {
+        Log.d("RealAusweisAppSDK", "Sending command: $cmd")
+        val jsonCmd = JSONObject(cmd)
+        val command = jsonCmd.optString("cmd")
+
+        when (command) {
+            "GET_INFO" -> workflowController.getInfo()
+            "RUN_AUTH" -> {
+                val tcTokenURL = jsonCmd.optString("tcTokenURL")
+                workflowController.startAuthentication(Uri.parse(tcTokenURL))
+            }
+            "ACCEPT_RIGHTS" -> workflowController.accept()
+            "SET_PIN" -> workflowController.setPin(jsonCmd.optString("value"))
+            "SET_CAN" -> workflowController.setCan(jsonCmd.optString("value"))
+            "SET_PUK" -> workflowController.setPuk(jsonCmd.optString("value"))
+            else -> Log.w("RealAusweisAppSDK", "Unhandled command: $command")
+        }
+    }
+
+    override fun setCallback(callback: (String) -> Unit) {
+        this.callback = callback
+    }
+
+    private fun sendToFlutter(msg: JSONObject) {
+        callback?.invoke(msg.toString())
+    }
+
+    override fun onStarted() {
+        // Not directly mapped in EidController yet
+    }
+
+    override fun onAuthenticationStarted() {
+        // Not directly mapped in EidController yet
+    }
+
+    override fun onAuthenticationStartFailed(error: String) {
+        val json = JSONObject()
+        json.put("msg", "AUTH_START_FAILED")
+        json.put("error", error)
+        sendToFlutter(json)
+    }
+
+    override fun onAuthenticationCompleted(authResult: AuthResult) {
+        val json = JSONObject()
+        if (authResult.result?.major?.endsWith("ok") == true || authResult.url != null) {
+            json.put("msg", "AUTH_SUCCESS")
+            json.put("url", authResult.url?.toString())
+        } else {
+            json.put("msg", "AUTH_FAILED")
+            json.put("result", authResult.result?.message)
+        }
+        sendToFlutter(json)
+    }
+
+    override fun onChangePinStarted() {}
+
+    override fun onAccessRights(error: String?, accessRights: AccessRights?) {
+        val json = JSONObject()
+        json.put("msg", "ACCESS_RIGHTS")
+        error?.let { json.put("error", it) }
+        // accessRights details could be added here if needed
+        sendToFlutter(json)
+    }
+
+    override fun onCertificate(certificateDescription: CertificateDescription) {}
+
+    override fun onInsertCard(error: String?) {
+        val json = JSONObject()
+        json.put("msg", "INSERT_CARD")
+        error?.let { json.put("error", it) }
+        sendToFlutter(json)
+    }
+
+    override fun onPause(cause: Cause) {}
+
+    override fun onReader(reader: SdkReader?) {
+        val json = JSONObject()
+        json.put("msg", "READER")
+        json.put("name", reader?.name)
+        val cardJson = JSONObject()
+        cardJson.put("available", reader?.card != null)
+        json.put("card", cardJson)
+        sendToFlutter(json)
+    }
+
+    override fun onReaderList(readers: List<SdkReader>?) {}
+
+    override fun onEnterPin(error: String?, reader: SdkReader) {
+        val json = JSONObject()
+        json.put("msg", "ENTER_PIN")
+        json.put("reader", reader.name)
+        error?.let { json.put("error", it) }
+        sendToFlutter(json)
+    }
+
+    override fun onEnterNewPin(error: String?, reader: SdkReader) {
+        val json = JSONObject()
+        json.put("msg", "ENTER_NEW_PIN")
+        sendToFlutter(json)
+    }
+
+    override fun onEnterPuk(error: String?, reader: SdkReader) {
+        val json = JSONObject()
+        json.put("msg", "ENTER_PUK")
+        sendToFlutter(json)
+    }
+
+    override fun onEnterCan(error: String?, reader: SdkReader) {
+        val json = JSONObject()
+        json.put("msg", "ENTER_CAN")
+        sendToFlutter(json)
+    }
+
+    override fun onChangePinCompleted(changePinResult: ChangePinResult) {}
+
+    override fun onWrapperError(error: WrapperError) {
+        val json = JSONObject()
+        json.put("msg", "INTERNAL_ERROR")
+        json.put("error", error.error)
+        sendToFlutter(json)
+    }
+
+    override fun onStatus(workflowProgress: WorkflowProgress) {}
+
+    override fun onInfo(versionInfo: SdkVersionInfo) {
+        val json = JSONObject()
+        json.put("msg", "INFO")
+        val vInfo = JSONObject()
+        vInfo.put("Name", versionInfo.name)
+        vInfo.put("Implementation-Version", versionInfo.implementationVersion)
+        json.put("VersionInfo", vInfo)
+        sendToFlutter(json)
+    }
+
+    override fun onInternalError(error: String) {}
+
+    override fun onBadState(error: String) {
+        val json = JSONObject()
+        json.put("msg", "BAD_STATE")
+        json.put("error", error)
+        sendToFlutter(json)
+    }
+}
 
 class MainActivity: FlutterActivity() {
     private val channel = "com.example.stimmapp/eid"
@@ -31,41 +196,7 @@ class MainActivity: FlutterActivity() {
         val interaction = FlutterEidInteraction(methodChannel)
         this.interaction = interaction
         
-        // In a real scenario, this wrapper would talk to the actual AusweisApp SDK
-        val sdkWrapper = object : AusweisAppSdkWrapper {
-            private var callback: ((String) -> Unit)? = null
-            override fun sendCommand(cmd: String) {
-                Log.d("AusweisAppSDK", "Sending command: $cmd")
-                val jsonCmd = JSONObject(cmd)
-                val command = jsonCmd.optString("cmd")
-
-                when (command) {
-                    "GET_INFO" -> {
-                        callback?.invoke("{\"msg\": \"INFO\", \"VersionInfo\": {\"Name\": \"AusweisApp2\", \"Implementation-Title\": \"AusweisApp2\", \"Implementation-Vendor\": \"Governikus GmbH & Co. KG\", \"Implementation-Version\": \"1.26.5\"}, \"Status\": {\"Available\": true, \"Workflow\": false}}")
-                    }
-                    "RUN_AUTH" -> {
-                        // Simulate a workflow
-                        callback?.invoke("{\"msg\": \"ACCESS_RIGHTS\"}")
-                        // After a small delay, simulate finding a card
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            callback?.invoke("{\"msg\": \"READER\", \"name\": \"NFC Reader\", \"card\": {\"available\": true}}")
-                        }, 1000)
-                    }
-                    "ACCEPT_RIGHTS" -> {
-                        callback?.invoke("{\"msg\": \"ENTER_PIN\", \"reader\": \"NFC Reader\"}")
-                    }
-                    "SET_PIN" -> {
-                        callback?.invoke("{\"msg\": \"AUTH_SUCCESS\", \"url\": \"https://success.url\"}")
-                    }
-                    else -> {
-                        Log.w("AusweisAppSDK", "Unhandled mock command: $command")
-                    }
-                }
-            }
-            override fun setCallback(callback: (String) -> Unit) {
-                this.callback = callback
-            }
-        }
+        val sdkWrapper = RealAusweisAppSdkWrapper(this)
         
         eidController = EidController(sdkWrapper, interaction)
 
