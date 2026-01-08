@@ -33,8 +33,9 @@ class _ReadNfcPageState extends State<ReadNfcPage> {
       if (!mounted) return;
       switch (call.method) {
         case 'onMessage':
+          final data = call.arguments;
           setState(() {
-            _statusMessage = 'SDK: ${call.arguments}';
+            _statusMessage = 'SDK: $data';
           });
           break;
         case 'onRequestPin':

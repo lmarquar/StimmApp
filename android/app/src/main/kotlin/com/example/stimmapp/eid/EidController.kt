@@ -54,7 +54,14 @@ class EidController(
 
         when (msg) {
             "AUTH_FAILED" -> {
-                resultCallback?.invoke("Error: ${json.optJSONObject("result")?.optString("message") ?: "Unknown error"}")
+                val resultObj = json.optJSONObject("result")
+                val message = resultObj?.optString("message") ?: "Unknown error"
+                val url = json.optString("url")
+                if (url.isNotEmpty()) {
+                    resultCallback?.invoke("Error: $message (URL: $url)")
+                } else {
+                    resultCallback?.invoke("Error: $message")
+                }
                 isSessionStarted = false
             }
             "AUTH_SUCCESS" -> {

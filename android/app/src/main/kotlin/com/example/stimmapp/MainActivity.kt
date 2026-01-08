@@ -89,7 +89,8 @@ class RealAusweisAppSdkWrapper(
     override fun onAuthenticationCompleted(authResult: AuthResult) {
         Log.i("RealAusweisAppSDK", "Authentication completed: ${authResult.result?.major}")
         val json = JSONObject()
-        if (authResult.result?.major?.endsWith("ok") == true || authResult.url != null) {
+        val isOk = authResult.result?.major?.endsWith("ok") == true
+        if (isOk) {
             json.put("msg", "AUTH_SUCCESS")
             json.put("url", authResult.url?.toString())
         } else {
@@ -101,6 +102,7 @@ class RealAusweisAppSdkWrapper(
             resultJson.put("message", authResult.result?.message)
             resultJson.put("description", authResult.result?.description)
             json.put("result", resultJson)
+            json.put("url", authResult.url?.toString()) // Include URL even on failure if present
         }
         sendToFlutter(json)
     }
