@@ -2,7 +2,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle, MethodChannel;
 import 'package:image_picker/image_picker.dart';
-import 'package:stimmapp/app/mobile/pages/main/onboarding/confirm_id_page.dart';
 import 'package:stimmapp/app/mobile/widgets/select_adress_widget.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
@@ -17,14 +16,14 @@ import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 
-class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({super.key});
+class ConfirmIdPage extends StatefulWidget {
+  const ConfirmIdPage({super.key});
 
   @override
-  State<OnboardingPage> createState() => _OnboardingPageState();
+  State<ConfirmIdPage> createState() => _ConfirmIdPageState();
 }
 
-class _OnboardingPageState extends State<OnboardingPage> {
+class _ConfirmIdPageState extends State<ConfirmIdPage> {
   final TextEditingController controllerPw = TextEditingController();
   final TextEditingController controllerEm = TextEditingController();
   static const platform = MethodChannel('com.example.stimmapp/eid');
@@ -105,15 +104,23 @@ class _OnboardingPageState extends State<OnboardingPage> {
     Navigator.pop(context);
   }
 
-  Future<void> registerWithId() async {
+  Future<void> testKotlinCall() async {
+    var result = "defaultUser";
+    var randomName = "HANA";
     if (kIsWeb) {
-      showSuccessSnackBar('use your Phone for registering please');
+      showErrorSnackBar('use your Phone for registering please');
     } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const ConfirmIdPage()),
-      );
+      final Map<dynamic, dynamic> callResult = await platform.invokeMethod('passDataToNative', [
+        {"text": "HANA"}
+      ]);
+      result = callResult['userName'] ?? "defaultUser";
+      if (result == randomName) {
+        showSuccessSnackBar(result);
+      } else {
+        showErrorSnackBar("expected: $randomName, got: $result");
+      }
     }
+
   }
 
   @override
@@ -122,7 +129,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       child: Builder(
         builder: (context) {
           return AppBottomBarButtons(
-            appBar: AppBar(title: Text("register here")),
+            appBar: AppBar(title: Text("confirm ID here")),
             body: Center(
               child: SingleChildScrollView(
                 child: Padding(
@@ -130,64 +137,33 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('🔑', style: AppTextStyles.icons),
+                      const Text('ᯤ', style: AppTextStyles.icons),
                       const SizedBox(height: 50),
                       Center(
                         child: Column(
                           children: [
-                            TextFormField(
-                              controller: controllerEm,
-                              decoration: InputDecoration(
-                                labelText: context.l10n.email,
-                              ),
-                              validator: (String? value) {
-                                if (value == null) {
-                                  return context.l10n.enterSomething;
-                                }
-                                if (value
-                                    .trim()
-                                    .isEmpty) {
-                                  return context.l10n.enterSomething;
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: 10),
-                            TextFormField(
-                              obscureText: true,
-                              controller: controllerPw,
-                              decoration: InputDecoration(
-                                labelText: context.l10n.password,
-                              ),
-                              validator: (String? value) {
-                                if (value == null) {
-                                  return context.l10n.enterSomething;
-                                }
-                                if (value
-                                    .trim()
-                                    .isEmpty) {
-                                  return context.l10n.enterSomething;
-                                }
-                                return null;
-                              },
-                              onFieldSubmitted: (value) {
+                            ButtonWidget(
+                              isFilled: false,
+                              label: "test Kotlin",
+                              callback: () {
                                 if (Form.of(context).validate()) {
-                                  register();
+                                  testKotlinCall();
                                 } else {
-                                  showErrorSnackBar(context.l10n.error);
+                                  showErrorSnackBar(errorMessage);
                                 }
                               },
                             ),
-                            const SizedBox(height: 10),
-                            SelectAddressWidget(
-                              selectedState: _selectedState,
-                              onStateChanged: (newValue) {
-                                setState(() {
-                                  _selectedState = newValue;
-                                });
+                            ButtonWidget(
+                              isFilled: false,
+                              label: "easiest Ausweisapp API call",
+                              callback: () {
+                                if (Form.of(context).validate()) {
+                                  ();
+                                } else {
+                                  showErrorSnackBar(errorMessage);
+                                }
                               },
                             ),
-                            const SizedBox(height: 10),
                           ],
                         ),
                       ),
@@ -203,21 +179,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 label: context.l10n.register,
                 callback: () {
                   if (Form.of(context).validate()) {
-                    register();
+                    testKotlinCall();
                   } else {
                     showErrorSnackBar(errorMessage);
                   }
                 },
               ),
               const SizedBox(height: 10),
-              ButtonWidget(
-                isFilled: false,
-                label: 'PostID (NFC)',
-                callback: () {
-                  registerWithId();
-                }
-                  ),
-          ],
+            ],
           );
         },
       ),
