@@ -159,24 +159,16 @@ class _ConfirmIdPageState extends State<ConfirmIdPage> {
   }
 
   Future<void> startVerification() async {
-    if (kIsWeb) {
-      showErrorSnackBar('use your Phone for registering please');
-    } else {
       final success = await platform.invokeMethod('startVerification', {'tcTokenURL': 'https://test.tc.token'});
       if (success != null) {
         showSuccessSnackBar('Verification $success');
       } else {
         showErrorSnackBar('Verification failed');
       }
-    }
   }
 
   Future<void> getInfo() async {
-    if (kIsWeb) {
-      showErrorSnackBar('use your Phone for registering please');
-    } else {
       await platform.invokeMethod('getInfo');
-    }
   }
 
   Future<void> testKotlinCall() async {

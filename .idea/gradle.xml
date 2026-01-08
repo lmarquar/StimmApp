@@ -33,6 +33,10 @@
           </set>
         </option>
       </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/external" />
+        <option name="gradleHome" value="" />
+      </GradleProjectSettings>
     </option>
   </component>
 </project>

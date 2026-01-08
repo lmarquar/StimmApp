@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d6f3465-2f01-4299-a9a0-b5155cadad56" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/android/app/src/main/kotlin/com/example/stimmapp/eid/init.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/kotlin/com/example/stimmapp/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/kotlin/com/example/stimmapp/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/confirm_id_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/confirm_id_page.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,12 +29,24 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="android" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
       </state>
     </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -70,6 +81,8 @@
     "Android App.android.app.executor": "Run",
     "Flutter.main.dart.executor": "Run",
     "Flutter.runWeb.executor": "Run",
+    "Gradle.Build android.executor": "Run",
+    "Gradle.EidControllerTest.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -97,7 +110,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "dart.settings",
+    "settings.editor.selected.configurable": "preferences.intentionPowerPack",
     "show.migrate.to.gradle.popup": "false",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
@@ -151,6 +164,33 @@
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
       <method v="2" />
     </configuration>
+    <configuration name="EidControllerTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/android" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:testDebugUnitTest" />
+            <option value="--tests" />
+            <option value="&quot;com.example.stimmapp.eid.EidControllerTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="android" />
       <method v="2">
@@ -202,7 +242,13 @@
       <item itemvalue="Android App.android.app" />
       <item itemvalue="Flutter.runWeb" />
       <item itemvalue="Flutter.main.dart" />
+      <item itemvalue="Gradle.EidControllerTest" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.EidControllerTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -229,6 +275,7 @@
       <workItem from="1767793866979" duration="8800000" />
       <workItem from="1767860698331" duration="801000" />
       <workItem from="1767861952561" duration="1088000" />
+      <workItem from="1767863046617" duration="10436000" />
     </task>
     <servers />
   </component>
