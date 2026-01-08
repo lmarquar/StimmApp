@@ -30,6 +30,7 @@ import com.governikus.ausweisapp.sdkwrapper.card.core.WorkflowProgress
 import com.governikus.ausweisapp.sdkwrapper.card.core.WrapperError
 import com.governikus.ausweisapp.sdkwrapper.card.core.Cause
 import android.net.Uri
+import com.governikus.ausweisapp.sdkwrapper.card.core.NfcForegroundDispatcher
 
 class RealAusweisAppSdkWrapper(
     private val context: Context,
@@ -93,7 +94,13 @@ class RealAusweisAppSdkWrapper(
             json.put("url", authResult.url?.toString())
         } else {
             json.put("msg", "AUTH_FAILED")
-            json.put("result", authResult.result?.message)
+            val resultJson = JSONObject()
+            resultJson.put("major", authResult.result?.major)
+            resultJson.put("minor", authResult.result?.minor)
+            resultJson.put("reason", authResult.result?.reason)
+            resultJson.put("message", authResult.result?.message)
+            resultJson.put("description", authResult.result?.description)
+            json.put("result", resultJson)
         }
         sendToFlutter(json)
     }
@@ -212,6 +219,7 @@ class MainActivity: FlutterActivity() {
     private val channel = "com.example.stimmapp/eid"
     private var eidController: EidController? = null
     private var interaction: FlutterEidInteraction? = null
+    private var nfcForegroundDispatcher: NfcForegroundDispatcher? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -223,6 +231,7 @@ class MainActivity: FlutterActivity() {
         val sdkWrapper = RealAusweisAppSdkWrapper(this)
         
         eidController = EidController(sdkWrapper, interaction)
+        nfcForegroundDispatcher = NfcForegroundDispatcher(this, SDKWrapper.workflowController)
 
         methodChannel.setMethodCallHandler { call, result ->
             when (call.method) {
@@ -259,5 +268,15 @@ class MainActivity: FlutterActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        nfcForegroundDispatcher?.start()
+    }
+
+    override fun onPause() {
+        nfcForegroundDispatcher?.stop()
+        super.onPause()
     }
 }

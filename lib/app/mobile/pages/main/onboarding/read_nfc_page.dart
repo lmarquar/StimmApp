@@ -1,18 +1,9 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle, MethodChannel;
-import 'package:image_picker/image_picker.dart';
-import 'package:stimmapp/core/data/services/auth_service.dart';
-import 'package:stimmapp/core/data/services/profile_picture_service.dart';
-import 'package:stimmapp/core/extensions/context_extensions.dart';
-import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
-import 'package:stimmapp/core/data/models/user_profile.dart';
-import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 
 class ReadNfcPage extends StatefulWidget {
@@ -26,46 +17,69 @@ class _ReadNfcPageState extends State<ReadNfcPage> {
   final TextEditingController controllerPw = TextEditingController();
   final TextEditingController controllerEm = TextEditingController();
   static const platform = MethodChannel('com.example.stimmapp/eid');
-  String errorMessage = 'Error message';
-  String _lastSdkMessage = 'No message yet';
-  double _progress = 0.0;
-  String? _selectedState;
+  String _statusMessage = 'Ready to scan';
+  bool _isScanning = false;
+  String? _readerName;
+  bool _cardAvailable = false;
 
   @override
   void initState() {
     super.initState();
     platform.setMethodCallHandler((call) async {
       debugPrint('Received method call from native: ${call.method} with args: ${call.arguments}');
+      if (!mounted) return;
       switch (call.method) {
         case 'onMessage':
           setState(() {
-            _lastSdkMessage = call.arguments as String;
+            _statusMessage = 'SDK: ${call.arguments}';
           });
           break;
         case 'onRequestPin':
-          _showPinDialog();
+          _showInputDialog(title: 'Enter PIN', method: 'setPin');
+          break;
+        case 'onRequestCan':
+          _showInputDialog(title: 'Enter CAN', method: 'setCan');
+          break;
+        case 'onRequestPuk':
+          _showInputDialog(title: 'Enter PUK', method: 'setPuk');
           break;
         case 'onCardDetected':
+          setState(() {
+            _cardAvailable = true;
+            _statusMessage = 'ID Card detected!';
+          });
           showSuccessSnackBar('ID Card detected!');
           break;
         case 'onCardLost':
+          setState(() {
+            _cardAvailable = false;
+            _statusMessage = 'ID Card lost!';
+          });
           showErrorSnackBar('ID Card lost!');
+          break;
+        case 'onReaderInfo':
+          final args = call.arguments as Map;
+          setState(() {
+            _readerName = args['name'] as String?;
+            _cardAvailable = args['cardAvailable'] as bool;
+          });
           break;
       }
     });
   }
 
-  void _showPinDialog() {
-    final TextEditingController pinController = TextEditingController();
+  void _showInputDialog({required String title, required String method}) {
+    final TextEditingController inputController = TextEditingController();
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: const Text('Enter PIN'),
+        title: Text(title),
         content: TextField(
-          controller: pinController,
-          decoration: const InputDecoration(hintText: 'PIN'),
+          controller: inputController,
+          decoration: InputDecoration(hintText: title.split(' ').last),
           keyboardType: TextInputType.number,
-          obscureText: true,
+          obscureText: method == 'setPin',
         ),
         actions: [
           TextButton(
@@ -74,7 +88,7 @@ class _ReadNfcPageState extends State<ReadNfcPage> {
           ),
           TextButton(
             onPressed: () {
-              platform.invokeMethod('setPin', {'pin': pinController.text});
+              platform.invokeMethod(method, {method.toLowerCase().substring(3): inputController.text});
               Navigator.pop(context);
             },
             child: const Text('Submit'),
@@ -84,49 +98,72 @@ class _ReadNfcPageState extends State<ReadNfcPage> {
     );
   }
 
-
-  Future<void> checkNfc() async {
-    final success = await platform.invokeMethod('startVerification', {'tcTokenURL': 'https://test.tc.token'});
-    if (success != null) {
-      showSuccessSnackBar('Verification $success');
-    } else {
-      showErrorSnackBar('Verification failed');
+  Future<void> startScan() async {
+    setState(() {
+      _isScanning = true;
+      _statusMessage = 'Initializing scan...';
+    });
+    try {
+      final result = await platform.invokeMethod('startVerification', {'tcTokenURL': 'https://test.governikus-eid.de/gov_autent/async?refID=123456'});
+      if (result == 'Success') {
+        showSuccessSnackBar('Verification Successful');
+        setState(() => _statusMessage = 'Verification Successful');
+      } else {
+        showErrorSnackBar('Verification Failed');
+        setState(() => _statusMessage = 'Verification Failed');
+      }
+    } catch (e) {
+      showErrorSnackBar('Error: $e');
+      setState(() => _statusMessage = 'Error: $e');
+    } finally {
+      if (mounted) setState(() => _isScanning = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      child: Builder(
-        builder: (context) {
-          return AppBottomBarButtons(
-            appBar: AppBar(title: Text("confirm ID here")),
-            body: Center(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 50),
-                    ],
-                  ),
+    return AppBottomBarButtons(
+      appBar: AppBar(title: const Text("Confirm Identity")),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  _cardAvailable ? Icons.contactless : Icons.nfc,
+                  size: 100,
+                  color: _cardAvailable ? Colors.green : Colors.grey,
                 ),
-              ),
+                const SizedBox(height: 32),
+                Text(
+                  _statusMessage,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.l,
+                ),
+                if (_readerName != null) ...[
+                  const SizedBox(height: 16),
+                  Text('Reader: $_readerName', style: AppTextStyles.m),
+                ],
+                const SizedBox(height: 48),
+                if (_isScanning)
+                  const CircularProgressIndicator()
+                else
+                  const Text('Please place your ID card on the back of your device.'),
+              ],
             ),
-            buttons: [
-              ButtonWidget(
-                isFilled: true,
-                label: context.l10n.register,
-                callback: () {
-                  checkNfc();
-                },
-              ),
-              const SizedBox(height: 10),
-            ],
-          );
-        },
+          ),
+        ),
       ),
+      buttons: [
+        ButtonWidget(
+          isFilled: true,
+          label: _isScanning ? 'Scanning...' : 'Start ID Scan',
+          callback: _isScanning ? null : startScan,
+        ),
+        const SizedBox(height: 10),
+      ],
     );
   }
 }
