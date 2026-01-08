@@ -1,5 +1,6 @@
 package com.example.stimmapp.eid
 
+import android.util.Log
 import org.json.JSONObject
 
 interface AusweisAppSdkWrapper {
@@ -38,8 +39,17 @@ class EidController(
         sdk.sendCommand("{\"cmd\": \"RUN_AUTH\", \"tcTokenURL\": \"$tcTokenURL\"}")
     }
 
+    fun getInfo() {
+        sdk.sendCommand("{\"cmd\": \"GET_INFO\"}")
+    }
+
     private fun handleMessage(message: String) {
-        val json = JSONObject(message)
+        val json = try {
+            JSONObject(message)
+        } catch (e: Exception) {
+            Log.e("EidController", "Failed to parse SDK message: $message", e)
+            return
+        }
         val msg = json.optString("msg")
 
         when (msg) {

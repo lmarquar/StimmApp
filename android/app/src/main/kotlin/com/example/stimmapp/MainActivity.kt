@@ -10,6 +10,9 @@ import android.content.IntentFilter
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.util.Log
+import org.json.JSONObject
+import android.os.Handler
+import android.os.Looper
 import io.flutter.plugin.common.MethodCall
 import com.example.stimmapp.eid.processUserName
 import com.example.stimmapp.eid.EidController
@@ -33,7 +36,31 @@ class MainActivity: FlutterActivity() {
             private var callback: ((String) -> Unit)? = null
             override fun sendCommand(cmd: String) {
                 Log.d("AusweisAppSDK", "Sending command: $cmd")
-                // Here we would call the real SDK
+                val jsonCmd = JSONObject(cmd)
+                val command = jsonCmd.optString("cmd")
+
+                when (command) {
+                    "GET_INFO" -> {
+                        callback?.invoke("{\"msg\": \"INFO\", \"VersionInfo\": {\"Name\": \"AusweisApp2\", \"Implementation-Title\": \"AusweisApp2\", \"Implementation-Vendor\": \"Governikus GmbH & Co. KG\", \"Implementation-Version\": \"1.26.5\"}, \"Status\": {\"Available\": true, \"Workflow\": false}}")
+                    }
+                    "RUN_AUTH" -> {
+                        // Simulate a workflow
+                        callback?.invoke("{\"msg\": \"ACCESS_RIGHTS\"}")
+                        // After a small delay, simulate finding a card
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            callback?.invoke("{\"msg\": \"READER\", \"name\": \"NFC Reader\", \"card\": {\"available\": true}}")
+                        }, 1000)
+                    }
+                    "ACCEPT_RIGHTS" -> {
+                        callback?.invoke("{\"msg\": \"ENTER_PIN\", \"reader\": \"NFC Reader\"}")
+                    }
+                    "SET_PIN" -> {
+                        callback?.invoke("{\"msg\": \"AUTH_SUCCESS\", \"url\": \"https://success.url\"}")
+                    }
+                    else -> {
+                        Log.w("AusweisAppSDK", "Unhandled mock command: $command")
+                    }
+                }
             }
             override fun setCallback(callback: (String) -> Unit) {
                 this.callback = callback
@@ -55,17 +82,21 @@ class MainActivity: FlutterActivity() {
                 }
                 "setPin" -> {
                     val pin = call.argument<String>("pin") ?: ""
-                    interaction.setPin(pin)
+                    this.interaction?.setPin(pin)
                     result.success(null)
                 }
                 "setCan" -> {
                     val can = call.argument<String>("can") ?: ""
-                    interaction.setCan(can)
+                    this.interaction?.setCan(can)
                     result.success(null)
                 }
                 "setPuk" -> {
                     val puk = call.argument<String>("puk") ?: ""
-                    interaction.setPuk(puk)
+                    this.interaction?.setPuk(puk)
+                    result.success(null)
+                }
+                "getInfo" -> {
+                    eidController?.getInfo()
                     result.success(null)
                 }
                 else -> {

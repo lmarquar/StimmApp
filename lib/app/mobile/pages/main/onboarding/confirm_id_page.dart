@@ -28,8 +28,62 @@ class _ConfirmIdPageState extends State<ConfirmIdPage> {
   final TextEditingController controllerEm = TextEditingController();
   static const platform = MethodChannel('com.example.stimmapp/eid');
   String errorMessage = 'Error message';
+  String _lastSdkMessage = 'No message yet';
   double _progress = 0.0;
   String? _selectedState;
+
+  @override
+  void initState() {
+    super.initState();
+    platform.setMethodCallHandler((call) async {
+      debugPrint('Received method call from native: ${call.method} with args: ${call.arguments}');
+      switch (call.method) {
+        case 'onMessage':
+          setState(() {
+            _lastSdkMessage = call.arguments as String;
+          });
+          break;
+        case 'onRequestPin':
+          _showPinDialog();
+          break;
+        case 'onCardDetected':
+          showSuccessSnackBar('ID Card detected!');
+          break;
+        case 'onCardLost':
+          showErrorSnackBar('ID Card lost!');
+          break;
+      }
+    });
+  }
+
+  void _showPinDialog() {
+    final TextEditingController pinController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Enter PIN'),
+        content: TextField(
+          controller: pinController,
+          decoration: const InputDecoration(hintText: 'PIN'),
+          keyboardType: TextInputType.number,
+          obscureText: true,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              platform.invokeMethod('setPin', {'pin': pinController.text});
+              Navigator.pop(context);
+            },
+            child: const Text('Submit'),
+          ),
+        ],
+      ),
+    );
+  }
 
   void register() async {
     try {
@@ -104,6 +158,27 @@ class _ConfirmIdPageState extends State<ConfirmIdPage> {
     Navigator.pop(context);
   }
 
+  Future<void> startVerification() async {
+    if (kIsWeb) {
+      showErrorSnackBar('use your Phone for registering please');
+    } else {
+      final success = await platform.invokeMethod('startVerification', {'tcTokenURL': 'https://test.tc.token'});
+      if (success != null) {
+        showSuccessSnackBar('Verification $success');
+      } else {
+        showErrorSnackBar('Verification failed');
+      }
+    }
+  }
+
+  Future<void> getInfo() async {
+    if (kIsWeb) {
+      showErrorSnackBar('use your Phone for registering please');
+    } else {
+      await platform.invokeMethod('getInfo');
+    }
+  }
+
   Future<void> testKotlinCall() async {
     var result = "defaultUser";
     var randomName = "HANA";
@@ -153,16 +228,26 @@ class _ConfirmIdPageState extends State<ConfirmIdPage> {
                                 }
                               },
                             ),
+                            const SizedBox(height: 10),
                             ButtonWidget(
                               isFilled: false,
                               label: "easiest Ausweisapp API call",
                               callback: () {
                                 if (Form.of(context).validate()) {
-                                  ();
+                                  getInfo();
                                 } else {
                                   showErrorSnackBar(errorMessage);
                                 }
                               },
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              "Last SDK Message:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              _lastSdkMessage,
+                              style: TextStyle(fontSize: 12),
                             ),
                           ],
                         ),
@@ -178,11 +263,7 @@ class _ConfirmIdPageState extends State<ConfirmIdPage> {
                 isFilled: true,
                 label: context.l10n.register,
                 callback: () {
-                  if (Form.of(context).validate()) {
-                    testKotlinCall();
-                  } else {
-                    showErrorSnackBar(errorMessage);
-                  }
+                  startVerification();
                 },
               ),
               const SizedBox(height: 10),
