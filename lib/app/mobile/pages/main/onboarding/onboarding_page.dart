@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle, MethodChannel;
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:image_picker/image_picker.dart';
 import 'package:stimmapp/app/mobile/pages/main/onboarding/confirm_id_page.dart';
 import 'package:stimmapp/app/mobile/widgets/select_adress_widget.dart';
@@ -27,7 +27,6 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> {
   final TextEditingController controllerPw = TextEditingController();
   final TextEditingController controllerEm = TextEditingController();
-  static const platform = MethodChannel('com.example.stimmapp/eid');
   String errorMessage = 'Error message';
   double _progress = 0.0;
   String? _selectedState;

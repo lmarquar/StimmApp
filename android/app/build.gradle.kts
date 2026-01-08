@@ -27,7 +27,7 @@ android {
         applicationId = "com.example.stimmapp"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = 28
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":sdkwrapper"))
     // implementation("com.governikus:ausweisapp2:1.26.6") // Commented out because no internet
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     testImplementation("org.mockito:mockito-core:5.5.0")

@@ -27,3 +27,9 @@ plugins {
 }
 
 include(":app")
+
+include(":sdkwrapper")
+project(":sdkwrapper").projectDir = file("../external/AusweisApp-SDK-Wrapper/android/sdkwrapper")
+
+include(":ausweisapp")
+project(":ausweisapp").projectDir = file("../external/AusweisApp-SDK-Wrapper/android/ausweisapp")

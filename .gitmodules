@@ -1,0 +1,3 @@
+[submodule "external/AusweisApp-SDK-Wrapper"]
+	path = external/AusweisApp-SDK-Wrapper
+	url = https://github.com/Governikus/AusweisApp-SDK-Wrapper.git
