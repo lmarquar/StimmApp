@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle, MethodChannel;
 import 'package:image_picker/image_picker.dart';
+import 'package:stimmapp/app/mobile/pages/main/onboarding/read_nfc_page.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
@@ -222,10 +223,23 @@ class _ConfirmIdPageState extends State<ConfirmIdPage> {
                             const SizedBox(height: 10),
                             ButtonWidget(
                               isFilled: false,
-                              label: "easiest Ausweisapp API call",
+                              label: "easiest AusweisApp API call",
                               callback: () {
                                 if (Form.of(context).validate()) {
                                   getInfo();
+                                } else {
+                                  showErrorSnackBar(errorMessage);
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            ButtonWidget(
+                              isFilled: false,
+                              label: "NFC Reader",
+                              callback: () {
+                                if (Form.of(context).validate()) {
+                                  Navigator.push( context,
+                                    MaterialPageRoute(builder: (context) => const ReadNfcPage()),);
                                 } else {
                                   showErrorSnackBar(errorMessage);
                                 }
