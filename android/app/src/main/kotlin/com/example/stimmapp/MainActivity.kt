@@ -40,7 +40,7 @@ class MainActivity: FlutterActivity() {
             var userName = "defaultUser";
             if (call.method == "passDataToNative") {
                 processUserName(call, userName, result)
-            } else if (call.method == ){
+            } else {
                 result.notImplemented()
             }
         }
