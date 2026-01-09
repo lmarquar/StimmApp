@@ -84,6 +84,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       } catch (e, st) {
         // don't break registration for asset/upload failures — log for debugging
         debugPrint('Default avatar upload failed: $e\n$st');
+        showErrorSnackBar('Default avatar upload failed: $e\n$st');
       }
 
       popPage();
@@ -91,12 +92,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
       setState(() {
         errorMessage = '${e.code}: ${e.message ?? 'Unknown error'}';
       });
+      showErrorSnackBar(errorMessage);
     } catch (e, st) {
       // Fallback for any other exception
       setState(() {
         errorMessage = 'Unexpected error: $e';
       });
       debugPrintStack(label: 'register error', stackTrace: st);
+      showErrorSnackBar(errorMessage);
     }
   }
 
@@ -208,6 +211,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   if (Form.of(context).validate()) {
                     register();
                   } else {
+                    print("here");
                     showErrorSnackBar(errorMessage);
                   }
                 },
