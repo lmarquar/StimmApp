@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:stimmapp/app/mobile/widgets/base_detail_page.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
@@ -20,92 +20,56 @@ class _PollDetailPageState extends State<PollDetailPage> {
   @override
   Widget build(BuildContext context) {
     final repo = PollRepository.create();
-    return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.pollDetails)),
-      body: StreamBuilder<Poll?>(
-        stream: repo.watch(widget.id),
-        builder: (context, snap) {
-          if (snap.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+    return BaseDetailPage<Poll>(
+      id: widget.id,
+      appBarTitle: context.l10n.pollDetails,
+      streamProvider: repo.watch,
+      participantsStream: repo.watchParticipants(widget.id),
+      contentBuilder: (context, poll) {
+        final total = poll.totalVotes;
+        return RadioGroup<String>(
+          groupValue: _selectedOptionId,
+          onChanged: (v) => setState(() => _selectedOptionId = v),
+          child: ListView(
+            children: [
+              ...poll.options.map((o) {
+                final count = poll.votes[o.id] ?? 0;
+                final pct = total == 0 ? 0 : (count / total * 100).round();
+                return ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(child: Text(o.label)),
+                      Text('$count • $pct%'),
+                    ],
+                  ),
+                  leading: Radio<String>(value: o.id),
+                  onTap: () => setState(() => _selectedOptionId = o.id),
+                );
+              }),
+            ],
+          ),
+        );
+      },
+      bottomAction: ElevatedButton(
+        onPressed: () async {
+          final optionId = _selectedOptionId;
+          if (optionId == null) return;
+          final user = authService.value.currentUser;
+          if (user == null) {
+            if (!context.mounted) return;
+            showErrorSnackBar(context.l10n.pleaseSignInFirst);
+            return;
           }
-          final poll = snap.data;
-          if (poll == null) return Center(child: Text(context.l10n.notFound));
-          final total = poll.totalVotes;
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (poll.state != null && poll.state!.isNotEmpty) ...[
-                  const SizedBox(height: 8),
-                  Chip(label: Text(context.l10n.relatedToState(poll.state!))),
-                ],
-                Text(
-                  poll.title,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                const SizedBox(height: 8),
-                Text(poll.description),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: RadioGroup<String>(
-                    groupValue: _selectedOptionId,
-                    onChanged: (v) => setState(() => _selectedOptionId = v),
-                    child: ListView(
-                      children: [
-                        ...poll.options.map((o) {
-                          final count = poll.votes[o.id] ?? 0;
-                          final pct = total == 0
-                              ? 0
-                              : (count / total * 100).round();
-                          return ListTile(
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(child: Text(o.label)),
-                                Text('$count • $pct%'),
-                              ],
-                            ),
-                            leading: Radio<String>(value: o.id),
-                            onTap: () =>
-                                setState(() => _selectedOptionId = o.id),
-                          );
-                        }),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Expires: ${DateFormat('dd.MM.yyyy').format(poll.expiresAt)}',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final optionId = _selectedOptionId;
-                      if (optionId == null) return;
-                      final user = authService.value.currentUser;
-                      if (user == null) {
-                        if (!context.mounted) return;
-                        showErrorSnackBar(context.l10n.pleaseSignInFirst);
-                        return;
-                      }
-                      await repo.vote(
-                        pollId: poll.id,
-                        optionId: optionId,
-                        uid: user.uid,
-                      );
-                      if (!context.mounted) return;
-                      showSuccessSnackBar(context.l10n.voted);
-                    },
-                    child: const Text('Vote'),
-                  ),
-                ),
-              ],
-            ),
+          await repo.vote(
+            pollId: widget.id,
+            optionId: optionId,
+            uid: user.uid,
           );
+          if (!context.mounted) return;
+          showSuccessSnackBar(context.l10n.voted);
         },
+        child: const Text('Vote'),
       ),
     );
   }

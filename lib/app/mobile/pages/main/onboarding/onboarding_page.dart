@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle, MethodChannel;
 import 'package:image_picker/image_picker.dart';
-import 'package:stimmapp/app/mobile/widgets/select_adress_widget.dart';
+import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
@@ -211,7 +211,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   if (Form.of(context).validate()) {
                     register();
                   } else {
-                    print("here");
                     showErrorSnackBar(errorMessage);
                   }
                 },

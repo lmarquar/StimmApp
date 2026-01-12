@@ -13,6 +13,7 @@
 			}
 		}
 	},
+	"participants": "Participants",
 	"newMessages": "You have {newMessages, plural, =0{No new messages} =1 {One new message} two{Two new Messages} other {{newMessages} new messages}}",
 	"@newMessages": {
 		"type": "text",
@@ -175,5 +176,7 @@
 			}
 		}
 	},
-	"about": "About"
+	"about": "About",
+	"viewParticipants": "View Participants",
+	"participantsList": "Participants List"
 }

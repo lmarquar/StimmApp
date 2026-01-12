@@ -1,16 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stimmapp/core/constants/internal_constants.dart';
+import 'package:stimmapp/core/data/models/home_item.dart';
 
-class Petition {
+class Petition implements HomeItem {
+  @override
   final String id;
+  @override
   final String title;
+  @override
   final String description;
   final List<String> tags;
   final int signatureCount;
   final String createdBy;
   final DateTime createdAt;
+  @override
   final DateTime expiresAt;
   final String status;
+  @override
   final String? state;
 
   Petition({
@@ -25,6 +31,9 @@ class Petition {
     this.status = IConst.active,
     this.state,
   });
+
+  @override
+  int get participantCount => signatureCount;
 
   Petition copyWith({
     String? id,

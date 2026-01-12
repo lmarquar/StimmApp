@@ -14,6 +14,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get participants => 'Participants';
+
+  @override
   String newMessages(int newMessages) {
     String _temp0 = intl.Intl.pluralLogic(
       newMessages,
@@ -468,4 +471,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get about => 'About';
+
+  @override
+  String get viewParticipants => 'View Participants';
+
+  @override
+  String get participantsList => 'Participants List';
 }

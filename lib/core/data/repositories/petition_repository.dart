@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
+import 'package:stimmapp/core/data/models/user_profile.dart';
+import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
 
@@ -100,6 +102,22 @@ class PetitionRepository {
         'petitionId': petitionId,
         'signedAt': FieldValue.serverTimestamp(),
       });
+    });
+  }
+
+  Stream<List<UserProfile>> watchParticipants(String petitionId) {
+    return _fs.instance
+        .collection('petitions')
+        .doc(petitionId)
+        .collection('signatures')
+        .snapshots()
+        .asyncMap((snap) async {
+      final uids = snap.docs.map((d) => d.id).toList();
+      if (uids.isEmpty) return [];
+
+      final userRepo = UserRepository.create();
+      final profiles = await Future.wait(uids.map((uid) => userRepo.getById(uid)));
+      return profiles.whereType<UserProfile>().toList();
     });
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
+import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
@@ -75,6 +76,31 @@ void main() {
       final petition = await petitionRepository.get(petitionId);
       expect(petition, isNotNull);
       expect(petition!.signatureCount, 1);
+    });
+
+    test('watchParticipants returns profiles of signers', () async {
+      final petitionId = await petitionRepository.createPetition(tPetition);
+
+      // Add a user profile
+      final user = UserProfile(
+        uid: 'user1',
+        email: 'user1@test.com',
+        displayName: 'User One',
+      );
+      await fakeFirebaseFirestore
+          .collection('users')
+          .doc(user.uid)
+          .set(user.toJson());
+
+      // Sign
+      await petitionRepository.sign(petitionId, user.uid);
+
+      final participants =
+          await petitionRepository.watchParticipants(petitionId).first;
+
+      expect(participants, hasLength(1));
+      expect(participants.first.uid, user.uid);
+      expect(participants.first.displayName, user.displayName);
     });
   });
 }

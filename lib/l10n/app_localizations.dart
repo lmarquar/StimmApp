@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'Welcome {firstName} {lastName}!'**
   String helloAndWelcome(String firstName, String lastName);
 
+  /// No description provided for @participants.
+  ///
+  /// In en, this message translates to:
+  /// **'Participants'**
+  String get participants;
+
   /// Number of new messages in inbox.
   ///
   /// In en, this message translates to:
@@ -985,6 +991,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About'**
   String get about;
+
+  /// No description provided for @viewParticipants.
+  ///
+  /// In en, this message translates to:
+  /// **'View Participants'**
+  String get viewParticipants;
+
+  /// No description provided for @participantsList.
+  ///
+  /// In en, this message translates to:
+  /// **'Participants List'**
+  String get participantsList;
 }
 
 class _AppLocalizationsDelegate
