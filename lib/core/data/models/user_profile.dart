@@ -8,6 +8,8 @@ class UserProfile {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
+  bool get isAdmin => email == 'service@stimmapp.org';
+
   const UserProfile({
     required this.uid,
     this.displayName,

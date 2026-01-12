@@ -129,4 +129,8 @@ class PetitionRepository {
         .orderBy('signedAt', descending: true)
         .snapshots();
   }
+
+  Future<void> delete(String id) async {
+    await _col().doc(id).delete();
+  }
 }

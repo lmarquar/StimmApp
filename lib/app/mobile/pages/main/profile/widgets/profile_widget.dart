@@ -19,6 +19,7 @@ import '../../../../widgets/list_tile_widget.dart';
 import '../../../../widgets/neon_padding_widget.dart';
 import '../../../../widgets/unaffected_child_widget.dart';
 import '../delete_account_page.dart';
+import '../../admin/admin_dashboard_page.dart';
 
 class ProfileWidget extends StatelessWidget {
   const ProfileWidget({super.key});
@@ -67,23 +68,48 @@ class ProfileWidget extends StatelessWidget {
 
             final userProfile = snapshot.data!;
 
-            return NeonPaddingWidget(
-              isCentered: true,
-              child: Column(
-                children: [
-                  HeroWidget(nextPage: const ChangeProfilePicturePage()),
-                  Text(
-                    userProfile.displayName ?? 'no username found',
-                    style: AppTextStyles.l,
+            return Column(
+              children: [
+                NeonPaddingWidget(
+                  isCentered: true,
+                  child: Column(
+                    children: [
+                      HeroWidget(nextPage: const ChangeProfilePicturePage()),
+                      Text(
+                        userProfile.displayName ?? 'no username found',
+                        style: AppTextStyles.l,
+                      ),
+                      Text(
+                        userProfile.email ?? 'error retrieving email',
+                        style: AppTextStyles.m,
+                      ),
+                      Text(userProfile.state ?? 'no state found'),
+                      const SizedBox(height: AppDimensions.kPadding5),
+                    ],
                   ),
-                  Text(
-                    userProfile.email ?? 'error retrieving email',
-                    style: AppTextStyles.m,
+                ),
+                if (userProfile.isAdmin) ...[
+                  const SizedBox(height: 20.0),
+                  UnaffectedChildWidget(
+                    child: ListTile(
+                      leading: const Icon(Icons.admin_panel_settings, color: Colors.amber),
+                      title: Text(context.l10n.adminInterface),
+                      trailing: const Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        color: Colors.white38,
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AdminDashboardPage(),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                  Text(userProfile.state ?? 'no state found'),
-                  const SizedBox(height: AppDimensions.kPadding5),
                 ],
-              ),
+              ],
             );
           },
         ),

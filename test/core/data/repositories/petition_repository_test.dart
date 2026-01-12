@@ -102,5 +102,12 @@ void main() {
       expect(participants.first.uid, user.uid);
       expect(participants.first.displayName, user.displayName);
     });
+
+    test('delete removes a petition', () async {
+      final petitionId = await petitionRepository.createPetition(tPetition);
+      await petitionRepository.delete(petitionId);
+      final petition = await petitionRepository.get(petitionId);
+      expect(petition, isNull);
+    });
   });
 }

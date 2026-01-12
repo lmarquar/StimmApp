@@ -482,4 +482,27 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get participantsList => 'Teilnehmerliste';
+
+  @override
+  String get adminInterface => 'Admin-Oberfläche';
+
+  @override
+  String get adminDashboard => 'Admin-Dashboard';
+
+  @override
+  String get deleteUser => 'Benutzer löschen';
+
+  @override
+  String get deletePoll => 'Umfrage löschen';
+
+  @override
+  String get areYouSureYouWantToDeleteThisUser =>
+      'Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?';
+
+  @override
+  String get areYouSureYouWantToDeleteThisPoll =>
+      'Sind Sie sicher, dass Sie diese Umfrage löschen möchten?';
+
+  @override
+  String get users => 'Benutzer';
 }

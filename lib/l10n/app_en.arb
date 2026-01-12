@@ -178,5 +178,13 @@
 	},
 	"about": "About",
 	"viewParticipants": "View Participants",
-	"participantsList": "Participants List"
+	"participantsList": "Participants List",
+	"adminInterface": "Admin Interface",
+	"adminDashboard": "Admin Dashboard",
+	"deleteUser": "Delete User",
+	"deletePoll": "Delete Poll",
+	"deletePetition": "Delete Petition",
+	"areYouSureYouWantToDeleteThisUser": "Are you sure you want to delete this user?",
+	"areYouSureYouWantToDeleteThisPoll": "Are you sure you want to delete this poll?",
+	"users": "Users"
 }

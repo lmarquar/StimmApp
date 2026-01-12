@@ -76,5 +76,15 @@ void main() {
         ),
       );
     });
+
+    test('isAdmin is true for service@stimmapp.org', () {
+      const admin = UserProfile(uid: 'admin', email: 'service@stimmapp.org');
+      expect(admin.isAdmin, isTrue);
+    });
+
+    test('isAdmin is false for other emails', () {
+      const user = UserProfile(uid: 'user', email: 'user@test.com');
+      expect(user.isAdmin, isFalse);
+    });
   });
 }
