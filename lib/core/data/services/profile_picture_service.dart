@@ -95,4 +95,17 @@ class ProfilePictureService {
       await sub.cancel();
     }
   }
+
+  Future<void> deleteProfilePicture(String uid) async {
+    try {
+      final ref = FirebaseStorage.instanceFor(
+        app: Firebase.app(IConst.appName),
+      ).ref('users/$uid/profile.jpg');
+      await ref.delete();
+    } catch (e) {
+      // If the file doesn't exist, we don't care
+      debugPrint('Error deleting profile picture: $e');
+    }
+    profileUrlNotifier.value = null;
+  }
 }

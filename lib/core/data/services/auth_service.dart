@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/core/constants/internal_constants.dart';
+import 'package:stimmapp/core/data/repositories/user_repository.dart';
 
 late ValueNotifier<AuthService> authService;
 
@@ -83,7 +84,11 @@ class AuthService {
         email: email,
         password: password,
       );
+      final uid = currentUser?.uid;
       await currentUser!.reauthenticateWithCredential(credential);
+      if (uid != null) {
+        await UserRepository.create().delete(uid);
+      }
       await currentUser!.delete();
       await firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {

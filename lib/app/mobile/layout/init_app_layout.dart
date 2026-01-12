@@ -5,13 +5,26 @@ import 'package:stimmapp/core/notifiers/notifiers.dart';
 import '../pages/others/app_loading_page.dart';
 import 'auth_layout.dart';
 
-class InitAppLayout extends StatelessWidget {
+class InitAppLayout extends StatefulWidget {
   const InitAppLayout({super.key});
+
+  @override
+  State<InitAppLayout> createState() => _InitAppLayoutState();
+}
+
+class _InitAppLayoutState extends State<InitAppLayout> {
+  late Future<void> _initFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _initFuture = initApp();
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: initApp(),
+      future: _initFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const AppLoadingPage();

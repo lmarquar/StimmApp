@@ -3,6 +3,7 @@ import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
+import 'package:stimmapp/core/data/di/service_locator.dart';
 
 void main() {
   late UserRepository userRepository;
@@ -11,6 +12,7 @@ void main() {
 
   setUp(() {
     fakeFirebaseFirestore = FakeFirebaseFirestore();
+    locator.setDatabaseForTest(fakeFirebaseFirestore);
     firestoreService = DatabaseService(fakeFirebaseFirestore);
     userRepository = UserRepository(firestoreService);
   });
