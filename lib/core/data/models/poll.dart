@@ -22,8 +22,10 @@ class Poll implements HomeItem {
   final List<String> tags;
   final List<PollOption> options;
   final Map<String, int> votes; // optionId -> count
-  final String createdBy;
+  @override
   final DateTime createdAt;
+  @override
+  final String createdBy;
   @override
   final DateTime expiresAt;
   final String status;

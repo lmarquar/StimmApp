@@ -64,12 +64,35 @@ class _BaseOverviewPageState<T extends HomeItem> extends State<BaseOverviewPage<
               }).toList();
             }
             if (items.isEmpty) {
-              return Center(child: Text(context.l10n.noData));
+              return RefreshIndicator(
+                onRefresh: () async {
+                  setState(() {
+                    // This will trigger a rebuild of StreamBuilder
+                  });
+                },
+                child: ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      child: Center(child: Text(context.l10n.noData)),
+                    ),
+                  ],
+                ),
+              );
             }
-            return ListView.separated(
-              itemCount: items.length,
-              separatorBuilder: (context, index) => const Divider(height: 1),
-              itemBuilder: (context, i) => widget.itemBuilder(context, items[i]),
+            return RefreshIndicator(
+              onRefresh: () async {
+                setState(() {
+                  // This will trigger a rebuild of StreamBuilder
+                });
+              },
+              child: ListView.separated(
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: items.length,
+                separatorBuilder: (context, index) => const Divider(height: 1),
+                itemBuilder: (context, i) => widget.itemBuilder(context, items[i]),
+              ),
             );
           },
         );

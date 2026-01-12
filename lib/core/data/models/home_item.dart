@@ -4,5 +4,7 @@ abstract class HomeItem {
   String get description;
   String? get state;
   DateTime get expiresAt;
+  DateTime get createdAt;
+  String get createdBy;
   int get participantCount;
 }

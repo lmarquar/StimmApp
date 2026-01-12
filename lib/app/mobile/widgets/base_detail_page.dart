@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/participants_list_page.dart';
 import 'package:stimmapp/core/data/models/home_item.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
+import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 
 class BaseDetailPage<T extends HomeItem> extends StatelessWidget {
@@ -74,8 +75,20 @@ class BaseDetailPage<T extends HomeItem> extends StatelessWidget {
                       ),
                   ],
                 ),
+                FutureBuilder<UserProfile?>(
+                  future: UserRepository.create().getById(item.createdBy),
+                  builder: (context, userSnap) {
+                    final creatorName =
+                        userSnap.data?.displayName ?? context.l10n.anonymous;
+                    return Text(
+                      '${context.l10n.creator}: $creatorName',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    );
+                  },
+                ),
                 Text(
                   '${context.l10n.expiresOn}: ${DateFormat('dd.MM.yyyy').format(item.expiresAt)}',
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(height: 16),
                 Expanded(child: contentBuilder(context, item)),
