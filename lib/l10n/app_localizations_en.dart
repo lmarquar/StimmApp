@@ -477,4 +477,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get participantsList => 'Participants List';
+
+  @override
+  String get adminInterface => 'Admin Interface';
+
+  @override
+  String get adminDashboard => 'Admin Dashboard';
+
+  @override
+  String get deleteUser => 'Delete User';
+
+  @override
+  String get deletePoll => 'Delete Poll';
+
+  @override
+  String get areYouSureYouWantToDeleteThisUser =>
+      'Are you sure you want to delete this user?';
+
+  @override
+  String get areYouSureYouWantToDeleteThisPoll =>
+      'Are you sure you want to delete this poll?';
+
+  @override
+  String get users => 'Users';
 }

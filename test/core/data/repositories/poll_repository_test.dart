@@ -130,5 +130,12 @@ void main() {
       expect(participants.first.uid, user.uid);
       expect(participants.first.displayName, user.displayName);
     });
+
+    test('delete removes a poll', () async {
+      final pollId = await pollRepository.createPoll(tPoll);
+      await pollRepository.delete(pollId);
+      final poll = await pollRepository.get(pollId);
+      expect(poll, isNull);
+    });
   });
 }

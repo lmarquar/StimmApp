@@ -1003,6 +1003,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Participants List'**
   String get participantsList;
+
+  /// No description provided for @adminInterface.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Interface'**
+  String get adminInterface;
+
+  /// No description provided for @adminDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Dashboard'**
+  String get adminDashboard;
+
+  /// No description provided for @deleteUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete User'**
+  String get deleteUser;
+
+  /// No description provided for @deletePoll.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Poll'**
+  String get deletePoll;
+
+  /// No description provided for @areYouSureYouWantToDeleteThisUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this user?'**
+  String get areYouSureYouWantToDeleteThisUser;
+
+  /// No description provided for @areYouSureYouWantToDeleteThisPoll.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this poll?'**
+  String get areYouSureYouWantToDeleteThisPoll;
+
+  /// No description provided for @users.
+  ///
+  /// In en, this message translates to:
+  /// **'Users'**
+  String get users;
 }
 
 class _AppLocalizationsDelegate

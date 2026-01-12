@@ -120,4 +120,8 @@ class PollRepository {
     }
     await batch.commit();
   }
+
+  Future<void> delete(String id) async {
+    await _col().doc(id).delete();
+  }
 }

@@ -189,5 +189,13 @@
 	"about": "Über",
 	"viewParticipants": "Teilnehmer anzeigen",
 	"participantsList": "Teilnehmerliste",
+	"adminInterface": "Admin-Oberfläche",
+	"adminDashboard": "Admin-Dashboard",
+	"deleteUser": "Benutzer löschen",
+	"deletePoll": "Umfrage löschen",
+	"deletePetition": "Petition löschen",
+	"areYouSureYouWantToDeleteThisUser": "Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?",
+	"areYouSureYouWantToDeleteThisPoll": "Sind Sie sicher, dass Sie diese Umfrage löschen möchten?",
+	"users": "Benutzer",
 	"devContactInformation": "Diese App wurde von Team LeEd mit Hilfe von Yannic entwickelt"
 }
