@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:stimmapp/app/mobile/pages/others/app_loading_page.dart';
 import 'package:stimmapp/app/mobile/layout/init_app_layout.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/petitions/petition_detail_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/polls/poll_detail_page.dart';
@@ -155,56 +156,35 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // If not initialized yet, use the simple notifiers to render a stable app while prefs load.
-    if (!_initialized || appStateNotifier == null) {
-      return MaterialApp(
-        navigatorKey: navigatorKey,
-        title: IConst.appName,
-        theme: AppTheme.light,
-        darkTheme: AppTheme.dark,
-        themeMode: isDarkModeNotifier.value ? ThemeMode.dark : ThemeMode.light,
-        locale: appLocale.value,
-        routes: {
-          '/petition': (ctx) {
-            final args = ModalRoute.of(ctx)?.settings.arguments as String?;
-            return PetitionDetailPage(id: args ?? '');
+    return ValueListenableBuilder<bool>(
+      valueListenable: isDarkModeNotifier,
+      builder: (context, isDark, child) {
+        return ValueListenableBuilder<Locale?>(
+          valueListenable: appLocale,
+          builder: (context, locale, child) {
+            return MaterialApp(
+              navigatorKey: navigatorKey,
+              title: IConst.appName,
+              theme: AppTheme.light,
+              darkTheme: AppTheme.dark,
+              themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+              locale: locale,
+              routes: {
+                '/petition': (ctx) {
+                  final args = ModalRoute.of(ctx)?.settings.arguments as String?;
+                  return PetitionDetailPage(id: args ?? '');
+                },
+                '/poll': (ctx) {
+                  final args = ModalRoute.of(ctx)?.settings.arguments as String?;
+                  return PollDetailPage(id: args ?? '');
+                },
+              },
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              debugShowCheckedModeBanner: false,
+              home: _initialized ? const InitAppLayout() : const AppLoadingPage(),
+            );
           },
-          '/poll': (ctx) {
-            final args = ModalRoute.of(ctx)?.settings.arguments as String?;
-            return PollDetailPage(id: args ?? '');
-          },
-        },
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        debugShowCheckedModeBanner: false,
-        home: const InitAppLayout(),
-      );
-    }
-
-    return ValueListenableBuilder<AppState>(
-      valueListenable: appStateNotifier!,
-      builder: (context, state, child) {
-        return MaterialApp(
-          navigatorKey: navigatorKey,
-          title: IConst.appName,
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
-          themeMode: state.isDark ? ThemeMode.dark : ThemeMode.light,
-          locale: state.locale,
-          routes: {
-            '/petition': (ctx) {
-              final args = ModalRoute.of(ctx)?.settings.arguments as String?;
-              return PetitionDetailPage(id: args ?? '');
-            },
-            '/poll': (ctx) {
-              final args = ModalRoute.of(ctx)?.settings.arguments as String?;
-              return PollDetailPage(id: args ?? '');
-            },
-          },
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          debugShowCheckedModeBanner: false,
-          home: const InitAppLayout(),
         );
       },
     );

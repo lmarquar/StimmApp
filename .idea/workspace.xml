@@ -9,7 +9,15 @@
       <change beforePath="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper" beforeDir="false" afterPath="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper/android/sdkwrapper/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper/android/sdkwrapper/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper/android/sdkwrapper/src/main/java/com/governikus/ausweisapp/sdkwrapper/card/core/ausweisapp/AA2SdkConnection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper/android/sdkwrapper/src/main/java/com/governikus/ausweisapp/sdkwrapper/card/core/ausweisapp/AA2SdkConnection.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/mobile/layout/init_app_layout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/layout/init_app_layout.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/delete_account_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/delete_account_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/widgets/profile_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/widgets/profile_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/core/data/repositories/user_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/repositories/user_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/data/services/auth_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/services/auth_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/data/services/profile_picture_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/services/profile_picture_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/errors/error_log_tool.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/errors/error_log_tool.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/core/data/repositories/user_repository_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/core/data/repositories/user_repository_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +95,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
     "io.flutter.project.isFirstOpen": "true",
     "io.flutter.reload.alreadyRun": "true",
@@ -234,7 +243,7 @@
       <workItem from="1767793866979" duration="8800000" />
       <workItem from="1767860698331" duration="480000" />
       <workItem from="1768128218127" duration="50000" />
-      <workItem from="1768237078639" duration="3625000" />
+      <workItem from="1768237078639" duration="4772000" />
     </task>
     <servers />
   </component>

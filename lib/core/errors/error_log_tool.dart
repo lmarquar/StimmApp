@@ -5,7 +5,7 @@ void errorLogTool({
   required Object exception,
   required String errorCustomMessage,
 }) {
-  FlutterError.reportError(FlutterErrorDetails(exception: exception));
+  debugPrint('Error: $errorCustomMessage - $exception');
   errorList.add(exception);
   errorListId.add(errorCustomMessage);
 }

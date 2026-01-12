@@ -3,6 +3,8 @@ import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
 import 'package:stimmapp/core/constants/database_collections.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
+import 'package:stimmapp/core/data/services/profile_picture_service.dart';
+import 'package:stimmapp/core/constants/internal_constants.dart';
 
 class UserRepository {
   UserRepository(this._fs);
@@ -76,6 +78,28 @@ class UserRepository {
       // 4. Finally delete the user profile
       txn.delete(userRef);
     });
+
+    // 5. Delete profile picture from storage
+    await ProfilePictureService.instance.deleteProfilePicture(uid);
+
+    // 6. Delete created polls and petitions
+    final createdPollsSnap = await db
+        .collection(DatabaseCollections.polls)
+        .where('createdBy', isEqualTo: uid)
+        .get();
+    final createdPetitionsSnap = await db
+        .collection(DatabaseCollections.petitions)
+        .where('createdBy', isEqualTo: uid)
+        .get();
+
+    final batch = db.batch();
+    for (final doc in createdPollsSnap.docs) {
+      batch.update(doc.reference, {'status': IConst.closed});
+    }
+    for (final doc in createdPetitionsSnap.docs) {
+      batch.update(doc.reference, {'status': IConst.closed});
+    }
+    await batch.commit();
   }
 
   Stream<UserProfile?> watchById(String uid) {

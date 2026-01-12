@@ -22,7 +22,9 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
   String errorMessage = '';
 
   void popUntilLast() {
-    Navigator.of(context).popUntil((route) => route.isFirst);
+    if (mounted) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    }
   }
 
   void deleteAccount() async {
@@ -34,10 +36,14 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
       AppData.isAuthConnected.value = false;
       AppData.navBarCurrentIndexNotifier.value = 0;
       AppData.onboardingCurrentIndexNotifier.value = 0;
-      showSnackBar();
-      popUntilLast();
+      if (mounted) {
+        showSnackBar();
+        popUntilLast();
+      }
     } catch (e) {
-      showErrorSnackBar(e.toString());
+      if (mounted) {
+        showErrorSnackBar(e.toString());
+      }
     }
   }
 
@@ -79,7 +85,6 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                   child: Column(
                     children: [
                       TextFormField(
-                        key: _formKey,
                         controller: controllerEmail,
                         decoration: InputDecoration(
                           labelText: context.l10n.enterYourEmail,
@@ -99,6 +104,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
+                        obscureText: true,
                         controller: controllerPassword,
                         decoration: InputDecoration(
                           labelText: context.l10n.currentPassword,
