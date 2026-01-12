@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stimmapp/core/constants/internal_constants.dart';
+import 'package:stimmapp/core/data/models/home_item.dart';
 
 class PollOption {
   final String id;
@@ -11,17 +12,22 @@ class PollOption {
   Map<String, dynamic> toMap() => {'id': id, 'label': label};
 }
 
-class Poll {
+class Poll implements HomeItem {
+  @override
   final String id;
+  @override
   final String title;
+  @override
   final String description;
   final List<String> tags;
   final List<PollOption> options;
   final Map<String, int> votes; // optionId -> count
   final String createdBy;
   final DateTime createdAt;
+  @override
   final DateTime expiresAt;
   final String status;
+  @override
   final String? state;
 
   Poll({
@@ -39,6 +45,9 @@ class Poll {
   });
 
   int get totalVotes => votes.values.fold(0, (a, b) => a + b);
+
+  @override
+  int get participantCount => totalVotes;
 
   Poll copyWith({
     String? id,

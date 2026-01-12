@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
+import 'package:stimmapp/core/data/models/user_profile.dart';
+import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
 
@@ -88,6 +90,22 @@ class PollRepository {
   Future<String> createPoll(Poll poll) async {
     final docRef = await _col().add(poll);
     return docRef.id;
+  }
+
+  Stream<List<UserProfile>> watchParticipants(String pollId) {
+    return _fs.instance
+        .collection('polls')
+        .doc(pollId)
+        .collection('votes')
+        .snapshots()
+        .asyncMap((snap) async {
+      final uids = snap.docs.map((d) => d.id).toList();
+      if (uids.isEmpty) return [];
+
+      final userRepo = UserRepository.create();
+      final profiles = await Future.wait(uids.map((uid) => userRepo.getById(uid)));
+      return profiles.whereType<UserProfile>().toList();
+    });
   }
 
   Future<void> closeExpiredPolls() async {

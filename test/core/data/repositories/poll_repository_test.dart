@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
+import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
@@ -104,6 +105,30 @@ void main() {
       expect(expiredPollAfter!.status, IConst.closed);
       expect(activePollAfter, isNotNull);
       expect(activePollAfter!.status, IConst.active);
+    });
+
+    test('watchParticipants returns profiles of voters', () async {
+      final pollId = await pollRepository.createPoll(tPoll);
+
+      // Add a user profile
+      final user = UserProfile(
+        uid: 'user1',
+        email: 'user1@test.com',
+        displayName: 'User One',
+      );
+      await fakeFirebaseFirestore
+          .collection('users')
+          .doc(user.uid)
+          .set(user.toJson());
+
+      // Vote
+      await pollRepository.vote(pollId: pollId, optionId: 'opt1', uid: user.uid);
+
+      final participants = await pollRepository.watchParticipants(pollId).first;
+
+      expect(participants, hasLength(1));
+      expect(participants.first.uid, user.uid);
+      expect(participants.first.displayName, user.displayName);
     });
   });
 }

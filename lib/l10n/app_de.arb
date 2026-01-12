@@ -32,6 +32,7 @@
 			}
 		}
 	},
+	"participants": "Teilnehmer",
 	"language": "Sprache",
 	"changeLanguage": "Sprache ändern",
 	"english": "Englisch",
@@ -186,5 +187,7 @@
 		}
 	},
 	"about": "Über",
+	"viewParticipants": "Teilnehmer anzeigen",
+	"participantsList": "Teilnehmerliste",
 	"devContactInformation": "Diese App wurde von Team LeEd mit Hilfe von Yannic entwickelt"
 }

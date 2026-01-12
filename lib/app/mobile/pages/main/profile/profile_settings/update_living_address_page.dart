@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
-import 'package:stimmapp/app/mobile/widgets/select_adress_widget.dart';
+import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
