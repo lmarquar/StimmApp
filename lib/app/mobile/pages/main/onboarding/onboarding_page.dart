@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle, MethodChannel;
 import 'package:image_picker/image_picker.dart';
 import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
+import 'package:stimmapp/core/data/services/database_service.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
@@ -31,6 +32,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
   double _progress = 0.0;
   String? _selectedState;
 
+
+  Future<void> registerWithId() async {
+    //Junie, please write your code here
+    var result = "default";
+  }
+
   void register() async {
     try {
       final cred = await authService.value.createAccount(
@@ -40,6 +47,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
       await authService.value.updateUsername(
         username: controllerEm.text.split('@')[0],
       );
+      registerWithId();
+
+      // Small delay to ensure Auth state is recognized by Firestore/Storage
+      await Future.delayed(const Duration(milliseconds: 500));
 
       if (cred.user != null) {
         final profile = UserProfile(
@@ -49,7 +60,26 @@ class _OnboardingPageState extends State<OnboardingPage> {
           state: _selectedState,
           createdAt: DateTime.now(),
         );
-        await UserRepository.create().upsert(profile);
+
+        // Retry profile creation as Firestore might take a moment to recognize the new user
+        DatabaseException? lastDbEx;
+        for (int i = 0; i < 8; i++) {
+          try {
+            debugPrint('Attempting to create user profile (attempt ${i + 1}) for UID: ${cred.user!.uid}');
+            await UserRepository.create().upsert(profile);
+            lastDbEx = null;
+            break;
+          } on DatabaseException catch (e) {
+            lastDbEx = e;
+            debugPrint('User profile creation attempt ${i + 1} failed: ${e.code}');
+            if (e.code == 'permission-denied') {
+              await Future.delayed(Duration(milliseconds: 1000 * (i + 1)));
+            } else {
+              rethrow;
+            }
+          }
+        }
+        if (lastDbEx != null) throw lastDbEx;
       }
 
       AppData.isAuthConnected.value = true;
@@ -75,6 +105,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
           await ProfilePictureService.instance.uploadProfilePicture(
             user.uid,
             xFile,
+            retryAttempts: 8,
+            retryDelayMs: 1000,
             onProgress: (p) {
               if (!mounted) return;
               if ((p - _progress).abs() > 0.01) setState(() => _progress = p);
@@ -84,7 +116,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
       } catch (e, st) {
         // don't break registration for asset/upload failures — log for debugging
         debugPrint('Default avatar upload failed: $e\n$st');
-        showErrorSnackBar('Default avatar upload failed: $e\n$st');
+        String errorMsg = e.toString();
+        if (e is DatabaseException) {
+          errorMsg = 'Database error (${e.code}): ${e.message}';
+        }
+        showErrorSnackBar('Default avatar upload failed: $errorMsg');
       }
 
       popPage();
@@ -92,6 +128,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
       setState(() {
         errorMessage = '${e.code}: ${e.message ?? 'Unknown error'}';
       });
+      showErrorSnackBar(errorMessage);
+    } on DatabaseException catch (e) {
+      setState(() {
+        errorMessage = 'Database error (${e.code}): ${e.message ?? 'Unknown error'}';
+      });
+      debugPrintStack(label: 'register database error', stackTrace: StackTrace.current);
       showErrorSnackBar(errorMessage);
     } catch (e, st) {
       // Fallback for any other exception
@@ -107,7 +149,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     Navigator.pop(context);
   }
 
-  Future<void> registerWithId() async {
+  Future<void> registerWithEId() async {
     var result = "defaultUser";
     var randomName = "HANA";
     if (kIsWeb) {
@@ -123,8 +165,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
         showErrorSnackBar("expected: $randomName, got: $result");
       }
     }
-
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +262,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               ButtonWidget(
                 isFilled: false,
                 label: 'PostID (NFC)',
-                callback: registerWithId,
+                callback: registerWithEId,
               ),
             ],
           );
