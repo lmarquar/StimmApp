@@ -84,9 +84,11 @@ class _MyAppState extends State<MyApp> {
     // load persisted locale (if any) before creating composite notifier
     await initLocale();
 
-    // Close expired petitions on startup
-    await PetitionRepository.create().closeExpiredPetitions();
-    await PollRepository.create().closeExpiredPolls();
+    // Close expired petitions on startup if authenticated
+    if (authService.value.currentUser != null) {
+      await PetitionRepository.create().closeExpiredPetitions();
+      await PollRepository.create().closeExpiredPolls();
+    }
 
     // only create the composite notifier after persisted state is loaded to avoid immediate circular updates
     appStateNotifier = AppStateNotifier(

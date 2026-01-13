@@ -34,31 +34,53 @@ class DatabaseService {
   }
 
   Future<T?> getDoc<T>(DocumentReference<T> ref) async {
-    final snap = await ref.get();
-    return snap.data();
+    try {
+      final snap = await ref.get();
+      return snap.data();
+    } on FirebaseException catch (e) {
+      throw DatabaseException(e);
+    }
   }
 
   Stream<T?> watchDoc<T>(DocumentReference<T> ref) {
-    return ref.snapshots().map((s) => s.data());
+    return ref.snapshots().map((s) => s.data()).handleError((e) {
+      if (e is FirebaseException) {
+        throw DatabaseException(e);
+      }
+      throw e;
+    });
   }
 
   Stream<List<T>> watchCol<T>(Query<T> query, {int? limit}) {
     var q = query;
     if (limit != null) q = q.limit(limit);
-    return q.snapshots().map((snap) => snap.docs.map((d) => d.data()).toList());
+    return q.snapshots().map((snap) => snap.docs.map((d) => d.data()).toList()).handleError((e) {
+      if (e is FirebaseException) {
+        throw DatabaseException(e);
+      }
+      throw e;
+    });
   }
 
   Future<void> upsert<T>(DocumentReference<T> ref, T data) async {
-    await ref.set(data, SetOptions(merge: true));
+    try {
+      await ref.set(data, SetOptions(merge: true));
+    } on FirebaseException catch (e) {
+      throw DatabaseException(e);
+    }
   }
 
   Future<void> delete<T>(DocumentReference<T> ref) async {
-    await ref.delete();
+    try {
+      await ref.delete();
+    } on FirebaseException catch (e) {
+      throw DatabaseException(e);
+    }
   }
 }
 
 class DatabaseException implements Exception {
-  final DatabaseException firestoreException;
+  final FirebaseException firestoreException;
 
   DatabaseException(this.firestoreException);
 
