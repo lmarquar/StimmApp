@@ -1,0 +1,472 @@
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># Miscellaneous\n*.class\n*.lock\n*.log\n*.pyc\n*.swp\n.buildlog/\n.history\n\n\n\n# Flutter repo-specific\n/bin/cache/\n/bin/internal/bootstrap.bat\n/bin/internal/bootstrap.sh\n/bin/mingit/\n/dev/benchmarks/mega_gallery/\n/dev/bots/.recipe_deps\n/dev/bots/android_tools/\n/dev/devicelab/ABresults*.json\n/dev/docs/doc/\n/dev/docs/flutter.docs.zip\n/dev/docs/lib/\n/dev/docs/pubspec.yaml\n/dev/integration_tests/**/xcuserdata\n/dev/integration_tests/**/Pods\n/packages/flutter/coverage/\nversion\nanalysis_benchmark.json\n\n# packages file containing multi-root paths\n.packages.generated\n\n# Flutter/Dart/Pub related\n**/doc/api/\n.dart_tool/\n.flutter-plugins\n.flutter-plugins-dependencies\n**/generated_plugin_registrant.dart\n.packages\n.pub-preload-cache/\n.pub/\nbuild/\nflutter_*.png\nlinked_*.ds\nunlinked.ds\nunlinked_spec.ds\n\n# Android related\n**/android/**/gradle-wrapper.jar\n.gradle/\n**/android/captures/\n**/android/gradlew\n**/android/gradlew.bat\n**/android/local.properties\n**/android/**/GeneratedPluginRegistrant.java\n**/android/key.properties\n*.jks\n\n# iOS/XCode related\n**/ios/**/*.mode1v3\n**/ios/**/*.mode2v3\n**/ios/**/*.moved-aside\n**/ios/**/*.pbxuser\n**/ios/**/*.perspectivev3\n**/ios/**/*sync/\n**/ios/**/.sconsign.dblite\n**/ios/**/.tags*\n**/ios/**/.vagrant/\n**/ios/**/DerivedData/\n**/ios/**/Icon?\n**/ios/**/Pods/\n**/ios/**/.symlinks/\n**/ios/**/profile\n**/ios/**/xcuserdata\n**/ios/.generated/\n**/ios/Flutter/.last_build_id\n**/ios/Flutter/App.framework\n**/ios/Flutter/Flutter.framework\n**/ios/Flutter/Flutter.podspec\n**/ios/Flutter/Generated.xcconfig\n**/ios/Flutter/ephemeral\n**/ios/Flutter/app.flx\n**/ios/Flutter/app.zip\n**/ios/Flutter/flutter_assets/\n**/ios/Flutter/flutter_export_environment.sh\n**/ios/ServiceDefinitions.json\n**/ios/Runner/GeneratedPluginRegistrant.*\n\n# macOS\n**/Flutter/ephemeral/\n**/Pods/\n**/macos/Flutter/GeneratedPluginRegistrant.swift\n**/macos/Flutter/ephemeral\n**/xcuserdata/\n\n# Windows\n**/windows/flutter/generated_plugin_registrant.cc\n**/windows/flutter/generated_plugin_registrant.h\n**/windows/flutter/generated_plugins.cmake\n\n# Linux\n**/linux/flutter/generated_plugin_registrant.cc\n**/linux/flutter/generated_plugin_registrant.h\n**/linux/flutter/generated_plugins.cmake\n\n# Coverage\ncoverage/\n\n# Symbols\napp.*.symbols\n\n# Exceptions to above rules.\n!**/ios/**/default.mode1v3\n!**/ios/**/default.mode2v3\n!**/ios/**/default.pbxuser\n!**/ios/**/default.perspectivev3\n!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages\n!/dev/ci/**/Gemfile.lock\n\n.vscode
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+--- a/.gitignore	(revision c4a77bb1ad7518ef28ea9078e07f94f55b89d8f9)
++++ b/.gitignore	(date 1768318110063)
+@@ -118,4 +118,8 @@
+ !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+ !/dev/ci/**/Gemfile.lock
+ 
++# IntelliJ
++.idea/
++.idea/workspace.xml
++
+ .vscode
+\ No newline at end of file
+Index: lib/core/data/models/petition.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import 'package:cloud_firestore/cloud_firestore.dart';\nimport 'package:stimmapp/core/constants/internal_constants.dart';\nimport 'package:stimmapp/core/data/models/home_item.dart';\n\nclass Petition implements HomeItem {\n  @override\n  final String id;\n  @override\n  final String title;\n  @override\n  final String description;\n  final List<String> tags;\n  final int signatureCount;\n  final String createdBy;\n  final DateTime createdAt;\n  @override\n  final DateTime expiresAt;\n  final String status;\n  @override\n  final String? state;\n\n  Petition({\n    required this.id,\n    required this.title,\n    required this.description,\n    required this.tags,\n    required this.signatureCount,\n    required this.createdBy,\n    required this.createdAt,\n    required this.expiresAt,\n    this.status = IConst.active,\n    this.state,\n  });\n\n  @override\n  int get participantCount => signatureCount;\n\n  Petition copyWith({\n    String? id,\n    String? title,\n    String? description,\n    List<String>? tags,\n    int? signatureCount,\n    String? createdBy,\n    DateTime? createdAt,\n    DateTime? expiresAt,\n    String? status,\n    String? state,\n  }) {\n    return Petition(\n      id: id ?? this.id,\n      title: title ?? this.title,\n      description: description ?? this.description,\n      tags: tags ?? this.tags,\n      signatureCount: signatureCount ?? this.signatureCount,\n      createdBy: createdBy ?? this.createdBy,\n      createdAt: createdAt ?? this.createdAt,\n      expiresAt: expiresAt ?? this.expiresAt,\n      status: status ?? this.status,\n      state: state ?? this.state,\n    );\n  }\n\n  static Petition fromFirestore(\n    DocumentSnapshot<Map<String, dynamic>> snap,\n    SnapshotOptions? _,\n  ) {\n    final data = snap.data()!;\n    final createdAt =\n        (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now();\n    return Petition(\n      id: snap.id,\n      title: (data['title'] ?? '') as String,\n      description: (data['description'] ?? '') as String,\n      tags: (data['tags'] as List?)?.cast<String>() ?? const [],\n      signatureCount: (data['signatureCount'] ?? 0) as int,\n      createdBy: (data['createdBy'] ?? '') as String,\n      createdAt: createdAt,\n      expiresAt:\n          (data['expiresAt'] as Timestamp?)?.toDate() ??\n          createdAt.add(const Duration(days: 28)),\n      status: (data['status'] ?? IConst.active) as String,\n      state: data['state'] as String?,\n    );\n  }\n\n  static Map<String, Object?> toFirestore(Petition p, SetOptions? _) {\n    return {\n      'title': p.title,\n      'description': p.description,\n      'tags': p.tags,\n      'signatureCount': p.signatureCount,\n      'createdBy': p.createdBy,\n      'createdAt': Timestamp.fromDate(p.createdAt),\n      'expiresAt': Timestamp.fromDate(p.expiresAt),\n      'status': p.status,\n      'titleLowercase': p.title.toLowerCase(),\n      'state': p.state,\n    };\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/core/data/models/petition.dart b/lib/core/data/models/petition.dart
+--- a/lib/core/data/models/petition.dart	(revision c4a77bb1ad7518ef28ea9078e07f94f55b89d8f9)
++++ b/lib/core/data/models/petition.dart	(date 1768318129544)
+@@ -11,7 +11,9 @@
+   final String description;
+   final List<String> tags;
+   final int signatureCount;
++  @override
+   final String createdBy;
++  @override
+   final DateTime createdAt;
+   @override
+   final DateTime expiresAt;
+Index: lib/app/mobile/widgets/base_detail_page.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import 'package:flutter/material.dart';\nimport 'package:intl/intl.dart';\nimport 'package:stimmapp/app/mobile/pages/main/home/participants_list_page.dart';\nimport 'package:stimmapp/core/data/models/home_item.dart';\nimport 'package:stimmapp/core/data/models/user_profile.dart';\nimport 'package:stimmapp/core/extensions/context_extensions.dart';\n\nclass BaseDetailPage<T extends HomeItem> extends StatelessWidget {\n  const BaseDetailPage({\n    super.key,\n    required this.id,\n    required this.appBarTitle,\n    required this.streamProvider,\n    required this.contentBuilder,\n    this.bottomAction,\n    this.participantsStream,\n  });\n\n  final String id;\n  final String appBarTitle;\n  final Stream<T?> Function(String id) streamProvider;\n  final Widget Function(BuildContext context, T item) contentBuilder;\n  final Widget? bottomAction;\n  final Stream<List<UserProfile>>? participantsStream;\n\n  @override\n  Widget build(BuildContext context) {\n    return Scaffold(\n      appBar: AppBar(title: Text(appBarTitle)),\n      body: StreamBuilder<T?>(\n        stream: streamProvider(id),\n        builder: (context, snap) {\n          if (snap.connectionState == ConnectionState.waiting) {\n            return const Center(child: CircularProgressIndicator());\n          }\n          final item = snap.data;\n          if (item == null) return Center(child: Text(context.l10n.notFound));\n\n          return Padding(\n            padding: const EdgeInsets.all(16.0),\n            child: Column(\n              crossAxisAlignment: CrossAxisAlignment.start,\n              children: [\n                if (item.state != null && item.state!.isNotEmpty) ...[\n                  const SizedBox(height: 8),\n                  Chip(label: Text(context.l10n.relatedToState(item.state!))),\n                ],\n                const SizedBox(height: 16),\n                Text(\n                  item.title,\n                  style: Theme.of(context).textTheme.headlineSmall,\n                ),\n                Text(item.description),\n                const SizedBox(height: 16),\n                Row(\n                  mainAxisAlignment: MainAxisAlignment.spaceBetween,\n                  children: [\n                    Text(\n                      '${context.l10n.participants}: ${item.participantCount}',\n                    ),\n                    if (participantsStream != null)\n                      TextButton(\n                        onPressed: () {\n                          Navigator.of(context).push(\n                            MaterialPageRoute(\n                              builder:\n                                  (context) => ParticipantsListPage(\n                                    participantsStream: participantsStream!,\n                                  ),\n                            ),\n                          );\n                        },\n                        child: Text(context.l10n.viewParticipants),\n                      ),\n                  ],\n                ),\n                Text(\n                  '${context.l10n.expiresOn}: ${DateFormat('dd.MM.yyyy').format(item.expiresAt)}',\n                ),\n                const SizedBox(height: 16),\n                Expanded(child: contentBuilder(context, item)),\n                if (bottomAction != null) ...[\n                  const SizedBox(height: 16),\n                  SizedBox(width: double.infinity, child: bottomAction!),\n                ],\n              ],\n            ),\n          );\n        },\n      ),\n    );\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/app/mobile/widgets/base_detail_page.dart b/lib/app/mobile/widgets/base_detail_page.dart
+--- a/lib/app/mobile/widgets/base_detail_page.dart	(revision c4a77bb1ad7518ef28ea9078e07f94f55b89d8f9)
++++ b/lib/app/mobile/widgets/base_detail_page.dart	(date 1768318129544)
+@@ -3,6 +3,7 @@
+ import 'package:stimmapp/app/mobile/pages/main/home/participants_list_page.dart';
+ import 'package:stimmapp/core/data/models/home_item.dart';
+ import 'package:stimmapp/core/data/models/user_profile.dart';
++import 'package:stimmapp/core/data/repositories/user_repository.dart';
+ import 'package:stimmapp/core/extensions/context_extensions.dart';
+ 
+ class BaseDetailPage<T extends HomeItem> extends StatelessWidget {
+@@ -74,8 +75,20 @@
+                       ),
+                   ],
+                 ),
++                FutureBuilder<UserProfile?>(
++                  future: UserRepository.create().getById(item.createdBy),
++                  builder: (context, userSnap) {
++                    final creatorName =
++                        userSnap.data?.displayName ?? context.l10n.anonymous;
++                    return Text(
++                      '${context.l10n.creator}: $creatorName',
++                      style: Theme.of(context).textTheme.bodySmall,
++                    );
++                  },
++                ),
+                 Text(
+                   '${context.l10n.expiresOn}: ${DateFormat('dd.MM.yyyy').format(item.expiresAt)}',
++                  style: Theme.of(context).textTheme.bodySmall,
+                 ),
+                 const SizedBox(height: 16),
+                 Expanded(child: contentBuilder(context, item)),
+Index: lib/app/mobile/widgets/base_overview_page.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import 'package:flutter/material.dart';\nimport 'package:stimmapp/app/mobile/widgets/search_text_field.dart';\nimport 'package:stimmapp/core/constants/internal_constants.dart';\nimport 'package:stimmapp/core/data/models/home_item.dart';\nimport 'package:stimmapp/core/data/models/user_profile.dart';\nimport 'package:stimmapp/core/data/repositories/user_repository.dart';\nimport 'package:stimmapp/core/data/services/auth_service.dart';\nimport 'package:stimmapp/core/extensions/context_extensions.dart';\n\nclass BaseOverviewPage<T extends HomeItem> extends StatefulWidget {\n  const BaseOverviewPage({\n    super.key,\n    required this.streamProvider,\n    required this.itemBuilder,\n  });\n\n  final Stream<List<T>> Function(String query, String status) streamProvider;\n  final Widget Function(BuildContext context, T item) itemBuilder;\n\n  @override\n  State<BaseOverviewPage<T>> createState() => _BaseOverviewPageState<T>();\n}\n\nclass _BaseOverviewPageState<T extends HomeItem> extends State<BaseOverviewPage<T>>\n    with SingleTickerProviderStateMixin {\n  late TabController _tabController;\n  String _query = '';\n  Future<UserProfile?>? _userProfileFuture;\n\n  @override\n  void initState() {\n    super.initState();\n    _tabController = TabController(length: 2, vsync: this);\n    final uid = authService.value.currentUser?.uid;\n    if (uid != null) {\n      _userProfileFuture = UserRepository.create().getById(uid);\n    }\n  }\n\n  @override\n  void dispose() {\n    _tabController.dispose();\n    super.dispose();\n  }\n\n  Widget _buildItemList(String status) {\n    return FutureBuilder<UserProfile?>(\n      future: _userProfileFuture,\n      builder: (context, userSnap) {\n        if (userSnap.connectionState == ConnectionState.waiting) {\n          return const Center(child: CircularProgressIndicator());\n        }\n        final userProfile = userSnap.data;\n        return StreamBuilder<List<T>>(\n          stream: widget.streamProvider(_query, status),\n          builder: (context, snap) {\n            if (snap.connectionState == ConnectionState.waiting) {\n              return const Center(child: CircularProgressIndicator());\n            }\n            var items = snap.data ?? const [];\n            if (userProfile != null) {\n              items = items.where((p) {\n                return p.state == null || p.state == userProfile.state;\n              }).toList();\n            }\n            if (items.isEmpty) {\n              return Center(child: Text(context.l10n.noData));\n            }\n            return ListView.separated(\n              itemCount: items.length,\n              separatorBuilder: (context, index) => const Divider(height: 1),\n              itemBuilder: (context, i) => widget.itemBuilder(context, items[i]),\n            );\n          },\n        );\n      },\n    );\n  }\n\n  @override\n  Widget build(BuildContext context) {\n    return Scaffold(\n      appBar: TabBar(\n        controller: _tabController,\n        tabs: [\n          Tab(text: context.l10n.active),\n          Tab(text: context.l10n.closed),\n        ],\n      ),\n      body: Padding(\n        padding: const EdgeInsets.all(12.0),\n        child: Column(\n          children: [\n            SearchTextField(\n              hint: context.l10n.searchTextField,\n              onChanged: (q) => setState(() => _query = q),\n            ),\n            const SizedBox(height: 12),\n            Expanded(\n              child: TabBarView(\n                controller: _tabController,\n                children: [\n                  _buildItemList(IConst.active),\n                  _buildItemList(IConst.closed),\n                ],\n              ),\n            ),\n          ],\n        ),\n      ),\n    );\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/app/mobile/widgets/base_overview_page.dart b/lib/app/mobile/widgets/base_overview_page.dart
+--- a/lib/app/mobile/widgets/base_overview_page.dart	(revision c4a77bb1ad7518ef28ea9078e07f94f55b89d8f9)
++++ b/lib/app/mobile/widgets/base_overview_page.dart	(date 1768318129544)
+@@ -64,12 +64,35 @@
+               }).toList();
+             }
+             if (items.isEmpty) {
+-              return Center(child: Text(context.l10n.noData));
++              return RefreshIndicator(
++                onRefresh: () async {
++                  setState(() {
++                    // This will trigger a rebuild of StreamBuilder
++                  });
++                },
++                child: ListView(
++                  physics: const AlwaysScrollableScrollPhysics(),
++                  children: [
++                    SizedBox(
++                      height: MediaQuery.of(context).size.height * 0.6,
++                      child: Center(child: Text(context.l10n.noData)),
++                    ),
++                  ],
++                ),
++              );
+             }
+-            return ListView.separated(
+-              itemCount: items.length,
+-              separatorBuilder: (context, index) => const Divider(height: 1),
+-              itemBuilder: (context, i) => widget.itemBuilder(context, items[i]),
++            return RefreshIndicator(
++              onRefresh: () async {
++                setState(() {
++                  // This will trigger a rebuild of StreamBuilder
++                });
++              },
++              child: ListView.separated(
++                physics: const AlwaysScrollableScrollPhysics(),
++                itemCount: items.length,
++                separatorBuilder: (context, index) => const Divider(height: 1),
++                itemBuilder: (context, i) => widget.itemBuilder(context, items[i]),
++              ),
+             );
+           },
+         );
+Index: lib/core/data/models/home_item.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>abstract class HomeItem {\n  String get id;\n  String get title;\n  String get description;\n  String? get state;\n  DateTime get expiresAt;\n  int get participantCount;\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/core/data/models/home_item.dart b/lib/core/data/models/home_item.dart
+--- a/lib/core/data/models/home_item.dart	(revision c4a77bb1ad7518ef28ea9078e07f94f55b89d8f9)
++++ b/lib/core/data/models/home_item.dart	(date 1768318129544)
+@@ -4,5 +4,7 @@
+   String get description;
+   String? get state;
+   DateTime get expiresAt;
++  DateTime get createdAt;
++  String get createdBy;
+   int get participantCount;
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+new file mode 100644
+--- /dev/null	(date 1768318147290)
++++ b/.idea/workspace.xml	(date 1768318147290)
+@@ -0,0 +1,291 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="AutoImportSettings">
++    <option name="autoReloadType" value="NONE" />
++  </component>
++  <component name="ChangeListManager">
++    <list default="true" id="7d6f3465-2f01-4299-a9a0-b5155cadad56" name="Changes" comment="">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper" beforeDir="false" afterPath="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper/android/sdkwrapper/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper/android/sdkwrapper/build.gradle" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper/android/sdkwrapper/src/main/java/com/governikus/ausweisapp/sdkwrapper/card/core/ausweisapp/AA2SdkConnection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper/android/sdkwrapper/src/main/java/com/governikus/ausweisapp/sdkwrapper/card/core/ausweisapp/AA2SdkConnection.kt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/widgets/profile_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/widgets/profile_widget.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lib/core/data/models/user_profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/models/user_profile.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lib/core/data/repositories/petition_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/repositories/petition_repository.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lib/core/data/repositories/poll_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/repositories/poll_repository.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lib/l10n/app_de.arb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_de.arb" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lib/l10n/app_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_en.arb" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_localizations.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_localizations_de.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_localizations_en.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/test/core/data/repositories/petition_repository_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/core/data/repositories/petition_repository_test.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/test/core/data/repositories/poll_repository_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/core/data/repositories/poll_repository_test.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/test/core/data/repositories/user_repository_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/core/data/repositories/user_repository_test.dart" afterDir="false" />
++    </list>
++    <option name="SHOW_DIALOG" value="false" />
++    <option name="HIGHLIGHT_CONFLICTS" value="true" />
++    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
++    <option name="LAST_RESOLUTION" value="IGNORE" />
++  </component>
++  <component name="ClangdSettings">
++    <option name="formatViaClangd" value="false" />
++  </component>
++  <component name="EmbeddingIndexingInfo">
++    <option name="cachedIndexableFilesCount" value="1903" />
++    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
++  </component>
++  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=GQ8T9XTKXWIVOVI7)]" />
++  <component name="ExternalProjectsData">
++    <projectState path="$PROJECT_DIR$/android">
++      <ProjectState />
++    </projectState>
++  </component>
++  <component name="ExternalProjectsManager">
++    <system id="GRADLE">
++      <state>
++        <task path="$PROJECT_DIR$/android">
++          <activation />
++        </task>
++        <projects_view>
++          <tree_state>
++            <expand />
++            <select />
++          </tree_state>
++        </projects_view>
++      </state>
++    </system>
++  </component>
++  <component name="Git.Settings">
++    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
++  </component>
++  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$/android" gradleHome="$USER_HOME$/.gradle/wrapper/dists/gradle-8.14-all/c2qonpi39x1mddn7hk5gh9iqj/gradle-8.14" javaHome="/usr/lib/jvm/default-java" gradleVersion="8.14" />
++  <component name="HighlightingSettingsPerFile">
++    <setting file="file://$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/onboarding_page.dart" root0="FORCE_HIGHLIGHTING" />
++  </component>
++  <component name="McpProjectServerCommands">
++    <commands />
++    <urls />
++  </component>
++  <component name="ProblemsViewState">
++    <option name="selectedTabId" value="CurrentFile" />
++  </component>
++  <component name="ProjectColorInfo">{
++  &quot;associatedIndex&quot;: 0
++}</component>
++  <component name="ProjectId" id="37pg32qoniy9MthBplCGTnQlk1a" />
++  <component name="ProjectLevelVcsManager">
++    <ConfirmationsSetting value="2" id="Add" />
++  </component>
++  <component name="ProjectViewState">
++    <option name="hideEmptyMiddlePackages" value="true" />
++    <option name="showLibraryContents" value="true" />
++  </component>
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;Android App.android.app.executor&quot;: &quot;Run&quot;,
++    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
++    &quot;Flutter.run.executor&quot;: &quot;Run&quot;,
++    &quot;Flutter.runWeb.executor&quot;: &quot;Run&quot;,
++    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
++    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
++    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
++    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
++    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
++    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;io.flutter.project.isFirstOpen&quot;: &quot;true&quot;,
++    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
++    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
++    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
++    &quot;last_opened_file_path&quot;: &quot;/home/lmarquar/Code/stimmapp&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
++    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
++    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;,
++    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
++    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
++  }
++}</component>
++  <component name="RunManager" selected="Flutter.runWeb">
++    <configuration name="android.app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
++      <module name="android.app" />
++      <option name="ANDROID_RUN_CONFIGURATION_SCHEMA_VERSION" value="1" />
++      <option name="DEPLOY" value="true" />
++      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
++      <option name="DEPLOY_AS_INSTANT" value="false" />
++      <option name="ARTIFACT_NAME" value="" />
++      <option name="PM_INSTALL_OPTIONS" value="" />
++      <option name="ALL_USERS" value="false" />
++      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
++      <option name="ALLOW_ASSUME_VERIFIED" value="false" />
++      <option name="CLEAR_APP_STORAGE" value="false" />
++      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
++      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
++      <option name="MODE" value="default_activity" />
++      <option name="RESTORE_ENABLED" value="false" />
++      <option name="RESTORE_FILE" value="" />
++      <option name="RESTORE_FRESH_INSTALL_ONLY" value="false" />
++      <option name="CLEAR_LOGCAT" value="false" />
++      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
++      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
++      <option name="DEBUGGER_TYPE" value="Java" />
++      <Java>
++        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
++        <option name="DEBUG_SANDBOX_SDK" value="false" />
++      </Java>
++      <Profilers>
++        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
++        <option name="STARTUP_PROFILING_ENABLED" value="false" />
++        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
++        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
++        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
++        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
++      </Profilers>
++      <option name="DEEP_LINK" value="" />
++      <option name="ACTIVITY" value="" />
++      <option name="ACTIVITY_CLASS" value="" />
++      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
++      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
++      <method v="2">
++        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="run" type="FlutterRunConfigurationType" factoryName="Flutter">
++      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
++      <method v="2" />
++    </configuration>
++    <configuration default="true" type="JetRunConfigurationType">
++      <module name="android" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
++      <module name="android" />
++      <option name="filePath" />
++      <method v="2" />
++    </configuration>
++    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
++      <module name="android" />
++      <option name="ENV_FILES" value="" />
++      <option name="INTERPRETER_OPTIONS" value="" />
++      <option name="PARENT_ENVS" value="true" />
++      <envs>
++        <env name="PYTHONUNBUFFERED" value="1" />
++      </envs>
++      <option name="SDK_HOME" value="" />
++      <option name="WORKING_DIRECTORY" value="" />
++      <option name="IS_MODULE_SDK" value="false" />
++      <option name="ADD_CONTENT_ROOTS" value="true" />
++      <option name="ADD_SOURCE_ROOTS" value="true" />
++      <option name="RUN_TOOL" value="" />
++      <option name="SCRIPT_NAME" value="" />
++      <option name="PARAMETERS" value="" />
++      <option name="SHOW_COMMAND_LINE" value="false" />
++      <option name="EMULATE_TERMINAL" value="false" />
++      <option name="MODULE_MODE" value="false" />
++      <option name="REDIRECT_INPUT" value="false" />
++      <option name="INPUT_FILE" value="" />
++      <method v="2" />
++    </configuration>
++    <configuration default="true" type="Tox" factoryName="Tox">
++      <module name="android" />
++      <option name="ENV_FILES" value="" />
++      <option name="INTERPRETER_OPTIONS" value="" />
++      <option name="PARENT_ENVS" value="true" />
++      <option name="SDK_HOME" value="" />
++      <option name="WORKING_DIRECTORY" value="" />
++      <option name="IS_MODULE_SDK" value="false" />
++      <option name="ADD_CONTENT_ROOTS" value="true" />
++      <option name="ADD_SOURCE_ROOTS" value="true" />
++      <option name="RUN_TOOL" value="" />
++      <method v="2" />
++    </configuration>
++    <list>
++      <item itemvalue="Android App.android.app" />
++      <item itemvalue="Flutter.main.dart" />
++      <item itemvalue="Flutter.runWeb" />
++      <item itemvalue="Flutter.run" />
++    </list>
++  </component>
++  <component name="SharedIndexes">
++    <attachedChunks>
++      <set>
++        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
++        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.29346.240" />
++      </set>
++    </attachedChunks>
++  </component>
++  <component name="TaskManager">
++    <task active="true" id="Default" summary="Default task">
++      <changelist id="7d6f3465-2f01-4299-a9a0-b5155cadad56" name="Changes" comment="" />
++      <created>1767605225268</created>
++      <option name="number" value="Default" />
++      <option name="presentableId" value="Default" />
++      <updated>1767605225268</updated>
++      <workItem from="1767714515464" duration="87000" />
++      <workItem from="1767714618023" duration="280000" />
++      <workItem from="1767714925052" duration="126000" />
++      <workItem from="1767715075265" duration="1336000" />
++      <workItem from="1767774909626" duration="725000" />
++      <workItem from="1767776558924" duration="2894000" />
++      <workItem from="1767789168512" duration="3607000" />
++      <workItem from="1767793866979" duration="8800000" />
++      <workItem from="1767860698331" duration="480000" />
++      <workItem from="1768128218127" duration="50000" />
++      <workItem from="1768237078639" duration="5497000" />
++    </task>
++    <servers />
++  </component>
++  <component name="TypeScriptGeneratedFilesManager">
++    <option name="version" value="3" />
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State>
++              <option name="CUSTOM_BOOLEAN_PROPERTIES">
++                <map>
++                  <entry key="Show.Git.Branches" value="true" />
++                </map>
++              </option>
++            </State>
++          </value>
++        </entry>
++      </map>
++    </option>
++  </component>
++  <component name="XDebuggerManager">
++    <breakpoint-manager>
++      <breakpoints>
++        <line-breakpoint enabled="true" type="kotlin-function">
++          <url>file://$PROJECT_DIR$/android/app/src/main/kotlin/com/example/stimmapp/MainActivity.kt</url>
++          <line>18</line>
++          <properties class="com.example.stimmapp.MainActivity">
++            <option name="WATCH_EXIT" value="false" />
++          </properties>
++          <option name="timeStamp" value="1" />
++        </line-breakpoint>
++      </breakpoints>
++    </breakpoint-manager>
++  </component>
++  <component name="XSLT-Support.FileAssociations.UIState">
++    <expand />
++    <select />
++  </component>
++</project>
+\ No newline at end of file
+Index: lib/core/data/models/poll.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import 'package:cloud_firestore/cloud_firestore.dart';\nimport 'package:stimmapp/core/constants/internal_constants.dart';\nimport 'package:stimmapp/core/data/models/home_item.dart';\n\nclass PollOption {\n  final String id;\n  final String label;\n  const PollOption({required this.id, required this.label});\n\n  factory PollOption.fromMap(Map<String, dynamic> m) =>\n      PollOption(id: m['id'] as String, label: m['label'] as String);\n  Map<String, dynamic> toMap() => {'id': id, 'label': label};\n}\n\nclass Poll implements HomeItem {\n  @override\n  final String id;\n  @override\n  final String title;\n  @override\n  final String description;\n  final List<String> tags;\n  final List<PollOption> options;\n  final Map<String, int> votes; // optionId -> count\n  final String createdBy;\n  final DateTime createdAt;\n  @override\n  final DateTime expiresAt;\n  final String status;\n  @override\n  final String? state;\n\n  Poll({\n    required this.id,\n    required this.title,\n    required this.description,\n    required this.tags,\n    required this.options,\n    required this.votes,\n    required this.createdBy,\n    required this.createdAt,\n    required this.expiresAt,\n    this.status = IConst.active,\n    this.state,\n  });\n\n  int get totalVotes => votes.values.fold(0, (a, b) => a + b);\n\n  @override\n  int get participantCount => totalVotes;\n\n  Poll copyWith({\n    String? id,\n    String? title,\n    String? description,\n    List<String>? tags,\n    List<PollOption>? options,\n    Map<String, int>? votes,\n    String? createdBy,\n    DateTime? createdAt,\n    DateTime? expiresAt,\n    String? status,\n    String? state,\n  }) {\n    return Poll(\n      id: id ?? this.id,\n      title: title ?? this.title,\n      description: description ?? this.description,\n      tags: tags ?? this.tags,\n      options: options ?? this.options,\n      votes: votes ?? this.votes,\n      createdBy: createdBy ?? this.createdBy,\n      createdAt: createdAt ?? this.createdAt,\n      expiresAt: expiresAt ?? this.expiresAt,\n      status: status ?? this.status,\n      state: state ?? this.state,\n    );\n  }\n\n  static Poll fromFirestore(\n    DocumentSnapshot<Map<String, dynamic>> snap,\n    SnapshotOptions? _,\n  ) {\n    final data = snap.data()!;\n    final createdAt =\n        (data['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now();\n    return Poll(\n      id: snap.id,\n      title: (data['title'] ?? '') as String,\n      description: (data['description'] ?? '') as String,\n      tags: (data['tags'] as List?)?.cast<String>() ?? const [],\n      options:\n          (data['options'] as List?)\n              ?.map((e) => PollOption.fromMap(Map<String, dynamic>.from(e)))\n              .toList() ??\n          const [],\n      votes: Map<String, int>.from(data['votes'] ?? const <String, int>{}),\n      createdBy: (data['createdBy'] ?? '') as String,\n      createdAt: createdAt,\n      expiresAt:\n          (data['expiresAt'] as Timestamp?)?.toDate() ??\n          createdAt.add(const Duration(days: 7)),\n      status: (data['status'] ?? IConst.active) as String,\n      state: data['state'] as String?,\n    );\n  }\n\n  static Map<String, Object?> toFirestore(Poll p, SetOptions? _) {\n    return {\n      'title': p.title,\n      'description': p.description,\n      'tags': p.tags,\n      'options': p.options.map((o) => o.toMap()).toList(),\n      'votes': p.votes,\n      'createdBy': p.createdBy,\n      'createdAt': Timestamp.fromDate(p.createdAt),\n      'expiresAt': Timestamp.fromDate(p.expiresAt),\n      'status': p.status,\n      'titleLowercase': p.title.toLowerCase(),\n      'state': p.state,\n    };\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/lib/core/data/models/poll.dart b/lib/core/data/models/poll.dart
+--- a/lib/core/data/models/poll.dart	(revision c4a77bb1ad7518ef28ea9078e07f94f55b89d8f9)
++++ b/lib/core/data/models/poll.dart	(date 1768318129544)
+@@ -22,8 +22,10 @@
+   final List<String> tags;
+   final List<PollOption> options;
+   final Map<String, int> votes; // optionId -> count
+-  final String createdBy;
++  @override
+   final DateTime createdAt;
++  @override
++  final String createdBy;
+   @override
+   final DateTime expiresAt;
+   final String status;
