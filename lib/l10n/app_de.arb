@@ -214,5 +214,6 @@
 	"expiryDate": "Ablaufdatum",
 	"idNumber": "Ausweisnummer",
 	"address": "Anschrift",
-	"height": "Größe"
+	"height": "Größe",
+	"state": "Bundesland"
 }

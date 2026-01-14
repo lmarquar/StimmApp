@@ -1,25 +1,27 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/change_password_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/change_profile_picture_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/update_living_address_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/update_username_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/user_history.dart';
 import 'package:stimmapp/app/mobile/widgets/hero_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
+import 'package:stimmapp/core/constants/app_dimensions.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
-import 'package:flutter/material.dart';
-import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/change_password_page.dart';
-import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/update_username_page.dart';
-import 'package:stimmapp/app/mobile/pages/main/profile/user_history.dart';
-import 'package:stimmapp/core/constants/app_dimensions.dart';
-import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/change_profile_picture_page.dart';
+
 import '../../../../../../core/notifiers/notifiers.dart';
 import '../../../../scaffolds/app_padding_scaffold.dart';
 import '../../../../widgets/list_tile_widget.dart';
 import '../../../../widgets/neon_padding_widget.dart';
 import '../../../../widgets/unaffected_child_widget.dart';
-import '../delete_account_page.dart';
 import '../../admin/admin_dashboard_page.dart';
+import '../delete_account_page.dart';
 
 class ProfileWidget extends StatelessWidget {
   const ProfileWidget({super.key});
@@ -67,6 +69,7 @@ class ProfileWidget extends StatelessWidget {
             }
 
             final userProfile = snapshot.data!;
+            final dateFormat = DateFormat('yyyy-MM-dd');
 
             return Column(
               children: [
@@ -75,24 +78,85 @@ class ProfileWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       HeroWidget(nextPage: const ChangeProfilePicturePage()),
+                      const SizedBox(height: 10),
                       Text(
                         userProfile.displayName ?? 'no username found',
-                        style: AppTextStyles.l,
+                        style: AppTextStyles.lBold,
                       ),
-                      Text(
-                        userProfile.email ?? 'error retrieving email',
-                        style: AppTextStyles.m,
-                      ),
-                      Text(userProfile.state ?? 'no state found'),
+                      Text(userProfile.email ?? '', style: AppTextStyles.m),
                       const SizedBox(height: AppDimensions.kPadding5),
                     ],
                   ),
+                ),
+                const SizedBox(height: 20.0),
+                ListTileWidget(
+                  title: Text(
+                    context.l10n.profile,
+                    style: AppTextStyles.xlBold,
+                  ),
+                ),
+                _buildDetailTile(
+                  context,
+                  context.l10n.surname,
+                  userProfile.surname,
+                ),
+                _buildDetailTile(
+                  context,
+                  context.l10n.givenName,
+                  userProfile.givenName,
+                ),
+                _buildDetailTile(
+                  context,
+                  context.l10n.dateOfBirth,
+                  userProfile.dateOfBirth != null
+                      ? dateFormat.format(userProfile.dateOfBirth!)
+                      : null,
+                ),
+                _buildDetailTile(
+                  context,
+                  context.l10n.placeOfBirth,
+                  userProfile.placeOfBirth,
+                ),
+                _buildDetailTile(
+                  context,
+                  context.l10n.nationality,
+                  userProfile.nationality,
+                ),
+                _buildDetailTile(
+                  context,
+                  context.l10n.idNumber,
+                  userProfile.idNumber,
+                ),
+                _buildDetailTile(
+                  context,
+                  context.l10n.expiryDate,
+                  userProfile.expiryDate != null
+                      ? dateFormat.format(userProfile.expiryDate!)
+                      : null,
+                ),
+                _buildDetailTile(
+                  context,
+                  context.l10n.height,
+                  userProfile.height,
+                ),
+                _buildDetailTile(
+                  context,
+                  context.l10n.address,
+                  userProfile.address,
+                ),
+                _buildDetailTile(
+                  context,
+                  context.l10n.state,
+                  userProfile.state,
                 ),
                 if (userProfile.isAdmin) ...[
                   const SizedBox(height: 20.0),
                   UnaffectedChildWidget(
                     child: ListTile(
-                      leading: const Icon(Icons.admin_panel_settings, color: Colors.amber),
+                      leading: const Icon(
+                        Icons.admin_panel_settings,
+                        color: Colors.amber,
+                      ),
                       title: Text(context.l10n.adminInterface),
                       trailing: const Icon(
                         Icons.arrow_forward_ios_outlined,
@@ -277,4 +341,15 @@ class ProfileWidget extends StatelessWidget {
   }
 
   void showSnackBarFailure() {}
+
+  Widget _buildDetailTile(BuildContext context, String label, String? value) {
+    if (value == null || value.isEmpty) return const SizedBox.shrink();
+    return UnaffectedChildWidget(
+      child: ListTile(
+        title: Text(label, style: AppTextStyles.descriptionText),
+        subtitle: Text(value, style: AppTextStyles.mBold),
+        dense: true,
+      ),
+    );
+  }
 }

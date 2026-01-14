@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 
 void main() {
@@ -20,6 +20,15 @@ void main() {
       'state': 'Hessen',
       'createdAt': timestamp,
       'updatedAt': timestamp,
+      'surname': null,
+      'givenName': null,
+      'dateOfBirth': null,
+      'nationality': null,
+      'placeOfBirth': null,
+      'expiryDate': null,
+      'idNumber': null,
+      'address': null,
+      'height': null,
     };
 
     test('fromJson creates a UserProfile object from a map', () {
