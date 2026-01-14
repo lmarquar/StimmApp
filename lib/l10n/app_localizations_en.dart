@@ -532,7 +532,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get givenName => 'Given Name';
 
   @override
-  String get dob => 'Date of Birth';
+  String get dateOfBirth => 'Date of Birth';
 
   @override
   String get nationality => 'Nationality';

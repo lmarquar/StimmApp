@@ -11,7 +11,7 @@ class UserProfile {
   // ID Card Fields
   final String? surname;
   final String? givenName;
-  final DateTime? dob;
+  final DateTime? dateOfBirth;
   final String? nationality;
   final String? placeOfBirth;
   final DateTime? expiryDate;
@@ -30,7 +30,7 @@ class UserProfile {
     this.updatedAt,
     this.surname,
     this.givenName,
-    this.dob,
+    this.dateOfBirth,
     this.nationality,
     this.placeOfBirth,
     this.expiryDate,
@@ -48,7 +48,7 @@ class UserProfile {
     DateTime? updatedAt,
     String? surname,
     String? givenName,
-    DateTime? dob,
+    DateTime? dateOfBirth,
     String? nationality,
     String? placeOfBirth,
     DateTime? expiryDate,
@@ -65,7 +65,7 @@ class UserProfile {
       updatedAt: updatedAt ?? this.updatedAt,
       surname: surname ?? this.surname,
       givenName: givenName ?? this.givenName,
-      dob: dob ?? this.dob,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       nationality: nationality ?? this.nationality,
       placeOfBirth: placeOfBirth ?? this.placeOfBirth,
       expiryDate: expiryDate ?? this.expiryDate,
@@ -85,7 +85,7 @@ class UserProfile {
       updatedAt: (json['updatedAt'] as Timestamp?)?.toDate(),
       surname: json['surname'] as String?,
       givenName: json['givenName'] as String?,
-      dob: (json['dob'] as Timestamp?)?.toDate(),
+      dateOfBirth: (json['dateOfBirth'] as Timestamp?)?.toDate(),
       nationality: json['nationality'] as String?,
       placeOfBirth: json['placeOfBirth'] as String?,
       expiryDate: (json['expiryDate'] as Timestamp?)?.toDate(),
@@ -104,7 +104,9 @@ class UserProfile {
       'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
       'surname': surname,
       'givenName': givenName,
-      'dob': dob != null ? Timestamp.fromDate(dob!) : null,
+      'dateOfBirth': dateOfBirth != null
+          ? Timestamp.fromDate(dateOfBirth!)
+          : null,
       'nationality': nationality,
       'placeOfBirth': placeOfBirth,
       'expiryDate': expiryDate != null ? Timestamp.fromDate(expiryDate!) : null,

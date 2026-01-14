@@ -91,7 +91,7 @@ class IDScanService {
       }
       if (_matchLabel(line, ['Geburtsdatum', 'Date of birth'])) {
         final val = _getValue(lines, i, ['Geburtsdatum', 'Date of birth']);
-        if (val != null) data['dob'] = _parseDate(val);
+        if (val != null) data['dateOfBirth'] = _parseDate(val);
       }
       if (_matchLabel(line, ['Staatsangehörigkeit', 'Nationality'])) {
         final val = _getValue(lines, i, ['Staatsangehörigkeit', 'Nationality']);
@@ -241,14 +241,14 @@ class IDScanService {
         data['idNumber'] ??= mrzLines[0].substring(5, 14);
       }
 
-      // Line 2: contains DOB and Expiry
+      // Line 2: contains Date of Birth and Expiry
       // Format: YYMMDD(check)SEX YYMMDD(check)NAT...
       if (mrzLines[1].length >= 30) {
-        final dobStr = mrzLines[1].substring(0, 6);
+        final dateOfBirthStr = mrzLines[1].substring(0, 6);
         final expiryStr = mrzLines[1].substring(8, 14);
         final nationality = mrzLines[1].substring(15, 18);
 
-        data['dob'] ??= _parseMRZDate(dobStr);
+        data['dateOfBirth'] ??= _parseMRZDate(dateOfBirthStr);
         data['expiryDate'] ??= _parseMRZDate(expiryStr);
         data['nationality'] ??= nationality.replaceAll('<', '').trim();
       }

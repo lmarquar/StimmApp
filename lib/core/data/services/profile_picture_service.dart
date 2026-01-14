@@ -94,4 +94,41 @@ class ProfilePictureService {
     }
     profileUrlNotifier.value = null;
   }
+
+  Future<String> uploadIdImage(
+    String uid,
+    XFile file,
+    bool isFront, {
+    void Function(double progress)? onProgress,
+  }) async {
+    final fileName = isFront ? 'id_front.jpg' : 'id_back.jpg';
+    final ref = FirebaseStorage.instance.ref('users/$uid/$fileName');
+    final metadata = SettableMetadata(contentType: 'image/jpeg');
+
+    final uploadTask = kIsWeb
+        ? ref.putData(await file.readAsBytes(), metadata)
+        : ref.putFile(File(file.path), metadata);
+
+    final sub = uploadTask.snapshotEvents.listen(
+      (snap) {
+        final total = snap.totalBytes == 0 ? 1 : snap.totalBytes;
+        final prog = snap.bytesTransferred / total;
+        if (onProgress != null) onProgress(prog);
+      },
+      onError: (e) {
+        debugPrint('Upload task error: $e');
+      },
+    );
+
+    try {
+      final TaskSnapshot snap = await uploadTask;
+      if (snap.state != TaskState.success) {
+        throw Exception('Upload failed');
+      }
+
+      return await ref.getDownloadURL();
+    } finally {
+      await sub.cancel();
+    }
+  }
 }
