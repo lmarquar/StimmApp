@@ -551,4 +551,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get height => 'Height';
+
+  @override
+  String get state => 'State';
 }

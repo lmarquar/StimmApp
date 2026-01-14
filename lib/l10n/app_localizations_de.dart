@@ -556,4 +556,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get height => 'Größe';
+
+  @override
+  String get state => 'Bundesland';
 }

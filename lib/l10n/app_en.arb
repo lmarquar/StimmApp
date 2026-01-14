@@ -203,5 +203,6 @@
 	"expiryDate": "Expiry Date",
 	"idNumber": "ID Number",
 	"address": "Address",
-	"height": "Height"
+	"height": "Height",
+	"state": "State"
 }

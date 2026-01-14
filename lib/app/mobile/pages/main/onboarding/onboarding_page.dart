@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle, MethodChannel;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:stimmapp/app/mobile/pages/main/onboarding/id_scan_page.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
@@ -49,38 +48,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
     super.dispose();
   }
 
-  Future<Map<String, dynamic>?> registerWithId() async {
-    return await Navigator.push<Map<String, dynamic>>(
-      context,
-      MaterialPageRoute(builder: (context) => const IDScanPage()),
-    );
-  }
-
   void register() async {
     try {
       if (_selectedState == null) {
         showErrorSnackBar('Please select a state');
-        return;
-      }
-
-      final idResult = await registerWithId();
-      if (idResult == null) return;
-
-      final scannedData = idResult['scannedData'] as Map<String, dynamic>?;
-      final frontImage = idResult['frontImage'] as XFile?;
-      final backImage = idResult['backImage'] as XFile?;
-
-      if (scannedData == null) {
-        showErrorSnackBar('ID scan failed');
-        return;
-      }
-
-      // Backcheck date of birth
-      final scannedDateOfBirth = scannedData['dateOfBirth'] as DateTime?;
-      if (scannedDateOfBirth == null ||
-          DateFormat('yyyy-MM-dd').format(scannedDateOfBirth) !=
-              DateFormat('yyyy-MM-dd').format(_selectedDateOfBirth!)) {
-        showErrorSnackBar('Date of Birth does not match your ID');
         return;
       }
 
@@ -93,26 +64,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
       );
 
       // Small delay to ensure Auth state is recognized by Firestore/Storage
-      await Future.delayed(const Duration(milliseconds: 500));
 
       if (cred.user != null) {
         final uid = cred.user!.uid;
-
-        // Store ID pictures in storage
-        if (frontImage != null) {
-          await ProfilePictureService.instance.uploadIdImage(
-            uid,
-            frontImage,
-            true,
-          );
-        }
-        if (backImage != null) {
-          await ProfilePictureService.instance.uploadIdImage(
-            uid,
-            backImage,
-            false,
-          );
-        }
 
         final profile = UserProfile(
           uid: uid,
@@ -122,7 +76,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           createdAt: DateTime.now(),
           surname: controllerSurname.text,
           givenName: controllerGivenName.text,
-          dateOfBirth: _selectedDateOfBirth,,
+          dateOfBirth: _selectedDateOfBirth,
           // Leaving other fields empty for now as requested
         );
 
@@ -359,12 +313,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     showErrorSnackBar(errorMessage);
                   }
                 },
-              ),
-              const SizedBox(height: 10),
-              ButtonWidget(
-                isFilled: false,
-                label: 'PostID (NFC)',
-                callback: registerWithEId,
               ),
             ],
           );
