@@ -6,6 +6,41 @@ class IDScanService {
     script: TextRecognitionScript.latin,
   );
 
+  static const _allLabels = [
+    'Name',
+    'Nom',
+    'Vornamen',
+    'Given names',
+    'Prénoms',
+    'Geburtsdatum',
+    'Date of birth',
+    'Date de naissance',
+    'Staatsangehörigkeit',
+    'Nationality',
+    'Nationalité',
+    'Nationalite',
+    'najonal', // Common OCR misread of Nationalité
+    'Geburtsort',
+    'Place of birth',
+    'Lieu de naissance',
+    'Gültig bis',
+    'Expiry date',
+    'Date d\'expiration',
+    'Anschrift',
+    'Address',
+    'Adresse',
+    'Größe',
+    'Height',
+    'Taille',
+    'Augenfarbe',
+    'Eye color',
+    'Couleur des yeux',
+    'Zugangsnummer',
+    'CAN',
+    'ID-Number',
+    'Ausweisnummer',
+  ];
+
   Future<Map<String, dynamic>> scanId(String frontPath, String backPath) async {
     final frontInputImage = InputImage.fromFilePath(frontPath);
     final backInputImage = InputImage.fromFilePath(backPath);
@@ -27,50 +62,47 @@ class IDScanService {
         .map((l) => l.text)
         .toList();
 
-    // German ID Front labels:
-    // Name / Nom
-    // Vornamen / Given names
-    // Geburtsdatum / Date of birth
-    // Staatsangehörigkeit / Nationality
-    // Geburtsort / Place of birth
-    // Gültig bis / Expiry date
-    // Zugangsnummer / CAN (not needed here)
-    // ID-Number is at the top right
-
     for (int i = 0; i < lines.length; i++) {
       String line = lines[i].trim();
 
-      if (_matchLabel(line, ['Name', 'Nom'])) {
-        final value = _getValue(lines, i);
+      if (_matchLabel(line, ['Name', 'Nom']) &&
+          !_matchLabel(line, ['Vornamen'])) {
+        final value = _getValue(lines, i, ['Name', 'Nom']);
         if (value != null) {
           data['surname'] = _cleanSurname(value);
         }
       }
-      if (_matchLabel(line, ['Vornamen', 'Given names'])) {
-        data['givenName'] = _getValue(lines, i);
+      if (_matchLabel(line, ['Vornamen', 'Given names', 'Prénoms'])) {
+        data['givenName'] = _getValue(lines, i, [
+          'Vornamen',
+          'Given names',
+          'Prénoms',
+        ]);
       }
       if (_matchLabel(line, ['Geburtsdatum', 'Date of birth'])) {
-        final val = _getValue(lines, i);
+        final val = _getValue(lines, i, ['Geburtsdatum', 'Date of birth']);
         if (val != null) data['dob'] = _parseDate(val);
       }
       if (_matchLabel(line, ['Staatsangehörigkeit', 'Nationality'])) {
-        data['nationality'] = _getValue(lines, i);
+        final val = _getValue(lines, i, ['Staatsangehörigkeit', 'Nationality']);
+        if (val != null) data['nationality'] = _cleanValue(val);
       }
       if (_matchLabel(line, ['Geburtsort', 'Place of birth'])) {
-        data['placeOfBirth'] = _getValue(lines, i);
+        data['placeOfBirth'] = _getValue(lines, i, [
+          'Geburtsort',
+          'Place of birth',
+        ]);
       }
       if (_matchLabel(line, ['Gültig bis', 'Expiry date'])) {
-        final val = _getValue(lines, i);
+        final val = _getValue(lines, i, ['Gültig bis', 'Expiry date']);
         if (val != null) data['expiryDate'] = _parseDate(val);
       }
     }
 
     // ID Number is usually a 9-character alphanumeric string at the top right
-    // We can try to find it via regex
     final idRegex = RegExp(r'[A-Z0-9]{9}');
     for (var line in lines) {
       if (idRegex.hasMatch(line) && line.length == 9) {
-        // Avoid matching CAN or other 6-digit numbers
         data['idNumber'] = line;
         break;
       }
@@ -83,60 +115,106 @@ class IDScanService {
         .map((l) => l.text)
         .toList();
 
-    // German ID Back labels:
-    // Anschrift / Address
-    // Größe / Height
-    // Augenfarbe / Eye color
-
     for (int i = 0; i < lines.length; i++) {
       String line = lines[i].trim();
       if (_matchLabel(line, ['Anschrift', 'Address'])) {
-        // Address can span multiple lines
         String address = "";
-        if (i + 1 < lines.length) address += lines[i + 1].trim();
-        if (i + 2 < lines.length &&
-            !_matchLabel(lines[i + 2], ['Größe', 'Height'])) {
+        if (i + 1 < lines.length && !_isLabel(lines[i + 1])) {
+          address += lines[i + 1].trim();
+        }
+        if (i + 2 < lines.length && !_isLabel(lines[i + 2])) {
           address += " ${lines[i + 2].trim()}";
         }
-        data['address'] = address;
+        if (address.isNotEmpty) data['address'] = address;
       }
       if (_matchLabel(line, ['Größe', 'Height'])) {
-        data['height'] = _getValue(lines, i);
+        data['height'] = _getValue(lines, i, ['Größe', 'Height']);
       }
     }
 
-    // MRZ Parsing (backup for some fields)
     _parseMRZ(recognizedText.text, data);
   }
 
   bool _matchLabel(String line, List<String> labels) {
     final lowerLine = line.toLowerCase();
-    return labels.any((label) => lowerLine.contains(label.toLowerCase()));
+    return labels.any((label) {
+      final lowerLabel = label.toLowerCase();
+      if (!lowerLine.contains(lowerLabel)) return false;
+      // Precision: "Name" should not match "Vornamen"
+      if (lowerLabel == 'name' && lowerLine.contains('vornamen')) return false;
+      return true;
+    });
   }
 
-  String? _getValue(List<String> lines, int index) {
-    // Sometimes OCR puts the value on the same line after the label (or some noise)
-    // For German ID, it's mostly on the next line or separated by a lot of spaces.
-    if (index + 1 < lines.length) {
-      return lines[index + 1].trim();
+  bool _isLabel(String line) {
+    final lower = line.toLowerCase();
+    return _allLabels.any((label) => lower.contains(label.toLowerCase()));
+  }
+
+  String? _getValue(List<String> lines, int index, List<String> labels) {
+    String currentLine = lines[index];
+
+    // 1. Try same line after removing labels
+    String valueOnSameLine = currentLine;
+    for (var label in labels) {
+      final pos = valueOnSameLine.toLowerCase().indexOf(label.toLowerCase());
+      if (pos != -1) {
+        valueOnSameLine = valueOnSameLine.replaceRange(
+          pos,
+          pos + label.length,
+          '',
+        );
+      }
+    }
+    valueOnSameLine = valueOnSameLine
+        .replaceAll(RegExp(r'^[ /:-]+'), '')
+        .trim();
+
+    if (valueOnSameLine.isNotEmpty &&
+        !_isLabel(valueOnSameLine) &&
+        valueOnSameLine.length > 2) {
+      return valueOnSameLine;
+    }
+
+    // 2. Try next lines, skipping labels
+    for (int i = index + 1; i < lines.length && i < index + 3; i++) {
+      String nextLine = lines[i].trim();
+      if (nextLine.isEmpty) continue;
+      if (_isLabel(nextLine)) continue;
+      return nextLine;
     }
     return null;
   }
 
+  String _cleanValue(String value) {
+    String cleaned = value;
+    // Remove any known labels that might have leaked into the value
+    for (var label in _allLabels) {
+      final lowerLabel = label.toLowerCase();
+      if (cleaned.toLowerCase().contains(lowerLabel)) {
+        final pos = cleaned.toLowerCase().indexOf(lowerLabel);
+        if (pos != -1) {
+          cleaned = cleaned.replaceRange(pos, pos + label.length, '');
+        }
+      }
+    }
+    return cleaned.replaceAll(RegExp(r'^[ /:-]+'), '').trim();
+  }
+
   String _cleanSurname(String value) {
+    String cleaned = _cleanValue(value);
     // Fix: Surname ([a] gets missinterpretet as Tal<Name>)
-    // If it starts with "Tal" or "al", and then an uppercase letter, remove it.
-    if (value.startsWith('Tal') &&
-        value.length > 3 &&
-        value[3] == value[3].toUpperCase()) {
-      return value.substring(3).trim();
+    if (cleaned.startsWith('Tal') &&
+        cleaned.length > 3 &&
+        cleaned[3] == cleaned[3].toUpperCase()) {
+      return cleaned.substring(3).trim();
     }
-    if (value.startsWith('al') &&
-        value.length > 2 &&
-        value[2] == value[2].toUpperCase()) {
-      return value.substring(2).trim();
+    if (cleaned.startsWith('al') &&
+        cleaned.length > 2 &&
+        cleaned[2] == cleaned[2].toUpperCase()) {
+      return cleaned.substring(2).trim();
     }
-    return value;
+    return cleaned;
   }
 
   void _parseMRZ(String text, Map<String, dynamic> data) {
