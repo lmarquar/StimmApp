@@ -302,6 +302,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               },
                             ),
                             const SizedBox(height: 10),
+                            TextFormField(
+                              controller: controllerAddress,
+                              decoration: InputDecoration(
+                                labelText: context.l10n.address,
+                              ),
+                              validator: (String? value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return context.l10n.enterSomething;
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 10),
                           ],
                         ),
                       ),
