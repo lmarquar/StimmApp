@@ -36,7 +36,7 @@ class ProfileWidget extends StatelessWidget {
       try {
         // Pop the dialog first if it's showing
         popUntilLast();
-        await authService.value.signOut();
+        await authService.signOut();
         AppData.isAuthConnected.value = false;
         AppData.navBarCurrentIndexNotifier.value = 0;
         AppData.onboardingCurrentIndexNotifier.value = 0;
@@ -53,7 +53,7 @@ class ProfileWidget extends StatelessWidget {
         const SizedBox(height: 10.0),
         StreamBuilder<UserProfile?>(
           stream: UserRepository.create().watchById(
-            authService.value.currentUser!.uid,
+            authService.currentUser!.uid,
           ),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

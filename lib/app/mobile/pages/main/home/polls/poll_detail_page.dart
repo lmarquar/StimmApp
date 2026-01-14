@@ -55,7 +55,7 @@ class _PollDetailPageState extends State<PollDetailPage> {
         onPressed: () async {
           final optionId = _selectedOptionId;
           if (optionId == null) return;
-          final user = authService.value.currentUser;
+          final user = authService.currentUser;
           if (user == null) {
             if (!context.mounted) return;
             showErrorSnackBar(context.l10n.pleaseSignInFirst);

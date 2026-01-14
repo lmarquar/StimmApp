@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
     final successMessage = context.l10n.successfullyLoggedIn;
 
     try {
-      await authService.value.signIn(
+      await authService.signIn(
         email: controllerEm.text,
         password: controllerPw.text,
       );

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
       return;
     }
 
-    final user = authService.value.currentUser;
+    final user = authService.currentUser;
     if (user == null) {
       showErrorSnackBar(l10n.pleaseSignInFirst);
       return;
@@ -102,7 +103,7 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final currentUrl = authService.value.currentUser?.photoURL;
+    final currentUrl = authService.currentUser?.photoURL;
 
     Widget? preview;
     if (_imageFile != null) {
@@ -135,17 +136,14 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
                       child: SizedBox(
                         width: 128,
                         height: 128,
-                        child: preview ??
+                        child:
+                            preview ??
                             Center(
                               child: Text(
-                                (authService.value.currentUser?.displayName ??
-                                            '')
+                                (authService.currentUser?.displayName ?? '')
                                         .isNotEmpty
-                                    ? authService
-                                        .value
-                                        .currentUser!
-                                        .displayName![0]
-                                        .toUpperCase()
+                                    ? authService.currentUser!.displayName![0]
+                                          .toUpperCase()
                                     : '?',
                                 style: AppTextStyles.xxlBold,
                               ),

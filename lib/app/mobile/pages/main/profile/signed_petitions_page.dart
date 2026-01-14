@@ -9,7 +9,7 @@ class SignedPetitionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = authService.value.currentUser;
+    final user = authService.currentUser;
 
     if (user == null) {
       return Scaffold(

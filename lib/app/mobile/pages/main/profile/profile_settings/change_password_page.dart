@@ -34,11 +34,11 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
     try {
       debugPrint("updating password");
-      debugPrint(authService.value.currentUser!.email!);
-      await authService.value.resetPasswordfromCurrentPassword(
+      debugPrint(authService.currentUser!.email!);
+      await authService.resetPasswordfromCurrentPassword(
         currentPassword: controllerCurrentPassword.text,
         newPassword: controllerNewPassword.text,
-        email: authService.value.currentUser!.email!,
+        email: authService.currentUser!.email!,
       );
       if (!mounted) return;
       showSuccessSnackBar(successMessage);

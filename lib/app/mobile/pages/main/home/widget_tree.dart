@@ -12,7 +12,7 @@ class WidgetTree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentUrl = authService.value.currentUser?.photoURL;
+    final currentUrl = authService.currentUser?.photoURL;
 
     return ValueListenableBuilder<int>(
       valueListenable: selectedPageNotifier,

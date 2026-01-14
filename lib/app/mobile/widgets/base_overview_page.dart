@@ -31,7 +31,7 @@ class _BaseOverviewPageState<T extends HomeItem> extends State<BaseOverviewPage<
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    final uid = authService.value.currentUser?.uid;
+    final uid = authService.currentUser?.uid;
     if (uid != null) {
       _userProfileFuture = UserRepository.create().getById(uid);
     }
