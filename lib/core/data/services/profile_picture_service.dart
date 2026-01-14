@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
 
@@ -55,9 +53,7 @@ class ProfilePictureService {
     int retryAttempts = 5,
     int retryDelayMs = 500,
   }) async {
-    final ref = FirebaseStorage.instanceFor(
-      app: Firebase.app(IConst.appName),
-    ).ref('users/$uid/profile.jpg');
+    final ref = FirebaseStorage.instance.ref('users/$uid/profile.jpg');
     final metadata = SettableMetadata(contentType: 'image/jpeg');
 
     final uploadTask = kIsWeb
@@ -68,6 +64,11 @@ class ProfilePictureService {
       final total = snap.totalBytes == 0 ? 1 : snap.totalBytes;
       final prog = snap.bytesTransferred / total;
       if (onProgress != null) onProgress(prog);
+    }, onError: (e) {
+      debugPrint('Upload task error: $e');
+      if (e is FirebaseException) {
+        debugPrint('FirebaseStorage error code: ${e.code}, message: ${e.message}');
+      }
     });
 
     try {
@@ -76,18 +77,36 @@ class ProfilePictureService {
         throw Exception('Upload failed');
       }
 
-      // Retry getDownloadURL until available
+      // Retry getDownloadURL and setProfileUrl until successful
       String url;
-      DatabaseException? lastEx;
-      for (var i = 0; i < retryAttempts; i++) {
+      dynamic lastEx;
+      for (var i = 1; i <= retryAttempts; i++) {
         try {
-          url = await ref.getDownloadURL();
-          // persist to Firestore and update notifier
-          await setProfileUrl(uid, url);
+          debugPrint('getDownloadURL attempt $i for UID: $uid');
+          try {
+            url = await ref.getDownloadURL();
+          } catch (e) {
+            debugPrint('getDownloadURL failed: $e');
+            rethrow;
+          }
+          
+          debugPrint('setProfileUrl attempt $i for UID: $uid');
+          try {
+            await setProfileUrl(uid, url);
+          } catch (e) {
+            debugPrint('setProfileUrl failed: $e');
+            rethrow;
+          }
           return url;
-        } on DatabaseException catch (e) {
+        } catch (e) {
           lastEx = e;
-          await Future.delayed(Duration(milliseconds: retryDelayMs));
+          debugPrint('Operation failed during attempt $i: $e');
+          if (e is FirebaseException) {
+            debugPrint('Firebase error code: ${e.code}, message: ${e.message}');
+          }
+          
+          // Exponential-ish backoff
+          await Future.delayed(Duration(milliseconds: retryDelayMs * i * i));
         }
       }
       throw lastEx ?? Exception('Unknown error getting download URL');
@@ -98,9 +117,7 @@ class ProfilePictureService {
 
   Future<void> deleteProfilePicture(String uid) async {
     try {
-      final ref = FirebaseStorage.instanceFor(
-        app: Firebase.app(IConst.appName),
-      ).ref('users/$uid/profile.jpg');
+      final ref = FirebaseStorage.instance.ref('users/$uid/profile.jpg');
       await ref.delete();
     } catch (e) {
       // If the file doesn't exist, we don't care

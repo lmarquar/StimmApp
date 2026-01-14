@@ -1,0 +1,27 @@
+rules_version = '2';
+
+// Craft rules based on data in your Firestore database
+// allow write: if firestore.get(
+//    /databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin;
+service firebase.storage {
+  match /b/{bucket}/o {
+      // Allow each authenticated user to write/read their own profile image.
+    	// Adjust `allow read` to `if request.auth != null` if you want to restrict reads to signed-in users.
+    	match /users/{userId}/{fileName=**} {
+      	// Allow reads publicly (change to `if request.auth != null && request.auth.uid == userId`
+      	// or `if request.auth != null` to restrict).
+      	allow read: if true;
+
+      	// Allow upload/update/delete only by the authenticated owner
+      	// and only for image files under 5 MB.
+      	allow write: if request.auth != null
+                   && request.auth.uid == userId
+                   && request.resource.size < 5 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
