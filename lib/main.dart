@@ -43,7 +43,6 @@ void main() async {
   SystemChrome.setPreferredOrientations(const [DeviceOrientation.portraitUp]);
 
   await Firebase.initializeApp(
-    name: IConst.appName,
     options: DefaultFirebaseOptions.currentPlatform,
   );
   locator.init();
@@ -86,8 +85,13 @@ class _MyAppState extends State<MyApp> {
 
     // Close expired petitions on startup if authenticated
     if (authService.value.currentUser != null) {
-      await PetitionRepository.create().closeExpiredPetitions();
-      await PollRepository.create().closeExpiredPolls();
+      try {
+        await PetitionRepository.create().closeExpiredPetitions();
+        await PollRepository.create().closeExpiredPolls();
+      } catch (e) {
+        debugPrint('[main] Error closing expired items: $e');
+        // We continue even if this fails, as it shouldn't block app startup
+      }
     }
 
     // only create the composite notifier after persisted state is loaded to avoid immediate circular updates
@@ -102,7 +106,9 @@ class _MyAppState extends State<MyApp> {
     // Load profile URL when user signs in and clear on sign-out
     _authSub = authService.value.authStateChanges.listen((user) {
       if (user != null) {
-        ProfilePictureService.instance.loadProfileUrl(user.uid);
+        ProfilePictureService.instance.loadProfileUrl(user.uid).catchError((e) {
+          debugPrint('[main] Error loading profile URL: $e');
+        });
       } else {
         ProfilePictureService.instance.profileUrlNotifier.value = null;
       }
