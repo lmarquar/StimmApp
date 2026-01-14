@@ -57,7 +57,6 @@ dependencies:
   firebase_storage: ^13.0.5
   path_provider: ^2.1.5
   universal_io: ^2.3.1
-  google_places_flutter: ^2.1.0
 
 dev_dependencies:
   flutter_test:

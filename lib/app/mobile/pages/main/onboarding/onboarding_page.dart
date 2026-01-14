@@ -3,12 +3,10 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle, MethodChannel;
-import 'package:google_places_flutter/google_places_flutter.dart';
-import 'package:google_places_flutter/model/place_type.dart';
-import 'package:google_places_flutter/model/prediction.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
+import 'package:stimmapp/app/mobile/widgets/address_autocomplete_field.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
@@ -296,46 +294,17 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               },
                             ),
                             const SizedBox(height: 10),
-                            GooglePlaceAutoCompleteTextField(
-                              textEditingController: controllerAddress,
-                              googleAPIKey:
+                            AddressAutocompleteField(
+                              controller: controllerAddress,
+                              apiKey:
                                   DefaultFirebaseOptions.currentPlatform.apiKey,
-                              inputDecoration: InputDecoration(
-                                labelText: context.l10n.address,
-                              ),
-                              countries: const ["de"],
-                              isLatLngRequired: false,
-                              placeType: PlaceType.address,
-                              getPlaceDetailWithLatLng: (prediction) {},
-                              debounceTime: 600,
-                              itemClick: (Prediction prediction) {
-                                controllerAddress.text =
-                                    prediction.description ?? "";
-                                controllerAddress
-                                    .selection = TextSelection.fromPosition(
-                                  TextPosition(
-                                    offset: prediction.description?.length ?? 0,
-                                  ),
-                                );
+                              label: context.l10n.address,
+                              validator: (String? value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return context.l10n.enterSomething;
+                                }
+                                return null;
                               },
-                              itemBuilder: (context, index, prediction) {
-                                return Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Row(
-                                    children: [
-                                      const Icon(Icons.location_on),
-                                      const SizedBox(width: 7),
-                                      Expanded(
-                                        child: Text(
-                                          prediction.description ?? "",
-                                          style: AppTextStyles.m,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              seperatedBuilder: const Divider(),
                             ),
                             const SizedBox(height: 10),
                             SelectAddressWidget(
