@@ -40,24 +40,28 @@ class IDScanService {
     for (int i = 0; i < lines.length; i++) {
       String line = lines[i].trim();
 
-      if (line.contains('Name') || line.contains('Nom')) {
-        if (i + 1 < lines.length) data['surname'] = lines[i + 1].trim();
+      if (_matchLabel(line, ['Name', 'Nom'])) {
+        final value = _getValue(lines, i);
+        if (value != null) {
+          data['surname'] = _cleanSurname(value);
+        }
       }
-      if (line.contains('Vornamen') || line.contains('Given names')) {
-        if (i + 1 < lines.length) data['givenName'] = lines[i + 1].trim();
+      if (_matchLabel(line, ['Vornamen', 'Given names'])) {
+        data['givenName'] = _getValue(lines, i);
       }
-      if (line.contains('Geburtsdatum') || line.contains('Date of birth')) {
-        if (i + 1 < lines.length) data['dob'] = _parseDate(lines[i + 1]);
+      if (_matchLabel(line, ['Geburtsdatum', 'Date of birth'])) {
+        final val = _getValue(lines, i);
+        if (val != null) data['dob'] = _parseDate(val);
       }
-      if (line.contains('Staatsangehörigkeit') ||
-          line.contains('Nationality')) {
-        if (i + 1 < lines.length) data['nationality'] = lines[i + 1].trim();
+      if (_matchLabel(line, ['Staatsangehörigkeit', 'Nationality'])) {
+        data['nationality'] = _getValue(lines, i);
       }
-      if (line.contains('Geburtsort') || line.contains('Place of birth')) {
-        if (i + 1 < lines.length) data['placeOfBirth'] = lines[i + 1].trim();
+      if (_matchLabel(line, ['Geburtsort', 'Place of birth'])) {
+        data['placeOfBirth'] = _getValue(lines, i);
       }
-      if (line.contains('Gültig bis') || line.contains('Expiry date')) {
-        if (i + 1 < lines.length) data['expiryDate'] = _parseDate(lines[i + 1]);
+      if (_matchLabel(line, ['Gültig bis', 'Expiry date'])) {
+        final val = _getValue(lines, i);
+        if (val != null) data['expiryDate'] = _parseDate(val);
       }
     }
 
@@ -86,17 +90,18 @@ class IDScanService {
 
     for (int i = 0; i < lines.length; i++) {
       String line = lines[i].trim();
-      if (line.contains('Anschrift') || line.contains('Address')) {
+      if (_matchLabel(line, ['Anschrift', 'Address'])) {
         // Address can span multiple lines
         String address = "";
         if (i + 1 < lines.length) address += lines[i + 1].trim();
-        if (i + 2 < lines.length && !lines[i + 2].contains('Größe')) {
+        if (i + 2 < lines.length &&
+            !_matchLabel(lines[i + 2], ['Größe', 'Height'])) {
           address += " ${lines[i + 2].trim()}";
         }
         data['address'] = address;
       }
-      if (line.contains('Größe') || line.contains('Height')) {
-        if (i + 1 < lines.length) data['height'] = lines[i + 1].trim();
+      if (_matchLabel(line, ['Größe', 'Height'])) {
+        data['height'] = _getValue(lines, i);
       }
     }
 
@@ -104,17 +109,63 @@ class IDScanService {
     _parseMRZ(recognizedText.text, data);
   }
 
+  bool _matchLabel(String line, List<String> labels) {
+    final lowerLine = line.toLowerCase();
+    return labels.any((label) => lowerLine.contains(label.toLowerCase()));
+  }
+
+  String? _getValue(List<String> lines, int index) {
+    // Sometimes OCR puts the value on the same line after the label (or some noise)
+    // For German ID, it's mostly on the next line or separated by a lot of spaces.
+    if (index + 1 < lines.length) {
+      return lines[index + 1].trim();
+    }
+    return null;
+  }
+
+  String _cleanSurname(String value) {
+    // Fix: Surname ([a] gets missinterpretet as Tal<Name>)
+    // If it starts with "Tal" or "al", and then an uppercase letter, remove it.
+    if (value.startsWith('Tal') &&
+        value.length > 3 &&
+        value[3] == value[3].toUpperCase()) {
+      return value.substring(3).trim();
+    }
+    if (value.startsWith('al') &&
+        value.length > 2 &&
+        value[2] == value[2].toUpperCase()) {
+      return value.substring(2).trim();
+    }
+    return value;
+  }
+
   void _parseMRZ(String text, Map<String, dynamic> data) {
     // Basic MRZ regex for German ID (3 lines)
     // IDD<<...
     // 000000...
     // SURNAME<<GIVEN<NAME...
-    final mrzLines = text.split('\n').where((l) => l.contains('<<')).toList();
+    final mrzLines = text
+        .split('\n')
+        .map((l) => l.trim())
+        .where((l) => l.contains('<<'))
+        .toList();
     if (mrzLines.length >= 3) {
       // Very basic MRZ parsing
       // Line 1: IDD<<DOC_NUM...
       if (mrzLines[0].length >= 14) {
         data['idNumber'] ??= mrzLines[0].substring(5, 14);
+      }
+
+      // Line 2: contains DOB and Expiry
+      // Format: YYMMDD(check)SEX YYMMDD(check)NAT...
+      if (mrzLines[1].length >= 30) {
+        final dobStr = mrzLines[1].substring(0, 6);
+        final expiryStr = mrzLines[1].substring(8, 14);
+        final nationality = mrzLines[1].substring(15, 18);
+
+        data['dob'] ??= _parseMRZDate(dobStr);
+        data['expiryDate'] ??= _parseMRZDate(expiryStr);
+        data['nationality'] ??= nationality.replaceAll('<', '').trim();
       }
 
       // Line 3: SURNAME<<GIVEN NAMES
@@ -127,14 +178,35 @@ class IDScanService {
     }
   }
 
+  DateTime? _parseMRZDate(String d) {
+    if (d.length != 6) return null;
+    try {
+      int year = int.parse(d.substring(0, 2));
+      int month = int.parse(d.substring(2, 4));
+      int day = int.parse(d.substring(4, 6));
+
+      // Threshold for year (e.g. 50)
+      int currentYear = DateTime.now().year % 100;
+      if (year > currentYear + 10) {
+        year += 1900;
+      } else {
+        year += 2000;
+      }
+      return DateTime(year, month, day);
+    } catch (_) {
+      return null;
+    }
+  }
+
   DateTime? _parseDate(String dateStr) {
+    // Clean string from common OCR noise in dates
+    String cleanDate = dateStr.replaceAll(RegExp(r'[^0-9.]'), '');
     try {
       // German format: dd.MM.yyyy
-      return DateFormat('dd.MM.yyyy').parse(dateStr.trim());
+      return DateFormat('dd.MM.yyyy').parse(cleanDate.trim());
     } catch (e) {
       try {
-        // Try yyMMdd from MRZ if needed, but here we expect human readable
-        return DateFormat('dd.MM.yy').parse(dateStr.trim());
+        return DateFormat('dd.MM.yy').parse(cleanDate.trim());
       } catch (_) {
         return null;
       }
