@@ -6,9 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="7d6f3465-2f01-4299-a9a0-b5155cadad56" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/onboarding_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/onboarding_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/profile_settings/update_living_address_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/profile_settings/update_living_address_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/mobile/widgets/address_autocomplete_field.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/data/services/google_places_service.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,7 +23,7 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="545" />
+    <option name="cachedIndexableFilesCount" value="544" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/home/lmarquar/.android/avd/Medium_Phone.avd)]" />
@@ -88,7 +91,6 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
     "io.flutter.project.isFirstOpen": "true",
     "io.flutter.reload.alreadyRun": "true",
@@ -160,8 +162,8 @@
     <list>
       <item itemvalue="Android App.android.app" />
       <item itemvalue="Flutter.main.dart" />
-      <item itemvalue="Flutter.runWeb" />
       <item itemvalue="Flutter.run" />
+      <item itemvalue="Flutter.runWeb" />
     </list>
   </component>
   <component name="SharedIndexes">
@@ -191,6 +193,8 @@
       <workItem from="1768128218127" duration="50000" />
       <workItem from="1768237078639" duration="7227000" />
       <workItem from="1768300678568" duration="5911000" />
+      <workItem from="1768398458373" duration="33000" />
+      <workItem from="1768398504041" duration="1500000" />
     </task>
     <servers />
   </component>
@@ -220,7 +224,7 @@
         <line-breakpoint enabled="true" type="kotlin-function">
           <url>file://$PROJECT_DIR$/android/app/src/main/kotlin/com/example/stimmapp/MainActivity.kt</url>
           <line>18</line>
-          <properties class="com.example.stimmapp.MainActivity" method="configureFlutterEngine">
+          <properties class="com.example.stimmapp.MainActivity">
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="1" />
