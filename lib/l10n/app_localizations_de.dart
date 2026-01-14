@@ -537,7 +537,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get givenName => 'Vorname';
 
   @override
-  String get dob => 'Geburtsdatum';
+  String get dateOfBirth => 'Geburtsdatum';
 
   @override
   String get nationality => 'Staatsangehörigkeit';

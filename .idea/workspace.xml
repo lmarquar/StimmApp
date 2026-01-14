@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d6f3465-2f01-4299-a9a0-b5155cadad56" name="Changes" comment="" />
+    <list default="true" id="7d6f3465-2f01-4299-a9a0-b5155cadad56" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/id_scan_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/id_scan_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/onboarding_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/onboarding_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/data/models/user_profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/models/user_profile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/data/services/id_scan_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/services/id_scan_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/data/services/profile_picture_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/services/profile_picture_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_de.arb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_de.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_en.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_localizations.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_localizations_de.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_localizations_en.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +26,7 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="1909" />
+    <option name="cachedIndexableFilesCount" value="545" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/home/lmarquar/.android/avd/Medium_Phone.avd)]" />

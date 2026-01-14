@@ -208,7 +208,7 @@
 	"scanAgain": "Erneut scannen",
 	"surname": "Nachname",
 	"givenName": "Vorname",
-	"dob": "Geburtsdatum",
+	"dateOfBirth": "Geburtsdatum",
 	"nationality": "Staatsangehörigkeit",
 	"placeOfBirth": "Geburtsort",
 	"expiryDate": "Ablaufdatum",

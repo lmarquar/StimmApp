@@ -154,7 +154,10 @@ class _IDScanPageState extends State<IDScanPage> {
         const SizedBox(height: 8),
         _dataRow(l10n.surname, _scannedData?['surname']),
         _dataRow(l10n.givenName, _scannedData?['givenName']),
-        _dataRow(l10n.dob, _scannedData?['dob']?.toString().split(' ')[0]),
+        _dataRow(
+          l10n.dateOfBirth,
+          _scannedData?['dateOfBirth']?.toString().split(' ')[0],
+        ),
         _dataRow(l10n.nationality, _scannedData?['nationality']),
         _dataRow(l10n.placeOfBirth, _scannedData?['placeOfBirth']),
         _dataRow(
@@ -168,7 +171,11 @@ class _IDScanPageState extends State<IDScanPage> {
         ButtonWidget(
           label: l10n.confirmAndFinish,
           isFilled: true,
-          callback: () => Navigator.pop(context, _scannedData),
+          callback: () => Navigator.pop(context, {
+            'scannedData': _scannedData,
+            'frontImage': _frontImage,
+            'backImage': _backImage,
+          }),
         ),
         const SizedBox(height: 8),
         ButtonWidget(

@@ -1106,11 +1106,11 @@ abstract class AppLocalizations {
   /// **'Given Name'**
   String get givenName;
 
-  /// No description provided for @dob.
+  /// No description provided for @dateOfBirth.
   ///
   /// In en, this message translates to:
   /// **'Date of Birth'**
-  String get dob;
+  String get dateOfBirth;
 
   /// No description provided for @nationality.
   ///

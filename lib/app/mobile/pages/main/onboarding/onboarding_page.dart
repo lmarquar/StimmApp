@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle, MethodChannel;
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:stimmapp/app/mobile/pages/main/onboarding/id_scan_page.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
@@ -18,9 +19,6 @@ import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
-TextEditingController controllerPw = TextEditingController();
-TextEditingController controllerEm = TextEditingController();
-
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
 
@@ -30,9 +28,26 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   static const platform = MethodChannel('com.example.stimmapp/eid');
+  final TextEditingController controllerPw = TextEditingController();
+  final TextEditingController controllerEm = TextEditingController();
+  final TextEditingController controllerSurname = TextEditingController();
+  final TextEditingController controllerGivenName = TextEditingController();
+  final TextEditingController controllerDateOfBirth = TextEditingController();
+  DateTime? _selectedDateOfBirth;
+
   String errorMessage = 'Error message';
   double _progress = 0.0;
   String? _selectedState;
+
+  @override
+  void dispose() {
+    controllerPw.dispose();
+    controllerEm.dispose();
+    controllerSurname.dispose();
+    controllerGivenName.dispose();
+    controllerDateOfBirth.dispose();
+    super.dispose();
+  }
 
   Future<Map<String, dynamic>?> registerWithId() async {
     return await Navigator.push<Map<String, dynamic>>(
@@ -43,6 +58,32 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   void register() async {
     try {
+      if (_selectedState == null) {
+        showErrorSnackBar('Please select a state');
+        return;
+      }
+
+      final idResult = await registerWithId();
+      if (idResult == null) return;
+
+      final scannedData = idResult['scannedData'] as Map<String, dynamic>?;
+      final frontImage = idResult['frontImage'] as XFile?;
+      final backImage = idResult['backImage'] as XFile?;
+
+      if (scannedData == null) {
+        showErrorSnackBar('ID scan failed');
+        return;
+      }
+
+      // Backcheck date of birth
+      final scannedDateOfBirth = scannedData['dateOfBirth'] as DateTime?;
+      if (scannedDateOfBirth == null ||
+          DateFormat('yyyy-MM-dd').format(scannedDateOfBirth) !=
+              DateFormat('yyyy-MM-dd').format(_selectedDateOfBirth!)) {
+        showErrorSnackBar('Date of Birth does not match your ID');
+        return;
+      }
+
       final cred = await authService.createAccount(
         email: controllerEm.text,
         password: controllerPw.text,
@@ -51,27 +92,38 @@ class _OnboardingPageState extends State<OnboardingPage> {
         username: controllerEm.text.split('@')[0],
       );
 
-      final idData = await registerWithId();
-
       // Small delay to ensure Auth state is recognized by Firestore/Storage
       await Future.delayed(const Duration(milliseconds: 500));
 
       if (cred.user != null) {
+        final uid = cred.user!.uid;
+
+        // Store ID pictures in storage
+        if (frontImage != null) {
+          await ProfilePictureService.instance.uploadIdImage(
+            uid,
+            frontImage,
+            true,
+          );
+        }
+        if (backImage != null) {
+          await ProfilePictureService.instance.uploadIdImage(
+            uid,
+            backImage,
+            false,
+          );
+        }
+
         final profile = UserProfile(
-          uid: cred.user!.uid,
+          uid: uid,
           email: cred.user!.email,
           displayName: authService.currentUser!.displayName,
           state: _selectedState,
           createdAt: DateTime.now(),
-          surname: idData?['surname'],
-          givenName: idData?['givenName'],
-          dob: idData?['dob'],
-          nationality: idData?['nationality'],
-          placeOfBirth: idData?['placeOfBirth'],
-          expiryDate: idData?['expiryDate'],
-          idNumber: idData?['idNumber'],
-          address: idData?['address'],
-          height: idData?['height'],
+          surname: controllerSurname.text,
+          givenName: controllerGivenName.text,
+          dateOfBirth: _selectedDateOfBirth,,
+          // Leaving other fields empty for now as requested
         );
 
         await UserRepository.create().upsert(profile);
@@ -218,6 +270,63 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                 } else {
                                   showErrorSnackBar(context.l10n.error);
                                 }
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              controller: controllerSurname,
+                              decoration: InputDecoration(
+                                labelText: context.l10n.surname,
+                              ),
+                              validator: (String? value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return context.l10n.enterSomething;
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              controller: controllerGivenName,
+                              decoration: InputDecoration(
+                                labelText: context.l10n.givenName,
+                              ),
+                              validator: (String? value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return context.l10n.enterSomething;
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              controller: controllerDateOfBirth,
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                labelText: context.l10n.dateOfBirth,
+                                suffixIcon: const Icon(Icons.calendar_today),
+                              ),
+                              onTap: () async {
+                                final date = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime(2000),
+                                  firstDate: DateTime(1900),
+                                  lastDate: DateTime.now(),
+                                );
+                                if (date != null) {
+                                  setState(() {
+                                    _selectedDateOfBirth = date;
+                                    controllerDateOfBirth.text = DateFormat(
+                                      'yyyy-MM-dd',
+                                    ).format(date);
+                                  });
+                                }
+                              },
+                              validator: (String? value) {
+                                if (_selectedDateOfBirth == null) {
+                                  return context.l10n.enterSomething;
+                                }
+                                return null;
                               },
                             ),
                             const SizedBox(height: 10),
