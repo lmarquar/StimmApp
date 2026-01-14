@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/creator/petition_creator_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/creator/poll_creator_page.dart';
-import 'package:stimmapp/core/extensions/context_extensions.dart';
+import 'package:stimmapp/app/mobile/pages/main/home/home_navigation_config.dart';
+import 'package:stimmapp/app/mobile/widgets/blurrable_button_widget.dart';
 
 class CreatorPage extends StatefulWidget {
   const CreatorPage({super.key});
@@ -18,7 +19,11 @@ class _CreatorPageState extends State<CreatorPage> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            ElevatedButton(
+            const Divider(thickness: 5),
+            BlurrableButton(
+              icon: mainPagesConfig(context)[0].icon,
+              title: mainPagesConfig(context)[0].title,
+              description: 'erstelle eine neue Petition',
               onPressed: () {
                 Navigator.push(
                   context,
@@ -27,10 +32,13 @@ class _CreatorPageState extends State<CreatorPage> {
                   ),
                 );
               },
-              child: Text(context.l10n.createPetition),
+              isBlurred: false,
             ),
             const Divider(thickness: 5),
-            ElevatedButton(
+            BlurrableButton(
+              icon: mainPagesConfig(context)[2].icon,
+              title: mainPagesConfig(context)[2].title,
+              description: 'erstelle eine neue Umfrage',
               onPressed: () {
                 Navigator.push(
                   context,
@@ -39,9 +47,8 @@ class _CreatorPageState extends State<CreatorPage> {
                   ),
                 );
               },
-              child: Text(context.l10n.createPoll),
+              isBlurred: false,
             ),
-            const Divider(thickness: 5),
           ],
         ),
       ),
