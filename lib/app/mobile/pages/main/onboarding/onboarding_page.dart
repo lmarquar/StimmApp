@@ -1,20 +1,21 @@
 import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle, MethodChannel;
 import 'package:image_picker/image_picker.dart';
-import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
-import 'package:stimmapp/core/data/services/database_service.dart';
-import 'package:stimmapp/core/data/services/auth_service.dart';
-import 'package:stimmapp/core/data/services/profile_picture_service.dart';
-import 'package:stimmapp/core/extensions/context_extensions.dart';
-import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
+import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
+import 'package:stimmapp/core/data/services/auth_service.dart';
+import 'package:stimmapp/core/data/services/database_service.dart';
+import 'package:stimmapp/core/data/services/profile_picture_service.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
+import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 TextEditingController controllerPw = TextEditingController();
 TextEditingController controllerEm = TextEditingController();
@@ -32,19 +33,17 @@ class _OnboardingPageState extends State<OnboardingPage> {
   double _progress = 0.0;
   String? _selectedState;
 
-
   Future<void> registerWithId() async {
     //Junie, please write your code here
-    var result = "default";
   }
 
   void register() async {
     try {
-      final cred = await authService.value.createAccount(
+      final cred = await authService.createAccount(
         email: controllerEm.text,
         password: controllerPw.text,
       );
-      await authService.value.updateUsername(
+      await authService.updateUsername(
         username: controllerEm.text.split('@')[0],
       );
       registerWithId();
@@ -56,30 +55,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
         final profile = UserProfile(
           uid: cred.user!.uid,
           email: cred.user!.email,
-          displayName: authService.value.currentUser!.displayName,
+          displayName: authService.currentUser!.displayName,
           state: _selectedState,
           createdAt: DateTime.now(),
         );
 
-        // Retry profile creation as Firestore might take a moment to recognize the new user
-        DatabaseException? lastDbEx;
-        for (int i = 0; i < 8; i++) {
-          try {
-            debugPrint('Attempting to create user profile (attempt ${i + 1}) for UID: ${cred.user!.uid}');
-            await UserRepository.create().upsert(profile);
-            lastDbEx = null;
-            break;
-          } on DatabaseException catch (e) {
-            lastDbEx = e;
-            debugPrint('User profile creation attempt ${i + 1} failed: ${e.code}');
-            if (e.code == 'permission-denied') {
-              await Future.delayed(Duration(milliseconds: 1000 * (i + 1)));
-            } else {
-              rethrow;
-            }
-          }
-        }
-        if (lastDbEx != null) throw lastDbEx;
+        await UserRepository.create().upsert(profile);
       }
 
       AppData.isAuthConnected.value = true;
@@ -87,7 +68,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       // Try to upload a default profile picture from assets.
       // If anything fails here we log but don't block registration.
       try {
-        final user = authService.value.currentUser;
+        final user = authService.currentUser;
         if (user != null) {
           // Load asset bytes
           final bytes = await rootBundle.load(
@@ -105,8 +86,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
           await ProfilePictureService.instance.uploadProfilePicture(
             user.uid,
             xFile,
-            retryAttempts: 8,
-            retryDelayMs: 1000,
             onProgress: (p) {
               if (!mounted) return;
               if ((p - _progress).abs() > 0.01) setState(() => _progress = p);
@@ -116,11 +95,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
       } catch (e, st) {
         // don't break registration for asset/upload failures — log for debugging
         debugPrint('Default avatar upload failed: $e\n$st');
-        String errorMsg = e.toString();
-        if (e is DatabaseException) {
-          errorMsg = 'Database error (${e.code}): ${e.message}';
-        }
-        showErrorSnackBar('Default avatar upload failed: $errorMsg');
       }
 
       popPage();
@@ -131,9 +105,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
       showErrorSnackBar(errorMessage);
     } on DatabaseException catch (e) {
       setState(() {
-        errorMessage = 'Database error (${e.code}): ${e.message ?? 'Unknown error'}';
+        errorMessage =
+            'Database error (${e.code}): ${e.message ?? 'Unknown error'}';
       });
-      debugPrintStack(label: 'register database error', stackTrace: StackTrace.current);
+      debugPrintStack(
+        label: 'register database error',
+        stackTrace: StackTrace.current,
+      );
       showErrorSnackBar(errorMessage);
     } catch (e, st) {
       // Fallback for any other exception
@@ -155,9 +133,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
     if (kIsWeb) {
       showSuccessSnackBar('use your Phone for registering please');
     } else {
-      final Map<dynamic, dynamic> callResult = await platform.invokeMethod('passDataToNative', [
-        {"text": "HANA"}
-      ]);
+      final Map<dynamic, dynamic> callResult = await platform.invokeMethod(
+        'passDataToNative',
+        [
+          {"text": "HANA"},
+        ],
+      );
       result = callResult['userName'] ?? "defaultUser";
       if (result == randomName) {
         showSuccessSnackBar(result);
@@ -166,8 +147,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
       }
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {

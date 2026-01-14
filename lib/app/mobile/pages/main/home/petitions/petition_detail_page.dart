@@ -21,7 +21,7 @@ class PetitionDetailPage extends StatelessWidget {
       contentBuilder: (context, p) => const SizedBox.shrink(),
       bottomAction: ElevatedButton(
         onPressed: () async {
-          final user = authService.value.currentUser;
+          final user = authService.currentUser;
           if (user == null) {
             showErrorSnackBar(context.l10n.pleaseSignInFirst);
             return;

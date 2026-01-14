@@ -3,25 +3,25 @@ import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:stimmapp/app/mobile/pages/others/app_loading_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stimmapp/app/mobile/layout/init_app_layout.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/petitions/petition_detail_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/polls/poll_detail_page.dart';
+import 'package:stimmapp/app/mobile/pages/others/app_loading_page.dart';
 import 'package:stimmapp/core/constants/internal_constants.dart';
-import 'package:stimmapp/core/data/services/auth_service.dart';
-import 'package:stimmapp/core/data/services/profile_picture_service.dart';
+import 'package:stimmapp/core/data/di/service_locator.dart';
+import 'package:stimmapp/core/data/firebase/firebase_options.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
+import 'package:stimmapp/core/data/services/auth_service.dart';
+import 'package:stimmapp/core/data/services/profile_picture_service.dart';
+import 'package:stimmapp/core/errors/error_log_tool.dart';
 import 'package:stimmapp/core/notifiers/app_state_notifier.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
-import 'package:stimmapp/core/data/firebase/firebase_options.dart';
-import 'package:stimmapp/core/errors/error_log_tool.dart';
 import 'package:stimmapp/core/theme/app_theme.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:stimmapp/core/data/di/service_locator.dart';
 import 'package:stimmapp/l10n/app_localizations.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -42,16 +42,11 @@ void main() async {
 
   SystemChrome.setPreferredOrientations(const [DeviceOrientation.portraitUp]);
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   locator.init();
-  initializeAuthService();
   // Note: Only enable this for test builds
   if (!kIsWeb) {
-    await authService.value.setSettings(
-      appVerificationDisabledForTesting: true,
-    );
+    await authService.setSettings(appVerificationDisabledForTesting: true);
   }
 
   // Initialize service locator (Firestore, repositories, etc.)
@@ -84,7 +79,7 @@ class _MyAppState extends State<MyApp> {
     await initLocale();
 
     // Close expired petitions on startup if authenticated
-    if (authService.value.currentUser != null) {
+    if (authService.currentUser != null) {
       try {
         await PetitionRepository.create().closeExpiredPetitions();
         await PollRepository.create().closeExpiredPolls();
@@ -104,10 +99,11 @@ class _MyAppState extends State<MyApp> {
     appLocale.addListener(_onLocaleChanged);
 
     // Load profile URL when user signs in and clear on sign-out
-    _authSub = authService.value.authStateChanges.listen((user) {
+    _authSub = authService.authStateChanges.listen((user) {
       if (user != null) {
         ProfilePictureService.instance.loadProfileUrl(user.uid).catchError((e) {
           debugPrint('[main] Error loading profile URL: $e');
+          return null;
         });
       } else {
         ProfilePictureService.instance.profileUrlNotifier.value = null;
@@ -179,18 +175,22 @@ class _MyAppState extends State<MyApp> {
               locale: locale,
               routes: {
                 '/petition': (ctx) {
-                  final args = ModalRoute.of(ctx)?.settings.arguments as String?;
+                  final args =
+                      ModalRoute.of(ctx)?.settings.arguments as String?;
                   return PetitionDetailPage(id: args ?? '');
                 },
                 '/poll': (ctx) {
-                  final args = ModalRoute.of(ctx)?.settings.arguments as String?;
+                  final args =
+                      ModalRoute.of(ctx)?.settings.arguments as String?;
                   return PollDetailPage(id: args ?? '');
                 },
               },
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
               debugShowCheckedModeBanner: false,
-              home: _initialized ? const InitAppLayout() : const AppLoadingPage(),
+              home: _initialized
+                  ? const InitAppLayout()
+                  : const AppLoadingPage(),
             );
           },
         );

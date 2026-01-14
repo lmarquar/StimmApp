@@ -35,7 +35,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
       return;
     }
 
-    final currentUser = authService.value.currentUser;
+    final currentUser = authService.currentUser;
     if (currentUser == null) {
       showErrorSnackBar(context.l10n.pleaseSignInFirst);
       return;

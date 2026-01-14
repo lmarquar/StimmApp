@@ -29,7 +29,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
 
   void deleteAccount() async {
     try {
-      await authService.value.deleteAccount(
+      await authService.deleteAccount(
         email: controllerEmail.text,
         password: controllerPassword.text,
       );

@@ -1,16 +1,17 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:image_picker/image_picker.dart';
+import 'package:stimmapp/app/mobile/pages/main/home/widget_tree.dart';
+import 'package:stimmapp/app/mobile/pages/main/onboarding/welcome_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/delete_account_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/change_profile_picture_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/app_loading_page.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
-import 'package:stimmapp/app/mobile/pages/main/onboarding/welcome_page.dart';
-import 'package:stimmapp/app/mobile/pages/main/home/widget_tree.dart';
-import 'dart:typed_data';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:stimmapp/app/mobile/pages/main/profile/delete_account_page.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
-import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/change_profile_picture_page.dart';
 
 class AuthLayout extends StatefulWidget {
   const AuthLayout({super.key, this.pageIfNotConnected});
@@ -27,16 +28,13 @@ class _AuthLayoutState extends State<AuthLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: authService,
-      builder: (context, authServiceValue, child) {
-        return StreamBuilder(
-          stream: authServiceValue.authStateChanges,
-          builder: (context, snapshot) {
-            Widget content;
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              content = const AppLoadingPage();
-            } else if (snapshot.hasData) {
+    return StreamBuilder(
+      stream: authService.authStateChanges,
+      builder: (context, snapshot) {
+        Widget content;
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          content = const AppLoadingPage();
+        } else if (snapshot.hasData) {
               final user = snapshot.data as dynamic;
               final uid = user.uid as String?;
               if (uid != null && uid != _currentUid) {
@@ -82,7 +80,7 @@ class _AuthLayoutState extends State<AuthLayout> {
                                 onPressed: () {
                                   // Retry auto-fix
                                   final currentUser =
-                                      authService.value.currentUser;
+                                      authService.currentUser;
                                   if (currentUser != null) {
                                     setState(() {
                                       _ensureFuture = _ensureProfileValid(
@@ -105,7 +103,7 @@ class _AuthLayoutState extends State<AuthLayout> {
                                     ),
                                   );
                                   final currentUser =
-                                      authService.value.currentUser;
+                                      authService.currentUser;
                                   if (currentUser != null) {
                                     setState(() {
                                       _ensureFuture = _ensureProfileValid(
@@ -120,7 +118,7 @@ class _AuthLayoutState extends State<AuthLayout> {
                               ElevatedButton(
                                 onPressed: () async {
                                   // logout
-                                  await authService.value.signOut();
+                                  await authService.signOut();
                                   AppData.isAuthConnected.value = false;
                                 },
                                 child: Text(context.l10n.logout),
@@ -151,8 +149,6 @@ class _AuthLayoutState extends State<AuthLayout> {
             return content;
           },
         );
-      },
-    );
   }
 
   // Validate user profile: ensure a profile picture exists (auth photoURL or Firestore).
@@ -163,7 +159,7 @@ class _AuthLayoutState extends State<AuthLayout> {
       final uid = user.uid as String;
       // Load Firestore-stored profile URL (if any)
       await ProfilePictureService.instance.loadProfileUrl(uid);
-      final authPhoto = authService.value.currentUser?.photoURL;
+      final authPhoto = authService.currentUser?.photoURL;
       final profileUrl =
           ProfilePictureService.instance.profileUrlNotifier.value;
       if (authPhoto != null || profileUrl != null) return true;
@@ -188,8 +184,8 @@ class _AuthLayoutState extends State<AuthLayout> {
         try {
           final url = ProfilePictureService.instance.profileUrlNotifier.value;
           if (url != null) {
-            await authService.value.currentUser?.updatePhotoURL(url);
-            await authService.value.currentUser?.reload();
+            await authService.currentUser?.updatePhotoURL(url);
+            await authService.currentUser?.reload();
           }
         } catch (e) {
           debugPrint('Could not update auth photoURL: $e');
@@ -198,7 +194,7 @@ class _AuthLayoutState extends State<AuthLayout> {
         final newProfileUrl =
             ProfilePictureService.instance.profileUrlNotifier.value;
         return newProfileUrl != null ||
-            authService.value.currentUser?.photoURL != null;
+            authService.currentUser?.photoURL != null;
       } catch (e, st) {
         debugPrint('Auto default avatar upload failed: $e\n$st');
         return false;

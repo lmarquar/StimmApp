@@ -23,7 +23,7 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
   }
 
   Future<List<Map<String, dynamic>>> _fetchUserHistory() async {
-    final user = authService.value.currentUser;
+    final user = authService.currentUser;
     if (user == null) {
       // Handle case where user is not logged in
       return [];

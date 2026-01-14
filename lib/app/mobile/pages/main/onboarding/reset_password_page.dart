@@ -34,7 +34,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   void resetPassword() async {
     try {
-      await authService.value.resetPassword(email: controllerEmail.text);
+      await authService.resetPassword(email: controllerEmail.text);
     } on AuthException catch (e) {
       setState(() {
         errorMessage = e.message ?? context.l10n.error;

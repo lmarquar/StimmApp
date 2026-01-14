@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:stimmapp/core/data/services/database_service.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
+import 'package:stimmapp/core/data/services/database_service.dart';
 
 class ProfilePictureService {
   ProfilePictureService._(this._firestoreService);
@@ -50,8 +51,6 @@ class ProfilePictureService {
     String uid,
     XFile file, {
     void Function(double progress)? onProgress,
-    int retryAttempts = 5,
-    int retryDelayMs = 500,
   }) async {
     final ref = FirebaseStorage.instance.ref('users/$uid/profile.jpg');
     final metadata = SettableMetadata(contentType: 'image/jpeg');
@@ -60,16 +59,16 @@ class ProfilePictureService {
         ? ref.putData(await file.readAsBytes(), metadata)
         : ref.putFile(File(file.path), metadata);
 
-    final sub = uploadTask.snapshotEvents.listen((snap) {
-      final total = snap.totalBytes == 0 ? 1 : snap.totalBytes;
-      final prog = snap.bytesTransferred / total;
-      if (onProgress != null) onProgress(prog);
-    }, onError: (e) {
-      debugPrint('Upload task error: $e');
-      if (e is FirebaseException) {
-        debugPrint('FirebaseStorage error code: ${e.code}, message: ${e.message}');
-      }
-    });
+    final sub = uploadTask.snapshotEvents.listen(
+      (snap) {
+        final total = snap.totalBytes == 0 ? 1 : snap.totalBytes;
+        final prog = snap.bytesTransferred / total;
+        if (onProgress != null) onProgress(prog);
+      },
+      onError: (e) {
+        debugPrint('Upload task error: $e');
+      },
+    );
 
     try {
       final TaskSnapshot snap = await uploadTask;
@@ -77,39 +76,9 @@ class ProfilePictureService {
         throw Exception('Upload failed');
       }
 
-      // Retry getDownloadURL and setProfileUrl until successful
-      String url;
-      dynamic lastEx;
-      for (var i = 1; i <= retryAttempts; i++) {
-        try {
-          debugPrint('getDownloadURL attempt $i for UID: $uid');
-          try {
-            url = await ref.getDownloadURL();
-          } catch (e) {
-            debugPrint('getDownloadURL failed: $e');
-            rethrow;
-          }
-          
-          debugPrint('setProfileUrl attempt $i for UID: $uid');
-          try {
-            await setProfileUrl(uid, url);
-          } catch (e) {
-            debugPrint('setProfileUrl failed: $e');
-            rethrow;
-          }
-          return url;
-        } catch (e) {
-          lastEx = e;
-          debugPrint('Operation failed during attempt $i: $e');
-          if (e is FirebaseException) {
-            debugPrint('Firebase error code: ${e.code}, message: ${e.message}');
-          }
-          
-          // Exponential-ish backoff
-          await Future.delayed(Duration(milliseconds: retryDelayMs * i * i));
-        }
-      }
-      throw lastEx ?? Exception('Unknown error getting download URL');
+      final String url = await ref.getDownloadURL();
+      await setProfileUrl(uid, url);
+      return url;
     } finally {
       await sub.cancel();
     }

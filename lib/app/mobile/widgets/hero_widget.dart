@@ -9,7 +9,7 @@ class HeroWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentUrl = authService.value.currentUser?.photoURL;
+    final currentUrl = authService.currentUser?.photoURL;
     return GestureDetector(
       onTap: nextPage != null
           ? () {

@@ -1,16 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 
-late ValueNotifier<AuthService> authService;
-
-void setAuthServiceMock(AuthService mock) {
-  authService.value = mock;
-}
-
-void initializeAuthService() {
-  authService = ValueNotifier(AuthService());
-}
+final AuthService authService = AuthService();
 
 class AuthService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;

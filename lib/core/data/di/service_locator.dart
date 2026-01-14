@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:stimmapp/core/data/services/database_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
+import 'package:stimmapp/core/data/services/database_service.dart';
 
 class ServiceLocator {
   static final ServiceLocator _instance = ServiceLocator._internal();
@@ -20,7 +20,7 @@ class ServiceLocator {
     _database = FirebaseFirestore.instanceFor(app: app);
     _databaseService = DatabaseService(_database);
     _auth = FirebaseAuth.instanceFor(app: app);
-    _authService = AuthService();
+    _authService = authService;
   }
 
   FirebaseFirestore get database => _database;
@@ -37,7 +37,7 @@ class ServiceLocator {
   @visibleForTesting
   void setAuthForTest(FirebaseAuth auth) {
     _auth = auth;
-    _authService = AuthService();
+    _authService = authService;
   }
 }
 
