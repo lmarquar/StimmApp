@@ -8,6 +8,17 @@ class UserProfile {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
+  // ID Card Fields
+  final String? surname;
+  final String? givenName;
+  final DateTime? dob;
+  final String? nationality;
+  final String? placeOfBirth;
+  final DateTime? expiryDate;
+  final String? idNumber;
+  final String? address;
+  final String? height;
+
   bool get isAdmin => email == 'service@stimmapp.org';
 
   const UserProfile({
@@ -17,6 +28,15 @@ class UserProfile {
     this.state,
     this.createdAt,
     this.updatedAt,
+    this.surname,
+    this.givenName,
+    this.dob,
+    this.nationality,
+    this.placeOfBirth,
+    this.expiryDate,
+    this.idNumber,
+    this.address,
+    this.height,
   });
 
   UserProfile copyWith({
@@ -26,6 +46,15 @@ class UserProfile {
     String? state,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? surname,
+    String? givenName,
+    DateTime? dob,
+    String? nationality,
+    String? placeOfBirth,
+    DateTime? expiryDate,
+    String? idNumber,
+    String? address,
+    String? height,
   }) {
     return UserProfile(
       uid: uid ?? this.uid,
@@ -34,6 +63,15 @@ class UserProfile {
       state: state ?? this.state,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      surname: surname ?? this.surname,
+      givenName: givenName ?? this.givenName,
+      dob: dob ?? this.dob,
+      nationality: nationality ?? this.nationality,
+      placeOfBirth: placeOfBirth ?? this.placeOfBirth,
+      expiryDate: expiryDate ?? this.expiryDate,
+      idNumber: idNumber ?? this.idNumber,
+      address: address ?? this.address,
+      height: height ?? this.height,
     );
   }
 
@@ -45,6 +83,15 @@ class UserProfile {
       state: json['state'] as String?,
       createdAt: (json['createdAt'] as Timestamp?)?.toDate(),
       updatedAt: (json['updatedAt'] as Timestamp?)?.toDate(),
+      surname: json['surname'] as String?,
+      givenName: json['givenName'] as String?,
+      dob: (json['dob'] as Timestamp?)?.toDate(),
+      nationality: json['nationality'] as String?,
+      placeOfBirth: json['placeOfBirth'] as String?,
+      expiryDate: (json['expiryDate'] as Timestamp?)?.toDate(),
+      idNumber: json['idNumber'] as String?,
+      address: json['address'] as String?,
+      height: json['height'] as String?,
     );
   }
 
@@ -55,6 +102,15 @@ class UserProfile {
       'state': state,
       'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
       'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : null,
+      'surname': surname,
+      'givenName': givenName,
+      'dob': dob != null ? Timestamp.fromDate(dob!) : null,
+      'nationality': nationality,
+      'placeOfBirth': placeOfBirth,
+      'expiryDate': expiryDate != null ? Timestamp.fromDate(expiryDate!) : null,
+      'idNumber': idNumber,
+      'address': address,
+      'height': height,
     };
   }
 }

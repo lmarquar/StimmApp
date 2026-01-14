@@ -500,4 +500,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get users => 'Users';
+
+  @override
+  String get idScan => 'ID Scan';
+
+  @override
+  String get scanYourId => 'Please scan your German ID card';
+
+  @override
+  String get frontSide => 'Front Side';
+
+  @override
+  String get backSide => 'Back Side';
+
+  @override
+  String get processId => 'Process ID';
+
+  @override
+  String get scannedData => 'Scanned Data';
+
+  @override
+  String get confirmAndFinish => 'Confirm & Finish';
+
+  @override
+  String get scanAgain => 'Scan Again';
+
+  @override
+  String get surname => 'Surname';
+
+  @override
+  String get givenName => 'Given Name';
+
+  @override
+  String get dob => 'Date of Birth';
+
+  @override
+  String get nationality => 'Nationality';
+
+  @override
+  String get placeOfBirth => 'Place of Birth';
+
+  @override
+  String get expiryDate => 'Expiry Date';
+
+  @override
+  String get idNumber => 'ID Number';
+
+  @override
+  String get address => 'Address';
+
+  @override
+  String get height => 'Height';
 }

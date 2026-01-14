@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle, MethodChannel;
 import 'package:image_picker/image_picker.dart';
+import 'package:stimmapp/app/mobile/pages/main/onboarding/id_scan_page.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
@@ -33,8 +34,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
   double _progress = 0.0;
   String? _selectedState;
 
-  Future<void> registerWithId() async {
-    //Junie, please write your code here
+  Future<Map<String, dynamic>?> registerWithId() async {
+    return await Navigator.push<Map<String, dynamic>>(
+      context,
+      MaterialPageRoute(builder: (context) => const IDScanPage()),
+    );
   }
 
   void register() async {
@@ -46,7 +50,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
       await authService.updateUsername(
         username: controllerEm.text.split('@')[0],
       );
-      registerWithId();
+
+      final idData = await registerWithId();
 
       // Small delay to ensure Auth state is recognized by Firestore/Storage
       await Future.delayed(const Duration(milliseconds: 500));
@@ -58,6 +63,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
           displayName: authService.currentUser!.displayName,
           state: _selectedState,
           createdAt: DateTime.now(),
+          surname: idData?['surname'],
+          givenName: idData?['givenName'],
+          dob: idData?['dob'],
+          nationality: idData?['nationality'],
+          placeOfBirth: idData?['placeOfBirth'],
+          expiryDate: idData?['expiryDate'],
+          idNumber: idData?['idNumber'],
+          address: idData?['address'],
+          height: idData?['height'],
         );
 
         await UserRepository.create().upsert(profile);
