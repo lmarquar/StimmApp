@@ -76,6 +76,17 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
         state: state,
       );
 
+      List<Petition> matchedTitles = await _repository
+          .list(query: petition.title, status: "active")
+          .first;
+      String matchedTitle = matchedTitles.isNotEmpty
+          ? matchedTitles.first.title
+          : '';
+      if (matchedTitle.isNotEmpty && matchedTitle == petition.title) {
+        showErrorSnackBar('petition title in use already');
+        return;
+      }
+
       // Save to Firestore using toFirestore
       final petitionId = await _repository.createPetition(petition);
 
