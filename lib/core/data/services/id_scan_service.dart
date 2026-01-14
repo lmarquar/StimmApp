@@ -12,6 +12,7 @@ class IDScanService {
     'Vornamen',
     'Given names',
     'Prénoms',
+    'Prenoms',
     'Geburtsdatum',
     'Date of birth',
     'Date de naissance',
@@ -19,13 +20,16 @@ class IDScanService {
     'Nationality',
     'Nationalité',
     'Nationalite',
-    'najonal', // Common OCR misread of Nationalité
+    'Nationalit',
+    'najonal',
     'Geburtsort',
     'Place of birth',
     'Lieu de naissance',
+    'Lieu de',
     'Gültig bis',
     'Expiry date',
     'Date d\'expiration',
+    'Date d\'exp',
     'Anschrift',
     'Address',
     'Adresse',
@@ -39,6 +43,12 @@ class IDScanService {
     'CAN',
     'ID-Number',
     'Ausweisnummer',
+    'Datum',
+    'Date',
+    'Unterschrift',
+    'Signature',
+    'Behörde',
+    'Authority',
   ];
 
   Future<Map<String, dynamic>> scanId(String frontPath, String backPath) async {
@@ -119,11 +129,14 @@ class IDScanService {
       String line = lines[i].trim();
       if (_matchLabel(line, ['Anschrift', 'Address'])) {
         String address = "";
-        if (i + 1 < lines.length && !_isLabel(lines[i + 1])) {
-          address += lines[i + 1].trim();
-        }
-        if (i + 2 < lines.length && !_isLabel(lines[i + 2])) {
-          address += " ${lines[i + 2].trim()}";
+        // Address is usually multiple lines below the label
+        int foundLines = 0;
+        for (int j = i + 1; j < lines.length && foundLines < 2; j++) {
+          String nextLine = lines[j].trim();
+          if (nextLine.isEmpty) continue;
+          if (_isLabel(nextLine)) break;
+          address += (address.isEmpty ? "" : " ") + nextLine;
+          foundLines++;
         }
         if (address.isNotEmpty) data['address'] = address;
       }
@@ -148,57 +161,51 @@ class IDScanService {
 
   bool _isLabel(String line) {
     final lower = line.toLowerCase();
-    return _allLabels.any((label) => lower.contains(label.toLowerCase()));
+    return _allLabels.any((label) {
+      final lowerLabel = label.toLowerCase();
+      // Use word boundaries for very short labels to avoid false positives
+      if (lowerLabel.length <= 3) {
+        return lower.contains(RegExp('\\b$lowerLabel\\b'));
+      }
+      return lower.contains(lowerLabel);
+    });
   }
 
   String? _getValue(List<String> lines, int index, List<String> labels) {
-    String currentLine = lines[index];
+    List<String> candidates = [];
 
-    // 1. Try same line after removing labels
-    String valueOnSameLine = currentLine;
-    for (var label in labels) {
-      final pos = valueOnSameLine.toLowerCase().indexOf(label.toLowerCase());
-      if (pos != -1) {
-        valueOnSameLine = valueOnSameLine.replaceRange(
-          pos,
-          pos + label.length,
-          '',
-        );
+    // Look at current line and next few lines
+    for (int i = index; i < lines.length && i < index + 4; i++) {
+      String cleaned = _cleanValue(lines[i]);
+
+      if (cleaned.isNotEmpty && cleaned.length > 1) {
+        // Preference for "SHOUTING" lines (actual data on ID cards)
+        if (cleaned == cleaned.toUpperCase() &&
+            cleaned.contains(RegExp(r'[A-Z]'))) {
+          return cleaned;
+        }
+        candidates.add(cleaned);
       }
     }
-    valueOnSameLine = valueOnSameLine
-        .replaceAll(RegExp(r'^[ /:-]+'), '')
-        .trim();
 
-    if (valueOnSameLine.isNotEmpty &&
-        !_isLabel(valueOnSameLine) &&
-        valueOnSameLine.length > 2) {
-      return valueOnSameLine;
-    }
-
-    // 2. Try next lines, skipping labels
-    for (int i = index + 1; i < lines.length && i < index + 3; i++) {
-      String nextLine = lines[i].trim();
-      if (nextLine.isEmpty) continue;
-      if (_isLabel(nextLine)) continue;
-      return nextLine;
-    }
-    return null;
+    return candidates.isNotEmpty ? candidates.first : null;
   }
 
   String _cleanValue(String value) {
     String cleaned = value;
-    // Remove any known labels that might have leaked into the value
+    // Remove all known labels case-insensitively
     for (var label in _allLabels) {
       final lowerLabel = label.toLowerCase();
-      if (cleaned.toLowerCase().contains(lowerLabel)) {
-        final pos = cleaned.toLowerCase().indexOf(lowerLabel);
-        if (pos != -1) {
-          cleaned = cleaned.replaceRange(pos, pos + label.length, '');
-        }
-      }
+      final escapedLabel = RegExp.escape(lowerLabel);
+      // Remove label and any following common separators
+      final regex = RegExp('$escapedLabel[\\s/:-]*', caseSensitive: false);
+      cleaned = cleaned.replaceAll(regex, '');
     }
-    return cleaned.replaceAll(RegExp(r'^[ /:-]+'), '').trim();
+    // Clean up remaining noise
+    return cleaned
+        .replaceAll(RegExp(r'^[ /:-]+'), '')
+        .replaceAll(RegExp(r'[ /:-]+$'), '')
+        .trim();
   }
 
   String _cleanSurname(String value) {
