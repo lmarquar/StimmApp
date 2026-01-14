@@ -82,9 +82,7 @@ class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage>
                           ),
                           countries: const ["de"],
                           isLatLngRequired: true,
-                          getPlaceDetailWithLatLng: (Prediction prediction) {
-                            print("placeDetails${prediction.lat}");
-                          },
+                          getPlaceDetailWithLatLng: (Prediction prediction) {},
                           debounceTime: 600,
                           itemClick: (Prediction prediction) {
                             _controllerAddress.text =
