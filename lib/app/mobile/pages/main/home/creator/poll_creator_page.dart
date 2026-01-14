@@ -120,6 +120,17 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
         state: state,
       );
 
+      List<Poll> matchedTitles = await _repository
+          .list(query: poll.title, status: "active")
+          .first;
+      String matchedTitle = matchedTitles.isNotEmpty
+          ? matchedTitles.first.title
+          : '';
+      if (matchedTitle.isNotEmpty && matchedTitle == poll.title) {
+        showErrorSnackBar('petition title in use already');
+        return;
+      }
+
       final pollId = await _repository.createPoll(poll);
 
       if (mounted) {
