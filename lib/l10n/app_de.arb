@@ -197,5 +197,22 @@
 	"areYouSureYouWantToDeleteThisUser": "Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?",
 	"areYouSureYouWantToDeleteThisPoll": "Sind Sie sicher, dass Sie diese Umfrage löschen möchten?",
 	"users": "Benutzer",
-	"devContactInformation": "Diese App wurde von Team LeEd mit Hilfe von Yannic entwickelt"
+	"devContactInformation": "Diese App wurde von Team LeEd mit Hilfe von Yannic entwickelt",
+	"idScan": "Ausweisscan",
+	"scanYourId": "Bitte scannen Sie Ihren deutschen Personalausweis",
+	"frontSide": "Vorderseite",
+	"backSide": "Rückseite",
+	"processId": "Ausweis verarbeiten",
+	"scannedData": "Gescannte Daten",
+	"confirmAndFinish": "Bestätigen & Fertigstellen",
+	"scanAgain": "Erneut scannen",
+	"surname": "Nachname",
+	"givenName": "Vorname",
+	"dob": "Geburtsdatum",
+	"nationality": "Staatsangehörigkeit",
+	"placeOfBirth": "Geburtsort",
+	"expiryDate": "Ablaufdatum",
+	"idNumber": "Ausweisnummer",
+	"address": "Anschrift",
+	"height": "Größe"
 }

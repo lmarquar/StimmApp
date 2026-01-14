@@ -186,5 +186,22 @@
 	"deletePetition": "Delete Petition",
 	"areYouSureYouWantToDeleteThisUser": "Are you sure you want to delete this user?",
 	"areYouSureYouWantToDeleteThisPoll": "Are you sure you want to delete this poll?",
-	"users": "Users"
+	"users": "Users",
+	"idScan": "ID Scan",
+	"scanYourId": "Please scan your German ID card",
+	"frontSide": "Front Side",
+	"backSide": "Back Side",
+	"processId": "Process ID",
+	"scannedData": "Scanned Data",
+	"confirmAndFinish": "Confirm & Finish",
+	"scanAgain": "Scan Again",
+	"surname": "Surname",
+	"givenName": "Given Name",
+	"dob": "Date of Birth",
+	"nationality": "Nationality",
+	"placeOfBirth": "Place of Birth",
+	"expiryDate": "Expiry Date",
+	"idNumber": "ID Number",
+	"address": "Address",
+	"height": "Height"
 }

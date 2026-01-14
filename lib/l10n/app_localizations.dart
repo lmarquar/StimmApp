@@ -1045,6 +1045,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Users'**
   String get users;
+
+  /// No description provided for @idScan.
+  ///
+  /// In en, this message translates to:
+  /// **'ID Scan'**
+  String get idScan;
+
+  /// No description provided for @scanYourId.
+  ///
+  /// In en, this message translates to:
+  /// **'Please scan your German ID card'**
+  String get scanYourId;
+
+  /// No description provided for @frontSide.
+  ///
+  /// In en, this message translates to:
+  /// **'Front Side'**
+  String get frontSide;
+
+  /// No description provided for @backSide.
+  ///
+  /// In en, this message translates to:
+  /// **'Back Side'**
+  String get backSide;
+
+  /// No description provided for @processId.
+  ///
+  /// In en, this message translates to:
+  /// **'Process ID'**
+  String get processId;
+
+  /// No description provided for @scannedData.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanned Data'**
+  String get scannedData;
+
+  /// No description provided for @confirmAndFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm & Finish'**
+  String get confirmAndFinish;
+
+  /// No description provided for @scanAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Again'**
+  String get scanAgain;
+
+  /// No description provided for @surname.
+  ///
+  /// In en, this message translates to:
+  /// **'Surname'**
+  String get surname;
+
+  /// No description provided for @givenName.
+  ///
+  /// In en, this message translates to:
+  /// **'Given Name'**
+  String get givenName;
+
+  /// No description provided for @dob.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth'**
+  String get dob;
+
+  /// No description provided for @nationality.
+  ///
+  /// In en, this message translates to:
+  /// **'Nationality'**
+  String get nationality;
+
+  /// No description provided for @placeOfBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Place of Birth'**
+  String get placeOfBirth;
+
+  /// No description provided for @expiryDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Expiry Date'**
+  String get expiryDate;
+
+  /// No description provided for @idNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'ID Number'**
+  String get idNumber;
+
+  /// No description provided for @address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get address;
+
+  /// No description provided for @height.
+  ///
+  /// In en, this message translates to:
+  /// **'Height'**
+  String get height;
 }
 
 class _AppLocalizationsDelegate

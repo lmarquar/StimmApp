@@ -505,4 +505,55 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get users => 'Benutzer';
+
+  @override
+  String get idScan => 'Ausweisscan';
+
+  @override
+  String get scanYourId => 'Bitte scannen Sie Ihren deutschen Personalausweis';
+
+  @override
+  String get frontSide => 'Vorderseite';
+
+  @override
+  String get backSide => 'Rückseite';
+
+  @override
+  String get processId => 'Ausweis verarbeiten';
+
+  @override
+  String get scannedData => 'Gescannte Daten';
+
+  @override
+  String get confirmAndFinish => 'Bestätigen & Fertigstellen';
+
+  @override
+  String get scanAgain => 'Erneut scannen';
+
+  @override
+  String get surname => 'Nachname';
+
+  @override
+  String get givenName => 'Vorname';
+
+  @override
+  String get dob => 'Geburtsdatum';
+
+  @override
+  String get nationality => 'Staatsangehörigkeit';
+
+  @override
+  String get placeOfBirth => 'Geburtsort';
+
+  @override
+  String get expiryDate => 'Ablaufdatum';
+
+  @override
+  String get idNumber => 'Ausweisnummer';
+
+  @override
+  String get address => 'Anschrift';
+
+  @override
+  String get height => 'Größe';
 }
