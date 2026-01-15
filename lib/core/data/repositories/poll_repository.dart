@@ -99,13 +99,67 @@ class PollRepository {
         .collection('votes')
         .snapshots()
         .asyncMap((snap) async {
-      final uids = snap.docs.map((d) => d.id).toList();
-      if (uids.isEmpty) return [];
+          final uids = snap.docs.map((d) => d.id).toList();
+          if (uids.isEmpty) return [];
 
-      final userRepo = UserRepository.create();
-      final profiles = await Future.wait(uids.map((uid) => userRepo.getById(uid)));
-      return profiles.whereType<UserProfile>().toList();
+          final userRepo = UserRepository.create();
+          final profiles = await Future.wait(
+            uids.map((uid) => userRepo.getById(uid)),
+          );
+          return profiles.whereType<UserProfile>().toList();
+        });
+  }
+
+  // Fetch participants once (used by CSV export)
+  Future<List<UserProfile>> getParticipantsOnce(String pollId) async {
+    final snap = await _fs.instance
+        .collection('polls')
+        .doc(pollId)
+        .collection('votes')
+        .get();
+    final uids = snap.docs.map((d) => d.id).toList();
+    if (uids.isEmpty) return [];
+    final userRepo = UserRepository.create();
+    final profiles = await Future.wait(
+      uids.map((uid) => userRepo.getById(uid)),
+    );
+    return profiles.whereType<UserProfile>().toList();
+  }
+
+  // Remove all votes by a user and decrement poll counts (used by user deletion)
+  Future<void> removeVotesByUser(String uid) async {
+    final db = _fs.instance;
+    final votedPollsSnap = await db
+        .collection('users')
+        .doc(uid)
+        .collection('votedPolls')
+        .get();
+    await db.runTransaction((txn) async {
+      for (final doc in votedPollsSnap.docs) {
+        final pollId = doc.id;
+        final optionId = doc.data()['optionId'] as String?;
+        if (optionId != null) {
+          final pollRef = db.collection('polls').doc(pollId);
+          txn.update(pollRef, {'votes.$optionId': FieldValue.increment(-1)});
+          txn.delete(pollRef.collection('votes').doc(uid));
+        }
+        txn.delete(
+          db.collection('users').doc(uid).collection('votedPolls').doc(pollId),
+        );
+      }
     });
+  }
+
+  // Close polls created by a user
+  Future<void> closePollsCreatedByUser(String uid) async {
+    final batch = _fs.instance.batch();
+    final createdPollsSnap = await _col()
+        .where('createdBy', isEqualTo: uid)
+        .get();
+    for (final doc in createdPollsSnap.docs) {
+      batch.update(doc.reference, {'status': 'closed'});
+    }
+    await batch.commit();
   }
 
   Future<void> closeExpiredPolls() async {

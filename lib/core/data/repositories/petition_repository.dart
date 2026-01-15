@@ -112,13 +112,68 @@ class PetitionRepository {
         .collection('signatures')
         .snapshots()
         .asyncMap((snap) async {
-      final uids = snap.docs.map((d) => d.id).toList();
-      if (uids.isEmpty) return [];
+          final uids = snap.docs.map((d) => d.id).toList();
+          if (uids.isEmpty) return [];
 
-      final userRepo = UserRepository.create();
-      final profiles = await Future.wait(uids.map((uid) => userRepo.getById(uid)));
-      return profiles.whereType<UserProfile>().toList();
+          final userRepo = UserRepository.create();
+          final profiles = await Future.wait(
+            uids.map((uid) => userRepo.getById(uid)),
+          );
+          return profiles.whereType<UserProfile>().toList();
+        });
+  }
+
+  // Fetch participants once (used by CSV export)
+  Future<List<UserProfile>> getParticipantsOnce(String petitionId) async {
+    final snap = await _fs.instance
+        .collection('petitions')
+        .doc(petitionId)
+        .collection('signatures')
+        .get();
+    final uids = snap.docs.map((d) => d.id).toList();
+    if (uids.isEmpty) return [];
+    final userRepo = UserRepository.create();
+    final profiles = await Future.wait(
+      uids.map((uid) => userRepo.getById(uid)),
+    );
+    return profiles.whereType<UserProfile>().toList();
+  }
+
+  // Remove all signatures by a user and decrement petition counts (used by user deletion)
+  Future<void> removeSignaturesByUser(String uid) async {
+    final db = _fs.instance;
+    final signedPetitionsSnap = await db
+        .collection('users')
+        .doc(uid)
+        .collection('signedPetitions')
+        .get();
+    await db.runTransaction((txn) async {
+      for (final doc in signedPetitionsSnap.docs) {
+        final petitionId = doc.id;
+        final petitionRef = db.collection('petitions').doc(petitionId);
+        txn.update(petitionRef, {'signatureCount': FieldValue.increment(-1)});
+        txn.delete(petitionRef.collection('signatures').doc(uid));
+        txn.delete(
+          db
+              .collection('users')
+              .doc(uid)
+              .collection('signedPetitions')
+              .doc(petitionId),
+        );
+      }
     });
+  }
+
+  // Close petitions created by a user
+  Future<void> closePetitionsCreatedByUser(String uid) async {
+    final batch = _fs.instance.batch();
+    final createdPetitionsSnap = await _col()
+        .where('createdBy', isEqualTo: uid)
+        .get();
+    for (final doc in createdPetitionsSnap.docs) {
+      batch.update(doc.reference, {'status': 'closed'});
+    }
+    await batch.commit();
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> watchSignedPetitions(String uid) {

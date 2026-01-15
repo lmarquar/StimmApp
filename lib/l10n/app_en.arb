@@ -13,6 +13,9 @@
 			}
 		}
 	},
+	"result": "Result",
+	"name": "Name",
+	"livingAddress": "Living Address",
 	"dailyCreatePetitionLimitReached": "You can only publish one petition per day.",
 	"dailyCreatePollLimitReached": "You can only publish one poll per day.",
 	"addressUpdatedSuccessfully": "Address updated successfully",
