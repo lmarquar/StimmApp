@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -104,12 +102,10 @@ class _SetUserDetailsPageState extends State<SetUserDetailsPage> {
       } catch (e, st) {
         debugPrint('Default avatar upload failed: $e\n$st');
       }
-
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) => const WidgetTree(),
-        ),
+        MaterialPageRoute(builder: (context) => const WidgetTree()),
       );
     } on DatabaseException catch (e) {
       setState(() {
@@ -247,6 +243,7 @@ class _SetUserDetailsPageState extends State<SetUserDetailsPage> {
                   } else {
                     showErrorSnackBar(errorMessage);
                   }
+                  Navigator.pop(context);
                 },
               ),
             ],

@@ -141,10 +141,10 @@ class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage>
       buttons: [
         ButtonWidget(
           isFilled: true,
-          label: context.l10n.updateState,
+          label: context.l10n.updateLivingAddress,
           callback: () async {
             if (_formKey.currentState!.validate()) {
-              final successMessage = context.l10n.stateUpdatedSuccessfully;
+              final successMessage = context.l10n.addressUpdatedSuccessfully;
               try {
                 final userRepository = UserRepository.create();
                 final uid = authService.currentUser!.uid;

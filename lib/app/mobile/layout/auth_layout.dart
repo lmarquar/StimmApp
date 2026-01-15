@@ -10,8 +10,6 @@ import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/app/mobile/pages/main/onboarding/set_user_details_page.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
-import 'package:stimmapp/core/extensions/context_extensions.dart';
-import 'package:stimmapp/core/notifiers/notifiers.dart';
 
 class AuthLayout extends StatefulWidget {
   const AuthLayout({super.key, this.pageIfNotConnected});

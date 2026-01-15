@@ -1153,6 +1153,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'State'**
   String get state;
+
+  /// No description provided for @verificationEmailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification email sent'**
+  String get verificationEmailSent;
+
+  /// No description provided for @errorSendingEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Error sending email'**
+  String get errorSendingEmail;
+
+  /// No description provided for @emailVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Email verification'**
+  String get emailVerification;
+
+  /// No description provided for @verificationEmailSentTo.
+  ///
+  /// In en, this message translates to:
+  /// **'A verification email has been sent to {email}'**
+  String verificationEmailSentTo(String email);
+
+  /// No description provided for @pleaseCheckYourInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your inbox and click the verification link.'**
+  String get pleaseCheckYourInbox;
+
+  /// No description provided for @resendVerificationEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend verification email'**
+  String get resendVerificationEmail;
+
+  /// No description provided for @resendEmailCooldown.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait before resending'**
+  String get resendEmailCooldown;
+
+  /// No description provided for @continueText.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueText;
+
+  /// No description provided for @cancelRegistration.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel registration'**
+  String get cancelRegistration;
+
+  /// No description provided for @setUserDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Set user details'**
+  String get setUserDetails;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
 }
 
 class _AppLocalizationsDelegate
