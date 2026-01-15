@@ -559,4 +559,40 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get state => 'Bundesland';
+
+  @override
+  String get verificationEmailSent => 'Bestätigungs-E-Mail gesendet';
+
+  @override
+  String get errorSendingEmail => 'Fehler beim Senden der E-Mail';
+
+  @override
+  String get emailVerification => 'E-Mail-Bestätigung';
+
+  @override
+  String verificationEmailSentTo(String email) {
+    return 'Eine Bestätigungs-E-Mail wurde an $email gesendet';
+  }
+
+  @override
+  String get pleaseCheckYourInbox =>
+      'Bitte prüfe deinen Posteingang und klicke auf den Bestätigungslink.';
+
+  @override
+  String get resendVerificationEmail => 'Bestätigungs-E-Mail erneut senden';
+
+  @override
+  String get resendEmailCooldown => 'Bitte warte, bevor du erneut sendest';
+
+  @override
+  String get continueText => 'Weiter';
+
+  @override
+  String get cancelRegistration => 'Registrierung abbrechen';
+
+  @override
+  String get setUserDetails => 'Benutzerdaten festlegen';
+
+  @override
+  String get save => 'Speichern';
 }

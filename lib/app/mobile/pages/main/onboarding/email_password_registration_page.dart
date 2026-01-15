@@ -28,17 +28,18 @@ class _EmailPasswordRegistrationPageState
   }
 
   void register() async {
+    final route = '/email_confirmation';
     try {
       await authService.createAccount(
         email: controllerEm.text,
         password: controllerPw.text,
       );
-      Navigator.pushNamed(context, '/email_confirmation');
     } on AuthException catch (e) {
       setState(() {
         errorMessage = '${e.code}: ${e.message ?? 'Unknown error'}';
       });
       showErrorSnackBar(errorMessage);
+      return;
     } catch (e, st) {
       // Fallback for any other exception
       setState(() {
@@ -46,7 +47,10 @@ class _EmailPasswordRegistrationPageState
       });
       debugPrintStack(label: 'register error', stackTrace: st);
       showErrorSnackBar(errorMessage);
+      return;
     }
+    if (!mounted) return;
+    Navigator.pushNamed(context, route);
   }
 
   @override

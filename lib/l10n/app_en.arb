@@ -204,5 +204,23 @@
 	"idNumber": "ID Number",
 	"address": "Address",
 	"height": "Height",
-	"state": "State"
+	"state": "State",
+	"verificationEmailSent": "Verification email sent",
+	"errorSendingEmail": "Error sending email",
+	"emailVerification": "Email verification",
+	"verificationEmailSentTo": "A verification email has been sent to {email}",
+	"@verificationEmailSentTo": {
+		"placeholders": {
+			"email": {
+				"type": "String"
+			}
+		}
+	},
+	"pleaseCheckYourInbox": "Please check your inbox and click the verification link.",
+	"resendVerificationEmail": "Resend verification email",
+	"resendEmailCooldown": "Please wait before resending",
+	"continueText": "Continue",
+	"cancelRegistration": "Cancel registration",
+	"setUserDetails": "Set user details",
+	"save": "Save"
 }

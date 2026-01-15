@@ -215,5 +215,23 @@
 	"idNumber": "Ausweisnummer",
 	"address": "Anschrift",
 	"height": "Größe",
-	"state": "Bundesland"
+	"state": "Bundesland",
+	"verificationEmailSent": "Bestätigungs-E-Mail gesendet",
+	"errorSendingEmail": "Fehler beim Senden der E-Mail",
+	"emailVerification": "E-Mail-Bestätigung",
+	"verificationEmailSentTo": "Eine Bestätigungs-E-Mail wurde an {email} gesendet",
+	"@verificationEmailSentTo": {
+		"placeholders": {
+			"email": {
+				"type": "String"
+			}
+		}
+	},
+	"pleaseCheckYourInbox": "Bitte prüfe deinen Posteingang und klicke auf den Bestätigungslink.",
+	"resendVerificationEmail": "Bestätigungs-E-Mail erneut senden",
+	"resendEmailCooldown": "Bitte warte, bevor du erneut sendest",
+	"continueText": "Weiter",
+	"cancelRegistration": "Registrierung abbrechen",
+	"setUserDetails": "Benutzerdaten festlegen",
+	"save": "Speichern"
 }

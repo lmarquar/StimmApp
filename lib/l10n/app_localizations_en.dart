@@ -554,4 +554,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get state => 'State';
+
+  @override
+  String get verificationEmailSent => 'Verification email sent';
+
+  @override
+  String get errorSendingEmail => 'Error sending email';
+
+  @override
+  String get emailVerification => 'Email verification';
+
+  @override
+  String verificationEmailSentTo(String email) {
+    return 'A verification email has been sent to $email';
+  }
+
+  @override
+  String get pleaseCheckYourInbox =>
+      'Please check your inbox and click the verification link.';
+
+  @override
+  String get resendVerificationEmail => 'Resend verification email';
+
+  @override
+  String get resendEmailCooldown => 'Please wait before resending';
+
+  @override
+  String get continueText => 'Continue';
+
+  @override
+  String get cancelRegistration => 'Cancel registration';
+
+  @override
+  String get setUserDetails => 'Set user details';
+
+  @override
+  String get save => 'Save';
 }

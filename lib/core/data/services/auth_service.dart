@@ -29,10 +29,13 @@ class AuthService {
     required String password,
   }) async {
     try {
-      return await firebaseAuth.createUserWithEmailAndPassword(
+      final cred = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      // Add email verification here
+      await cred.user?.sendEmailVerification();
+      return cred;
     } on FirebaseAuthException catch (e) {
       throw AuthException(e);
     }
@@ -107,6 +110,14 @@ class AuthService {
       await FirebaseAuth.instance.setSettings(
         appVerificationDisabledForTesting: appVerificationDisabledForTesting,
       );
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e);
+    }
+  }
+
+  Future<void> sendEmailVerification() async {
+    try {
+      await currentUser?.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       throw AuthException(e);
     }

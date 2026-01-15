@@ -5,8 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d6f3465-2f01-4299-a9a0-b5155cadad56" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/email_verification_page.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/set_user_details/set_user_details_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/mobile/layout/auth_layout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/layout/auth_layout.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/email_confirmation_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/email_confirmation_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/onboarding_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/onboarding_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/set_user_details_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/set_user_details_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/data/services/auth_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/data/services/auth_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_de.arb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_de.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_en.arb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_localizations.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_localizations_de.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_localizations_en.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +28,7 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="544" />
+    <option name="cachedIndexableFilesCount" value="554" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/home/lmarquar/.android/avd/Medium_Phone.avd)]" />
@@ -86,7 +97,7 @@
     "cidr.known.project.marker": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "emailVerification",
     "io.flutter.project.isFirstOpen": "true",
     "io.flutter.reload.alreadyRun": "true",
     "junie.onboarding.icon.badge.shown": "true",
@@ -100,7 +111,7 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "flutter.settings",
+    "settings.editor.selected.configurable": "advanced.settings",
     "show.migrate.to.gradle.popup": "false",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
@@ -156,8 +167,8 @@
     </configuration>
     <list>
       <item itemvalue="Android App.android.app" />
-      <item itemvalue="Flutter.main.dart" />
       <item itemvalue="Flutter.run" />
+      <item itemvalue="Flutter.main.dart" />
       <item itemvalue="Flutter.runWeb" />
     </list>
   </component>
@@ -190,6 +201,9 @@
       <workItem from="1768300678568" duration="5911000" />
       <workItem from="1768398458373" duration="33000" />
       <workItem from="1768398504041" duration="3116000" />
+      <workItem from="1768421632787" duration="89000" />
+      <workItem from="1768461844266" duration="2000" />
+      <workItem from="1768463898454" duration="461000" />
     </task>
     <servers />
   </component>
