@@ -10,3 +10,4 @@ eine App die politische Volksentscheide vereinfachen soll. Auf städtischer, Bun
 - eventuell auch Landes/-Bundestagswahl Option
 - bietet Filterfuntionen für Petitionen und Umfragen
 - bietet die Funtkion Kanälen, wie zum Beispiel Peta, den Grünen, jugend Recherchiert etc. zu folgen.
+- Inklusion von openpetition/change.org/epetition
