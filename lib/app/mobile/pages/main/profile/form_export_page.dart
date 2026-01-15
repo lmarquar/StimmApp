@@ -102,7 +102,7 @@ class _FormExportPageState extends State<FormExportPage>
                 onPressed: () async {
                   try {
                     final path = await CsvExportService.instance
-                        .exportPetitionResults(p, p.id);
+                        .exportPetitionResults(context, p, p.id);
                     if (!context.mounted) return;
                     showSuccessSnackBar('${context.l10n.exportSuccess}: $path');
                   } catch (e) {
@@ -143,7 +143,7 @@ class _FormExportPageState extends State<FormExportPage>
                 onPressed: () async {
                   try {
                     final path = await CsvExportService.instance
-                        .exportPollResults(p, p.id);
+                        .exportPollResults(context, p, p.id);
                     if (!context.mounted) return;
                     showSuccessSnackBar('${context.l10n.exportSuccess}: $path');
                   } catch (e) {

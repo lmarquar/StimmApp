@@ -14,6 +14,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get result => 'Result';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get livingAddress => 'Living Address';
+
+  @override
   String get dailyCreatePetitionLimitReached =>
       'You can only publish one petition per day.';
 

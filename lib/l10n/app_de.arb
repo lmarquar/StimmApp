@@ -189,6 +189,9 @@
 		}
 	},
 	"about": "Über",
+	"result": "Ergebnis",
+	"name": "Name",
+	"livingAddress": "Anschrift",
 	"viewParticipants": "Teilnehmer anzeigen",
 	"participantsList": "Teilnehmerliste",
 	"adminInterface": "Admin-Oberfläche",

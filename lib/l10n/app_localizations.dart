@@ -104,6 +104,24 @@ abstract class AppLocalizations {
   /// **'Welcome {firstName} {lastName}!'**
   String helloAndWelcome(String firstName, String lastName);
 
+  /// No description provided for @result.
+  ///
+  /// In en, this message translates to:
+  /// **'Result'**
+  String get result;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// No description provided for @livingAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Living Address'**
+  String get livingAddress;
+
   /// No description provided for @dailyCreatePetitionLimitReached.
   ///
   /// In en, this message translates to:

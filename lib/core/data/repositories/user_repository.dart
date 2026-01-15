@@ -4,7 +4,9 @@ import 'package:stimmapp/core/data/di/service_locator.dart';
 import 'package:stimmapp/core/constants/database_collections.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
-import 'package:stimmapp/core/constants/internal_constants.dart';
+
+import 'petition_repository.dart';
+import 'poll_repository.dart';
 
 class UserRepository {
   UserRepository(this._fs);
@@ -46,60 +48,23 @@ class UserRepository {
   }
 
   Future<void> delete(String uid) async {
-    final db = _fs.instance;
-    final userRef = db.collection('users').doc(uid);
+    // Use repository helpers to remove user activity and close created items.
+    final pollRepo = PollRepository.create();
+    final petitionRepo = PetitionRepository.create();
 
-    // 1. Get user's activity (voted polls and signed petitions)
-    // Based on PollRepository.vote and PetitionRepository.sign,
-    // these are stored in subcollections of the user document.
-    final votedPollsSnap = await userRef.collection('votedPolls').get();
-    final signedPetitionsSnap = await userRef.collection('signedPetitions').get();
+    // Remove votes and signatures (decrements counts and removes subdocs)
+    await pollRepo.removeVotesByUser(uid);
+    await petitionRepo.removeSignaturesByUser(uid);
 
-    await db.runTransaction((txn) async {
-      // 2. Decrement poll counts and remove vote records
-      for (final doc in votedPollsSnap.docs) {
-        final pollId = doc.id;
-        final optionId = doc.data()['optionId'] as String?;
-        if (optionId != null) {
-          final pollRef = db.collection('polls').doc(pollId);
-          txn.update(pollRef, {'votes.$optionId': FieldValue.increment(-1)});
-          txn.delete(pollRef.collection('votes').doc(uid));
-        }
-      }
+    // Delete the user profile document
+    await _fs.delete(_doc(uid));
 
-      // 3. Decrement petition counts and remove signature records
-      for (final doc in signedPetitionsSnap.docs) {
-        final petitionId = doc.id;
-        final petitionRef = db.collection('petitions').doc(petitionId);
-        txn.update(petitionRef, {'signatureCount': FieldValue.increment(-1)});
-        txn.delete(petitionRef.collection('signatures').doc(uid));
-      }
-
-      // 4. Finally delete the user profile
-      txn.delete(userRef);
-    });
-
-    // 5. Delete profile picture from storage
+    // Delete profile picture from storage
     await ProfilePictureService.instance.deleteProfilePicture(uid);
 
-    // 6. Delete created polls and petitions
-    final createdPollsSnap = await db
-        .collection(DatabaseCollections.polls)
-        .where('createdBy', isEqualTo: uid)
-        .get();
-    final createdPetitionsSnap = await db
-        .collection(DatabaseCollections.petitions)
-        .where('createdBy', isEqualTo: uid)
-        .get();
-
-    final batch = db.batch();
-    for (final doc in createdPollsSnap.docs) {
-      batch.update(doc.reference, {'status': IConst.closed});
-    }
-    for (final doc in createdPetitionsSnap.docs) {
-      batch.update(doc.reference, {'status': IConst.closed});
-    }
-    await batch.commit();
+    // Close polls and petitions created by this user
+    await pollRepo.closePollsCreatedByUser(uid);
+    await petitionRepo.closePetitionsCreatedByUser(uid);
   }
 
   Stream<UserProfile?> watchById(String uid) {

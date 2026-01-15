@@ -7,6 +7,22 @@ class DatabaseService {
 
   FirebaseFirestore get instance => _db;
 
+  Future<void> disableNetwork() async {
+    try {
+      await _db.disableNetwork();
+    } on FirebaseException catch (e) {
+      throw DatabaseException(e);
+    }
+  }
+
+  Future<void> enableNetwork() async {
+    try {
+      await _db.enableNetwork();
+    } on FirebaseException catch (e) {
+      throw DatabaseException(e);
+    }
+  }
+
   CollectionReference<T> colRef<T>(
     String path, {
     required FromFirestore<T> fromFirestore,
@@ -54,12 +70,15 @@ class DatabaseService {
   Stream<List<T>> watchCol<T>(Query<T> query, {int? limit}) {
     var q = query;
     if (limit != null) q = q.limit(limit);
-    return q.snapshots().map((snap) => snap.docs.map((d) => d.data()).toList()).handleError((e) {
-      if (e is FirebaseException) {
-        throw DatabaseException(e);
-      }
-      throw e;
-    });
+    return q
+        .snapshots()
+        .map((snap) => snap.docs.map((d) => d.data()).toList())
+        .handleError((e) {
+          if (e is FirebaseException) {
+            throw DatabaseException(e);
+          }
+          throw e;
+        });
   }
 
   Future<void> upsert<T>(DocumentReference<T> ref, T data) async {
