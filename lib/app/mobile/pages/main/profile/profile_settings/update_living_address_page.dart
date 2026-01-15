@@ -59,11 +59,6 @@ class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage>
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(height: 60.0),
-                Text(
-                  context.l10n.entryNotYetImplemented,
-                  style: AppTextStyles.xxlBold,
-                ),
                 const SizedBox(height: 20.0),
                 const Text('✏️', style: AppTextStyles.icons),
                 const SizedBox(height: 50),
@@ -141,7 +136,7 @@ class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage>
       buttons: [
         ButtonWidget(
           isFilled: true,
-          label: context.l10n.updateLivingAddress,
+          label: context.l10n.confirm,
           callback: () async {
             if (_formKey.currentState!.validate()) {
               final successMessage = context.l10n.addressUpdatedSuccessfully;

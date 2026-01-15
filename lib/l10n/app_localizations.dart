@@ -104,6 +104,18 @@ abstract class AppLocalizations {
   /// **'Welcome {firstName} {lastName}!'**
   String helloAndWelcome(String firstName, String lastName);
 
+  /// No description provided for @dailyCreatePetitionLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only publish one petition per day.'**
+  String get dailyCreatePetitionLimitReached;
+
+  /// No description provided for @dailyCreatePollLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only publish one poll per day.'**
+  String get dailyCreatePollLimitReached;
+
   /// No description provided for @addressUpdatedSuccessfully.
   ///
   /// In en, this message translates to:
@@ -1261,6 +1273,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back to Login'**
   String get backToLogin;
+
+  /// No description provided for @createNewPetitionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new petition'**
+  String get createNewPetitionDescription;
+
+  /// No description provided for @createNewPollDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new poll'**
+  String get createNewPollDescription;
+
+  /// No description provided for @dailyCreateLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only publish one petition and one poll per day.'**
+  String get dailyCreateLimitReached;
 }
 
 class _AppLocalizationsDelegate

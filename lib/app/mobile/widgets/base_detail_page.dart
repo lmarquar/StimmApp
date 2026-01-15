@@ -36,6 +36,8 @@ class BaseDetailPage<T extends HomeItem> extends StatelessWidget {
           final item = snap.data;
           if (item == null) return Center(child: Text(context.l10n.notFound));
 
+          final now = DateTime.now();
+          final isExpired = item.expiresAt.isBefore(now);
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -77,9 +79,19 @@ class BaseDetailPage<T extends HomeItem> extends StatelessWidget {
                 Text(
                   '${context.l10n.expiresOn}: ${DateFormat('dd.MM.yyyy').format(item.expiresAt)}',
                 ),
+                if (isExpired) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    context.l10n.closed,
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelLarge
+                        ?.copyWith(color: Theme.of(context).colorScheme.error),
+                  ),
+                ],
                 const SizedBox(height: 16),
                 Expanded(child: contentBuilder(context, item)),
-                if (bottomAction != null) ...[
+                if (!isExpired && bottomAction != null) ...[
                   const SizedBox(height: 16),
                   SizedBox(width: double.infinity, child: bottomAction!),
                 ],

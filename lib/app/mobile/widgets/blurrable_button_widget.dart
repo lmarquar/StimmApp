@@ -9,6 +9,7 @@ class BlurrableButton extends StatelessWidget {
   final bool isBlurred;
   final double blurSigma;
   final double borderRadius;
+  final String descriptionIfBlurred;
 
   const BlurrableButton({
     super.key,
@@ -19,6 +20,7 @@ class BlurrableButton extends StatelessWidget {
     required this.isBlurred,
     this.blurSigma = 6.0,
     this.borderRadius = 16.0,
+    this.descriptionIfBlurred = '',
   });
 
   @override
@@ -84,7 +86,29 @@ class BlurrableButton extends StatelessWidget {
                 child: Container(
                   color: Colors.black.withAlpha(51),
                   alignment: Alignment.center,
-                  child: const Icon(Icons.lock, color: Colors.white),
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.lock, color: Colors.white),
+                      if (descriptionIfBlurred.trim().isNotEmpty) ...[
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            descriptionIfBlurred,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
                 ),
               ),
             ),
