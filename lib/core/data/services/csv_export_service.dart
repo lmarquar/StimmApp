@@ -73,7 +73,6 @@ class CsvExportService {
         debugPrint('Failed to re-enable Firestore network: $e');
       }
     }
-
     return file.path;
   }
 
@@ -152,7 +151,6 @@ class CsvExportService {
     }
 
     final csv = _buildCsv(rows);
-    debugPrint(csv);
     return _exportAndShareCsv('poll_${poll.title}', csv);
   }
 }
