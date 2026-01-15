@@ -244,5 +244,13 @@
 	"backToLogin": "Zurück zur Anmeldung",
 	"createNewPetitionDescription": "Erstelle eine neue Petition",
 	"createNewPollDescription": "Erstelle eine neue Umfrage",
-	"dailyCreateLimitReached": "Du kannst pro Tag nur eine Petition und eine Umfrage veröffentlichen."
+	"dailyCreateLimitReached": "Du kannst pro Tag nur eine Petition und eine Umfrage veröffentlichen.",
+	"finishedForms": "Abgeschlossene Formulare",
+	"expiredCreations": "Abgelaufene Einträge",
+	"expiredPetitions": "Abgelaufene Petitionen",
+	"expiredPolls": "Abgelaufene Umfragen",
+	"exportCsv": "CSV exportieren",
+	"noExpiredItems": "Keine abgelaufenen Einträge",
+	"exportSuccess": "Export erstellt",
+	"exportFailed": "Export fehlgeschlagen"
 }

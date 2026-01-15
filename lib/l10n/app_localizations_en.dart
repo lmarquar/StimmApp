@@ -631,4 +631,28 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get dailyCreateLimitReached =>
       'You can only publish one petition and one poll per day.';
+
+  @override
+  String get finishedForms => 'Finished forms';
+
+  @override
+  String get expiredCreations => 'Expired creations';
+
+  @override
+  String get expiredPetitions => 'Expired petitions';
+
+  @override
+  String get expiredPolls => 'Expired polls';
+
+  @override
+  String get exportCsv => 'Export CSV';
+
+  @override
+  String get noExpiredItems => 'No expired items';
+
+  @override
+  String get exportSuccess => 'Export created';
+
+  @override
+  String get exportFailed => 'Export failed';
 }

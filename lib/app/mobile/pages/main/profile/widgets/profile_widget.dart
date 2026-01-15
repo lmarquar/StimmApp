@@ -20,7 +20,9 @@ import '../../../../scaffolds/app_padding_scaffold.dart';
 import '../../../../widgets/list_tile_widget.dart';
 import '../../../../widgets/neon_padding_widget.dart';
 import '../../../../widgets/unaffected_child_widget.dart';
+import '../../../../widgets/pointing_list_tile.dart';
 import '../../admin/admin_dashboard_page.dart';
+import '../../profile/form_export_page.dart';
 import '../delete_account_page.dart';
 
 class ProfileWidget extends StatelessWidget {
@@ -152,16 +154,12 @@ class ProfileWidget extends StatelessWidget {
                 if (userProfile.isAdmin) ...[
                   const SizedBox(height: 20.0),
                   UnaffectedChildWidget(
-                    child: ListTile(
+                    child: PointingListTile(
                       leading: const Icon(
                         Icons.admin_panel_settings,
                         color: Colors.amber,
                       ),
                       title: Text(context.l10n.adminInterface),
-                      trailing: const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Colors.white38,
-                      ),
                       onTap: () {
                         Navigator.push(
                           context,
@@ -192,11 +190,7 @@ class ProfileWidget extends StatelessWidget {
         UnaffectedChildWidget(
           child: Material(
             type: MaterialType.transparency,
-            child: ListTile(
-              trailing: const Icon(
-                Icons.arrow_forward_ios_outlined,
-                color: Colors.white38,
-              ),
+            child: PointingListTile(
               title: Text(context.l10n.updateUsername),
               onTap: () {
                 Navigator.push(
@@ -216,11 +210,7 @@ class ProfileWidget extends StatelessWidget {
         UnaffectedChildWidget(
           child: Material(
             type: MaterialType.transparency,
-            child: ListTile(
-              trailing: const Icon(
-                Icons.arrow_forward_ios_outlined,
-                color: Colors.white38,
-              ),
+            child: PointingListTile(
               title: Text(context.l10n.updateLivingAddress),
               onTap: () {
                 Navigator.push(
@@ -238,11 +228,7 @@ class ProfileWidget extends StatelessWidget {
 
         //Change password
         UnaffectedChildWidget(
-          child: ListTile(
-            trailing: const Icon(
-              Icons.arrow_forward_ios_outlined,
-              color: Colors.white38,
-            ),
+          child: PointingListTile(
             title: Text(context.l10n.changePassword),
             onTap: () {
               Navigator.push(
@@ -259,11 +245,7 @@ class ProfileWidget extends StatelessWidget {
 
         // Delete my account
         UnaffectedChildWidget(
-          child: ListTile(
-            trailing: const Icon(
-              Icons.arrow_forward_ios_outlined,
-              color: Colors.white38,
-            ),
+          child: PointingListTile(
             title: Text(context.l10n.deleteMyAccount),
             onTap: () {
               Navigator.push(
@@ -283,11 +265,7 @@ class ProfileWidget extends StatelessWidget {
         ),
 
         UnaffectedChildWidget(
-          child: ListTile(
-            trailing: const Icon(
-              Icons.arrow_forward_ios_outlined,
-              color: Colors.white38,
-            ),
+          child: PointingListTile(
             title: Text(context.l10n.activityHistory),
             onTap: () {
               Navigator.push(
@@ -301,10 +279,24 @@ class ProfileWidget extends StatelessWidget {
             },
           ),
         ),
+        // Finished forms export
+        UnaffectedChildWidget(
+          child: PointingListTile(
+            title: Text(context.l10n.finishedForms),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FormExportPage()),
+              );
+            },
+          ),
+        ),
+
         // Logout
         UnaffectedChildWidget(
-          child: ListTile(
+          child: PointingListTile(
             title: Text(context.l10n.logout, style: AppTextStyles.red),
+            trailing: const SizedBox.shrink(),
             onTap: () {
               showDialog(
                 context: context,

@@ -636,4 +636,28 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get dailyCreateLimitReached =>
       'Du kannst pro Tag nur eine Petition und eine Umfrage veröffentlichen.';
+
+  @override
+  String get finishedForms => 'Abgeschlossene Formulare';
+
+  @override
+  String get expiredCreations => 'Abgelaufene Einträge';
+
+  @override
+  String get expiredPetitions => 'Abgelaufene Petitionen';
+
+  @override
+  String get expiredPolls => 'Abgelaufene Umfragen';
+
+  @override
+  String get exportCsv => 'CSV exportieren';
+
+  @override
+  String get noExpiredItems => 'Keine abgelaufenen Einträge';
+
+  @override
+  String get exportSuccess => 'Export erstellt';
+
+  @override
+  String get exportFailed => 'Export fehlgeschlagen';
 }

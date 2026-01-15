@@ -1291,6 +1291,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can only publish one petition and one poll per day.'**
   String get dailyCreateLimitReached;
+
+  /// No description provided for @finishedForms.
+  ///
+  /// In en, this message translates to:
+  /// **'Finished forms'**
+  String get finishedForms;
+
+  /// No description provided for @expiredCreations.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired creations'**
+  String get expiredCreations;
+
+  /// No description provided for @expiredPetitions.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired petitions'**
+  String get expiredPetitions;
+
+  /// No description provided for @expiredPolls.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired polls'**
+  String get expiredPolls;
+
+  /// No description provided for @exportCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Export CSV'**
+  String get exportCsv;
+
+  /// No description provided for @noExpiredItems.
+  ///
+  /// In en, this message translates to:
+  /// **'No expired items'**
+  String get noExpiredItems;
+
+  /// No description provided for @exportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Export created'**
+  String get exportSuccess;
+
+  /// No description provided for @exportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed'**
+  String get exportFailed;
 }
 
 class _AppLocalizationsDelegate
