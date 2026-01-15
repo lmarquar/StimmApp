@@ -14,6 +14,9 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get addressUpdatedSuccessfully => 'Anschrift erfolgreich aktualisiert';
+
+  @override
   String get participants => 'Teilnehmer';
 
   @override
@@ -456,9 +459,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get editPetition => 'Petition bearbeiten';
 
   @override
-  String get deletePetition => 'Petition löschen';
-
-  @override
   String get areYouSureYouWantToDeleteThisPetition =>
       'Sind Sie sicher, dass Sie diese Petition löschen möchten?';
 
@@ -494,6 +494,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get deletePoll => 'Umfrage löschen';
+
+  @override
+  String get deletePetition => 'Petition löschen';
 
   @override
   String get areYouSureYouWantToDeleteThisUser =>
@@ -595,4 +598,24 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get save => 'Speichern';
+
+  @override
+  String get registerHere => 'Hier registrieren';
+
+  @override
+  String get pleaseUsePhoneToRegister =>
+      'Bitte benutze dein Telefon zur Registrierung';
+
+  @override
+  String get confirmationEmailSent => 'Bestätigungs-E-Mail gesendet';
+
+  @override
+  String get confirmationEmailSentDescription =>
+      'Wir haben eine Bestätigungs-E-Mail an deine E-Mail-Adresse gesendet. Bitte prüfe deinen Posteingang und folge den Anweisungen, um die Registrierung abzuschließen.';
+
+  @override
+  String get resendEmail => 'E-Mail erneut senden';
+
+  @override
+  String get backToLogin => 'Zurück zur Anmeldung';
 }

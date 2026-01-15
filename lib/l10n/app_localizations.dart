@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'Welcome {firstName} {lastName}!'**
   String helloAndWelcome(String firstName, String lastName);
 
+  /// No description provided for @addressUpdatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Address updated successfully'**
+  String get addressUpdatedSuccessfully;
+
   /// No description provided for @participants.
   ///
   /// In en, this message translates to:
@@ -956,12 +962,6 @@ abstract class AppLocalizations {
   /// **'Edit Petition'**
   String get editPetition;
 
-  /// No description provided for @deletePetition.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete Petition'**
-  String get deletePetition;
-
   /// No description provided for @areYouSureYouWantToDeleteThisPetition.
   ///
   /// In en, this message translates to:
@@ -1027,6 +1027,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete Poll'**
   String get deletePoll;
+
+  /// No description provided for @deletePetition.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Petition'**
+  String get deletePetition;
 
   /// No description provided for @areYouSureYouWantToDeleteThisUser.
   ///
@@ -1219,6 +1225,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
+
+  /// No description provided for @registerHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Register here'**
+  String get registerHere;
+
+  /// No description provided for @pleaseUsePhoneToRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your phone for registering, please'**
+  String get pleaseUsePhoneToRegister;
+
+  /// No description provided for @confirmationEmailSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation Email Sent'**
+  String get confirmationEmailSent;
+
+  /// No description provided for @confirmationEmailSentDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'We have sent a confirmation email to your email address. Please check your inbox and follow the instructions to complete your registration.'**
+  String get confirmationEmailSentDescription;
+
+  /// No description provided for @resendEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend Email'**
+  String get resendEmail;
+
+  /// No description provided for @backToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Login'**
+  String get backToLogin;
 }
 
 class _AppLocalizationsDelegate

@@ -14,6 +14,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get addressUpdatedSuccessfully => 'Address updated successfully';
+
+  @override
   String get participants => 'Participants';
 
   @override
@@ -451,9 +454,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editPetition => 'Edit Petition';
 
   @override
-  String get deletePetition => 'Delete Petition';
-
-  @override
   String get areYouSureYouWantToDeleteThisPetition =>
       'Are you sure you want to delete this petition?';
 
@@ -489,6 +489,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deletePoll => 'Delete Poll';
+
+  @override
+  String get deletePetition => 'Delete Petition';
 
   @override
   String get areYouSureYouWantToDeleteThisUser =>
@@ -590,4 +593,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get save => 'Save';
+
+  @override
+  String get registerHere => 'Register here';
+
+  @override
+  String get pleaseUsePhoneToRegister =>
+      'Use your phone for registering, please';
+
+  @override
+  String get confirmationEmailSent => 'Confirmation Email Sent';
+
+  @override
+  String get confirmationEmailSentDescription =>
+      'We have sent a confirmation email to your email address. Please check your inbox and follow the instructions to complete your registration.';
+
+  @override
+  String get resendEmail => 'Resend Email';
+
+  @override
+  String get backToLogin => 'Back to Login';
 }
