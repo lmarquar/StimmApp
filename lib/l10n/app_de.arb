@@ -32,6 +32,7 @@
 			}
 		}
 	},
+	"addressUpdatedSuccessfully": "Anschrift erfolgreich aktualisiert",
 	"participants": "Teilnehmer",
 	"language": "Sprache",
 	"changeLanguage": "Sprache ändern",
@@ -174,7 +175,6 @@
 	"addComment": "Einen Kommentar hinzufügen",
 	"anonymous": "Anonym",
 	"editPetition": "Petition bearbeiten",
-	"deletePetition": "Petition löschen",
 	"entryNotYetImplemented": "Lexikon-Eintrag noch nicht implementiert",
 	"areYouSureYouWantToDeleteThisPetition": "Sind Sie sicher, dass Sie diese Petition löschen möchten?",
 	"stateDependent": "Bundeslandabhängig",
@@ -233,5 +233,11 @@
 	"continueText": "Weiter",
 	"cancelRegistration": "Registrierung abbrechen",
 	"setUserDetails": "Benutzerdaten festlegen",
-	"save": "Speichern"
+	"save": "Speichern",
+	"registerHere": "Hier registrieren",
+	"pleaseUsePhoneToRegister": "Bitte benutze dein Telefon zur Registrierung",
+	"confirmationEmailSent": "Bestätigungs-E-Mail gesendet",
+	"confirmationEmailSentDescription": "Wir haben eine Bestätigungs-E-Mail an deine E-Mail-Adresse gesendet. Bitte prüfe deinen Posteingang und folge den Anweisungen, um die Registrierung abzuschließen.",
+	"resendEmail": "E-Mail erneut senden",
+	"backToLogin": "Zurück zur Anmeldung"
 }

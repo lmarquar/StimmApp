@@ -76,7 +76,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     var result = "defaultUser";
     var randomName = "HANA";
     if (kIsWeb) {
-      showSuccessSnackBar('use your Phone for registering please');
+      showSuccessSnackBar(context.l10n.pleaseUsePhoneToRegister);
     } else {
       final Map<dynamic, dynamic> callResult = await platform.invokeMethod(
         'passDataToNative',
@@ -99,7 +99,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       child: Builder(
         builder: (context) {
           return AppBottomBarButtons(
-            appBar: AppBar(title: Text("register here")),
+            appBar: AppBar(title: Text(context.l10n.registerHere)),
             body: Center(
               child: SingleChildScrollView(
                 child: Padding(
