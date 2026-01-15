@@ -233,5 +233,13 @@
 	"backToLogin": "Back to Login",
 	"createNewPetitionDescription": "Create a new petition",
 	"createNewPollDescription": "Create a new poll",
-	"dailyCreateLimitReached": "You can only publish one petition and one poll per day."
+	"dailyCreateLimitReached": "You can only publish one petition and one poll per day.",
+	"finishedForms": "Finished forms",
+	"expiredCreations": "Expired creations",
+	"expiredPetitions": "Expired petitions",
+	"expiredPolls": "Expired polls",
+	"exportCsv": "Export CSV",
+	"noExpiredItems": "No expired items",
+	"exportSuccess": "Export created",
+	"exportFailed": "Export failed"
 }
