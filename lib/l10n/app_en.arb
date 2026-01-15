@@ -13,6 +13,8 @@
 			}
 		}
 	},
+	"dailyCreatePetitionLimitReached": "You can only publish one petition per day.",
+	"dailyCreatePollLimitReached": "You can only publish one poll per day.",
 	"addressUpdatedSuccessfully": "Address updated successfully",
 	"participants": "Participants",
 	"newMessages": "You have {newMessages, plural, =0{No new messages} =1 {One new message} two{Two new Messages} other {{newMessages} new messages}}",
@@ -228,5 +230,8 @@
 	"confirmationEmailSent": "Confirmation Email Sent",
 	"confirmationEmailSentDescription": "We have sent a confirmation email to your email address. Please check your inbox and follow the instructions to complete your registration.",
 	"resendEmail": "Resend Email",
-	"backToLogin": "Back to Login"
+	"backToLogin": "Back to Login",
+	"createNewPetitionDescription": "Create a new petition",
+	"createNewPollDescription": "Create a new poll",
+	"dailyCreateLimitReached": "You can only publish one petition and one poll per day."
 }

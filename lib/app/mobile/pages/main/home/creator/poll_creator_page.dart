@@ -5,6 +5,7 @@ import 'package:stimmapp/core/data/repositories/poll_repository.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
+import 'package:stimmapp/core/data/services/publishing_quota_service.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 
@@ -131,11 +132,22 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
         return;
       }
 
+      // Enforce daily quota atomically
+      await PublishingQuotaService.instance.incrementPoll();
+
       final pollId = await _repository.createPoll(poll);
 
       if (mounted) {
         showSuccessSnackBar(context.l10n.createdPoll + pollId);
         Navigator.of(context).pop();
+      }
+    } on StateError catch (e) {
+      if (mounted) {
+        if (e.message == 'poll_daily_limit_reached') {
+          showErrorSnackBar(context.l10n.dailyCreateLimitReached);
+        } else {
+          showErrorSnackBar(context.l10n.failedToCreatePoll + e.toString());
+        }
       }
     } catch (e) {
       if (mounted) {

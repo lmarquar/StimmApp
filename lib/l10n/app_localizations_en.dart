@@ -14,6 +14,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get dailyCreatePetitionLimitReached =>
+      'You can only publish one petition per day.';
+
+  @override
+  String get dailyCreatePollLimitReached =>
+      'You can only publish one poll per day.';
+
+  @override
   String get addressUpdatedSuccessfully => 'Address updated successfully';
 
   @override
@@ -613,4 +621,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get backToLogin => 'Back to Login';
+
+  @override
+  String get createNewPetitionDescription => 'Create a new petition';
+
+  @override
+  String get createNewPollDescription => 'Create a new poll';
+
+  @override
+  String get dailyCreateLimitReached =>
+      'You can only publish one petition and one poll per day.';
 }

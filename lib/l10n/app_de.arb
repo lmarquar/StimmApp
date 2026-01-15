@@ -178,6 +178,8 @@
 	"entryNotYetImplemented": "Lexikon-Eintrag noch nicht implementiert",
 	"areYouSureYouWantToDeleteThisPetition": "Sind Sie sicher, dass Sie diese Petition löschen möchten?",
 	"stateDependent": "Bundeslandabhängig",
+	"dailyCreatePetitionLimitReached": "Du kannst pro Tag nur eine Petition veröffentlichen.",
+	"dailyCreatePollLimitReached": "Du kannst pro Tag nur eine Umfrage veröffentlichen.",
 	"relatedToState": "Bezogen auf {state}",
 	"@relatedToState": {
 		"placeholders": {
@@ -239,5 +241,8 @@
 	"confirmationEmailSent": "Bestätigungs-E-Mail gesendet",
 	"confirmationEmailSentDescription": "Wir haben eine Bestätigungs-E-Mail an deine E-Mail-Adresse gesendet. Bitte prüfe deinen Posteingang und folge den Anweisungen, um die Registrierung abzuschließen.",
 	"resendEmail": "E-Mail erneut senden",
-	"backToLogin": "Zurück zur Anmeldung"
+	"backToLogin": "Zurück zur Anmeldung",
+	"createNewPetitionDescription": "Erstelle eine neue Petition",
+	"createNewPollDescription": "Erstelle eine neue Umfrage",
+	"dailyCreateLimitReached": "Du kannst pro Tag nur eine Petition und eine Umfrage veröffentlichen."
 }

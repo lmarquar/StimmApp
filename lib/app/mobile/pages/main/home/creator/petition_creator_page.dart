@@ -6,6 +6,7 @@ import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
+import 'package:stimmapp/core/data/services/publishing_quota_service.dart';
 
 class PetitionCreatorPage extends StatefulWidget {
   const PetitionCreatorPage({super.key});
@@ -87,6 +88,9 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
         return;
       }
 
+      // Enforce daily quota atomically
+      await PublishingQuotaService.instance.incrementPetition();
+
       // Save to Firestore using toFirestore
       final petitionId = await _repository.createPetition(petition);
 
@@ -98,6 +102,14 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
         _descriptionController.clear();
         _tagsController.clear();
         form.reset();
+      }
+    } on StateError catch (e) {
+      if (mounted) {
+        if (e.message == 'petition_daily_limit_reached') {
+          showErrorSnackBar(context.l10n.dailyCreateLimitReached);
+        } else {
+          showErrorSnackBar(context.l10n.errorCreatingPetition + e.toString());
+        }
       }
     } catch (e) {
       if (mounted) {
