@@ -664,4 +664,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exportFailed => 'Export failed';
+
+  @override
+  String get addImage => 'Add Image';
+
+  @override
+  String get errorUploadingImage => 'Error uploading image';
 }

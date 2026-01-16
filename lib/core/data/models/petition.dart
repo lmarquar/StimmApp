@@ -18,6 +18,7 @@ class Petition implements HomeItem {
   final String status;
   @override
   final String? state;
+  final String? imageUrl;
 
   Petition({
     required this.id,
@@ -30,6 +31,7 @@ class Petition implements HomeItem {
     required this.expiresAt,
     this.status = IConst.active,
     this.state,
+    this.imageUrl,
   });
 
   @override
@@ -46,6 +48,7 @@ class Petition implements HomeItem {
     DateTime? expiresAt,
     String? status,
     String? state,
+    String? imageUrl,
   }) {
     return Petition(
       id: id ?? this.id,
@@ -58,6 +61,7 @@ class Petition implements HomeItem {
       expiresAt: expiresAt ?? this.expiresAt,
       status: status ?? this.status,
       state: state ?? this.state,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 
@@ -81,6 +85,7 @@ class Petition implements HomeItem {
           createdAt.add(const Duration(days: 28)),
       status: (data['status'] ?? IConst.active) as String,
       state: data['state'] as String?,
+      imageUrl: data['imageUrl'] as String?,
     );
   }
 
@@ -96,6 +101,7 @@ class Petition implements HomeItem {
       'status': p.status,
       'titleLowercase': p.title.toLowerCase(),
       'state': p.state,
+      'imageUrl': p.imageUrl,
     };
   }
 }
