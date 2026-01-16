@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/widgets/base_detail_page.dart';
-import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
+import 'package:stimmapp/app/mobile/widgets/sign_action_button.dart';
 
 class PollDetailPage extends StatefulWidget {
   const PollDetailPage({super.key, required this.id});
@@ -51,25 +51,16 @@ class _PollDetailPageState extends State<PollDetailPage> {
           ),
         );
       },
-      bottomAction: ElevatedButton(
-        onPressed: () async {
+      bottomAction: SignActionButton(
+        label: context.l10n.vote,
+        participantsStream: repo.watchParticipants(widget.id),
+        onAction: () async {
           final optionId = _selectedOptionId;
           if (optionId == null) return;
-          final user = authService.currentUser;
-          if (user == null) {
-            if (!context.mounted) return;
-            showErrorSnackBar(context.l10n.pleaseSignInFirst);
-            return;
-          }
-          await repo.vote(
-            pollId: widget.id,
-            optionId: optionId,
-            uid: user.uid,
-          );
-          if (!context.mounted) return;
-          showSuccessSnackBar(context.l10n.voted);
+          final user = authService.currentUser!;
+          await repo.vote(pollId: widget.id, optionId: optionId, uid: user.uid);
         },
-        child: const Text('Vote'),
+        successMessage: context.l10n.voted,
       ),
     );
   }

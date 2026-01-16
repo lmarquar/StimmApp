@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:stimmapp/app/mobile/pages/main/onboarding/set_user_details_page.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
-import 'package:stimmapp/app/mobile/pages/main/set_user_details/set_user_details_page.dart'; // Assuming this will be the next step
 
 class EmailVerificationPage extends StatefulWidget {
   final String email;
