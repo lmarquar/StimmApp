@@ -256,6 +256,7 @@
 	"exportCsv": "CSV exportieren",
 	"noExpiredItems": "Keine abgelaufenen Einträge",
 	"exportSuccess": "Export erstellt",
+	"vote": "Abstimmen",
 	"exportFailed": "Export fehlgeschlagen",
 	"errorUploadingImage": "Fehler beim Hochladen des Bildes"
 }

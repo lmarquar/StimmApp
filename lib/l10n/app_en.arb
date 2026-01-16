@@ -13,6 +13,7 @@
 			}
 		}
 	},
+	"vote": "Vote",
 	"result": "Result",
 	"name": "Name",
 	"livingAddress": "Living Address",

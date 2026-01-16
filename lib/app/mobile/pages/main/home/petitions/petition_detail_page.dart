@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/widgets/base_detail_page.dart';
-import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
+import 'package:stimmapp/app/mobile/widgets/sign_action_button.dart';
 
 class PetitionDetailPage extends StatelessWidget {
   const PetitionDetailPage({super.key, required this.id});
@@ -24,17 +24,14 @@ class PetitionDetailPage extends StatelessWidget {
         }
         return const SizedBox.shrink();
       },
-      bottomAction: ElevatedButton(
-        onPressed: () async {
-          final user = authService.currentUser;
-          if (user == null) {
-            showErrorSnackBar(context.l10n.pleaseSignInFirst);
-            return;
-          }
-          showSuccessSnackBar(context.l10n.signed);
+      bottomAction: SignActionButton(
+        label: context.l10n.sign,
+        participantsStream: repo.watchParticipants(id),
+        onAction: () async {
+          final user = authService.currentUser!;
           await repo.sign(id, user.uid);
         },
-        child: Text(context.l10n.sign),
+        successMessage: context.l10n.signed,
       ),
     );
   }

@@ -14,6 +14,9 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get vote => 'Abstimmen';
+
+  @override
   String get result => 'Ergebnis';
 
   @override
