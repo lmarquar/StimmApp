@@ -1,7 +1,12 @@
+import 'dart:typed_data';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
+import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
@@ -22,6 +27,30 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
   final _repository = PetitionRepository.create();
   bool _isLoading = false;
   bool _isStateDependent = false;
+  XFile? _imageFile;
+  bool _isUploading = false;
+  UserProfile? _user;
+  final _picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUser();
+  }
+
+  Future<void> _fetchUser() async {
+    final currentUser = authService.currentUser;
+    if (currentUser != null) {
+      final user = await UserRepository.create()
+          .watchById(currentUser.uid)
+          .first;
+      if (mounted) {
+        setState(() {
+          _user = user;
+        });
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -29,6 +58,47 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
     _descriptionController.dispose();
     _tagsController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = pickedFile;
+      });
+    }
+  }
+
+  Future<String?> _uploadImage() async {
+    if (_imageFile == null) {
+      return null;
+    }
+
+    setState(() {
+      _isUploading = true;
+    });
+
+    try {
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child('petition_images')
+          .child(DateTime.now().toIso8601String());
+      final metadata = SettableMetadata(contentType: 'image/jpeg');
+      final uploadTask = ref.putData(await _imageFile!.readAsBytes(), metadata);
+      final snapshot = await uploadTask;
+      return await snapshot.ref.getDownloadURL();
+    } catch (e) {
+      if (mounted) {
+        showErrorSnackBar(context.l10n.errorUploadingImage + e.toString());
+      }
+      return null;
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isUploading = false;
+        });
+      }
+    }
   }
 
   Future<void> _createPetition(FormState form) async {
@@ -47,6 +117,15 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
     });
 
     try {
+      String? imageUrl;
+      if (_imageFile != null) {
+        imageUrl = await _uploadImage();
+        if (imageUrl == null) {
+          // Error is already shown in _uploadImage
+          return;
+        }
+      }
+
       // Parse tags from comma-separated input
       final tags = _tagsController.text
           .split(',')
@@ -75,6 +154,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
         expiresAt: now.add(const Duration(days: 28)),
         status: IConst.active,
         state: state,
+        imageUrl: imageUrl,
       );
 
       List<Petition> matchedTitles = await _repository
@@ -101,6 +181,9 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
         _titleController.clear();
         _descriptionController.clear();
         _tagsController.clear();
+        setState(() {
+          _imageFile = null;
+        });
         form.reset();
       }
     } on StateError catch (e) {
@@ -134,6 +217,27 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
           child: ListView(
             children: [
               const SizedBox(height: 30),
+              if (_user?.isPro == true) ...[
+                if (_imageFile != null)
+                  FutureBuilder<List<int>>(
+                    future: _imageFile!.readAsBytes().then(
+                      (bytes) => List<int>.from(bytes),
+                    ),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Image.memory(Uint8List.fromList(snapshot.data!));
+                      }
+                      return const CircularProgressIndicator();
+                    },
+                  )
+                else
+                  ElevatedButton.icon(
+                    onPressed: _pickImage,
+                    icon: const Icon(Icons.add_a_photo),
+                    label: Text(context.l10n.addImage),
+                  ),
+                const SizedBox(height: 20),
+              ],
               TextFormField(
                 controller: _titleController,
                 decoration: InputDecoration(
@@ -203,7 +307,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
               Builder(
                 builder: (context) {
                   return ElevatedButton(
-                    onPressed: _isLoading
+                    onPressed: _isLoading || _isUploading
                         ? null
                         : () {
                             final form = Form.of(context);
@@ -212,7 +316,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: _isLoading
+                    child: _isLoading || _isUploading
                         ? const SizedBox(
                             height: 20,
                             width: 20,

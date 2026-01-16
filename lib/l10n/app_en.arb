@@ -244,5 +244,7 @@
 	"exportCsv": "Export CSV",
 	"noExpiredItems": "No expired items",
 	"exportSuccess": "Export created",
-	"exportFailed": "Export failed"
+	"exportFailed": "Export failed",
+	"addImage": "Add Image",
+	"errorUploadingImage": "Error uploading image"
 }

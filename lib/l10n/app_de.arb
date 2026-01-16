@@ -188,6 +188,7 @@
 			}
 		}
 	},
+	"addImage": "Bild hinzufügen",
 	"about": "Über",
 	"result": "Ergebnis",
 	"name": "Name",
@@ -255,5 +256,6 @@
 	"exportCsv": "CSV exportieren",
 	"noExpiredItems": "Keine abgelaufenen Einträge",
 	"exportSuccess": "Export erstellt",
-	"exportFailed": "Export fehlgeschlagen"
+	"exportFailed": "Export fehlgeschlagen",
+	"errorUploadingImage": "Fehler beim Hochladen des Bildes"
 }

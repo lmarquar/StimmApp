@@ -669,4 +669,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get exportFailed => 'Export fehlgeschlagen';
+
+  @override
+  String get addImage => 'Bild hinzufügen';
+
+  @override
+  String get errorUploadingImage => 'Fehler beim Hochladen des Bildes';
 }

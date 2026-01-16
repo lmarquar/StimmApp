@@ -18,7 +18,12 @@ class PetitionDetailPage extends StatelessWidget {
       appBarTitle: context.l10n.petitionDetails,
       streamProvider: repo.watch,
       participantsStream: repo.watchParticipants(id),
-      contentBuilder: (context, p) => const SizedBox.shrink(),
+      contentBuilder: (context, p) {
+        if (p.imageUrl != null) {
+          return Image.network(p.imageUrl!);
+        }
+        return const SizedBox.shrink();
+      },
       bottomAction: ElevatedButton(
         onPressed: () async {
           final user = authService.currentUser;

@@ -1357,6 +1357,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Export failed'**
   String get exportFailed;
+
+  /// No description provided for @addImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Image'**
+  String get addImage;
+
+  /// No description provided for @errorUploadingImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Error uploading image'**
+  String get errorUploadingImage;
 }
 
 class _AppLocalizationsDelegate
