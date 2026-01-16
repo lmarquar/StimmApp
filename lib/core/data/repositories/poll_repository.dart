@@ -4,6 +4,7 @@ import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
+import 'package:universal_io/io.dart';
 
 class PollRepository {
   PollRepository(this._fs);
@@ -177,5 +178,24 @@ class PollRepository {
 
   Future<void> delete(String id) async {
     await _col().doc(id).delete();
+  }
+
+  // Upload title image for poll and set imageUrl on the poll document.
+  Future<String> uploadTitleImage(String pollId, File file) async {
+    final storage = locator.storageService;
+    final url = await storage.uploadPollTitleImage(pollId, file);
+    await _fs.instance.collection('polls').doc(pollId).update({
+      'imageUrl': url,
+    });
+    return url;
+  }
+
+  // Delete title image for poll and clear imageUrl field.
+  Future<void> deleteTitleImage(String pollId) async {
+    final storage = locator.storageService;
+    await storage.deletePollTitleImage(pollId);
+    await _fs.instance.collection('polls').doc(pollId).update({
+      'imageUrl': FieldValue.delete(),
+    });
   }
 }

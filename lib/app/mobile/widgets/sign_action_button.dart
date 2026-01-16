@@ -49,7 +49,7 @@ class SignActionButton extends StatelessWidget {
                     showErrorSnackBar(e.toString());
                   }
                 },
-          child: Text(alreadySigned ? '$label ✓' : label),
+          child: Text(alreadySigned ? '⛔ $label ⛔' : label),
         );
       },
     );

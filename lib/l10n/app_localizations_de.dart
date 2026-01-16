@@ -20,6 +20,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get result => 'Ergebnis';
 
   @override
+  String get membershipStatus => 'Mitgliedschaftsstatus';
+
+  @override
   String get name => 'Name';
 
   @override
