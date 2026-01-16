@@ -5,6 +5,7 @@ import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
+import 'package:universal_io/io.dart';
 
 class PetitionRepository {
   PetitionRepository(this._fs);
@@ -187,5 +188,24 @@ class PetitionRepository {
 
   Future<void> delete(String id) async {
     await _col().doc(id).delete();
+  }
+
+  // Upload title image for petition and set imageUrl on the petition document.
+  Future<String> uploadTitleImage(String petitionId, File file) async {
+    final storage = locator.storageService;
+    final url = await storage.uploadPetitionTitleImage(petitionId, file);
+    await _fs.instance.collection('petitions').doc(petitionId).update({
+      'imageUrl': url,
+    });
+    return url;
+  }
+
+  // Delete title image for petition and clear imageUrl field.
+  Future<void> deleteTitleImage(String petitionId) async {
+    final storage = locator.storageService;
+    await storage.deletePetitionTitleImage(petitionId);
+    await _fs.instance.collection('petitions').doc(petitionId).update({
+      'imageUrl': FieldValue.delete(),
+    });
   }
 }

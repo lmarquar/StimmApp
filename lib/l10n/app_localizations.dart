@@ -116,6 +116,12 @@ abstract class AppLocalizations {
   /// **'Result'**
   String get result;
 
+  /// No description provided for @membershipStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Membership Status'**
+  String get membershipStatus;
+
   /// No description provided for @name.
   ///
   /// In en, this message translates to:

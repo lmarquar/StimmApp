@@ -15,6 +15,7 @@
 	},
 	"vote": "Vote",
 	"result": "Result",
+	"membershipStatus": "Membership Status",
 	"name": "Name",
 	"livingAddress": "Living Address",
 	"dailyCreatePetitionLimitReached": "You can only publish one petition per day.",
