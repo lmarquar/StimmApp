@@ -12,6 +12,7 @@ import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/data/services/publishing_quota_service.dart';
+import 'package:stimmapp/core/data/services/storage_service.dart';
 
 class PetitionCreatorPage extends StatefulWidget {
   const PetitionCreatorPage({super.key});
@@ -69,7 +70,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
     }
   }
 
-  Future<String?> _uploadImage() async {
+  Future<String?> _uploadImageForUser(String uid) async {
     if (_imageFile == null) {
       return null;
     }
@@ -79,14 +80,16 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
     });
 
     try {
-      final ref = FirebaseStorage.instance
-          .ref()
-          .child('petition_images')
-          .child(DateTime.now().toIso8601String());
-      final metadata = SettableMetadata(contentType: 'image/jpeg');
-      final uploadTask = ref.putData(await _imageFile!.readAsBytes(), metadata);
-      final snapshot = await uploadTask;
-      return await snapshot.ref.getDownloadURL();
+      final storage = StorageService(FirebaseStorage.instance);
+      final fileName = '${DateTime.now().toIso8601String()}.jpg';
+      final bytes = await _imageFile!.readAsBytes();
+      final downloadUrl = await storage.uploadUserBytes(
+        uid,
+        'petition_images/$fileName',
+        bytes,
+        contentType: 'image/jpeg',
+      );
+      return downloadUrl;
     } catch (e) {
       if (mounted) {
         showErrorSnackBar(context.l10n.errorUploadingImage + e.toString());
@@ -119,9 +122,10 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
     try {
       String? imageUrl;
       if (_imageFile != null) {
-        imageUrl = await _uploadImage();
+        // upload to the authenticated user's area so storage.rules allow the write
+        imageUrl = await _uploadImageForUser(currentUser.uid);
         if (imageUrl == null) {
-          // Error is already shown in _uploadImage
+          // Error is already shown in _uploadImageForUser
           return;
         }
       }
