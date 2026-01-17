@@ -13,3 +13,4 @@ eine App die politische Volksentscheide vereinfachen soll. Auf städtischer, Bun
 
 ## Regeln für Benutzer
 - 1 Petition und Umfrage pro Woche
+- Inklusion von openpetition/change.org/epetition
