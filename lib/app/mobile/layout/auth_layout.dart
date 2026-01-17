@@ -75,7 +75,7 @@ class _AuthLayoutState extends State<AuthLayout> {
       final authPhoto = authService.currentUser?.photoURL;
       final profileUrl =
           ProfilePictureService.instance.profileUrlNotifier.value;
-      if (authPhoto != null || profileUrl != null) return true;
+      if (authPhoto != null && profileUrl != null) return true;
 
       // Attempt to upload default avatar from assets
       try {
@@ -118,4 +118,3 @@ class _AuthLayoutState extends State<AuthLayout> {
     }
   }
 }
-
