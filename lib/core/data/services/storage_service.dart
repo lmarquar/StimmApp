@@ -1,4 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:typed_data';
+
 import 'package:universal_io/io.dart';
 
 /// Interface for storage interactions (profile pictures and similar).
@@ -29,6 +31,18 @@ abstract class IStorageService {
 
   /// Gets petition title image URL or null.
   Future<String?> getPetitionTitleImageUrl(String petitionId);
+
+  /// Uploads an arbitrary file into the authenticated user's storage area
+  /// under a relative path (e.g. 'petition_images/name>.jpg') and returns the download URL.
+  Future<String> uploadUserFile(String uid, String relativePath, dynamic file);
+
+  /// Uploads raw bytes into users/{uid}/{relativePath} and returns the download URL.
+  Future<String> uploadUserBytes(
+    String uid,
+    String relativePath,
+    Uint8List data, {
+    String? contentType,
+  });
 }
 
 /// Concrete Firebase Storage implementation.
@@ -142,6 +156,45 @@ class StorageService implements IStorageService {
       return await ref.getDownloadURL();
     } on FirebaseException catch (e) {
       if (e.code == 'object-not-found' || e.code == '404') return null;
+      throw StorageException(e);
+    }
+  }
+
+  /// Uploads a file into users/{uid}/{relativePath} and returns a download URL.
+  @override
+  Future<String> uploadUserFile(
+    String uid,
+    String relativePath,
+    dynamic file,
+  ) async {
+    try {
+      final ref = _storage.ref().child('users/$uid/$relativePath');
+      // Keep existing putFile behavior for platforms where File is available
+      final taskSnapshot = await ref.putFile(file);
+      await taskSnapshot.ref.getDownloadURL();
+      return await ref.getDownloadURL();
+    } on FirebaseException catch (e) {
+      throw StorageException(e);
+    }
+  }
+
+  /// Uploads raw bytes into users/{uid}/{relativePath} and returns a download URL.
+  @override
+  Future<String> uploadUserBytes(
+    String uid,
+    String relativePath,
+    Uint8List data, {
+    String? contentType,
+  }) async {
+    try {
+      final ref = _storage.ref().child('users/$uid/$relativePath');
+      final metadata = SettableMetadata(
+        contentType: contentType ?? 'application/octet-stream',
+      );
+      final taskSnapshot = await ref.putData(data, metadata);
+      await taskSnapshot.ref.getDownloadURL();
+      return await ref.getDownloadURL();
+    } on FirebaseException catch (e) {
       throw StorageException(e);
     }
   }
