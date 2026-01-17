@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:stimmapp/app/mobile/pages/main/home/widget_tree.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
@@ -86,9 +87,7 @@ class _SetUserDetailsPageState extends State<SetUserDetailsPage> {
       // Try to upload a default profile picture from assets.
       try {
         // Load asset bytes
-        final bytes = await rootBundle.load(
-          'assets/images/default_avatar.png',
-        );
+        final bytes = await rootBundle.load('assets/images/default_avatar.png');
         final Uint8List list = bytes.buffer.asUint8List();
 
         final xFile = XFile.fromData(
@@ -251,6 +250,14 @@ class _SetUserDetailsPageState extends State<SetUserDetailsPage> {
                     _saveUserDetails();
                   } else {
                     showErrorSnackBar(errorMessage);
+                  }
+                  if (mounted) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => const WidgetTree(),
+                      ),
+                      (route) => false,
+                    );
                   }
                 },
               ),
