@@ -14,6 +14,13 @@ import 'package:stimmapp/app/mobile/widgets/present_paywall_widget.dart';
 class MembershipStatusPage extends StatelessWidget {
   const MembershipStatusPage({super.key});
 
+  static final List<Map<String, Object>> _proBenefits = [
+    {'icon': Icons.image, 'text': 'Custom petition and poll pictures'},
+    {'icon': Icons.block, 'text': 'No advertisements'},
+    {'icon': Icons.star, 'text': 'Priority support'},
+    {'icon': Icons.more_horiz, 'text': 'More benefits to be added later'},
+  ];
+
   @override
   Widget build(BuildContext context) {
     final uid = authService.currentUser?.uid;
@@ -56,11 +63,38 @@ class MembershipStatusPage extends StatelessWidget {
                   const SizedBox(height: 16),
                   Text(
                     isPro
-                        ? 'Thank you for your support! You have access to all Pro features.'
-                        : 'Upgrade to Pro to unlock exclusive features and support the platform.',
-                    style: AppTextStyles.m,
-                    textAlign: TextAlign.center,
+                        ? 'You subscribed to following benefits'
+                        : 'Go pro to access these benefits',
+                    style: AppTextStyles.xlBold,
+                    textAlign: TextAlign.left,
                   ),
+                  const SizedBox(height: 16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(_proBenefits.length, (i) {
+                      final item = _proBenefits[i];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Row(
+                          children: [
+                            Icon(
+                              item['icon'] as IconData,
+                              size: 20,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                item['text'] as String,
+                                style: AppTextStyles.m,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: 24),
                   if (isLoading) ...[
                     const SizedBox(height: 40),
                     const CircularProgressIndicator(),
