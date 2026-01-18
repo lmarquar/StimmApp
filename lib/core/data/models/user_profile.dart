@@ -8,6 +8,7 @@ class UserProfile {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final bool? isPro;
+  final DateTime? wentProAt;
 
   // ID Card Fields
   final String? surname;
@@ -39,6 +40,7 @@ class UserProfile {
     this.address,
     this.height,
     this.isPro,
+    this.wentProAt,
   });
 
   UserProfile copyWith({
@@ -58,6 +60,7 @@ class UserProfile {
     String? address,
     String? height,
     bool? isPro,
+    DateTime? wentProAt,
   }) {
     return UserProfile(
       uid: uid ?? this.uid,
@@ -76,6 +79,7 @@ class UserProfile {
       address: address ?? this.address,
       height: height ?? this.height,
       isPro: isPro ?? this.isPro,
+      wentProAt: wentProAt ?? this.wentProAt,
     );
   }
 
@@ -97,6 +101,7 @@ class UserProfile {
       address: json['address'] as String?,
       height: json['height'] as String?,
       isPro: json['isPro'] as bool?,
+      wentProAt: (json['wentProAt'] as Timestamp?)?.toDate(),
     );
   }
 
@@ -119,6 +124,7 @@ class UserProfile {
       'address': address,
       'height': height,
       'isPro': isPro,
+      'wentProAt': wentProAt != null ? Timestamp.fromDate(wentProAt!) : null,
     };
   }
 }
