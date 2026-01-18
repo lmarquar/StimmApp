@@ -243,6 +243,7 @@ class ProfileWidget extends StatelessWidget {
           ),
         ),
 
+        // TODO Membership status page needs revenue cat setup needs playstore setup
         // Delete my account
         // UnaffectedChildWidget(
         //   child: PointingListTile(
