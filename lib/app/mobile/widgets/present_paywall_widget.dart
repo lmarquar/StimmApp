@@ -24,9 +24,9 @@ Future<bool> presentPaywall(BuildContext context, UserProfile user) async {
     barrierDismissible: true,
     builder: (dialogCtx) {
       return AlertDialog(
-        title: const Text('Pro Annual — €12 / year'),
+        title: const Text('Pro Month — €1 / month'),
         content: const Text(
-          'Unlock Pro features for €12 per year. Subscribe to support the app and get full access.',
+          'Unlock Pro features for 1 per month. Subscribe to support the app and get full access.',
         ),
         actions: [
           TextButton(
@@ -56,7 +56,7 @@ Future<bool> presentPaywall(BuildContext context, UserProfile user) async {
                 if (context.mounted) showErrorSnackBar(e.toString());
               }
             },
-            child: const Text('Subscribe for €1 a month'),
+            child: const Text('confirm'),
           ),
         ],
       );

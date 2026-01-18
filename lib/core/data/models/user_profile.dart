@@ -10,6 +10,12 @@ class UserProfile {
   final bool? isPro;
   final DateTime? wentProAt;
 
+  /// Returns the date when the subscription expires (30 days after purchase).
+  DateTime? get subscriptionEndsAt {
+    if (wentProAt == null) return null;
+    return wentProAt!.add(const Duration(days: 30));
+  }
+
   // ID Card Fields
   final String? surname;
   final String? givenName;
