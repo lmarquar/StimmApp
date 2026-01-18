@@ -1,0 +1,177 @@
+@startuml Logic
+
+' -----------------
+' Component overview
+' -----------------
+package "UI Layer" {
+  [App]
+  [OnboardingVC]
+  [HomeVC]
+  [RecorderVC]
+  [PlayerVC]
+  [LibraryVC]
+  [SettingsVC]
+}
+
+package "ViewModels" {
+  [OnboardingVM]
+  [HomeVM]
+  [RecorderVM]
+  [PlayerVM]
+  [LibraryVM]
+  [SettingsVM]
+}
+
+package "UseCases / Interactors" {
+  [RecordUseCase]
+  [SaveTrackUseCase]
+  [PlaybackUseCase]
+  [FetchLibraryUseCase]
+  [PurchaseUseCase]
+  [AuthUseCase]
+}
+
+package "Repositories" {
+  [TrackRepo]
+  [UserRepo]
+  [PurchaseRepo]
+  [RemoteAPI]
+}
+
+package "Services" {
+  [AudioEngine]
+  [FileStore]
+  [MediaSession]
+  [NetworkService]
+  [RevenueCatService]
+  [Notifications]
+}
+
+package "Persistence" {
+  [LocalDB]
+  [FileSystem]
+}
+
+' Dependencies (UI -> VM -> UseCase -> Repo -> Services -> Persistence)
+App --> OnboardingVC
+App --> HomeVC
+
+OnboardingVC --> OnboardingVM
+HomeVC --> HomeVM
+RecorderVC --> RecorderVM
+PlayerVC --> PlayerVM
+LibraryVC --> LibraryVM
+SettingsVC --> SettingsVM
+
+OnboardingVM --> AuthUseCase
+HomeVM --> FetchLibraryUseCase
+RecorderVM --> RecordUseCase
+RecorderVM --> SaveTrackUseCase
+PlayerVM --> PlaybackUseCase
+LibraryVM --> FetchLibraryUseCase
+SettingsVM --> PurchaseUseCase
+
+RecordUseCase --> AudioEngine
+RecordUseCase --> FileStore
+SaveTrackUseCase --> TrackRepo
+PlaybackUseCase --> AudioEngine
+PlaybackUseCase --> MediaSession
+
+TrackRepo --> LocalDB
+TrackRepo --> FileSystem
+UserRepo --> LocalDB
+PurchaseRepo --> RevenueCatService
+PurchaseRepo --> RemoteAPI
+
+RevenueCatService --> NetworkService
+RemoteAPI --> NetworkService
+
+AudioEngine --> FileSystem
+FileStore --> FileSystem
+
+Notifications ..> App : informs
+MediaSession ..> Notifications : system events
+
+' -----------------
+' Models (brief)
+' -----------------
+class Track {
+  +id
+  +title
+  +filePath
+  +duration
+  +metadata
+}
+class User { +id +email +prefs }
+class Purchase { +productId +status +receipt }
+
+TrackRepo .. Track
+UserRepo .. User
+PurchaseRepo .. Purchase
+
+' -----------------
+' Sequence: Recording flow
+' -----------------
+== Recording ==
+actor User
+User -> RecorderVC : tap Record
+RecorderVC -> RecorderVM : startRecording()
+RecorderVM -> RecordUseCase : startSession(params)
+RecordUseCase -> AudioEngine : startRecording()
+AudioEngine -> FileStore : createTempFile() 
+FileStore -> FileSystem : writeChunk()
+AudioEngine -> RecorderVM : audioChunks() 
+RecorderVM -> RecordUseCase : stopRecording()
+RecordUseCase -> FileStore : finalizeFile() 
+RecordUseCase -> SaveTrackUseCase : save(file, metadata)
+SaveTrackUseCase -> TrackRepo : save(track, filePath)
+TrackRepo -> LocalDB : insertMetadata()
+TrackRepo -> FileSystem : moveFileToLibrary()
+TrackRepo --> RecorderVM : saved(trackId)
+RecorderVM --> RecorderVC : notifySaved()
+
+' -----------------
+' Sequence: Playback flow
+' -----------------
+== Playback ==
+User -> PlayerVC : play(trackId)
+PlayerVC -> PlayerVM : play(trackId)
+PlayerVM -> PlaybackUseCase : prepare(trackId)
+PlaybackUseCase -> TrackRepo : fetch(trackId)
+TrackRepo -> FileSystem : readFile(path)
+PlaybackUseCase -> AudioEngine : play(file)
+AudioEngine -> MediaSession : registerPlayback()
+MediaSession -> PlayerVM : playbackStateChanged(state)
+PlayerVM -> PlayerVC : updateUI(state)
+
+' -----------------
+' Sequence: Purchase / Subscription flow (RevenueCat)
+' -----------------
+== Purchase / Subscription ==
+User -> SettingsVC : tap Subscribe
+SettingsVC -> SettingsVM : purchase(productId)
+SettingsVM -> PurchaseUseCase : purchase(productId)
+PurchaseUseCase -> PurchaseRepo : requestPurchase(productId)
+PurchaseRepo -> RevenueCatService : purchase(productId)
+RevenueCatService -> NetworkService : contactRevCat()
+NetworkService -> RevenueCatService : response(purchaseResult)
+RevenueCatService -> PurchaseRepo : verifyReceipt(result)
+PurchaseRepo -> LocalDB : savePurchaseStatus()
+PurchaseUseCase -> SettingsVM : purchaseResult(status)
+SettingsVM -> SettingsVC : showResult()
+
+' -----------------
+' App lifecycle / Sync
+' -----------------
+== App launch / Sync ==
+App -> HomeVM : onLaunch()
+HomeVM -> FetchLibraryUseCase : syncLocalAndRemote()
+FetchLibraryUseCase -> TrackRepo : listLocal()
+FetchLibraryUseCase -> RemoteAPI : fetchRemoteChanges()
+RemoteAPI -> NetworkService : http
+RemoteAPI --> FetchLibraryUseCase : remoteList
+FetchLibraryUseCase -> TrackRepo : mergeChanges()
+TrackRepo -> LocalDB : applyChanges()
+HomeVM -> HomeVC : updateUI()
+
+@enduml

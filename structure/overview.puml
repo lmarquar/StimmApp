@@ -1,6 +1,88 @@
-@startuml overview
-title Structure Overview
-Bob -> Alice : hello
-Alice -> Bob : hi
-Bob -> Alice : how are you?
+@startuml stimmapp
+' Cleaner, more readable architectural overview for StimmApp
+skinparam monochrome false
+skinparam shadowing true
+skinparam componentStyle rectangle
+left to right direction
+scale 1.0
+
+actor User
+
+frame "External Services" as ES #EEEBDC {
+  database "Firestore\n(petitions, polls, users, votes)" as FS #F3F7E0
+  component "Firebase Storage" as Storage #F6F1EC
+  component "Firebase Auth" as Auth #F6F1EC
+  component "Cloud Functions" as Functions #F9F2D9
+  component "RevenueCat\n(Paywall)" as RevenueCat #F6F1EC
+  component "Proof of ID Service" as ProofID #F6F1EC
+
+  FS -[hidden]-> Functions
+
+  note top of FS
+    Firestore: main app DB
+  end note
+
+  note right of Functions
+    Cloud Functions:
+    - business logic
+    - receipt / ID verification
+    - reads/writes to Firestore & Storage
+  end note
+}
+
+frame "StimmApp" as App #FFFFFF {
+  package "Core UI" as UI #EEF6FF {
+    component "Home" as Home
+    component "Create" as Create
+    component "Detail" as Detail
+    component "Profile" as Profile
+    component "Settings" as Settings
+  }
+
+  package "Features" as Features #F7FFF2 {
+    component "Petition" as Petition
+    component "Poll" as Poll
+    component "Members" as Members
+    component "Admin Interface" as Admin
+  }
+}
+
+' User interactions
+User --> Home : open app
+User --> Create
+User --> Detail
+User --> Profile
+User --> Settings
+
+' UI navigation
+Home --> Create
+Home --> Detail
+Create --> Petition
+Create --> Poll
+Petition --> Detail
+Poll --> Detail
+Profile --> Members
+Profile --> Admin
+Settings --> Profile
+
+' Backend integrations (clean, minimal arrows)
+Auth <.. User : sign-in / session
+UI --> Auth : auth flows
+Auth --> FS : "user profiles" 
+Create --> Functions : submit / validation
+Functions --> FS : read / write
+Functions --> Storage : store media
+Detail --> Storage : load media
+UI --> FS : read content
+Functions --> RevenueCat : receipt verification
+Functions --> ProofID : ID verification
+RevenueCat --> Functions : verification responses
+ProofID --> Functions : verification responses
+
+' Emphasize common flows with styling
+Create -[#CD5C5C,thickness=2]-> Functions : submit (validated)
+Functions -[#CD5C5C,thickness=2]-> FS : write content
+Home -[#2E8B57,thickness=2]-> FS : read content
+Detail -[#2E8B57,thickness=2]-> Storage : load media
+
 @enduml
