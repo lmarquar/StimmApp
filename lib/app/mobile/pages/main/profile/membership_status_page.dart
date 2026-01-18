@@ -60,6 +60,13 @@ class MembershipStatusPage extends StatelessWidget {
                     style: AppTextStyles.xxlBold,
                     textAlign: TextAlign.center,
                   ),
+                  if (isPro && user?.subscriptionEndsAt != null) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      'Valid until: ${_formatDate(user!.subscriptionEndsAt!)}',
+                      style: AppTextStyles.m.copyWith(color: Colors.grey),
+                    ),
+                  ],
                   const SizedBox(height: 16),
                   Text(
                     isPro
@@ -130,6 +137,10 @@ class MembershipStatusPage extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.day}.${date.month}.${date.year}';
   }
 
   Future<void> cancelProMembership(

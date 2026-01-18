@@ -1,0 +1,89 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkSubscriptions = void 0;
+const functions = __importStar(require("firebase-functions"));
+const admin = __importStar(require("firebase-admin"));
+admin.initializeApp();
+exports.checkSubscriptions = functions.pubsub.schedule('every day 00:00').onRun(async (context) => {
+    const db = admin.firestore();
+    const now = new Date();
+    // Query all users who are currently Pro
+    const snapshot = await db.collection('users').where('isPro', '==', true).get();
+    console.log(`Found ${snapshot.size} Pro users to check.`);
+    let batch = db.batch();
+    let operationCount = 0;
+    let revokedCount = 0;
+    for (const doc of snapshot.docs) {
+        const data = doc.data();
+        // In Firestore, dates are stored as Timestamps
+        const wentProAt = data.wentProAt;
+        let shouldRevoke = false;
+        if (!wentProAt) {
+            // Data inconsistency: marked as Pro but no start date. Revoke to fix state.
+            shouldRevoke = true;
+        }
+        else {
+            const startDate = wentProAt.toDate();
+            // Calculate expiration: start date + 30 days
+            const expirationDate = new Date(startDate);
+            expirationDate.setDate(startDate.getDate() + 30);
+            if (now > expirationDate) {
+                shouldRevoke = true;
+            }
+        }
+        if (shouldRevoke) {
+            batch.update(doc.ref, {
+                isPro: false,
+                wentProAt: null,
+                updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+            });
+            operationCount++;
+            revokedCount++;
+            // Firestore batches allow up to 500 operations.
+            if (operationCount >= 400) {
+                await batch.commit();
+                batch = db.batch();
+                operationCount = 0;
+            }
+        }
+    }
+    if (operationCount > 0) {
+        await batch.commit();
+    }
+    console.log(`Subscription check complete. Revoked ${revokedCount} memberships.`);
+    return null;
+});
+//# sourceMappingURL=index.js.map
