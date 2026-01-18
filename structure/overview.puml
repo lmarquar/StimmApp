@@ -1,0 +1,6 @@
+@startuml overview
+title Structure Overview
+Bob -> Alice : hello
+Alice -> Bob : hi
+Bob -> Alice : how are you?
+@enduml
