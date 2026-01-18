@@ -26,6 +26,28 @@ class AppLocalizationsDe extends AppLocalizations {
   String get name => 'Name';
 
   @override
+  String get paywallTitle => 'Werde Premium-Mitglied';
+
+  @override
+  String get paywallSubtitle => 'Unbegrenzter Zugang zu allen Funktionen';
+
+  @override
+  String get paywallDescription =>
+      'Genieße eine entspanntere und vielfätigere Oberfläche';
+
+  @override
+  String get purchaseFailed => 'Kauf fehlgeschlagen.';
+
+  @override
+  String get purchaseCancelled => 'Kauf abgebrochen.';
+
+  @override
+  String get purchaseSuccessful => 'Kauf erfolgreich!';
+
+  @override
+  String get welcomeToPro => 'Willkommen als Pro-Mitglied!';
+
+  @override
   String get livingAddress => 'Anschrift';
 
   @override
@@ -157,6 +179,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get error => 'Fehler';
 
   @override
+  String get errors => 'Errors';
+
+  @override
   String get exercise => 'Übung';
 
   @override
@@ -226,6 +251,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noActivityFound => 'Noch keine Aktivität gefunden.';
 
   @override
+  String get noUsernameFound => 'no username found';
+
+  @override
+  String get noTitle => 'No Title';
+
+  @override
   String get other => 'Andere';
 
   @override
@@ -293,6 +324,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get creator => 'Ersteller';
 
   @override
+  String get poll => 'Poll';
+
+  @override
   String get polls => 'Umfragen';
 
   @override
@@ -342,6 +376,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get signed => 'Unterzeichnet';
+
+  @override
+  String get signedOn => 'Signed on ';
 
   @override
   String get voted => 'Abgestimmt';
@@ -533,6 +570,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get users => 'Benutzer';
 
   @override
+  String get userNotFound => 'User not found';
+
+  @override
   String get idScan => 'Ausweisscan';
 
   @override
@@ -681,4 +721,92 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get errorUploadingImage => 'Fehler beim Hochladen des Bildes';
+
+  @override
+  String get customPetitionAndPollPictures =>
+      'Custom petition and poll pictures';
+
+  @override
+  String get noAdvertisements => 'No advertisements';
+
+  @override
+  String get prioritySupport => 'Priority support';
+
+  @override
+  String get moreBenefitsToBeAddedLater => 'More benefits to be added later';
+
+  @override
+  String get notAuthenticated => 'Not authenticated';
+
+  @override
+  String get proMember => 'Pro Member';
+
+  @override
+  String get freeMember => 'Free Member';
+
+  @override
+  String validUntil(String date) {
+    return 'Valid until: $date';
+  }
+
+  @override
+  String get youSubscribedToFollowingBenefits =>
+      'You subscribed to following benefits';
+
+  @override
+  String get goProToAccessTheseBenefits => 'Go pro to access these benefits';
+
+  @override
+  String get notAvailableOnWebApp => 'Not available on web, use mobile app';
+
+  @override
+  String get signUpForPro => 'Sign up for Pro';
+
+  @override
+  String get couldNotOpenPaywall => 'Could not open paywall';
+
+  @override
+  String get resubscribe => 'Resubscribe';
+
+  @override
+  String get cancelSubscription => 'Cancel subscription';
+
+  @override
+  String get userNotAvailable => 'User not available';
+
+  @override
+  String get cancelProSubscription => 'Cancel Pro Subscription';
+
+  @override
+  String get areYouSureYouWantToCancelYourProSubscription =>
+      'Are you sure you want to cancel your Pro subscription? You will lose Pro features.';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get yesCancel => 'Yes, cancel';
+
+  @override
+  String get subscriptionCancelledAccessWillRemainUntilExpiry =>
+      'Subscription cancelled — access will remain until expiry';
+
+  @override
+  String get pleaseSelectState => 'Bitte wähle dein Bundesland aus.';
+
+  @override
+  String get failedToUploadImage => 'Failed to upload image: ';
+
+  @override
+  String get selectFromGallery => 'Select from Gallery';
+
+  @override
+  String get selectFromCamera => 'Select from Camera';
+
+  @override
+  String get remove => 'Remove';
+
+  @override
+  String get imagePreviewDescription =>
+      'This is a preview of your new profile picture.';
 }

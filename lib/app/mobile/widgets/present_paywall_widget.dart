@@ -7,6 +7,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 
 /// Perform a RevenueCat purchase. Returns true on success.
 Future<bool> _performPurchase() async {
@@ -62,14 +63,12 @@ Future<bool> presentPaywallWidget(
     barrierDismissible: true,
     builder: (dialogCtx) {
       return AlertDialog(
-        title: const Text('Pro Month — €1 / month'),
-        content: const Text(
-          'Unlock Pro features for 1 per month. Subscribe to support the app and get full access.',
-        ),
+        title: Text(context.l10n.paywallTitle),
+        content: Text(context.l10n.paywallDescription),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogCtx).pop(false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.cancel),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -78,7 +77,9 @@ Future<bool> presentPaywallWidget(
               ).pop(false); // close dialog, handle purchase after
               final purchased = await _performPurchase();
               if (!purchased) {
-                if (context.mounted) showErrorSnackBar('Purchase failed');
+                if (context.mounted) {
+                  showErrorSnackBar(context.l10n.purchaseFailed);
+                }
                 log('Purchase failed or cancelled');
                 return;
               }
@@ -87,14 +88,16 @@ Future<bool> presentPaywallWidget(
                 await UserRepository.create().upsert(
                   user.copyWith(isPro: true, wentProAt: DateTime.now()),
                 );
-                if (context.mounted) showSuccessSnackBar('Welcome to Pro!');
+                if (context.mounted) {
+                  showSuccessSnackBar(context.l10n.welcomeToPro);
+                }
                 log('User upgraded to Pro: ${user.uid}');
               } catch (e) {
                 log('Error upgrading user to Pro: $e');
                 if (context.mounted) showErrorSnackBar(e.toString());
               }
             },
-            child: const Text('confirm'),
+            child: Text(context.l10n.confirm),
           ),
         ],
       );

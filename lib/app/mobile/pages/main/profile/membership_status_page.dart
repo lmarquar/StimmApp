@@ -11,16 +11,15 @@ import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 
 class MembershipStatusPage extends StatefulWidget {
   const MembershipStatusPage({super.key});
 
-  static final List<Map<String, Object>> _proBenefits = [
-    {'icon': Icons.image, 'text': 'Custom petition and poll pictures'},
-    {'icon': Icons.block, 'text': 'No advertisements'},
-    {'icon': Icons.star, 'text': 'Priority support'},
-    {'icon': Icons.more_horiz, 'text': 'More benefits to be added later'},
+  static List<Map<String, Object>> _proBenefits(BuildContext context) => [
+    {'icon': Icons.image, 'text': context.l10n.customPetitionAndPollPictures},
+    {'icon': Icons.block, 'text': context.l10n.noAdvertisements},
+    {'icon': Icons.star, 'text': context.l10n.prioritySupport},
+    {'icon': Icons.more_horiz, 'text': context.l10n.moreBenefitsToBeAddedLater},
   ];
 
   @override
@@ -40,7 +39,7 @@ class _MembershipStatusPageState extends State<MembershipStatusPage> {
     if (uid == null) {
       return Scaffold(
         appBar: AppBar(title: Text(context.l10n.membershipStatus)),
-        body: const Center(child: Text('Not authenticated')),
+        body: Center(child: Text(context.l10n.notAuthenticated)),
       );
     }
 
@@ -68,22 +67,24 @@ class _MembershipStatusPageState extends State<MembershipStatusPage> {
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    isPro ? 'Pro Member' : 'Free Member',
+                    isPro ? context.l10n.proMember : context.l10n.freeMember,
                     style: AppTextStyles.xxlBold,
                     textAlign: TextAlign.center,
                   ),
                   if (isPro && user?.subscriptionEndsAt != null) ...[
                     const SizedBox(height: 8),
                     Text(
-                      'Valid until: ${_formatDate(user!.subscriptionEndsAt!)}',
+                      context.l10n.validUntil(
+                        _formatDate(user!.subscriptionEndsAt!),
+                      ),
                       style: AppTextStyles.m.copyWith(color: Colors.grey),
                     ),
                   ],
                   const SizedBox(height: 16),
                   Text(
                     isPro
-                        ? 'You subscribed to following benefits'
-                        : 'Go pro to access these benefits',
+                        ? context.l10n.youSubscribedToFollowingBenefits
+                        : context.l10n.goProToAccessTheseBenefits,
                     style: AppTextStyles.xlBold,
                     textAlign: TextAlign.left,
                   ),
@@ -91,9 +92,11 @@ class _MembershipStatusPageState extends State<MembershipStatusPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: List.generate(
-                      MembershipStatusPage._proBenefits.length,
+                      MembershipStatusPage._proBenefits(context).length,
                       (i) {
-                        final item = MembershipStatusPage._proBenefits[i];
+                        final item = MembershipStatusPage._proBenefits(
+                          context,
+                        )[i];
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: Row(
@@ -129,25 +132,26 @@ class _MembershipStatusPageState extends State<MembershipStatusPage> {
             if (kIsWeb)
               ButtonWidget(
                 isFilled: false,
-                label: "Not available on web, use mobile app",
+                label: context.l10n.notAvailableOnWebApp,
                 callback: () {},
               )
             else if (!isPro && user != null)
               ButtonWidget(
-                label: 'Sign up for Pro',
+                label: context.l10n.signUpForPro,
                 isFilled: true,
                 callback: isLoading
                     ? () {}
                     : () async {
                         if (!context.mounted) return;
                         final ok = await presentPaywallWidget(context, user);
-                        if (!ok && context.mounted)
-                          showErrorSnackBar('Could not open paywall');
+                        if (!ok && context.mounted) {
+                          showErrorSnackBar(context.l10n.couldNotOpenPaywall);
+                        }
                       },
               )
             else if (isPro && (user?.subscribedToPro ?? false))
               ButtonWidget(
-                label: 'Resubscribe',
+                label: context.l10n.resubscribe,
                 isFilled: true,
                 callback: isLoading
                     ? () {}
@@ -158,9 +162,11 @@ class _MembershipStatusPageState extends State<MembershipStatusPage> {
                           await UserRepository.create().upsert(
                             user!.copyWith(subscribedToPro: false),
                           );
+                          if (!context.mounted) return;
                           final ok = await presentPaywallWidget(context, user);
-                          if (!ok && context.mounted)
-                            showErrorSnackBar('Could not open paywall');
+                          if (!ok && context.mounted) {
+                            showErrorSnackBar(context.l10n.couldNotOpenPaywall);
+                          }
                         } catch (e) {
                           if (context.mounted) showErrorSnackBar(e.toString());
                         }
@@ -168,7 +174,7 @@ class _MembershipStatusPageState extends State<MembershipStatusPage> {
               )
             else
               ButtonWidget(
-                label: 'Cancel subscription',
+                label: context.l10n.cancelSubscription,
                 isFilled: false,
                 callback: isLoading
                     ? () {}
@@ -191,7 +197,7 @@ class _MembershipStatusPageState extends State<MembershipStatusPage> {
     UserProfile? user,
   ) async {
     if (user == null) {
-      showErrorSnackBar('User not available');
+      showErrorSnackBar(context.l10n.userNotAvailable);
       return;
     }
 
@@ -200,18 +206,18 @@ class _MembershipStatusPageState extends State<MembershipStatusPage> {
       barrierDismissible: true,
       builder: (dialogCtx) {
         return AlertDialog(
-          title: const Text('Cancel Pro Subscription'),
-          content: const Text(
-            'Are you sure you want to cancel your Pro subscription? You will lose Pro features.',
+          title: Text(context.l10n.cancelProSubscription),
+          content: Text(
+            context.l10n.areYouSureYouWantToCancelYourProSubscription,
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogCtx).pop(false),
-              child: const Text('No'),
+              child: Text(context.l10n.no),
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(dialogCtx).pop(true),
-              child: const Text('Yes, cancel'),
+              child: Text(context.l10n.yesCancel),
             ),
           ],
         );
@@ -225,10 +231,11 @@ class _MembershipStatusPageState extends State<MembershipStatusPage> {
       await UserRepository.create().upsert(
         user.copyWith(subscribedToPro: true),
       );
-      if (context.mounted)
+      if (context.mounted) {
         showSuccessSnackBar(
-          'Subscription cancelled — access will remain until expiry',
+          context.l10n.subscriptionCancelledAccessWillRemainUntilExpiry,
         );
+      }
       log('User requested cancel Pro: ${user.uid}');
       // Optionally call your server to revoke grants or open store subscription management
     } catch (e) {

@@ -32,9 +32,8 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
     final userDocRef = db.collection('users').doc(user.uid);
 
     // Fetch documents from subcollections to get the IDs.
-    final signedPetitionsFuture = userDocRef
-        .collection('signedPetitions')
-        .get();
+    final signedPetitionsFuture =
+        userDocRef.collection('signedPetitions').get();
     final votedPollsFuture = userDocRef.collection('votedPolls').get();
 
     final results = await Future.wait([
@@ -45,17 +44,14 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
     final signedPetitionsSnapshot = results[0] as QuerySnapshot;
     final votedPollsSnapshot = results[1] as QuerySnapshot;
 
-    final petitionIds = signedPetitionsSnapshot.docs
-        .map((doc) => doc.id)
-        .toList();
+    final petitionIds =
+        signedPetitionsSnapshot.docs.map((doc) => doc.id).toList();
     final pollIds = votedPollsSnapshot.docs.map((doc) => doc.id).toList();
-    final List<Future<DocumentSnapshot>> petitionFutures = petitionIds
-        .map((id) => db.collection('petitions').doc(id).get())
-        .toList();
+    final List<Future<DocumentSnapshot>> petitionFutures =
+        petitionIds.map((id) => db.collection('petitions').doc(id).get()).toList();
 
-    final List<Future<DocumentSnapshot>> pollFutures = pollIds
-        .map((id) => db.collection('polls').doc(id).get())
-        .toList();
+    final List<Future<DocumentSnapshot>> pollFutures =
+        pollIds.map((id) => db.collection('polls').doc(id).get()).toList();
 
     final petitionSnapshots = await Future.wait(petitionFutures);
     final pollSnapshots = await Future.wait(pollFutures);
@@ -66,7 +62,7 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
       if (doc.exists) {
         final data = doc.data() as Map<String, dynamic>;
         historyItems.add({
-          'title': data['title'] ?? 'No Title',
+          'title': data['title'],
           'type': 'Petition',
           'timestamp': data['createdAt'], // Let's assume this exists for now
         });
@@ -77,7 +73,7 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
       if (doc.exists) {
         final data = doc.data() as Map<String, dynamic>;
         historyItems.add({
-          'title': data['title'] ?? 'No Title',
+          'title': data['title'],
           'type': 'Poll',
           'timestamp': data['createdAt'], // Assuming a timestamp field exists
         });
@@ -112,7 +108,9 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
           }
 
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(
+              child: Text('${context.l10n.error}${snapshot.error}'),
+            );
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -129,6 +127,8 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
             itemBuilder: (context, index) {
               final item = historyItems[index];
               final isPetition = item['type'] == 'Petition';
+              final title = item['title'] ?? context.l10n.noTitle;
+              final type = isPetition ? context.l10n.petition : context.l10n.poll;
 
               return Card(
                 margin: const EdgeInsets.symmetric(vertical: 8.0),
@@ -137,8 +137,8 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
                     isPetition ? Icons.article : Icons.poll,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                  title: Text(item['title'], style: AppTextStyles.mBold),
-                  subtitle: Text(item['type'], style: AppTextStyles.s),
+                  title: Text(title, style: AppTextStyles.mBold),
+                  subtitle: Text(type, style: AppTextStyles.s),
                 ),
               );
             },

@@ -128,6 +128,48 @@ abstract class AppLocalizations {
   /// **'Name'**
   String get name;
 
+  /// No description provided for @paywallTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Become a premium member'**
+  String get paywallTitle;
+
+  /// No description provided for @paywallSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited access to all functions'**
+  String get paywallSubtitle;
+
+  /// No description provided for @paywallDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enjoy a more relaxed and diverse interface'**
+  String get paywallDescription;
+
+  /// No description provided for @purchaseFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase failed.'**
+  String get purchaseFailed;
+
+  /// No description provided for @purchaseCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase cancelled.'**
+  String get purchaseCancelled;
+
+  /// No description provided for @purchaseSuccessful.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase successful!'**
+  String get purchaseSuccessful;
+
+  /// No description provided for @welcomeToPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Pro!'**
+  String get welcomeToPro;
+
   /// No description provided for @livingAddress.
   ///
   /// In en, this message translates to:
@@ -359,8 +401,14 @@ abstract class AppLocalizations {
   /// No description provided for @error.
   ///
   /// In en, this message translates to:
-  /// **'Error'**
+  /// **'Error: '**
   String get error;
+
+  /// No description provided for @errors.
+  ///
+  /// In en, this message translates to:
+  /// **'Errors'**
+  String get errors;
 
   /// No description provided for @exercise.
   ///
@@ -500,6 +548,18 @@ abstract class AppLocalizations {
   /// **'No activity found yet.'**
   String get noActivityFound;
 
+  /// No description provided for @noUsernameFound.
+  ///
+  /// In en, this message translates to:
+  /// **'no username found'**
+  String get noUsernameFound;
+
+  /// No description provided for @noTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No Title'**
+  String get noTitle;
+
   /// No description provided for @other.
   ///
   /// In en, this message translates to:
@@ -632,6 +692,12 @@ abstract class AppLocalizations {
   /// **'Creator'**
   String get creator;
 
+  /// No description provided for @poll.
+  ///
+  /// In en, this message translates to:
+  /// **'Poll'**
+  String get poll;
+
   /// No description provided for @polls.
   ///
   /// In en, this message translates to:
@@ -733,6 +799,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Signed'**
   String get signed;
+
+  /// No description provided for @signedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed on '**
+  String get signedOn;
 
   /// No description provided for @voted.
   ///
@@ -1094,6 +1166,12 @@ abstract class AppLocalizations {
   /// **'Users'**
   String get users;
 
+  /// No description provided for @userNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'User not found'**
+  String get userNotFound;
+
   /// No description provided for @idScan.
   ///
   /// In en, this message translates to:
@@ -1381,6 +1459,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error uploading image'**
   String get errorUploadingImage;
+
+  /// No description provided for @customPetitionAndPollPictures.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom petition and poll pictures'**
+  String get customPetitionAndPollPictures;
+
+  /// No description provided for @noAdvertisements.
+  ///
+  /// In en, this message translates to:
+  /// **'No advertisements'**
+  String get noAdvertisements;
+
+  /// No description provided for @prioritySupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority support'**
+  String get prioritySupport;
+
+  /// No description provided for @moreBenefitsToBeAddedLater.
+  ///
+  /// In en, this message translates to:
+  /// **'More benefits to be added later'**
+  String get moreBenefitsToBeAddedLater;
+
+  /// No description provided for @notAuthenticated.
+  ///
+  /// In en, this message translates to:
+  /// **'Not authenticated'**
+  String get notAuthenticated;
+
+  /// No description provided for @proMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro Member'**
+  String get proMember;
+
+  /// No description provided for @freeMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Free Member'**
+  String get freeMember;
+
+  /// No description provided for @validUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid until: {date}'**
+  String validUntil(String date);
+
+  /// No description provided for @youSubscribedToFollowingBenefits.
+  ///
+  /// In en, this message translates to:
+  /// **'You subscribed to following benefits'**
+  String get youSubscribedToFollowingBenefits;
+
+  /// No description provided for @goProToAccessTheseBenefits.
+  ///
+  /// In en, this message translates to:
+  /// **'Go pro to access these benefits'**
+  String get goProToAccessTheseBenefits;
+
+  /// No description provided for @notAvailableOnWebApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available on web, use mobile app'**
+  String get notAvailableOnWebApp;
+
+  /// No description provided for @signUpForPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up for Pro'**
+  String get signUpForPro;
+
+  /// No description provided for @couldNotOpenPaywall.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open paywall'**
+  String get couldNotOpenPaywall;
+
+  /// No description provided for @resubscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Resubscribe'**
+  String get resubscribe;
+
+  /// No description provided for @cancelSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel subscription'**
+  String get cancelSubscription;
+
+  /// No description provided for @userNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'User not available'**
+  String get userNotAvailable;
+
+  /// No description provided for @cancelProSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Pro Subscription'**
+  String get cancelProSubscription;
+
+  /// No description provided for @areYouSureYouWantToCancelYourProSubscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to cancel your Pro subscription? You will lose Pro features.'**
+  String get areYouSureYouWantToCancelYourProSubscription;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// No description provided for @yesCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, cancel'**
+  String get yesCancel;
+
+  /// No description provided for @subscriptionCancelledAccessWillRemainUntilExpiry.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription cancelled — access will remain until expiry'**
+  String get subscriptionCancelledAccessWillRemainUntilExpiry;
+
+  /// No description provided for @pleaseSelectState.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a state'**
+  String get pleaseSelectState;
+
+  /// No description provided for @failedToUploadImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to upload image: '**
+  String get failedToUploadImage;
+
+  /// No description provided for @selectFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Select from Gallery'**
+  String get selectFromGallery;
+
+  /// No description provided for @selectFromCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Select from Camera'**
+  String get selectFromCamera;
+
+  /// No description provided for @remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remove;
+
+  /// No description provided for @imagePreviewDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a preview of your new profile picture.'**
+  String get imagePreviewDescription;
 }
 
 class _AppLocalizationsDelegate

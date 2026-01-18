@@ -52,7 +52,7 @@ class SignedPetitionsPage extends StatelessWidget {
                   petitionID,
                   style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
-                subtitle: Text('Signed on ${_formatDate(signedAt)}'),
+                subtitle: Text('${context.l10n.signedOn}${_formatDate(signedAt)}'),
                 leading: const Icon(Icons.assignment_turned_in),
               );
             },
