@@ -23,6 +23,14 @@
 			}
 		}
 	},
+	"paywallTitle": "Werde Premium-Mitglied",
+	"paywallSubtitle": "Unbegrenzter Zugang zu allen Funktionen",
+	"paywallDescription": "Genieße eine entspanntere und vielfätigere Oberfläche",
+	"purchaseFailed": "Kauf fehlgeschlagen.",
+	"pleaseSelectState": "Bitte wähle dein Bundesland aus.",
+	"purchaseCancelled": "Kauf abgebrochen.",
+	"purchaseSuccessful": "Kauf erfolgreich!",
+	"welcomeToPro": "Willkommen als Pro-Mitglied!",
 	"expiresAt": "Läuft ab am: {date}",
 	"@expiresAt": {
 		"type": "text",

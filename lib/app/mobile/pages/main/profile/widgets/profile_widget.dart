@@ -65,10 +65,10 @@ class ProfileWidget extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
             if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
+              return Text('${context.l10n.error}${snapshot.error}');
             }
             if (!snapshot.hasData || snapshot.data == null) {
-              return const Text('User not found');
+              return Text(context.l10n.userNotFound);
             }
 
             final userProfile = snapshot.data!;
@@ -83,7 +83,7 @@ class ProfileWidget extends StatelessWidget {
                       HeroWidget(nextPage: const ChangeProfilePicturePage()),
                       const SizedBox(height: 10),
                       Text(
-                        userProfile.displayName ?? 'no username found',
+                        userProfile.displayName ?? context.l10n.noUsernameFound,
                         style: AppTextStyles.lBold,
                       ),
                       Text(userProfile.email ?? '', style: AppTextStyles.m),

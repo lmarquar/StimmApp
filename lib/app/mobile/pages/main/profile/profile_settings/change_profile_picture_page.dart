@@ -8,8 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
+import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
-import 'package:stimmapp/l10n/app_localizations.dart';
 
 class ChangeProfilePicturePage extends StatefulWidget {
   const ChangeProfilePicturePage({super.key});
@@ -44,15 +44,14 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
   }
 
   Future<void> _uploadAndSave() async {
-    final l10n = AppLocalizations.of(context)!;
     if (_imageFile == null) {
-      showErrorSnackBar(l10n.noImageSelected);
+      showErrorSnackBar(context.l10n.noImageSelected);
       return;
     }
 
     final user = authService.currentUser;
     if (user == null) {
-      showErrorSnackBar(l10n.pleaseSignInFirst);
+      showErrorSnackBar(context.l10n.pleaseSignInFirst);
       return;
     }
 
@@ -83,11 +82,13 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
       }
 
       if (!mounted) return;
-      showSuccessSnackBar(l10n.profilePictureUpdated);
+      showSuccessSnackBar(context.l10n.profilePictureUpdated);
       Navigator.of(context).pop();
     } catch (e, st) {
       debugPrint('[ChangeProfilePicture] upload failed: $e\n$st');
-      if (mounted) showErrorSnackBar('Failed to upload image: $e');
+      if (mounted) {
+        showErrorSnackBar('${context.l10n.failedToUploadImage}$e');
+      }
     } finally {
       if (mounted) setState(() => _uploading = false);
     }
@@ -102,7 +103,6 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final currentUrl = authService.currentUser?.photoURL;
 
     Widget? preview;
@@ -117,7 +117,7 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.profile)),
+      appBar: AppBar(title: Text(context.l10n.profile)),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -136,14 +136,13 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
                       child: SizedBox(
                         width: 128,
                         height: 128,
-                        child:
-                            preview ??
+                        child: preview ??
                             Center(
                               child: Text(
                                 (authService.currentUser?.displayName ?? '')
                                         .isNotEmpty
                                     ? authService.currentUser!.displayName![0]
-                                          .toUpperCase()
+                                        .toUpperCase()
                                     : '?',
                                 style: AppTextStyles.xxlBold,
                               ),
@@ -165,34 +164,32 @@ class _ChangeProfilePicturePageState extends State<ChangeProfilePicturePage> {
               spacing: 12,
               children: [
                 ElevatedButton.icon(
-                  onPressed: _uploading
-                      ? null
-                      : () => _pickImage(ImageSource.gallery),
+                  onPressed:
+                      _uploading ? null : () => _pickImage(ImageSource.gallery),
                   icon: const Icon(Icons.photo),
-                  label: Text(l10n.select),
+                  label: Text(context.l10n.selectFromGallery),
                 ),
                 ElevatedButton.icon(
-                  onPressed: _uploading
-                      ? null
-                      : () => _pickImage(ImageSource.camera),
+                  onPressed:
+                      _uploading ? null : () => _pickImage(ImageSource.camera),
                   icon: const Icon(Icons.camera_alt),
-                  label: Text(l10n.select),
+                  label: Text(context.l10n.selectFromCamera),
                 ),
                 TextButton(
                   onPressed: _uploading ? null : _removeImage,
-                  child: Text(l10n.cancel),
+                  child: Text(context.l10n.remove),
                 ),
               ],
             ),
             const SizedBox(height: 12),
             FilledButton(
               onPressed: _uploading ? null : _uploadAndSave,
-              child: Text(l10n.confirm),
+              child: Text(context.l10n.confirm),
             ),
             const SizedBox(height: 12),
             if (_imageFile != null)
               Text(
-                l10n.enterDescription,
+                context.l10n.imagePreviewDescription,
                 style: AppTextStyles.m.copyWith(color: Colors.grey),
               ),
           ],

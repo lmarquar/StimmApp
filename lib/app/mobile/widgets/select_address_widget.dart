@@ -21,7 +21,7 @@ class SelectAddressWidget extends StatelessWidget {
         labelText: context.l10n.state,
         border: const OutlineInputBorder(),
       ),
-      hint: const Text('Bitte Bundesland auswählen'),
+      hint: Text(context.l10n.pleaseSelectState),
       initialValue: selectedState,
       onChanged: onStateChanged,
       items: germanStates.map<DropdownMenuItem<String>>((String value) {
