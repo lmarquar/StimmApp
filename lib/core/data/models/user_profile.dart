@@ -9,6 +9,7 @@ class UserProfile {
   final DateTime? updatedAt;
   final bool? isPro;
   final DateTime? wentProAt;
+  final bool? subscribedToPro;
 
   /// Returns the date when the subscription expires (30 days after purchase).
   DateTime? get subscriptionEndsAt {
@@ -47,6 +48,7 @@ class UserProfile {
     this.height,
     this.isPro,
     this.wentProAt,
+    this.subscribedToPro,
   });
 
   UserProfile copyWith({
@@ -67,6 +69,7 @@ class UserProfile {
     String? height,
     bool? isPro,
     DateTime? wentProAt,
+    bool? subscribedToPro,
   }) {
     return UserProfile(
       uid: uid ?? this.uid,
@@ -86,6 +89,7 @@ class UserProfile {
       height: height ?? this.height,
       isPro: isPro ?? this.isPro,
       wentProAt: wentProAt ?? this.wentProAt,
+      subscribedToPro: subscribedToPro ?? this.subscribedToPro,
     );
   }
 
@@ -108,6 +112,7 @@ class UserProfile {
       height: json['height'] as String?,
       isPro: json['isPro'] as bool?,
       wentProAt: (json['wentProAt'] as Timestamp?)?.toDate(),
+      subscribedToPro: json['subscribedToPro'] as bool?,
     );
   }
 
@@ -131,6 +136,7 @@ class UserProfile {
       'height': height,
       'isPro': isPro,
       'wentProAt': wentProAt != null ? Timestamp.fromDate(wentProAt!) : null,
+      'subscribedToPro': subscribedToPro,
     };
   }
 }

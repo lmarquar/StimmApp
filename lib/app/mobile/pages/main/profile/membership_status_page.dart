@@ -1,17 +1,19 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
+import 'package:stimmapp/app/mobile/widgets/present_paywall_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
-import 'package:stimmapp/app/mobile/widgets/present_paywall_widget.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
-class MembershipStatusPage extends StatelessWidget {
+class MembershipStatusPage extends StatefulWidget {
   const MembershipStatusPage({super.key});
 
   static final List<Map<String, Object>> _proBenefits = [
@@ -20,6 +22,16 @@ class MembershipStatusPage extends StatelessWidget {
     {'icon': Icons.star, 'text': 'Priority support'},
     {'icon': Icons.more_horiz, 'text': 'More benefits to be added later'},
   ];
+
+  @override
+  State<MembershipStatusPage> createState() => _MembershipStatusPageState();
+}
+
+class _MembershipStatusPageState extends State<MembershipStatusPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,28 +90,31 @@ class MembershipStatusPage extends StatelessWidget {
                   const SizedBox(height: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: List.generate(_proBenefits.length, (i) {
-                      final item = _proBenefits[i];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              item['icon'] as IconData,
-                              size: 20,
-                              color: Colors.grey,
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                item['text'] as String,
-                                style: AppTextStyles.m,
+                    children: List.generate(
+                      MembershipStatusPage._proBenefits.length,
+                      (i) {
+                        final item = MembershipStatusPage._proBenefits[i];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                item['icon'] as IconData,
+                                size: 20,
+                                color: Colors.grey,
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  item['text'] as String,
+                                  style: AppTextStyles.m,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   const SizedBox(height: 24),
                   if (isLoading) ...[
@@ -111,15 +126,44 @@ class MembershipStatusPage extends StatelessWidget {
             ),
           ),
           buttons: [
-            if (!isPro && user != null)
+            if (kIsWeb)
+              ButtonWidget(
+                isFilled: false,
+                label: "Not available on web, use mobile app",
+                callback: () {},
+              )
+            else if (!isPro && user != null)
               ButtonWidget(
                 label: 'Sign up for Pro',
                 isFilled: true,
                 callback: isLoading
                     ? () {}
                     : () async {
-                        // present the paywall and handle purchase + upgrade inside widget
-                        await presentPaywall(context, user);
+                        if (!context.mounted) return;
+                        final ok = await presentPaywallWidget(context, user);
+                        if (!ok && context.mounted)
+                          showErrorSnackBar('Could not open paywall');
+                      },
+              )
+            else if (isPro && (user?.subscribedToPro ?? false))
+              ButtonWidget(
+                label: 'Resubscribe',
+                isFilled: true,
+                callback: isLoading
+                    ? () {}
+                    : () async {
+                        if (!context.mounted) return;
+                        // flip cancellation flag and open paywall
+                        try {
+                          await UserRepository.create().upsert(
+                            user!.copyWith(subscribedToPro: false),
+                          );
+                          final ok = await presentPaywallWidget(context, user);
+                          if (!ok && context.mounted)
+                            showErrorSnackBar('Could not open paywall');
+                        } catch (e) {
+                          if (context.mounted) showErrorSnackBar(e.toString());
+                        }
                       },
               )
             else
@@ -129,7 +173,6 @@ class MembershipStatusPage extends StatelessWidget {
                 callback: isLoading
                     ? () {}
                     : () async {
-                        // present the paywall and handle purchase + upgrade inside widget
                         await cancelProMembership(context, user);
                       },
               ),
@@ -178,13 +221,16 @@ class MembershipStatusPage extends StatelessWidget {
     if (confirm != true) return;
 
     try {
-      // Update user to revoke pro status locally
+      // Mark subscription as cancelled but keep access until subscriptionEndsAt
       await UserRepository.create().upsert(
-        user.copyWith(isPro: false, wentProAt: null),
+        user.copyWith(subscribedToPro: true),
       );
-      if (context.mounted) showSuccessSnackBar('Pro subscription cancelled');
-      log('User cancelled Pro: ${user.uid}');
-      // TODO: also revoke subscription via RevenueCat / App Store / Play Store if needed
+      if (context.mounted)
+        showSuccessSnackBar(
+          'Subscription cancelled — access will remain until expiry',
+        );
+      log('User requested cancel Pro: ${user.uid}');
+      // Optionally call your server to revoke grants or open store subscription management
     } catch (e) {
       log('Error cancelling Pro membership: $e');
       if (context.mounted) showErrorSnackBar(e.toString());
