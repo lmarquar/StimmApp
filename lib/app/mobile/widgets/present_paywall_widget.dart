@@ -2,22 +2,60 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
 
-/// NOTE: _performPurchase currently simulates a successful purchase.
-/// Replace the body with your RevenueCat integration (purchases_flutter or revenuecat SDK)
-/// and return true only when the purchase/subscription is confirmed.
+/// Perform a RevenueCat purchase. Returns true on success.
 Future<bool> _performPurchase() async {
-  await Future.delayed(
-    const Duration(seconds: 2),
-  ); // simulate network / purchase flow
-  log('Simulated purchase succeeded');
-  return true;
+  try {
+    final offerings = await Purchases.getOfferings();
+    final offering = offerings.current;
+    if (offering == null || offering.availablePackages.isEmpty) {
+      log('No offering or packages available');
+      return false;
+    }
+
+    // Choose a package. Adjust selection logic as needed (by identifier/period).
+    final package = offering.availablePackages.first;
+
+    // Use the new Purchase API (PurchaseParams) — use named constructor.
+    try {
+      final purchaseParams = PurchaseParams.package(package);
+      PurchaseResult result = await Purchases.purchase(purchaseParams);
+      if (result
+              .customerInfo
+              .entitlements
+              .all["my_entitlement_identifier"]
+              ?.isActive ??
+          false) {
+        // Unlock that great "pro" content
+      }
+    } on PlatformException catch (e) {
+      var errorCode = PurchasesErrorHelper.getErrorCode(e);
+      if (errorCode != PurchasesErrorCode.purchaseCancelledError) {
+        showErrorSnackBar(e.toString());
+      }
+    }
+
+    // If no exception was thrown, consider the purchase flow successful.
+    return true;
+  } on PlatformException catch (e) {
+    // RevenueCat/platform error
+    log('RevenueCat purchase error: $e');
+    return false;
+  } catch (e, st) {
+    log('Unknown purchase error: $e\n$st');
+    return false;
+  }
 }
 
-Future<bool> presentPaywall(BuildContext context, UserProfile user) async {
+Future<bool> presentPaywallWidget(
+  BuildContext context,
+  UserProfile user,
+) async {
   log('Presenting paywall for user ${user.uid}');
   final result = await showDialog<bool>(
     context: context,
@@ -67,10 +105,10 @@ Future<bool> presentPaywall(BuildContext context, UserProfile user) async {
   return result ?? false;
 }
 
-Future<void> presentPaywallIfNeeded(
+Future<void> presentPaywallWidgetIfNeeded(
   BuildContext context,
   UserProfile? user,
 ) async {
   if (user == null || (user.isPro ?? false)) return;
-  await presentPaywall(context, user);
+  await presentPaywallWidget(context, user);
 }

@@ -21,6 +21,7 @@ import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/errors/error_log_tool.dart';
 import 'package:stimmapp/core/notifiers/app_state_notifier.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
+import 'package:stimmapp/core/purchases/initialize.dart';
 import 'package:stimmapp/core/theme/app_theme.dart';
 import 'package:stimmapp/l10n/app_localizations.dart';
 
@@ -44,6 +45,9 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   locator.init();
+  if (!kIsWeb) {
+    await initializeRevenueCat();
+  }
   // Note: Only enable this for test builds
   if (!kIsWeb) {
     await authService.setSettings(appVerificationDisabledForTesting: true);

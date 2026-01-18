@@ -248,7 +248,7 @@ class ProfileWidget extends StatelessWidget {
         UnaffectedChildWidget(
           child: PointingListTile(
             title: Text(context.l10n.membershipStatus),
-            onTap: () {
+            onTap: () async {
               Navigator.push(
                 context,
                 MaterialPageRoute(
