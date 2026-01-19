@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d6f3465-2f01-4299-a9a0-b5155cadad56" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/app/mobile/widgets/base_overview_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/widgets/base_overview_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/widgets/profile_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/widgets/profile_widget.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,7 +194,7 @@
       <workItem from="1768463898454" duration="461000" />
       <workItem from="1768742603343" duration="2000" />
       <workItem from="1768817259521" duration="28000" />
-      <workItem from="1768842627226" duration="583000" />
+      <workItem from="1768842627226" duration="1345000" />
     </task>
     <servers />
   </component>

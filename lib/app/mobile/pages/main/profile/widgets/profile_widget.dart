@@ -7,7 +7,6 @@ import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/update_u
 import 'package:stimmapp/app/mobile/pages/main/profile/user_history.dart';
 import 'package:stimmapp/app/mobile/widgets/hero_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
-import 'package:stimmapp/core/constants/app_dimensions.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
@@ -80,250 +79,272 @@ class ProfileWidget extends StatelessWidget {
                     children: [
                       HeroWidget(nextPage: const ChangeProfilePicturePage()),
                       const SizedBox(height: 10),
-                      Text(
-                        userProfile.displayName ?? context.l10n.noUsernameFound,
-                        style: AppTextStyles.lBold,
+                      _buildDetailTile(
+                        context,
+                        context.l10n.surname,
+                        userProfile.surname,
                       ),
-                      Text(userProfile.email ?? '', style: AppTextStyles.m),
-                      const SizedBox(height: AppDimensions.kPadding5),
+                      _buildDetailTile(
+                        context,
+                        context.l10n.givenName,
+                        userProfile.givenName,
+                      ),
+                      _buildDetailTile(
+                        context,
+                        context.l10n.dateOfBirth,
+                        userProfile.dateOfBirth != null
+                            ? dateFormat.format(userProfile.dateOfBirth!)
+                            : null,
+                      ),
+                      _buildDetailTile(
+                        context,
+                        context.l10n.placeOfBirth,
+                        userProfile.placeOfBirth,
+                      ),
+                      _buildDetailTile(
+                        context,
+                        context.l10n.nationality,
+                        userProfile.nationality,
+                      ),
+                      _buildDetailTile(
+                        context,
+                        context.l10n.idNumber,
+                        userProfile.idNumber,
+                      ),
+                      _buildDetailTile(
+                        context,
+                        context.l10n.expiryDate,
+                        userProfile.expiryDate != null
+                            ? dateFormat.format(userProfile.expiryDate!)
+                            : null,
+                      ),
+                      _buildDetailTile(
+                        context,
+                        context.l10n.height,
+                        userProfile.height,
+                      ),
+                      _buildDetailTile(
+                        context,
+                        context.l10n.address,
+                        userProfile.address,
+                      ),
+                      _buildDetailTile(
+                        context,
+                        context.l10n.state,
+                        userProfile.state,
+                      ),
+                      _buildDetailTile(
+                        context,
+                        context.l10n.email,
+                        userProfile.email,
+                      ),
+                      _buildDetailTile(
+                        context,
+                        context.l10n.nickname,
+                        userProfile.displayName,
+                      ),
+                      _buildDetailTile(
+                        context,
+                        context.l10n.isProMember,
+                        userProfile.isPro == true
+                            ? context.l10n.yes
+                            : context.l10n.no,
+                      ),
+
+                      if (userProfile.isAdmin) ...[
+                        const SizedBox(height: 20.0),
+                        PointingListTile(
+                          leading: const Icon(
+                            Icons.admin_panel_settings,
+                            color: Colors.amber,
+                          ),
+                          title: Text(context.l10n.adminInterface),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const AdminDashboardPage(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ],
                   ),
                 ),
                 const SizedBox(height: 20.0),
-                ListTileWidget(
-                  title: Text(
-                    context.l10n.profile,
-                    style: AppTextStyles.xlBold,
-                  ),
-                ),
-                _buildDetailTile(
-                  context,
-                  context.l10n.surname,
-                  userProfile.surname,
-                ),
-                _buildDetailTile(
-                  context,
-                  context.l10n.givenName,
-                  userProfile.givenName,
-                ),
-                _buildDetailTile(
-                  context,
-                  context.l10n.dateOfBirth,
-                  userProfile.dateOfBirth != null
-                      ? dateFormat.format(userProfile.dateOfBirth!)
-                      : null,
-                ),
-                _buildDetailTile(
-                  context,
-                  context.l10n.placeOfBirth,
-                  userProfile.placeOfBirth,
-                ),
-                _buildDetailTile(
-                  context,
-                  context.l10n.nationality,
-                  userProfile.nationality,
-                ),
-                _buildDetailTile(
-                  context,
-                  context.l10n.idNumber,
-                  userProfile.idNumber,
-                ),
-                _buildDetailTile(
-                  context,
-                  context.l10n.expiryDate,
-                  userProfile.expiryDate != null
-                      ? dateFormat.format(userProfile.expiryDate!)
-                      : null,
-                ),
-                _buildDetailTile(
-                  context,
-                  context.l10n.height,
-                  userProfile.height,
-                ),
-                _buildDetailTile(
-                  context,
-                  context.l10n.address,
-                  userProfile.address,
-                ),
-                _buildDetailTile(
-                  context,
-                  context.l10n.state,
-                  userProfile.state,
-                ),
-                if (userProfile.isAdmin) ...[
-                  const SizedBox(height: 20.0),
-                  PointingListTile(
-                    leading: const Icon(
-                      Icons.admin_panel_settings,
-                      color: Colors.amber,
-                    ),
-                    title: Text(context.l10n.adminInterface),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const AdminDashboardPage(),
-                        ),
-                      );
-                    },
-                  ),
-                ],
               ],
             );
           },
         ),
         const SizedBox(height: 20.0),
         // avatar display: use service notifier (updates after upload)
-        ValueListenableBuilder<String?>(
-          valueListenable: ProfilePictureService.instance.profileUrlNotifier,
-          builder: (context, profileUrl, child) {
-            return ListTileWidget(
-              title: Text(context.l10n.settings, style: AppTextStyles.xlBold),
-            );
-          },
-        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            children: [
+              ValueListenableBuilder<String?>(
+                valueListenable:
+                    ProfilePictureService.instance.profileUrlNotifier,
+                builder: (context, profileUrl, child) {
+                  return ListTileWidget(
+                    title: Text(
+                      context.l10n.settings,
+                      style: AppTextStyles.xlBold,
+                    ),
+                  );
+                },
+              ),
 
-        // Update username
-        Material(
-          type: MaterialType.transparency,
-          child: PointingListTile(
-            title: Text(context.l10n.updateUsername),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return UpdateUsernamePage();
+              // Update username
+              Material(
+                type: MaterialType.transparency,
+                child: PointingListTile(
+                  title: Text(context.l10n.updateUsername),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return UpdateUsernamePage();
+                        },
+                      ),
+                    );
                   },
                 ),
-              );
-            },
-          ),
-        ),
+              ),
 
-        // Update address
-        Material(
-          type: MaterialType.transparency,
-          child: PointingListTile(
-            title: Text(context.l10n.updateLivingAddress),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return UpdateLivingAddressPage();
+              // Update address
+              Material(
+                type: MaterialType.transparency,
+                child: PointingListTile(
+                  title: Text(context.l10n.updateLivingAddress),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return UpdateLivingAddressPage();
+                        },
+                      ),
+                    );
                   },
                 ),
-              );
-            },
+              ),
+
+              ListTileWidget(
+                title: Text(context.l10n.other, style: AppTextStyles.xlBold),
+              ),
+
+              PointingListTile(
+                title: Text(context.l10n.activityHistory),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const UserHistoryPage();
+                      },
+                    ),
+                  );
+                },
+              ),
+              // Finished forms export
+              PointingListTile(
+                title: Text(context.l10n.finishedForms),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FormExportPage(),
+                    ),
+                  );
+                },
+              ),
+
+              //Change password
+              PointingListTile(
+                title: Text(context.l10n.changePassword),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ChangePasswordPage();
+                      },
+                    ),
+                  );
+                },
+              ),
+
+              // Logout
+              PointingListTile(
+                title: Text(context.l10n.logout, style: AppTextStyles.red),
+                trailing: const SizedBox.shrink(),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text(context.l10n.logout),
+                        content: Text(
+                          context.l10n.areYouSureYouWantToLogout,
+                          style: AppTextStyles.m,
+                        ),
+                        actions: [
+                          FilledButton(
+                            onPressed: () async {
+                              logout();
+                            },
+                            child: Text(context.l10n.logout),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              popUntilLast();
+                            },
+                            child: Text(context.l10n.cancel),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+              // TODO Membership status page needs revenue cat setup needs playstore setup
+              //   PointingListTile(
+              //     title: Text(context.l10n.membershipStatus),
+              //     onTap: () async {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) {
+              //             return const MembershipStatusPage();
+              //           },
+              //         ),
+              //       );
+              //     },
+              //   ),
+
+              // Delete my account
+              PointingListTile(
+                title: Text(
+                  context.l10n.deleteMyAccount,
+                  style: AppTextStyles.red,
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const DeleteAccountPage();
+                      },
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-        ),
-
-        //Change password
-        PointingListTile(
-          title: Text(context.l10n.changePassword),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return ChangePasswordPage();
-                },
-              ),
-            );
-          },
-        ),
-
-        // TODO Membership status page needs revenue cat setup needs playstore setup
-        //   PointingListTile(
-        //     title: Text(context.l10n.membershipStatus),
-        //     onTap: () async {
-        //       Navigator.push(
-        //         context,
-        //         MaterialPageRoute(
-        //           builder: (context) {
-        //             return const MembershipStatusPage();
-        //           },
-        //         ),
-        //       );
-        //     },
-        //   ),
-
-        // Delete my account
-        PointingListTile(
-          title: Text(context.l10n.deleteMyAccount),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return const DeleteAccountPage();
-                },
-              ),
-            );
-          },
-        ),
-
-        ListTileWidget(
-          title: Text(context.l10n.other, style: AppTextStyles.xlBold),
-        ),
-
-        PointingListTile(
-          title: Text(context.l10n.activityHistory),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return const UserHistoryPage();
-                },
-              ),
-            );
-          },
-        ),
-        // Finished forms export
-        PointingListTile(
-          title: Text(context.l10n.finishedForms),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const FormExportPage()),
-            );
-          },
-        ),
-
-        // Logout
-        PointingListTile(
-          title: Text(context.l10n.logout, style: AppTextStyles.red),
-          trailing: const SizedBox.shrink(),
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text(context.l10n.logout),
-                  content: Text(
-                    context.l10n.areYouSureYouWantToLogout,
-                    style: AppTextStyles.m,
-                  ),
-                  actions: [
-                    FilledButton(
-                      onPressed: () async {
-                        logout();
-                      },
-                      child: Text(context.l10n.logout),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        popUntilLast();
-                      },
-                      child: Text(context.l10n.cancel),
-                    ),
-                  ],
-                );
-              },
-            );
-          },
         ),
         const SizedBox(height: 20.0),
       ],
