@@ -13,6 +13,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget>
   final AdService _adService = AdService();
   BannerAdWrapper? _bannerAd;
   bool _isAdLoaded = false;
+  bool _isAdLoadFailed = false;
 
   @override
   bool get wantKeepAlive => true;
@@ -33,7 +34,11 @@ class _BannerAdWidgetState extends State<BannerAdWidget>
         }
       },
       onAdFailedToLoad: (error) {
-        // Handle error if needed
+        if (mounted) {
+          setState(() {
+            _isAdLoadFailed = true;
+          });
+        }
       },
     );
   }
@@ -54,7 +59,16 @@ class _BannerAdWidgetState extends State<BannerAdWidget>
         child: _bannerAd!.build(),
       );
     }
-    // Return a placeholder while the ad loads.
-    return const SizedBox(height: 50);
+    // Return a placeholder while the ad loads or if it failed.
+    return Container(
+      height: 50,
+      width: double.infinity,
+      alignment: Alignment.center,
+      color: Colors.grey[200],
+      child: Text(
+        _isAdLoadFailed ? 'Ad Failed' : 'Loading Ad...',
+        style: const TextStyle(color: Colors.black),
+      ),
+    );
   }
 }
