@@ -809,5 +809,17 @@ class AppLocalizationsDe extends AppLocalizations {
   String get remove => 'Entfernen';
 
   @override
+  String get nickname => 'Spitzname';
+
+  @override
+  String get isProMember => 'Ist Pro-Mitglied';
+
+  @override
+  String get yes => 'Ja';
+
+  @override
+  String get noProMember => 'Nein, kein Pro-Mitglied';
+
+  @override
   String get imagePreviewDescription => 'Bildvorschau';
 }
