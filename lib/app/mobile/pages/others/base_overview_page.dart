@@ -85,7 +85,6 @@ class _BaseOverviewPageState<T extends HomeItem>
                     (showFallbackAd && index == totalCount - 1);
 
                 if (isAdTile) {
-                  print("Showing ad at index $index");
                   return const BannerAdWidget();
                 } else {
                   final adSlot = (index + 1) ~/ (_itemsPerAd + 1);
