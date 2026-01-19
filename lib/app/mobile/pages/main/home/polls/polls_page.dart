@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stimmapp/app/mobile/widgets/base_overview_page.dart';
+import 'package:stimmapp/app/mobile/pages/others/base_overview_page.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
 
@@ -10,7 +10,8 @@ class PollsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final repo = PollRepository.create();
     return BaseOverviewPage<Poll>(
-      streamProvider: (query, status) => repo.list(query: query, status: status),
+      streamProvider: (query, status) =>
+          repo.list(query: query, status: status),
       itemBuilder: (context, p) {
         final total = p.totalVotes;
         return ListTile(

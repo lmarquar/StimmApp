@@ -19,7 +19,6 @@ import '../../../../../../core/notifiers/notifiers.dart';
 import '../../../../scaffolds/app_padding_scaffold.dart';
 import '../../../../widgets/list_tile_widget.dart';
 import '../../../../widgets/neon_padding_widget.dart';
-import '../../../../widgets/unaffected_child_widget.dart';
 import '../../../../widgets/pointing_list_tile.dart';
 import '../../admin/admin_dashboard_page.dart';
 import '../../profile/form_export_page.dart';
@@ -153,22 +152,20 @@ class ProfileWidget extends StatelessWidget {
                 ),
                 if (userProfile.isAdmin) ...[
                   const SizedBox(height: 20.0),
-                  UnaffectedChildWidget(
-                    child: PointingListTile(
-                      leading: const Icon(
-                        Icons.admin_panel_settings,
-                        color: Colors.amber,
-                      ),
-                      title: Text(context.l10n.adminInterface),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const AdminDashboardPage(),
-                          ),
-                        );
-                      },
+                  PointingListTile(
+                    leading: const Icon(
+                      Icons.admin_panel_settings,
+                      color: Colors.amber,
                     ),
+                    title: Text(context.l10n.adminInterface),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AdminDashboardPage(),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ],
@@ -187,55 +184,16 @@ class ProfileWidget extends StatelessWidget {
         ),
 
         // Update username
-        UnaffectedChildWidget(
-          child: Material(
-            type: MaterialType.transparency,
-            child: PointingListTile(
-              title: Text(context.l10n.updateUsername),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return UpdateUsernamePage();
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-
-        // Update address
-        UnaffectedChildWidget(
-          child: Material(
-            type: MaterialType.transparency,
-            child: PointingListTile(
-              title: Text(context.l10n.updateLivingAddress),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return UpdateLivingAddressPage();
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-
-        //Change password
-        UnaffectedChildWidget(
+        Material(
+          type: MaterialType.transparency,
           child: PointingListTile(
-            title: Text(context.l10n.changePassword),
+            title: Text(context.l10n.updateUsername),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return ChangePasswordPage();
+                    return UpdateUsernamePage();
                   },
                 ),
               );
@@ -243,9 +201,41 @@ class ProfileWidget extends StatelessWidget {
           ),
         ),
 
+        // Update address
+        Material(
+          type: MaterialType.transparency,
+          child: PointingListTile(
+            title: Text(context.l10n.updateLivingAddress),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return UpdateLivingAddressPage();
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+
+        //Change password
+        PointingListTile(
+          title: Text(context.l10n.changePassword),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return ChangePasswordPage();
+                },
+              ),
+            );
+          },
+        ),
+
         // TODO Membership status page needs revenue cat setup needs playstore setup
-        // UnaffectedChildWidget(
-        //   child: PointingListTile(
+        //   PointingListTile(
         //     title: Text(context.l10n.membershipStatus),
         //     onTap: () async {
         //       Navigator.push(
@@ -258,91 +248,82 @@ class ProfileWidget extends StatelessWidget {
         //       );
         //     },
         //   ),
-        // ),
 
         // Delete my account
-        UnaffectedChildWidget(
-          child: PointingListTile(
-            title: Text(context.l10n.deleteMyAccount),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const DeleteAccountPage();
-                  },
-                ),
-              );
-            },
-          ),
+        PointingListTile(
+          title: Text(context.l10n.deleteMyAccount),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const DeleteAccountPage();
+                },
+              ),
+            );
+          },
         ),
 
         ListTileWidget(
           title: Text(context.l10n.other, style: AppTextStyles.xlBold),
         ),
 
-        UnaffectedChildWidget(
-          child: PointingListTile(
-            title: Text(context.l10n.activityHistory),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const UserHistoryPage();
-                  },
-                ),
-              );
-            },
-          ),
+        PointingListTile(
+          title: Text(context.l10n.activityHistory),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return const UserHistoryPage();
+                },
+              ),
+            );
+          },
         ),
         // Finished forms export
-        UnaffectedChildWidget(
-          child: PointingListTile(
-            title: Text(context.l10n.finishedForms),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const FormExportPage()),
-              );
-            },
-          ),
+        PointingListTile(
+          title: Text(context.l10n.finishedForms),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const FormExportPage()),
+            );
+          },
         ),
 
         // Logout
-        UnaffectedChildWidget(
-          child: PointingListTile(
-            title: Text(context.l10n.logout, style: AppTextStyles.red),
-            trailing: const SizedBox.shrink(),
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text(context.l10n.logout),
-                    content: Text(
-                      context.l10n.areYouSureYouWantToLogout,
-                      style: AppTextStyles.m,
+        PointingListTile(
+          title: Text(context.l10n.logout, style: AppTextStyles.red),
+          trailing: const SizedBox.shrink(),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(context.l10n.logout),
+                  content: Text(
+                    context.l10n.areYouSureYouWantToLogout,
+                    style: AppTextStyles.m,
+                  ),
+                  actions: [
+                    FilledButton(
+                      onPressed: () async {
+                        logout();
+                      },
+                      child: Text(context.l10n.logout),
                     ),
-                    actions: [
-                      FilledButton(
-                        onPressed: () async {
-                          logout();
-                        },
-                        child: Text(context.l10n.logout),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          popUntilLast();
-                        },
-                        child: Text(context.l10n.cancel),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
+                    TextButton(
+                      onPressed: () {
+                        popUntilLast();
+                      },
+                      child: Text(context.l10n.cancel),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
         ),
         const SizedBox(height: 20.0),
       ],
@@ -353,12 +334,10 @@ class ProfileWidget extends StatelessWidget {
 
   Widget _buildDetailTile(BuildContext context, String label, String? value) {
     if (value == null || value.isEmpty) return const SizedBox.shrink();
-    return UnaffectedChildWidget(
-      child: ListTile(
-        title: Text(label, style: AppTextStyles.descriptionText),
-        subtitle: Text(value, style: AppTextStyles.mBold),
-        dense: true,
-      ),
+    return ListTile(
+      title: Text(label, style: AppTextStyles.descriptionText),
+      subtitle: Text(value, style: AppTextStyles.mBold),
+      dense: true,
     );
   }
 }
