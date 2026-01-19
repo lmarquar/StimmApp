@@ -1,0 +1,29 @@
+@startuml Settings_Flow
+title Settings Flow (language, theme, notifications, account)
+
+start
+:Open Settings;
+:Show sections (Profile, Account, App, Privacy, Subscription);
+if (Tap Profile Settings?) then (yes)
+  -> /documents/flowcharts/user_interactions/profile_settings.puml
+endif
+if (Change Language?) then (yes)
+  :Open language picker -> select -> apply -> persist;
+endif
+if (Toggle Theme?) then (yes)
+  :Set Dark / Light / System -> apply;
+endif
+if (Manage Notifications?) then (yes)
+  :Toggle push/email preferences -> save;
+endif
+if (Open Paywall?) then (yes)
+  :Navigate to paywall flow;
+endif
+if (Logout?) then (yes)
+  :Confirm -> sign out -> return to Login;
+endif
+if (Delete Account?) then (yes)
+  :Confirm irreversible -> call backend -> on success sign out;
+endif
+stop
+@enduml
