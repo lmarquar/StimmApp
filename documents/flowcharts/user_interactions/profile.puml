@@ -1,0 +1,29 @@
+@startuml Profile_Settings
+title Profile Settings Flow (edit profile, picture, password)
+
+start
+:Open Profile Settings;
+:Show current profile data;
+if (Edit name / state / address?) then (yes)
+  :Edit fields -> Validate -> Save -> show success/error;
+endif
+if (Change password?) then (yes)
+  :Enter current, new, confirm -> call auth -> success? -> show result;
+endif
+if (Update profile picture?) then (yes)
+  :Choose source (Camera / Gallery);
+  if (Camera) then (yes)
+    :Open camera -> capture -> proceed;
+  else (Gallery)
+    :Open gallery -> pick -> proceed;
+  endif
+  :Open cropper -> confirm;
+  :Upload -> success?
+  if (Upload success?) then (yes)
+    :Update profile picture -> show success;
+  else (no)
+    :Show failedToUploadImage -> retry / remove;
+  endif
+endif
+stop
+@enduml
