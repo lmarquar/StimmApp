@@ -179,7 +179,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get error => 'Fehler';
 
   @override
-  String get errors => 'Errors';
+  String get errors => 'Fehler';
 
   @override
   String get exercise => 'Übung';
@@ -251,10 +251,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noActivityFound => 'Noch keine Aktivität gefunden.';
 
   @override
-  String get noUsernameFound => 'no username found';
+  String get noUsernameFound => 'Kein Benutzername gefunden';
 
   @override
-  String get noTitle => 'No Title';
+  String get noTitle => 'Kein Titel';
 
   @override
   String get other => 'Andere';
@@ -324,7 +324,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get creator => 'Ersteller';
 
   @override
-  String get poll => 'Poll';
+  String get poll => 'Umfrage';
 
   @override
   String get polls => 'Umfragen';
@@ -378,7 +378,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get signed => 'Unterzeichnet';
 
   @override
-  String get signedOn => 'Signed on ';
+  String get signedOn => 'Eingeloggt seit';
 
   @override
   String get voted => 'Abgestimmt';
@@ -570,7 +570,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get users => 'Benutzer';
 
   @override
-  String get userNotFound => 'User not found';
+  String get userNotFound => 'Benutzer nicht gefunden.';
 
   @override
   String get idScan => 'Ausweisscan';
@@ -699,7 +699,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get expiredCreations => 'Abgelaufene Einträge';
 
   @override
-  String get expiredPetitions => 'Abgelaufene Petitionen';
+  String get expiredPetitions => 'Abgelaufene petitionen';
 
   @override
   String get expiredPolls => 'Abgelaufene Umfragen';
@@ -724,89 +724,91 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get customPetitionAndPollPictures =>
-      'Custom petition and poll pictures';
+      'Benutzerdefinierte Bilder für Petitionen und Umfragen';
 
   @override
-  String get noAdvertisements => 'No advertisements';
+  String get noAdvertisements => 'Ohne Werbung';
 
   @override
-  String get prioritySupport => 'Priority support';
+  String get prioritySupport => 'Priorisierter Support';
 
   @override
-  String get moreBenefitsToBeAddedLater => 'More benefits to be added later';
+  String get moreBenefitsToBeAddedLater =>
+      'Weitere Vorteile werden später hinzugefügt';
 
   @override
-  String get notAuthenticated => 'Not authenticated';
+  String get notAuthenticated => 'Nicht authentifiziert';
 
   @override
-  String get proMember => 'Pro Member';
+  String get proMember => 'Pro-Mitglied';
 
   @override
-  String get freeMember => 'Free Member';
+  String get freeMember => 'Kostenloses Mitglied';
 
   @override
   String validUntil(String date) {
-    return 'Valid until: $date';
+    return 'Gültig bis: $date';
   }
 
   @override
   String get youSubscribedToFollowingBenefits =>
-      'You subscribed to following benefits';
+      'Sie haben die folgenden Vorteile abonniert:';
 
   @override
-  String get goProToAccessTheseBenefits => 'Go pro to access these benefits';
+  String get goProToAccessTheseBenefits =>
+      'Werde Pro, um auf diese Vorteile zuzugreifen';
 
   @override
-  String get notAvailableOnWebApp => 'Not available on web, use mobile app';
+  String get notAvailableOnWebApp => 'Nicht in der Web-App verfügbar';
 
   @override
-  String get signUpForPro => 'Sign up for Pro';
+  String get signUpForPro => 'Für Pro anmelden';
 
   @override
-  String get couldNotOpenPaywall => 'Could not open paywall';
+  String get couldNotOpenPaywall => 'Die Paywall konnte nicht geöffnet werden.';
 
   @override
-  String get resubscribe => 'Resubscribe';
+  String get resubscribe => 'Erneut abonnieren';
 
   @override
-  String get cancelSubscription => 'Cancel subscription';
+  String get cancelSubscription => 'Abonnement kündigen';
 
   @override
-  String get userNotAvailable => 'User not available';
+  String get userNotAvailable => 'Benutzer nicht verfügbar';
 
   @override
-  String get cancelProSubscription => 'Cancel Pro Subscription';
+  String get cancelProSubscription => 'Pro-Abonnement kündigen';
 
   @override
   String get areYouSureYouWantToCancelYourProSubscription =>
-      'Are you sure you want to cancel your Pro subscription? You will lose Pro features.';
+      'Sind Sie sicher, dass Sie Ihr Pro-Abonnement kündigen möchten?';
 
   @override
-  String get no => 'No';
+  String get no => 'Nein';
 
   @override
-  String get yesCancel => 'Yes, cancel';
+  String get yesCancel => 'Ja, kündigen';
 
   @override
   String get subscriptionCancelledAccessWillRemainUntilExpiry =>
-      'Subscription cancelled — access will remain until expiry';
+      'Abonnement gekündigt. Der Zugriff bleibt bis zum Ablaufdatum erhalten.';
 
   @override
   String get pleaseSelectState => 'Bitte wähle dein Bundesland aus.';
 
   @override
-  String get failedToUploadImage => 'Failed to upload image: ';
+  String get failedToUploadImage => 'Bild konnte nicht hochgeladen werden.';
 
   @override
-  String get selectFromGallery => 'Select from Gallery';
+  String get selectFromGallery => 'Aus Galerie auswählen';
 
   @override
-  String get selectFromCamera => 'Select from Camera';
+  String get selectFromCamera => 'Aus Kamera auswählen';
 
   @override
-  String get remove => 'Remove';
+  String get remove => 'Entfernen';
 
   @override
   String get imagePreviewDescription =>
-      'This is a preview of your new profile picture.';
+      'Bildvorschau. Tippen zum Bearbeiten oder Wischen zum Schließen.';
 }

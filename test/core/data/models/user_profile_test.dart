@@ -29,6 +29,9 @@ void main() {
       'idNumber': null,
       'address': null,
       'height': null,
+      'isPro': false,
+      'wentProAt': null,
+      'subscribedToPro': null,
     };
 
     test('fromJson creates a UserProfile object from a map', () {
@@ -39,6 +42,7 @@ void main() {
       expect(result.createdAt, userProfile.createdAt);
       expect(result.updatedAt, userProfile.updatedAt);
       expect(result.state, userProfile.state);
+      expect(result.idNumber, userProfile.idNumber);
     });
 
     test('toJson returns a map from a UserProfile object', () {
