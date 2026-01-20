@@ -378,7 +378,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get signed => 'Unterzeichnet';
 
   @override
-  String get signedOn => 'Eingeloggt seit';
+  String get signedOn => 'Eingeloggt';
 
   @override
   String get voted => 'Abgestimmt';
@@ -570,7 +570,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get users => 'Benutzer';
 
   @override
-  String get userNotFound => 'Benutzer nicht gefunden.';
+  String get userNotFound => 'Benutzer nicht gefunden';
 
   @override
   String get idScan => 'Ausweisscan';
@@ -699,7 +699,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get expiredCreations => 'Abgelaufene Einträge';
 
   @override
-  String get expiredPetitions => 'Abgelaufene petitionen';
+  String get expiredPetitions => 'Abgelaufene Petitionen';
 
   @override
   String get expiredPolls => 'Abgelaufene Umfragen';
@@ -724,17 +724,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get customPetitionAndPollPictures =>
-      'Benutzerdefinierte Bilder für Petitionen und Umfragen';
+      'Eigene Petition- und Umfragebilder';
 
   @override
-  String get noAdvertisements => 'Ohne Werbung';
+  String get noAdvertisements => 'Keine Werbung';
 
   @override
-  String get prioritySupport => 'Priorisierter Support';
+  String get prioritySupport => 'Prioritätssupport';
 
   @override
-  String get moreBenefitsToBeAddedLater =>
-      'Weitere Vorteile werden später hinzugefügt';
+  String get moreBenefitsToBeAddedLater => 'Weitere Vorteile folgen';
 
   @override
   String get notAuthenticated => 'Nicht authentifiziert';
@@ -747,41 +746,41 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String validUntil(String date) {
-    return 'Gültig bis: $date';
+    return 'Gültig bis';
   }
 
   @override
   String get youSubscribedToFollowingBenefits =>
-      'Sie haben die folgenden Vorteile abonniert:';
+      'Du hast folgende Vorteile abonniert:';
 
   @override
   String get goProToAccessTheseBenefits =>
-      'Werde Pro, um auf diese Vorteile zuzugreifen';
+      'Pro-Abo abschließen um diese Vorteile zu nutzen';
 
   @override
   String get notAvailableOnWebApp => 'Nicht in der Web-App verfügbar';
 
   @override
-  String get signUpForPro => 'Für Pro anmelden';
+  String get signUpForPro => 'Pro-Abo abschließen';
 
   @override
-  String get couldNotOpenPaywall => 'Die Paywall konnte nicht geöffnet werden.';
+  String get couldNotOpenPaywall => 'Paywall konnte nicht geöffnet werden';
 
   @override
   String get resubscribe => 'Erneut abonnieren';
 
   @override
-  String get cancelSubscription => 'Abonnement kündigen';
+  String get cancelSubscription => 'Abo kündigen';
 
   @override
   String get userNotAvailable => 'Benutzer nicht verfügbar';
 
   @override
-  String get cancelProSubscription => 'Pro-Abonnement kündigen';
+  String get cancelProSubscription => 'Pro-Abo kündigen';
 
   @override
   String get areYouSureYouWantToCancelYourProSubscription =>
-      'Sind Sie sicher, dass Sie Ihr Pro-Abonnement kündigen möchten?';
+      'Möchtest du dein Pro-Abo wirklich kündigen?';
 
   @override
   String get no => 'Nein';
@@ -791,24 +790,23 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get subscriptionCancelledAccessWillRemainUntilExpiry =>
-      'Abonnement gekündigt. Der Zugriff bleibt bis zum Ablaufdatum erhalten.';
+      'Abo gekündigt. Zugriff bleibt bis zum Ablauf erhalten.';
 
   @override
   String get pleaseSelectState => 'Bitte wähle dein Bundesland aus.';
 
   @override
-  String get failedToUploadImage => 'Bild konnte nicht hochgeladen werden.';
+  String get failedToUploadImage => 'Bild konnte nicht hochgeladen werden';
 
   @override
-  String get selectFromGallery => 'Aus Galerie auswählen';
+  String get selectFromGallery => 'Aus Galerie wählen';
 
   @override
-  String get selectFromCamera => 'Aus Kamera auswählen';
+  String get selectFromCamera => 'Mit Kamera aufnehmen';
 
   @override
   String get remove => 'Entfernen';
 
   @override
-  String get imagePreviewDescription =>
-      'Bildvorschau. Tippen zum Bearbeiten oder Wischen zum Schließen.';
+  String get imagePreviewDescription => 'Bildvorschau';
 }
