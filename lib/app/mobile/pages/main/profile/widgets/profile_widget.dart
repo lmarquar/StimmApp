@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/membership_status_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/change_password_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/change_profile_picture_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/profile/profile_settings/update_living_address_page.dart';
@@ -173,6 +174,14 @@ class ProfileWidget extends StatelessWidget {
                           userProfile.isPro == true
                               ? context.l10n.yes
                               : context.l10n.no,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MembershipStatusPage(),
+                              ),
+                            );
+                          },
                         ),
 
                         if (userProfile.isAdmin) ...[
@@ -282,7 +291,6 @@ class ProfileWidget extends StatelessWidget {
                     );
                   },
                 ),
-                // TODO Membership status page needs revenue cat setup needs playstore setup
                 //   PointingListTile(
                 //     title: Text(context.l10n.membershipStatus),
                 //     onTap: () async {
