@@ -71,15 +71,27 @@ class _BaseOverviewPageState<T extends HomeItem>
               return Center(child: Text(context.l10n.noData));
             }
 
-            final standardAdCount = (items.length / _itemsPerAd).floor();
+            final isPro = userProfile?.isPro ?? false;
+            final standardAdCount = isPro
+                ? 0
+                : (items.length / _itemsPerAd).floor();
             // Ensure at least one ad is shown if the list is short but not empty.
-            final showFallbackAd = items.isNotEmpty && standardAdCount == 0;
+            final showFallbackAd =
+                !isPro && items.isNotEmpty && standardAdCount == 0;
             final totalCount =
                 items.length + standardAdCount + (showFallbackAd ? 1 : 0);
 
             return ListView.builder(
               itemCount: totalCount,
               itemBuilder: (context, index) {
+                if (isPro) {
+                  return Column(
+                    children: [
+                      widget.itemBuilder(context, items[index]),
+                      const Divider(height: 1),
+                    ],
+                  );
+                }
                 final isAdTile =
                     (index + 1) % (_itemsPerAd + 1) == 0 ||
                     (showFallbackAd && index == totalCount - 1);
