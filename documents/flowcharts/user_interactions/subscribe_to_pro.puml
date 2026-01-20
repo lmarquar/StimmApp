@@ -1,0 +1,39 @@
+@startuml Purchase_Subscription
+title Purchase / Subscription Flow (expanded)
+
+start
+:Open Settings / Paywall;
+if (User already Pro?) then (yes)
+  :Show membership details (expiresAt / benefits / receipt);
+  if (Manage subscription?) then (yes)
+    :Options: Cancel / Resubscribe / Restore / View receipt;
+    if (Cancel subscription?) then (yes)
+      :Confirm cancel -> call RevenueCat -> update local status;
+      :Show "subscriptionCancelledAccessWillRemainUntilExpiry";
+    endif
+    if (Restore purchases?) then (yes)
+      :Call RevenueCat restore -> success? -> update local status;
+    endif
+  endif
+  stop
+else (no)
+  :Show paywall (benefits list / trial / promo code);
+  if (Enter promo code?) then (yes)
+    :Validate code -> apply discount / trial;
+  endif
+  if (Tap purchase?) then (yes)
+    :Initiate purchase via RevenueCat / platform;
+    if (Purchase success?) then (yes)
+      :Verify receipt -> Save purchase -> grant benefits -> show success;
+    else (failure)
+      :Show error / retry / couldNotOpenPaywall / contact support;
+      if (Try restore?) then (yes)
+        :Attempt restore purchases;
+      endif
+    endif
+  else (no)
+    :Close paywall / maybe subscribe later;
+  endif
+endif
+stop
+@enduml

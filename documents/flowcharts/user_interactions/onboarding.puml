@@ -1,0 +1,57 @@
+@startuml Registration_Onboarding
+title Registration / Onboarding Flow (expanded)
+
+start
+:Open App;
+if (Has account?) then (yes)
+  :Choose Login method;
+  fork
+    :Email/Password -> validate creds;
+    if (Login success?) then (yes)
+      -> Home;
+    else (no)
+      :Show error / Retry / Forgot Password;
+    endif
+  fork again
+    :Social Login (Google/Apple) -> auth provider;
+    if (Auth success?) then (yes)
+      -> Home;
+    else (no)
+      :Show social auth error;
+    endif
+  end fork
+else (no)
+  :Tap Register;
+  :Choose method (email / social / guest);
+  if (Method == Email) then (email)
+    :Enter email & password;
+    :Send confirmation email;
+    if (Email confirmed?) then (yes)
+      :Fill profile details (name, state, etc.);
+    else (no)
+      :Show resend confirmation / cancel;
+      if (Resend?) then (yes)
+        :Resend email;
+      endif
+      stop
+    endif
+  elseif (Method == Social) then (social)
+    :Complete social signup -> prefill profile -> fill missing fields;
+  else (guest)
+    :Create guest session (limited access) -> prompt to convert later;
+  endif
+
+  if (Upload ID?) then (yes)
+    :Scan ID -> OCR -> verify -> show result (verified / manual review);
+    if (Verification failed?) then (yes)
+      :Show retry / contact support;
+    endif
+  else (no)
+    :Skip ID verification;
+  endif
+
+  :Finish onboarding -> Home;
+endif
+stop
+@enduml
+
