@@ -6,6 +6,10 @@
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
 		android:enableOnBackInvokedCallback="true">
+		<!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.1:223242419578:android:05c6b7df0cf5ec3488aac3"
+            android:value="ca-app-pub-5296065079333841~8760518694"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

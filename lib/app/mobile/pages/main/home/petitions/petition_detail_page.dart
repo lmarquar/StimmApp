@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stimmapp/app/mobile/widgets/base_detail_page.dart';
+import 'package:stimmapp/app/mobile/pages/others/base_detail_page.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';

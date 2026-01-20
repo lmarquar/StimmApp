@@ -11,6 +11,7 @@ import 'package:stimmapp/app/mobile/layout/init_app_layout.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/petitions/petition_detail_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/polls/poll_detail_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/app_loading_page.dart';
+import 'package:stimmapp/services/ad_service.dart';
 import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
 import 'package:stimmapp/core/data/firebase/firebase_options.dart';
@@ -69,6 +70,7 @@ class _MyAppState extends State<MyApp> {
   AppStateNotifier? appStateNotifier;
   bool _initialized = false;
   StreamSubscription<User?>? _authSub;
+  AdService adService = AdService();
 
   @override
   void initState() {
@@ -81,6 +83,8 @@ class _MyAppState extends State<MyApp> {
     await initThemeMode();
     // load persisted locale (if any) before creating composite notifier
     await initLocale();
+    // initialize ads
+    await adService.initialize();
 
     // Close expired petitions on startup if authenticated
     if (authService.currentUser != null) {
