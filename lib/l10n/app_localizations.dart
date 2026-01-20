@@ -1616,6 +1616,30 @@ abstract class AppLocalizations {
   /// **'Remove'**
   String get remove;
 
+  /// No description provided for @nickname.
+  ///
+  /// In en, this message translates to:
+  /// **'Nickname'**
+  String get nickname;
+
+  /// No description provided for @isProMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Ist Pro-Mitglied'**
+  String get isProMember;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Ja'**
+  String get yes;
+
+  /// No description provided for @noProMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Nein, kein Pro-Mitglied'**
+  String get noProMember;
+
   /// No description provided for @imagePreviewDescription.
   ///
   /// In en, this message translates to:

@@ -33,7 +33,11 @@ class PointingListTile extends StatelessWidget {
       subtitle: subtitle,
       trailing:
           trailing ??
-          const Icon(Icons.arrow_forward_ios_outlined, color: Colors.white38),
+          Icon(
+            Icons.arrow_forward_ios_outlined,
+            color: Theme.of(context).hintColor,
+            size: 16.0,
+          ),
       onTap: onTap,
     );
   }

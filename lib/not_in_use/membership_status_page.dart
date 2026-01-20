@@ -12,6 +12,7 @@ import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 import 'package:stimmapp/not_in_use/present_paywall_widget.dart';
 
+// TODO Membership status page needs revenue cat setup needs playstore setup
 class MembershipStatusPage extends StatefulWidget {
   const MembershipStatusPage({super.key});
 

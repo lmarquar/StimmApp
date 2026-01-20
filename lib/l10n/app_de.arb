@@ -278,10 +278,16 @@
 	"noAdvertisements": "Keine Werbung",
 	"prioritySupport": "Prioritätssupport",
 	"moreBenefitsToBeAddedLater": "Weitere Vorteile folgen",
+	"isProMember": "Ist Pro-Mitglied",
+	"yes": "Ja",
+	"noProMember": "Nein, kein Pro-Mitglied",
+	"nickname": "Spitzname",
 	"notAuthenticated": "Nicht authentifiziert",
 	"proMember": "Pro-Mitglied",
 	"freeMember": "Kostenloses Mitglied",
 	"validUntil": "Gültig bis",
+	"remove": "Entfernen",
+	"imagePreviewDescription": "Bildvorschau",
 	"youSubscribedToFollowingBenefits": "Du hast folgende Vorteile abonniert:",
 	"goProToAccessTheseBenefits": "Pro-Abo abschließen um diese Vorteile zu nutzen",
 	"notAvailableOnWebApp": "Nicht in der Web-App verfügbar",
@@ -297,7 +303,5 @@
 	"subscriptionCancelledAccessWillRemainUntilExpiry": "Abo gekündigt. Zugriff bleibt bis zum Ablauf erhalten.",
 	"failedToUploadImage": "Bild konnte nicht hochgeladen werden",
 	"selectFromGallery": "Aus Galerie wählen",
-	"selectFromCamera": "Mit Kamera aufnehmen",
-	"remove": "Entfernen",
-	"imagePreviewDescription": "Bildvorschau"
+	"selectFromCamera": "Mit Kamera aufnehmen"
 }

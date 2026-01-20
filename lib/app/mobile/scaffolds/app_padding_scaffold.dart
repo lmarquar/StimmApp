@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stimmapp/core/constants/app_dimensions.dart';
 
-import '../widgets/unaffected_child_widget.dart';
-
 class AppPaddingScaffold extends StatelessWidget {
   const AppPaddingScaffold({
     super.key,
@@ -43,16 +41,7 @@ class AppPaddingScaffold extends StatelessWidget {
         mainAxisSize: mainAxisSize,
         children: List.generate(children!.length, (index) {
           Widget widget;
-          if (children!.elementAt(index) is UnaffectedChildWidget) {
-            widget = children!.elementAt(index);
-          } else {
-            widget = Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppDimensions.kAppHorizontalPadding,
-              ),
-              child: children!.elementAt(index),
-            );
-          }
+          widget = children!.elementAt(index);
           return widget;
         }),
       );
