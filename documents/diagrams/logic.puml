@@ -95,13 +95,7 @@ MediaSession ..> Notifications : system events
 ' -----------------
 ' Models (brief)
 ' -----------------
-class Track {
-  +id
-  +title
-  +filePath
-  +duration
-  +metadata
-}
+class Track {  +id  +title  +filePath  duration  +metadata }
 class User { +id +email +prefs }
 class Purchase { +productId +status +receipt }
 

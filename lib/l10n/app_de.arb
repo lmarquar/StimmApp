@@ -259,7 +259,7 @@
 	"dailyCreateLimitReached": "Du kannst pro Tag nur eine Petition und eine Umfrage veröffentlichen.",
 	"finishedForms": "Abgeschlossene Formulare",
 	"expiredCreations": "Abgelaufene Einträge",
-	"expiredPetitions": "Abgelaufene petitionen",
+	"expiredPetitions": "Abgelaufene Petitionen",
 	"expiredPolls": "Abgelaufene Umfragen",
 	"exportCsv": "CSV exportieren",
 	"noExpiredItems": "Keine abgelaufenen Einträge",
@@ -272,40 +272,4 @@
 	"noUsernameFound": "Kein Benutzername gefunden",
 	"noTitle": "Kein Titel",
 	"poll": "Umfrage",
-	"signedOn": "Eingeloggt seit",
-	"userNotFound": "Benutzer nicht gefunden.",
-	"customPetitionAndPollPictures": "Benutzerdefinierte Bilder für Petitionen und Umfragen",
-	"noAdvertisements": "Ohne Werbung",
-	"prioritySupport": "Priorisierter Support",
-	"moreBenefitsToBeAddedLater": "Weitere Vorteile werden später hinzugefügt",
-	"notAuthenticated": "Nicht authentifiziert",
-	"proMember": "Pro-Mitglied",
-	"freeMember": "Kostenloses Mitglied",
-	"validUntil": "Gültig bis: {date}",
-	"@validUntil": {
-		"type": "text",
-		"placeholders": {
-			"date": {
-				"type": "String"
-			}
-		}
-	},
-	"youSubscribedToFollowingBenefits": "Sie haben die folgenden Vorteile abonniert:",
-	"goProToAccessTheseBenefits": "Werde Pro, um auf diese Vorteile zuzugreifen",
-	"notAvailableOnWebApp": "Nicht in der Web-App verfügbar",
-	"signUpForPro": "Für Pro anmelden",
-	"couldNotOpenPaywall": "Die Paywall konnte nicht geöffnet werden.",
-	"resubscribe": "Erneut abonnieren",
-	"cancelSubscription": "Abonnement kündigen",
-	"userNotAvailable": "Benutzer nicht verfügbar",
-	"cancelProSubscription": "Pro-Abonnement kündigen",
-	"areYouSureYouWantToCancelYourProSubscription": "Sind Sie sicher, dass Sie Ihr Pro-Abonnement kündigen möchten?",
-	"no": "Nein",
-	"yesCancel": "Ja, kündigen",
-	"subscriptionCancelledAccessWillRemainUntilExpiry": "Abonnement gekündigt. Der Zugriff bleibt bis zum Ablaufdatum erhalten.",
-	"failedToUploadImage": "Bild konnte nicht hochgeladen werden.",
-	"selectFromGallery": "Aus Galerie auswählen",
-	"selectFromCamera": "Aus Kamera auswählen",
-	"remove": "Entfernen",
-	"imagePreviewDescription": "Bildvorschau. Tippen zum Bearbeiten oder Wischen zum Schließen."
 }
