@@ -11,6 +11,7 @@ import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
+import 'package:stimmapp/core/services/purchases_service.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
 import '../../../../../../core/notifiers/notifiers.dart';
@@ -168,21 +169,16 @@ class ProfileWidget extends StatelessWidget {
                           },
                         ),
 
-                        // _buildDetailTile(
-                        //   context,
-                        //   context.l10n.isProMember,
-                        //   userProfile.isPro == true
-                        //       ? context.l10n.yes
-                        //       : context.l10n.no,
-                        //   onTap: () {
-                        //     Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //         builder: (context) => MembershipStatusPage(),
-                        //       ),
-                        //     );
-                        //   },
-                        // ),
+                        _buildDetailTile(
+                          context,
+                          context.l10n.isProMember,
+                          userProfile.isPro == true
+                              ? context.l10n.yes
+                              : context.l10n.no,
+                          onTap: () {
+                            PurchasesService.instance.presentPaywall();
+                          },
+                        ),
                         if (userProfile.isAdmin) ...[
                           const SizedBox(height: 20.0),
                           PointingListTile(

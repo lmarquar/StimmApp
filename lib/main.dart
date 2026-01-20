@@ -46,9 +46,11 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   locator.init();
-  if (!kIsWeb) {
-    await PurchasesService.instance.init(apiKey: IConst.revenueCatApiKey);
-  }
+  await PurchasesService.instance.init(
+    apiKey: IConst.revenueCatApiKey,
+    appUserId: authService.currentUser?.uid,
+  );
+
   // Note: Only enable this for test builds
   if (!kIsWeb) {
     await authService.setSettings(appVerificationDisabledForTesting: true);

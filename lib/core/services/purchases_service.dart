@@ -46,6 +46,7 @@ class PurchasesService {
   /// Call this early in app startup.
   Future<void> init({required String apiKey, String? appUserId}) async {
     try {
+      await Purchases.setLogLevel(LogLevel.debug);
       await Purchases.configure(
         PurchasesConfiguration(apiKey)..appUserID = appUserId,
       );
