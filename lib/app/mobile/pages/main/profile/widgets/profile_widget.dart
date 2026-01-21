@@ -286,19 +286,6 @@ class ProfileWidget extends StatelessWidget {
                     );
                   },
                 ),
-                //   PointingListTile(
-                //     title: Text(context.l10n.membershipStatus),
-                //     onTap: () async {
-                //       Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //           builder: (context) {
-                //             return const MembershipStatusPage();
-                //           },
-                //         ),
-                //       );
-                //     },
-                //   ),
 
                 // Delete my account
                 PointingListTile(
