@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="feature-cloud_firestore">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/build/cloud_firestore/intermediates/merged_java_res/debug/mergeDebugJavaResource/feature-cloud_firestore.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

@@ -14,33 +14,29 @@ import android.util.Log
 import io.flutter.plugin.common.MethodCall
 import io.flutter.embedding.android.FlutterFragmentActivity
 
-
 class MainActivity : FlutterFragmentActivity() {
 	private val channel = "com.example.stimmapp/eid"
 
 	override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
 		super.configureFlutterEngine(flutterEngine)
+
 		fun processUserName(
 			call: MethodCall,
-			userName: String,
 			result: MethodChannel.Result
 		) {
-			// Your code here
-			var userName1 = userName
+			// Attempt to get the argument as a Map (this is the standard way Flutter sends data)
+			val arguments = call.arguments as? Map<String, Any>
+			val userName = arguments?.get("text") as? String ?: "defaultUser"
 
-			@Suppress("UNCHECKED_CAST")
-			val arguments = call.arguments as? List<Map<String, Any>> ?: emptyList()
-			userName1 = arguments.firstOrNull()?.get("text") as? String ?: "defaultUser"
-			println("Received userName::: $userName1")
-			val resultMap = mapOf("userName" to userName1)
+			println("Received userName::: $userName")
+
+			val resultMap = mapOf("userName" to userName)
 			result.success(resultMap)
 		}
 
 		MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channel).setMethodCallHandler { call, result ->
-			// This method is invoked on the main thread.
-			var userName = "defaultUser";
 			if (call.method == "passDataToNative") {
-				processUserName(call, userName, result)
+				processUserName(call, result)
 			} else {
 				result.notImplemented()
 			}

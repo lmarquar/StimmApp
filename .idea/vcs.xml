@@ -2,7 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper" vcs="Git" />
-    <mapping directory="$USER_HOME$/snap/flutter/common/flutter" vcs="Git" />
   </component>
 </project>

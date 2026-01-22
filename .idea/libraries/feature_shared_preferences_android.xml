@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="feature-shared_preferences_android">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/build/shared_preferences_android/intermediates/merged_java_res/debug/mergeDebugJavaResource/feature-shared_preferences_android.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

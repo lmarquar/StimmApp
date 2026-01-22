@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="feature-firebase_storage">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/build/firebase_storage/intermediates/merged_java_res/debug/mergeDebugJavaResource/feature-firebase_storage.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
