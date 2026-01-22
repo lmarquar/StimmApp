@@ -22,7 +22,7 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  static const platform = MethodChannel('com.example.stimmapp/eid');
+  static const platform = MethodChannel('de.lemarq.stimmapp/eid');
   final TextEditingController controllerPw = TextEditingController();
   final TextEditingController controllerEm = TextEditingController();
 

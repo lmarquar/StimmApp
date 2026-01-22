@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '223242419578',
     projectId: 'stimmapp-f0141',
     storageBucket: 'stimmapp-f0141.firebasestorage.app',
-    iosBundleId: 'com.example.stimmapp',
+    iosBundleId: 'de.lemarq.stimmapp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -73,7 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '223242419578',
     projectId: 'stimmapp-f0141',
     storageBucket: 'stimmapp-f0141.firebasestorage.app',
-    iosBundleId: 'com.example.stimmapp',
+    iosBundleId: 'de.lemarq.stimmapp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(

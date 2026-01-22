@@ -5,52 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0c6c051-a91e-427e-837d-d47ff1cdf585" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/AndroidProjectSystem.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/AndroidX_Core.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/AndroidX_Lifecycle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/CupertinoIcons_ttf.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_for_Android.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/MaterialIcons_Regular_otf.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/base.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/feature_cloud_firestore.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/feature_connectivity_plus.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/feature_firebase_auth.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/feature_firebase_core.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/feature_firebase_storage.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/feature_flutter_plugin_android_lifecycle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/feature_image_picker_android.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/feature_path_provider_android.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/feature_shared_preferences_android.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/flutter_assets.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/fonts.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/fonts2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/gradle_wrapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/images.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/libs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/lotties.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/out.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/shaders.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/android.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/main_dart.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/runWeb.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_13_01_26,_16_29_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/kotlin/com/example/stimmapp/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/kotlin/com/example/stimmapp/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/android/settings.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/external/AusweisApp-SDK-Wrapper" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,9 +19,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="38brkquQP9nFgIF0W6AfRYPuR0Y" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -87,6 +43,10 @@
     "git-widget-placeholder": "rev__cat",
     "io.flutter.project.isFirstOpen": "true",
     "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "/home/lmarquar/Code/stimmapp",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.lookFeel",
     "show.migrate.to.gradle.popup": "false"
   }

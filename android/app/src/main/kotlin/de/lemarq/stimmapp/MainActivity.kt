@@ -1,4 +1,4 @@
-package com.example.stimmapp
+package de.lemarq.stimmapp
 
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
@@ -15,7 +15,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.embedding.android.FlutterFragmentActivity
 
 class MainActivity : FlutterFragmentActivity() {
-	private val channel = "com.example.stimmapp/eid"
+	private val channel = "de.lemarq.stimmapp/eid"
 
 	override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
 		super.configureFlutterEngine(flutterEngine)
