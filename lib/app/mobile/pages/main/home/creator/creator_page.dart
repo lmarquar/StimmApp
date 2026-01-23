@@ -42,26 +42,28 @@ class _CreatorPageState extends State<CreatorPage> {
     }
   }
 
-  void _handlePetitionPressed() {
+  Future<void> _handlePetitionPressed() async {
     if (!_canCreatePetition) {
       showErrorSnackBar(context.l10n.dailyCreateLimitReached);
       return;
     }
-    Navigator.push(
+    await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const PetitionCreatorPage()),
     );
+    if (mounted) _loadStatus();
   }
 
-  void _handlePollPressed() {
+  Future<void> _handlePollPressed() async {
     if (!_canCreatePoll) {
       showErrorSnackBar(context.l10n.dailyCreateLimitReached);
       return;
     }
-    Navigator.push(
+    await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const PollCreatorPage()),
     );
+    if (mounted) _loadStatus();
   }
 
   @override

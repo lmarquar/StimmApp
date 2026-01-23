@@ -158,6 +158,7 @@ class _PollCreatorPageState extends State<PollCreatorPage> {
         setState(() {
           _isLoading = false;
         });
+        Navigator.of(context).pop();
       }
     }
   }

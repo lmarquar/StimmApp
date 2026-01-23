@@ -207,6 +207,7 @@ class _PetitionCreatorPageState extends State<PetitionCreatorPage> {
         setState(() {
           _isLoading = false;
         });
+        Navigator.of(context).pop();
       }
     }
   }

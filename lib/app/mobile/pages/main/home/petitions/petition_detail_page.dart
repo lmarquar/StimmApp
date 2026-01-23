@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stimmapp/app/mobile/pages/others/base_detail_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/home/base_detail_page.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 import 'package:stimmapp/core/data/repositories/petition_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
@@ -30,6 +30,7 @@ class PetitionDetailPage extends StatelessWidget {
         onAction: () async {
           final user = authService.currentUser!;
           await repo.sign(id, user.uid);
+          if (context.mounted) Navigator.pop(context);
         },
         successMessage: context.l10n.signed,
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stimmapp/app/mobile/pages/others/base_detail_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/home/base_detail_page.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
 import 'package:stimmapp/core/data/repositories/poll_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
@@ -59,6 +59,7 @@ class _PollDetailPageState extends State<PollDetailPage> {
           if (optionId == null) return;
           final user = authService.currentUser!;
           await repo.vote(pollId: widget.id, optionId: optionId, uid: user.uid);
+          if (context.mounted) Navigator.pop(context);
         },
         successMessage: context.l10n.voted,
       ),

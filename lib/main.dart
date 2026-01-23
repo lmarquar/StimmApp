@@ -31,8 +31,8 @@ import 'package:stimmapp/l10n/app_localizations.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
+  WidgetsFlutterBinding.ensureInitialized();
   debugPrint('App started with PathUrlStrategy');
 
   FlutterError.onError = (FlutterErrorDetails details) {
