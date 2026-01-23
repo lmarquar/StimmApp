@@ -117,3 +117,6 @@ app.*.symbols
 !/dev/ci/**/Gemfile.lock
 
 .vscode
+
+# Setup documents
+/documents/setup/
