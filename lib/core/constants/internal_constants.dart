@@ -10,6 +10,7 @@ class IConst {
   static const Color appColor = Colors.greenAccent;
   static const Color lightColor = Colors.blue;
 
+  static const String adminEmail = 'service@stimmapp.org';
   static const String supportEmail = 'support@stimmapp.org';
   static const String privacyPolicyUrl =
       'https://www.stimmapp.org/privacy-policy';

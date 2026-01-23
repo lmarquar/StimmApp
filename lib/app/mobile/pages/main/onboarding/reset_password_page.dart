@@ -45,28 +45,31 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return AppBottomBarButtons(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+    return Form(
+      child: AppBottomBarButtons(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+          ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 60.0),
-                Text(context.l10n.resetPassword, style: AppTextStyles.xxlBold),
-                const SizedBox(height: 20.0),
-                const Text('🔐', style: AppTextStyles.icons),
-                const SizedBox(height: 50),
-                Form(
-                  child: Center(
+        body: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 60.0),
+                  Text(
+                    context.l10n.resetPassword,
+                    style: AppTextStyles.xxlBold,
+                  ),
+                  const SizedBox(height: 20.0),
+                  const Text('🔐', style: AppTextStyles.icons),
+                  const SizedBox(height: 50),
+                  Center(
                     child: Column(
                       children: [
                         TextFormField(
@@ -94,28 +97,28 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
+        buttons: [
+          Builder(
+            builder: (context) {
+              return ButtonWidget(
+                isFilled: true,
+                label: context.l10n.resetPassword,
+                callback: () async {
+                  if (Form.of(context).validate()) {
+                    resetPassword();
+                    showSuccessSnackBar(context.l10n.resetPasswordLinkSent);
+                  }
+                },
+              );
+            },
+          ),
+        ],
       ),
-      buttons: [
-        Builder(
-          builder: (context) {
-            return ButtonWidget(
-              isFilled: true,
-              label: context.l10n.resetPassword,
-              callback: () async {
-                resetPassword();
-                if (Form.of(context).validate()) {
-                  showSuccessSnackBar(context.l10n.resetPasswordLinkSent);
-                }
-              },
-            );
-          },
-        ),
-      ],
     );
   }
 }

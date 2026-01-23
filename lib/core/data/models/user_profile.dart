@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:stimmapp/core/constants/internal_constants.dart';
 
 class UserProfile {
   final String uid;
@@ -28,7 +29,7 @@ class UserProfile {
   final String? address;
   final String? height;
 
-  bool get isAdmin => email == 'service@stimmapp.org';
+  bool get isAdmin => email == IConst.adminEmail;
 
   const UserProfile({
     required this.uid,
