@@ -64,3 +64,4 @@ export const checkSubscriptions = onSchedule("every day 00:00", async (event) =>
 });
 
 export * from './user_cleanup';
+export * from './admin';

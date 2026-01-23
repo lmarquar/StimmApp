@@ -48,6 +48,8 @@ class ProfileWidget extends StatelessWidget {
       }
     }
 
+    final currentUser = authService.currentUser;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: AppPaddingScaffold(
@@ -55,10 +57,8 @@ class ProfileWidget extends StatelessWidget {
         children: [
           const SizedBox(height: 10.0),
           StreamBuilder<UserProfile?>(
-            stream: authService.currentUser != null
-                ? UserRepository.create().watchById(
-                    authService.currentUser!.uid,
-                  )
+            stream: currentUser != null
+                ? UserRepository.create().watchById(currentUser.uid)
                 : null,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

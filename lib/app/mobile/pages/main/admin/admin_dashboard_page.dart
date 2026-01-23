@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/models/poll.dart';
@@ -28,11 +29,7 @@ class AdminDashboardPage extends StatelessWidget {
           ),
         ),
         body: const TabBarView(
-          children: [
-            UserListTab(),
-            PollListTab(),
-            PetitionListTab(),
-          ],
+          children: [UserListTab(), PollListTab(), PetitionListTab()],
         ),
       ),
     );
@@ -48,7 +45,9 @@ class UserListTab extends StatelessWidget {
     return StreamBuilder<List<UserProfile>>(
       stream: repo.watchAll(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
         final users = snapshot.data!;
         return ListView.builder(
           itemCount: users.length,
@@ -75,14 +74,26 @@ class UserListTab extends StatelessWidget {
         title: Text(context.l10n.deleteUser),
         content: Text(context.l10n.areYouSureYouWantToDeleteThisUser),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text(context.l10n.cancel)),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(context.l10n.cancel),
+          ),
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
-              await UserRepository.create().delete(user.uid);
-              if (context.mounted) showSuccessSnackBar(context.l10n.deleted);
+              try {
+                await FirebaseFunctions.instance
+                    .httpsCallable('deleteUserByAdmin')
+                    .call({'uid': user.uid});
+                if (context.mounted) showSuccessSnackBar(context.l10n.deleted);
+              } catch (e) {
+                if (context.mounted) showErrorSnackBar(e.toString());
+              }
             },
-            child: Text(context.l10n.deletePermanently, style: const TextStyle(color: Colors.red)),
+            child: Text(
+              context.l10n.deletePermanently,
+              style: const TextStyle(color: Colors.red),
+            ),
           ),
         ],
       ),
@@ -99,7 +110,9 @@ class PollListTab extends StatelessWidget {
     return StreamBuilder<List<Poll>>(
       stream: repo.list(status: IConst.active),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
         final polls = snapshot.data!;
         return ListView.builder(
           itemCount: polls.length,
@@ -126,14 +139,20 @@ class PollListTab extends StatelessWidget {
         title: Text(context.l10n.deletePoll),
         content: Text(context.l10n.areYouSureYouWantToDeleteThisPoll),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text(context.l10n.cancel)),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(context.l10n.cancel),
+          ),
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
               await PollRepository.create().delete(poll.id);
               if (context.mounted) showSuccessSnackBar(context.l10n.deleted);
             },
-            child: Text(context.l10n.deletePermanently, style: const TextStyle(color: Colors.red)),
+            child: Text(
+              context.l10n.deletePermanently,
+              style: const TextStyle(color: Colors.red),
+            ),
           ),
         ],
       ),
@@ -150,7 +169,9 @@ class PetitionListTab extends StatelessWidget {
     return StreamBuilder<List<Petition>>(
       stream: repo.list(status: IConst.active),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
         final petitions = snapshot.data!;
         return ListView.builder(
           itemCount: petitions.length,
@@ -177,14 +198,20 @@ class PetitionListTab extends StatelessWidget {
         title: Text(context.l10n.deletePetition),
         content: Text(context.l10n.areYouSureYouWantToDeleteThisPetition),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text(context.l10n.cancel)),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(context.l10n.cancel),
+          ),
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
               await PetitionRepository.create().delete(petition.id);
               if (context.mounted) showSuccessSnackBar(context.l10n.deleted);
             },
-            child: Text(context.l10n.deletePermanently, style: const TextStyle(color: Colors.red)),
+            child: Text(
+              context.l10n.deletePermanently,
+              style: const TextStyle(color: Colors.red),
+            ),
           ),
         ],
       ),

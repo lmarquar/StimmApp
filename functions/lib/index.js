@@ -89,4 +89,5 @@ exports.checkSubscriptions = (0, scheduler_1.onSchedule)("every day 00:00", asyn
     console.log(`Subscription check complete. Revoked ${revokedCount} memberships.`);
 });
 __exportStar(require("./user_cleanup"), exports);
+__exportStar(require("./admin"), exports);
 //# sourceMappingURL=index.js.map
