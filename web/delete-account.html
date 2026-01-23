@@ -25,47 +25,145 @@
 			margin-top: 20px;
 		}
 
-		code {
-			background: #f4f4f4;
-			padding: 2px 5px;
-			border-radius: 3px;
+		.form-group {
+			margin-bottom: 15px;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: bold;
+		}
+
+		input {
+			width: 100%;
+			padding: 8px;
+			box-sizing: border-box;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+		}
+
+		button {
+			background-color: #e74c3c;
+			color: white;
+			padding: 10px 15px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 16px;
+		}
+
+		button:hover {
+			background-color: #c0392b;
+		}
+
+		button:disabled {
+			background-color: #ccc;
+			cursor: not-allowed;
+		}
+
+		.error {
+			color: #e74c3c;
+			background-color: #fadbd8;
+			padding: 10px;
+			border-radius: 4px;
+			margin-bottom: 15px;
+			display: none;
 		}
 	</style>
 </head>
 
 <body>
-	<h1>Löschen Ihres StimmApp-Kontos</h1>
-	<p>Wir bedauern, dass Sie uns verlassen möchten. Gemäß den Google Play-Richtlinien stellen wir Ihnen hier eine
-		Möglichkeit zur Verfügung, die Löschung Ihres Kontos und der damit verbundenen Daten zu beantragen.</p>
+	<div id="content">
+		<h1>Löschen Ihres StimmApp-Kontos</h1>
+		<p>Bitte melden Sie sich an, um Ihr Konto und alle zugehörigen Daten unwiderruflich zu löschen.</p>
 
-	<h2>So beantragen Sie die Löschung</h2>
-	<p>Da die StimmApp aktuell keine vollautomatische Löschfunktion innerhalb der App bietet, bitten wir Sie, die
-		Löschung manuell per E-Mail zu beantragen:</p>
-	<ol>
-		<li>Senden Sie eine E-Mail an: <strong>support@stimmapp.de</strong> (Bitte ersetzen Sie dies durch Ihre
-			tatsächliche Support-E-Mail-Adresse).</li>
-		<li>Verwenden Sie den Betreff: <code>Konto löschen - [Ihr Benutzername/Ihre ID]</code>.</li>
-		<li>Senden Sie die E-Mail bitte von der Adresse, die mit Ihrem Konto verknüpft ist (z.B. BundID/e-ID verknüpfte
-			E-Mail), damit wir Sie als Kontoinhaber verifizieren können.</li>
-	</ol>
+		<div id="error-message" class="error"></div>
 
-	<h2>Welche Daten werden gelöscht?</h2>
-	<p>Wenn Ihr Konto gelöscht wird, entfernen wir folgende Daten dauerhaft:</p>
-	<ul>
-		<li>Ihre Profilinformationen und Anmeldedaten.</li>
-		<li>Ihre Verknüpfungen zu Petitionen und Umfragen.</li>
-		<li>Ihre Liste der abonnierten Kanäle.</li>
-	</ul>
+		<form id="delete-form">
+			<div class="form-group">
+				<label for="email">E-Mail</label>
+				<input type="email" id="email" required>
+			</div>
+			<div class="form-group">
+				<label for="password">Passwort</label>
+				<input type="password" id="password" required>
+			</div>
+			<p class="warning">Hinweis: Die Löschung Ihres Kontos ist endgültig und kann nicht rückgängig gemacht
+				werden.</p>
+			<button type="submit" id="delete-btn">Konto unwiderruflich löschen</button>
+		</form>
+	</div>
 
-	<h2>Welche Daten werden aufbewahrt?</h2>
-	<p>Einige Daten müssen wir möglicherweise für einen begrenzten Zeitraum aufbewahren:</p>
-	<ul>
-		<li>Anonymisierte Abstimmungsdaten (um die Integrität von Petitionen zu wahren).</li>
-		<li>Technische Protokolle zur Sicherheit und Betrugsprävention (werden nach gesetzlichen Fristen automatisch
-			gelöscht).</li>
-	</ul>
+	<div id="success-message" style="display: none; text-align: center;">
+		<h1>Konto gelöscht</h1>
+		<p>Ihr Konto wurde erfolgreich gelöscht. Wir bedauern, dass Sie uns verlassen.</p>
+	</div>
 
-	<p class="warning">Hinweis: Die Löschung Ihres Kontos ist endgültig und kann nicht rückgängig gemacht werden.</p>
+	<script type="module">
+		import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+		import { getAuth, signInWithEmailAndPassword, deleteUser } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+		// TODO: Ersetzen Sie dies durch Ihre Firebase-Konfiguration
+		// Sie finden diese in der Firebase Console unter Projekteinstellungen > Allgemein > Ihre Apps > SDK-Einrichtung und Konfiguration
+		const firebaseConfig = {
+			apiKey: "AIzaSyD8neBcTS2fkkRJf_GG-l4hD5dGArstQW8",
+			authDomain: "stimmapp-f0141.firebaseapp.com",
+			projectId: "stimmapp-f0141",
+			storageBucket: "stimmapp-f0141.appspot.com",
+			messagingSenderId: "223242419578",
+			appId: "1:223242419578:web:5c0bac160b62f35888aac3"
+		};
+
+		const app = initializeApp(firebaseConfig);
+		const auth = getAuth(app);
+
+		const form = document.getElementById('delete-form');
+		const emailInput = document.getElementById('email');
+		const passwordInput = document.getElementById('password');
+		const deleteBtn = document.getElementById('delete-btn');
+		const errorMessage = document.getElementById('error-message');
+		const contentDiv = document.getElementById('content');
+		const successDiv = document.getElementById('success-message');
+
+		form.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			errorMessage.style.display = 'none';
+			deleteBtn.disabled = true;
+			deleteBtn.textContent = 'Wird gelöscht...';
+
+			const email = emailInput.value;
+			const password = passwordInput.value;
+
+			try {
+				const userCredential = await signInWithEmailAndPassword(auth, email, password);
+				const user = userCredential.user;
+				await deleteUser(user);
+
+				contentDiv.style.display = 'none';
+				successDiv.style.display = 'block';
+			} catch (error) {
+				console.error("Error deleting account:", error);
+				errorMessage.textContent = "Fehler: " + getErrorMessage(error.code);
+				errorMessage.style.display = 'block';
+				deleteBtn.disabled = false;
+				deleteBtn.textContent = 'Konto unwiderruflich löschen';
+			}
+		});
+
+		function getErrorMessage(code) {
+			switch (code) {
+				case 'auth/invalid-credential':
+				case 'auth/wrong-password':
+				case 'auth/user-not-found':
+					return "E-Mail oder Passwort ist falsch.";
+				case 'auth/too-many-requests':
+					return "Zu viele Versuche. Bitte versuchen Sie es später erneut.";
+				default:
+					return "Ein unbekannter Fehler ist aufgetreten (" + code + ").";
+			}
+		}
+	</script>
 </body>
 
 </html>
