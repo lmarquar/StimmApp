@@ -8,7 +8,7 @@
 .history
 
 # Things to keep private
-/documents/setup
+/documents/setup/
 
 # Flutter repo-specific
 /bin/cache/
