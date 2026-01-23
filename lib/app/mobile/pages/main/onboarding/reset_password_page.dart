@@ -113,6 +113,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     resetPassword();
                     showSuccessSnackBar(context.l10n.resetPasswordLinkSent);
                   }
+                  Navigator.of(context).pop();
                 },
               );
             },

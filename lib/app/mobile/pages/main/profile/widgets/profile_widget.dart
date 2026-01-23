@@ -55,9 +55,11 @@ class ProfileWidget extends StatelessWidget {
         children: [
           const SizedBox(height: 10.0),
           StreamBuilder<UserProfile?>(
-            stream: UserRepository.create().watchById(
-              authService.currentUser!.uid,
-            ),
+            stream: authService.currentUser != null
+                ? UserRepository.create().watchById(
+                    authService.currentUser!.uid,
+                  )
+                : null,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
