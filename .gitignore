@@ -120,3 +120,6 @@ app.*.symbols
 
 # Setup documents
 /documents/setup/
+
+# Firebase cache
+/.firebase/
