@@ -6,11 +6,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stimmapp/app/mobile/layout/init_app_layout.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/petitions/petition_detail_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/polls/poll_detail_page.dart';
-import 'package:stimmapp/app/mobile/pages/main/profile/delete_account_page.dart';
+import 'package:stimmapp/delete_account_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/app_loading_page.dart';
 import 'package:stimmapp/services/ad_service.dart';
 import 'package:stimmapp/core/constants/internal_constants.dart';
@@ -31,6 +32,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  usePathUrlStrategy();
 
   FlutterError.onError = (FlutterErrorDetails details) {
     errorLogTool(
