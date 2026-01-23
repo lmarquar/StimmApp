@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stimmapp/app/mobile/layout/init_app_layout.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/petitions/petition_detail_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/polls/poll_detail_page.dart';
+import 'package:stimmapp/app/mobile/pages/main/profile/delete_account_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/app_loading_page.dart';
 import 'package:stimmapp/services/ad_service.dart';
 import 'package:stimmapp/core/constants/internal_constants.dart';
@@ -194,6 +195,7 @@ class _MyAppState extends State<MyApp> {
                       ModalRoute.of(ctx)?.settings.arguments as String?;
                   return PollDetailPage(id: args ?? '');
                 },
+                '/delete_account': (context) => const DeleteAccountPage(),
               },
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
