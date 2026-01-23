@@ -1,5 +1,5 @@
 # StimmApp
-eine App die politische Volksentscheide vereinfachen soll. Auf städtischer, Bundes- und Landesebene.
+eine App die politische Volksentscheide vereinfachen soll. Auf Bundes- und Landesebene.
 
 ![photo_2025-11-25_20-06-03](https://github.com/user-attachments/assets/c36ef5fb-a589-49cd-bdec-1a949d799bbc)
 
