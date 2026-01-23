@@ -1,9 +1,9 @@
-import * as functions from 'firebase-functions';
+import { onSchedule } from "firebase-functions/v2/scheduler";
 import * as admin from 'firebase-admin';
 
 admin.initializeApp();
 
-export const checkSubscriptions = functions.pubsub.schedule('every day 00:00').onRun(async (context) => {
+export const checkSubscriptions = onSchedule("every day 00:00", async (event) => {
 	const db = admin.firestore();
 	const now = new Date();
 
@@ -61,5 +61,6 @@ export const checkSubscriptions = functions.pubsub.schedule('every day 00:00').o
 	}
 
 	console.log(`Subscription check complete. Revoked ${revokedCount} memberships.`);
-	return null;
 });
+
+export * from './user_cleanup';

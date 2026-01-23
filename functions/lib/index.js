@@ -32,12 +32,15 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkSubscriptions = void 0;
-const functions = __importStar(require("firebase-functions"));
+const scheduler_1 = require("firebase-functions/v2/scheduler");
 const admin = __importStar(require("firebase-admin"));
 admin.initializeApp();
-exports.checkSubscriptions = functions.pubsub.schedule('every day 00:00').onRun(async (context) => {
+exports.checkSubscriptions = (0, scheduler_1.onSchedule)("every day 00:00", async (event) => {
     const db = admin.firestore();
     const now = new Date();
     // Query all users who are currently Pro
@@ -84,6 +87,6 @@ exports.checkSubscriptions = functions.pubsub.schedule('every day 00:00').onRun(
         await batch.commit();
     }
     console.log(`Subscription check complete. Revoked ${revokedCount} memberships.`);
-    return null;
 });
+__exportStar(require("./user_cleanup"), exports);
 //# sourceMappingURL=index.js.map
