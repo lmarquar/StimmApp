@@ -33,6 +33,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
+  debugPrint('App started with PathUrlStrategy');
 
   FlutterError.onError = (FlutterErrorDetails details) {
     errorLogTool(
