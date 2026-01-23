@@ -7,9 +7,6 @@
 .buildlog/
 .history
 
-# Things to keep private
-/documents/setup/
-
 # Flutter repo-specific
 /bin/cache/
 /bin/internal/bootstrap.bat
