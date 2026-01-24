@@ -27,20 +27,17 @@ class ProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void popUntilLast() {
-      if (context.mounted) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
-      }
-    }
-
     void logout() async {
       try {
         // Pop the dialog first if it's showing
-        popUntilLast();
         await authService.signOut();
         AppData.isAuthConnected.value = false;
         AppData.navBarCurrentIndexNotifier.value = 0;
         AppData.onboardingCurrentIndexNotifier.value = 0;
+        if (context.mounted) {
+          Navigator.of(context).pop();
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        }
       } on AuthException catch (e) {
         if (context.mounted) {
           showErrorSnackBar(e.message);
@@ -278,7 +275,7 @@ class ProfileWidget extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () {
-                                popUntilLast();
+                                Navigator.pop(context);
                               },
                               child: Text(context.l10n.cancel),
                             ),

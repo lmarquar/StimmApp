@@ -18,10 +18,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  void popUntilLast() {
-    Navigator.of(context).popUntil((route) => route.isFirst);
-  }
-
   TextEditingController controller = TextEditingController();
   bool isChecked = false;
   bool isSwitched = false;

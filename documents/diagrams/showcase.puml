@@ -1,0 +1,75 @@
+@startuml stimmapp_showcase
+title StimmApp - System Architecture
+
+skinparam componentStyle uml2
+
+actor "User" as User
+actor "Admin" as Admin
+
+package "Mobile Device" {
+    component "StimmApp (Flutter)" as App {
+        [Creator Studio]
+        [Feed (Polls/Petitions)]
+        [Profile & Settings]
+        [Admin Dashboard]
+    }
+}
+
+package "Web" {
+    component "Delete Account Page" as WebDelete
+}
+
+package "External Services" {
+    component "RevenueCat" as RC
+}
+
+package "Firebase Backend" {
+    component "Authentication" as Auth
+    database "Firestore DB" as DB
+    storage "File Storage" as Storage
+    component "Hosting" as Hosting
+    
+    package "Cloud Functions" {
+        control "checkSubscriptions\n(Daily Schedule)" as FuncSub
+        control "onAccountDelete\n(Trigger)" as FuncCleanup
+        control "deleteUserByAdmin\n(Callable)" as FuncAdmin
+    }
+}
+
+' Relationships
+User --> App : Uses
+Admin --> App : Manages via Dashboard
+User --> WebDelete : Requests Deletion (Browser)
+
+' App Interactions
+App --> Auth : Login / Register
+App --> DB : Read/Write Petitions, Polls, Profiles
+App --> Storage : Upload Images
+App --> RC : Purchase Pro Membership
+App --> FuncAdmin : Call (Admin Only)
+
+' Web Interactions
+Hosting --> WebDelete : Serves
+WebDelete --> Auth : Authenticate & Delete User
+
+' Cloud Function Logic
+FuncSub --> DB : Revoke expired Pro status
+FuncCleanup --> DB : Delete User Data (Cascading)
+FuncCleanup --> Storage : Delete User Images
+FuncAdmin --> Auth : Delete Auth User
+FuncAdmin --> DB : Delete User Document
+
+' Triggers
+Auth ..> FuncCleanup : Triggers on User Deletion
+
+note top of [Creator Studio]
+  Enforces daily creation limits
+  (Petitions/Polls)
+end note
+
+note top of [FuncSub]
+  Runs every day at 00:00
+  Checks 'wentProAt' vs 30 days
+end note
+
+@enduml

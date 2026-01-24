@@ -14,7 +14,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/url_launcher_linux-3.2.2" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_web-5.1.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/file_selector_linux-0.9.4" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-3.3.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/share_plus-12.0.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.18" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/google_mlkit_commons-0.7.1" />
@@ -24,7 +23,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/google_mobile_ads-7.0.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_linux-2.4.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker-1.2.1" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-4.3.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider-2.1.5" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/shared_preferences_windows-2.4.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/connectivity_plus-6.1.5" />
@@ -43,6 +41,10 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.13+3" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_for_web-3.1.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/purchases_flutter-9.10.7" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-3.4.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_functions-6.0.6" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-4.4.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_functions_web-5.1.2" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

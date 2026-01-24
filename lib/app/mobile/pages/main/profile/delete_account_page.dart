@@ -161,7 +161,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                       ),
                       TextButton(
                         onPressed: () {
-                          popUntilLast();
+                          Navigator.pop(context);
                         },
                         child: Text(context.l10n.cancel),
                       ),
