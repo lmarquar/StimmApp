@@ -3,12 +3,16 @@ import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:google_places_flutter/google_places_flutter.dart';
+import 'package:google_places_flutter/model/prediction.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/widget_tree.dart';
+import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
+import 'package:stimmapp/core/data/firebase/firebase_options.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
@@ -16,7 +20,7 @@ import 'package:stimmapp/core/data/services/database_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
-import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart'; // Assuming this is needed for bottom buttons
+import 'package:stimmapp/core/theme/app_text_styles.dart';
 
 class SetUserDetailsPage extends StatefulWidget {
   const SetUserDetailsPage({super.key});
@@ -224,17 +228,45 @@ class _SetUserDetailsPageState extends State<SetUserDetailsPage> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    TextFormField(
-                      controller: controllerAddress,
-                      decoration: InputDecoration(
+                    GooglePlaceAutoCompleteTextField(
+                      textEditingController: controllerAddress,
+                      googleAPIKey:
+                          DefaultFirebaseOptions.currentPlatform.apiKey,
+                      inputDecoration: InputDecoration(
                         labelText: context.l10n.address,
+                        border: const OutlineInputBorder(),
                       ),
-                      validator: (String? value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return context.l10n.enterSomething;
-                        }
-                        return null;
+                      countries: const ["de"],
+                      isLatLngRequired: true,
+                      getPlaceDetailWithLatLng: (Prediction prediction) {},
+                      debounceTime: 600,
+                      itemClick: (Prediction prediction) {
+                        controllerAddress.text = prediction.description ?? "";
+                        controllerAddress.selection =
+                            TextSelection.fromPosition(
+                              TextPosition(
+                                offset: prediction.description?.length ?? 0,
+                              ),
+                            );
                       },
+                      itemBuilder: (context, index, prediction) {
+                        return Container(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.location_on),
+                              const SizedBox(width: 7),
+                              Expanded(
+                                child: Text(
+                                  prediction.description ?? "",
+                                  style: AppTextStyles.m,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      seperatedBuilder: const Divider(),
                     ),
                     const SizedBox(height: 10),
                   ],
@@ -246,18 +278,22 @@ class _SetUserDetailsPageState extends State<SetUserDetailsPage> {
                 isFilled: true,
                 label: context.l10n.save,
                 callback: () {
-                  if (Form.of(context).validate()) {
-                    _saveUserDetails();
-                  } else {
-                    showErrorSnackBar(errorMessage);
+                  if (controllerAddress.text.trim().isEmpty) {
+                    showErrorSnackBar(context.l10n.enterSomething);
+                    return;
                   }
-                  if (mounted) {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => const WidgetTree(),
-                      ),
-                      (route) => false,
-                    );
+                  if (!Form.of(context).validate()) {
+                    showErrorSnackBar(errorMessage);
+                  } else {
+                    _saveUserDetails();
+                    if (mounted) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => const WidgetTree(),
+                        ),
+                        (route) => false,
+                      );
+                    }
                   }
                 },
               ),

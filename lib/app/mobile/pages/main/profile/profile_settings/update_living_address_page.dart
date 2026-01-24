@@ -138,6 +138,10 @@ class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage>
           isFilled: true,
           label: context.l10n.confirm,
           callback: () async {
+            if (_controllerAddress.text.trim().isEmpty) {
+              showErrorSnackBar(context.l10n.enterSomething);
+              return;
+            }
             if (_formKey.currentState!.validate()) {
               final successMessage = context.l10n.addressUpdatedSuccessfully;
               try {

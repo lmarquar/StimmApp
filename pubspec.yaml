@@ -59,7 +59,6 @@ dependencies:
   firebase_storage: ^13.0.5
   path_provider: ^2.1.5
   universal_io: ^2.3.1
-  google_places_flutter: ^2.1.0
   share_plus: ^12.0.1
   purchases_flutter: ^9.10.7
   purchases_ui_flutter: ^9.10.7
