@@ -11,9 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stimmapp/app/mobile/layout/init_app_layout.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/petitions/petition_detail_page.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/polls/poll_detail_page.dart';
-import 'package:stimmapp/delete_account_page.dart';
 import 'package:stimmapp/app/mobile/pages/others/app_loading_page.dart';
-import 'package:stimmapp/services/ad_service.dart';
 import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/di/service_locator.dart';
 import 'package:stimmapp/core/data/firebase/firebase_options.dart';
@@ -26,12 +24,16 @@ import 'package:stimmapp/core/notifiers/app_state_notifier.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
 import 'package:stimmapp/core/services/purchases_service.dart';
 import 'package:stimmapp/core/theme/app_theme.dart';
+import 'package:stimmapp/delete_account_page.dart';
 import 'package:stimmapp/l10n/app_localizations.dart';
+import 'package:stimmapp/services/ad_service.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
-  usePathUrlStrategy();
+  if (kIsWeb) {
+    usePathUrlStrategy();
+  }
   WidgetsFlutterBinding.ensureInitialized();
   debugPrint('App started with PathUrlStrategy');
 

@@ -1,4 +1,4 @@
-package de.lemarq.stimmapp;
+package de.lemarq.stimmapp; 
 import androidx.test.platform.app.InstrumentationRegistry;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,13 +15,10 @@ public class MainActivityTest {
         instrumentation.waitForPatrolAppService();
         return instrumentation.listDartTests();
     }
-
     public MainActivityTest(String dartTestName) {
         this.dartTestName = dartTestName;
     }
-
     private final String dartTestName;
-
     @Test
     public void runDartTest() {
         PatrolJUnitRunner instrumentation = (PatrolJUnitRunner) InstrumentationRegistry.getInstrumentation();
