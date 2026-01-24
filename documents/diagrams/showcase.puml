@@ -67,7 +67,7 @@ note top of [Creator Studio]
   (Petitions/Polls)
 end note
 
-note top of [FuncSub]
+note top of FuncSub
   Runs every day at 00:00
   Checks 'wentProAt' vs 30 days
 end note

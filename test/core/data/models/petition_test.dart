@@ -1,6 +1,6 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/models/petition.dart';
 
@@ -30,6 +30,7 @@ void main() {
       'status': 'active',
       'titleLowercase': 'test petition',
       'state': null,
+      'imageUrl': null,
     };
 
     test(

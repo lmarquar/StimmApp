@@ -12,6 +12,7 @@ void main() {
       email: 'test@example.com',
       createdAt: timestamp.toDate(),
       updatedAt: timestamp.toDate(),
+      isPro: false,
     );
 
     final userProfileJson = {

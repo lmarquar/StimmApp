@@ -8,12 +8,24 @@ import 'package:stimmapp/core/data/di/service_locator.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
 
 class ProfilePictureService {
-  ProfilePictureService._(this._firestoreService);
+  ProfilePictureService._(this._firestoreService, [FirebaseStorage? storage])
+    : _storage = storage ?? FirebaseStorage.instance;
+
   static final ProfilePictureService instance = ProfilePictureService._(
     locator.databaseService,
   );
 
+  /// Factory for tests to provide a mock storage.
+  @visibleForTesting
+  static ProfilePictureService createForTest({
+    required DatabaseService databaseService,
+    required FirebaseStorage storage,
+  }) {
+    return ProfilePictureService._(databaseService, storage);
+  }
+
   final DatabaseService _firestoreService;
+  final FirebaseStorage _storage;
 
   // Notifier that UI can listen to
   final ValueNotifier<String?> profileUrlNotifier = ValueNotifier<String?>(
@@ -52,7 +64,7 @@ class ProfilePictureService {
     XFile file, {
     void Function(double progress)? onProgress,
   }) async {
-    final ref = FirebaseStorage.instance.ref('users/$uid/profile.jpg');
+    final ref = _storage.ref('users/$uid/profile.jpg');
     final metadata = SettableMetadata(contentType: 'image/jpeg');
 
     final uploadTask = kIsWeb
@@ -86,7 +98,7 @@ class ProfilePictureService {
 
   Future<void> deleteProfilePicture(String uid) async {
     try {
-      final ref = FirebaseStorage.instance.ref('users/$uid/profile.jpg');
+      final ref = _storage.ref('users/$uid/profile.jpg');
       await ref.delete();
     } catch (e) {
       // If the file doesn't exist, we don't care
@@ -102,7 +114,7 @@ class ProfilePictureService {
     void Function(double progress)? onProgress,
   }) async {
     final fileName = isFront ? 'id_front.jpg' : 'id_back.jpg';
-    final ref = FirebaseStorage.instance.ref('users/$uid/$fileName');
+    final ref = _storage.ref('users/$uid/$fileName');
     final metadata = SettableMetadata(contentType: 'image/jpeg');
 
     final uploadTask = kIsWeb

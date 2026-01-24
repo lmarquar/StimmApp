@@ -40,9 +40,8 @@ class ServiceLocator {
   }
 
   @visibleForTesting
-  void setAuthForTest(FirebaseAuth auth) {
-    _auth = auth;
-    _authService = auth_glob.authService;
+  void setStorageForTest(FirebaseStorage storage) {
+    _storageService = StorageService(storage);
   }
 }
 

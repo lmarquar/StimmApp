@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:stimmapp/core/data/models/user_profile.dart';
-import 'package:stimmapp/core/data/di/service_locator.dart';
 import 'package:stimmapp/core/constants/database_collections.dart';
+import 'package:stimmapp/core/data/di/service_locator.dart';
+import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
-import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 
 import 'petition_repository.dart';
 import 'poll_repository.dart';
@@ -60,7 +59,13 @@ class UserRepository {
     await _fs.delete(_doc(uid));
 
     // Delete profile picture from storage
-    await ProfilePictureService.instance.deleteProfilePicture(uid);
+    try {
+      await locator.storageService.deleteProfilePicture(uid);
+    } catch (e) {
+      // In tests where Firebase Storage might not be initialized, or if it fails,
+      // we log but don't fail the whole user deletion.
+      print('Error deleting profile picture: $e');
+    }
 
     // Close polls and petitions created by this user
     await pollRepo.closePollsCreatedByUser(uid);

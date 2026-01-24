@@ -1,60 +1,61 @@
 @startuml Logic
+allow_mixing
 
 ' -----------------
 ' Component overview
 ' -----------------
 package "UI Layer" {
-  [App]
-  [OnboardingVC]
-  [HomeVC]
-  [RecorderVC]
-  [PlayerVC]
-  [LibraryVC]
-  [SettingsVC]
+  component AppVC
+  component OnboardingVC
+  component HomeVC
+  component RecorderVC
+  component PlayerVC
+  component LibraryVC
+  component SettingsVC
 }
 
 package "ViewModels" {
-  [OnboardingVM]
-  [HomeVM]
-  [RecorderVM]
-  [PlayerVM]
-  [LibraryVM]
-  [SettingsVM]
+  component OnboardingVM
+  component HomeVM
+  component RecorderVM
+  component PlayerVM
+  component LibraryVM
+  component SettingsVM
 }
 
 package "UseCases / Interactors" {
-  [RecordUseCase]
-  [SaveTrackUseCase]
-  [PlaybackUseCase]
-  [FetchLibraryUseCase]
-  [PurchaseUseCase]
-  [AuthUseCase]
+  component RecordUseCase
+  component SaveTrackUseCase
+  component PlaybackUseCase
+  component FetchLibraryUseCase
+  component PurchaseUseCase
+  component AuthUseCase
 }
 
 package "Repositories" {
-  [TrackRepo]
-  [UserRepo]
-  [PurchaseRepo]
-  [RemoteAPI]
+  component TrackRepo
+  component UserRepo
+  component PurchaseRepo
+  component RemoteAPI
 }
 
 package "Services" {
-  [AudioEngine]
-  [FileStore]
-  [MediaSession]
-  [NetworkService]
-  [RevenueCatService]
-  [Notifications]
+  component AudioEngine
+  component FileStore
+  component MediaSession
+  component NetworkService
+  component RevenueCatService
+  component Notifications
 }
 
 package "Persistence" {
-  [LocalDB]
-  [FileSystem]
+  component LocalDB
+  component FileSystem
 }
 
 ' Dependencies (UI -> VM -> UseCase -> Repo -> Services -> Persistence)
-App --> OnboardingVC
-App --> HomeVC
+AppVC --> OnboardingVC
+AppVC --> HomeVC
 
 OnboardingVC --> OnboardingVM
 HomeVC --> HomeVM
@@ -89,15 +90,29 @@ RemoteAPI --> NetworkService
 AudioEngine --> FileSystem
 FileStore --> FileSystem
 
-Notifications ..> App : informs
+Notifications ..> AppVC : informs
 MediaSession ..> Notifications : system events
 
 ' -----------------
 ' Models (brief)
 ' -----------------
-class Track {  +id  +title  +filePath  duration  +metadata }
-class User { +id +email +prefs }
-class Purchase { +productId +status +receipt }
+class Track {
+  +id
+  +title
+  +filePath
+  duration
+  +metadata
+}
+class User {
+  +id
+  +email
+  +prefs
+}
+class Purchase {
+  +productId
+  +status
+  +receipt
+}
 
 TrackRepo .. Track
 UserRepo .. User
@@ -106,7 +121,7 @@ PurchaseRepo .. Purchase
 ' -----------------
 ' Sequence: Recording flow
 ' -----------------
-== Recording ==
+' == Recording ==
 actor User
 User -> RecorderVC : tap Record
 RecorderVC -> RecorderVM : startRecording()
@@ -127,7 +142,7 @@ RecorderVM --> RecorderVC : notifySaved()
 ' -----------------
 ' Sequence: Playback flow
 ' -----------------
-== Playback ==
+' == Playback ==
 User -> PlayerVC : play(trackId)
 PlayerVC -> PlayerVM : play(trackId)
 PlayerVM -> PlaybackUseCase : prepare(trackId)
@@ -141,7 +156,7 @@ PlayerVM -> PlayerVC : updateUI(state)
 ' -----------------
 ' Sequence: Purchase / Subscription flow (RevenueCat)
 ' -----------------
-== Purchase / Subscription ==
+' == Purchase / Subscription ==
 User -> SettingsVC : tap Subscribe
 SettingsVC -> SettingsVM : purchase(productId)
 SettingsVM -> PurchaseUseCase : purchase(productId)
@@ -157,8 +172,8 @@ SettingsVM -> SettingsVC : showResult()
 ' -----------------
 ' App lifecycle / Sync
 ' -----------------
-== App launch / Sync ==
-App -> HomeVM : onLaunch()
+' == App launch / Sync ==
+AppVC -> HomeVM : onLaunch()
 HomeVM -> FetchLibraryUseCase : syncLocalAndRemote()
 FetchLibraryUseCase -> TrackRepo : listLocal()
 FetchLibraryUseCase -> RemoteAPI : fetchRemoteChanges()
