@@ -6,15 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a0c6c051-a91e-427e-837d-d47ff1cdf585" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/set_user_details_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/set_user_details_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/profile_settings/update_living_address_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/profile_settings/update_living_address_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/l10n/app_de.arb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_de.arb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/l10n/app_en.arb" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_en.arb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_localizations.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations_de.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_localizations_de.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/l10n/app_localizations_en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/l10n/app_localizations_en.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/core/data/repositories/user_repository_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/core/data/repositories/user_repository_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,7 +177,7 @@
       <workItem from="1769258237369" duration="5345000" />
       <workItem from="1769265273864" duration="12756000" />
       <workItem from="1769278942767" duration="12870000" />
-      <workItem from="1769330088472" duration="1797000" />
+      <workItem from="1769330088472" duration="2953000" />
     </task>
     <servers />
   </component>
