@@ -140,19 +140,19 @@ class ProfileWidget extends StatelessWidget {
                           context,
                           context.l10n.state,
                           userProfile.state,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => UpdateLivingAddressPage(),
-                              ),
-                            );
-                          },
                         ),
                         _buildDetailTile(
                           context,
                           context.l10n.email,
                           userProfile.email,
+                          /* onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChangeEmailPage(),
+                              ),
+                            );
+                          },*/
                         ),
                         _buildDetailTile(
                           context,

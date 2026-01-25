@@ -3,20 +3,17 @@ import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/widget_tree.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
-import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
+import 'package:stimmapp/app/mobile/widgets/google_places_address_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
-import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
-import 'package:stimmapp/core/data/services/google_places_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
@@ -219,56 +216,18 @@ class _SetUserDetailsPageState extends State<SetUserDetailsPage> {
                         return null;
                       },
                     ),
+                    const SizedBox(height: 20),
+                    Text(_selectedState ?? context.l10n.state),
                     const SizedBox(height: 10),
-                    SelectAddressWidget(
-                      selectedState: _selectedState,
-                      onStateChanged: (newValue) {
-                        setState(() {
-                          _selectedState = newValue;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    GooglePlacesAutoCompleteTextFormField(
-                      config: GoogleApiConfig(
-                        apiKey: IConst.googlePlacesApiKey,
-                        countries: const ['de'],
-                        debounceTime: 400,
-                      ),
-                      textEditingController: _textController,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your address',
-                        labelText: 'Address',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                      maxLines: 1,
-                      onSuggestionClicked: (Prediction prediction) async {
-                        _textController.text = prediction.description!;
-                        _textController.selection = TextSelection.fromPosition(
-                          TextPosition(offset: prediction.description!.length),
-                        );
-
-                        if (prediction.placeId != null) {
-                          final service = GooglePlacesService(
-                            IConst.googlePlacesApiKey,
-                          );
-                          final state = await service.getStateFromPlaceId(
-                            prediction.placeId!,
-                          );
-                          if (state != null) {
-                            setState(() {
-                              _selectedState = state;
-                            });
-                          }
+                    GooglePlacesAddressWidget(
+                      controller: _textController,
+                      onStateChanged: (state) {
+                        if (state != null) {
+                          setState(() {
+                            _selectedState = state;
+                          });
                         }
                       },
-                      minInputLength: 2,
                     ),
                     const SizedBox(height: 10),
                   ],

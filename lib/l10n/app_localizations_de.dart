@@ -14,6 +14,9 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get enterYourAddress => 'gib deine Wohnanschrift ein';
+
+  @override
   String get vote => 'Abstimmen';
 
   @override

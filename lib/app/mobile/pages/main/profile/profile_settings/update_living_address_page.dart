@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
+import 'package:stimmapp/app/mobile/widgets/google_places_address_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
-import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
-import 'package:stimmapp/core/data/services/google_places_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
@@ -67,40 +65,17 @@ class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage>
                   child: Center(
                     child: Column(
                       children: [
-                        GooglePlacesAutoCompleteTextFormField(
-                          textEditingController: _controllerAddress,
-                          config: GoogleApiConfig(
-                            apiKey: IConst.googlePlacesApiKey,
-                            countries: const ['de'],
-                          ),
-                          decoration: InputDecoration(
-                            labelText: context.l10n.address,
-                            border: const OutlineInputBorder(),
-                          ),
-                          onSuggestionClicked: (prediction) async {
-                            final String description =
-                                prediction.description ?? "";
-                            _controllerAddress.text = description;
-                            _controllerAddress.selection =
-                                TextSelection.fromPosition(
-                                  TextPosition(offset: description.length),
-                                );
-
-                            if (prediction.placeId != null) {
-                              final service = GooglePlacesService(
-                                IConst.googlePlacesApiKey,
-                              );
-                              final state = await service.getStateFromPlaceId(
-                                prediction.placeId!,
-                              );
-                              if (state != null) {
-                                setState(() {
-                                  _selectedState = state;
-                                });
-                              }
+                        Text(_selectedState!),
+                        const SizedBox(height: 20),
+                        GooglePlacesAddressWidget(
+                          controller: _controllerAddress,
+                          onStateChanged: (state) {
+                            if (state != null) {
+                              setState(() {
+                                _selectedState = state;
+                              });
                             }
                           },
-                          minInputLength: 2,
                         ),
                         const SizedBox(height: 20),
                         SelectAddressWidget(

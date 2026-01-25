@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'Welcome {firstName} {lastName}!'**
   String helloAndWelcome(String firstName, String lastName);
 
+  /// No description provided for @enterYourAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'enter Your Address'**
+  String get enterYourAddress;
+
   /// No description provided for @vote.
   ///
   /// In en, this message translates to:

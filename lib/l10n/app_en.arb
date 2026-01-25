@@ -13,6 +13,7 @@
 			}
 		}
 	},
+	"enterYourAddress": "enter Your Address",
 	"vote": "Vote",
 	"result": "Result",
 	"membershipStatus": "Membership Status",
