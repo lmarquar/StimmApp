@@ -3,8 +3,7 @@ import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:google_places_flutter/google_places_flutter.dart';
-import 'package:google_places_flutter/model/prediction.dart';
+import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:stimmapp/app/mobile/pages/main/home/widget_tree.dart';
@@ -12,15 +11,15 @@ import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
-import 'package:stimmapp/core/data/firebase/firebase_options.dart';
+import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
 import 'package:stimmapp/core/data/services/database_service.dart';
+import 'package:stimmapp/core/data/services/google_places_service.dart';
 import 'package:stimmapp/core/data/services/profile_picture_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/notifiers/notifiers.dart';
-import 'package:stimmapp/core/theme/app_text_styles.dart';
 
 class SetUserDetailsPage extends StatefulWidget {
   const SetUserDetailsPage({super.key});
@@ -148,6 +147,8 @@ class _SetUserDetailsPageState extends State<SetUserDetailsPage> {
     }
   }
 
+  final _textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -228,45 +229,46 @@ class _SetUserDetailsPageState extends State<SetUserDetailsPage> {
                       },
                     ),
                     const SizedBox(height: 10),
-                    GooglePlaceAutoCompleteTextField(
-                      textEditingController: controllerAddress,
-                      googleAPIKey:
-                          DefaultFirebaseOptions.currentPlatform.apiKey,
-                      inputDecoration: InputDecoration(
-                        labelText: context.l10n.address,
-                        border: const OutlineInputBorder(),
+                    GooglePlacesAutoCompleteTextFormField(
+                      config: GoogleApiConfig(
+                        apiKey: IConst.googlePlacesApiKey,
+                        countries: const ['de'],
+                        debounceTime: 400,
                       ),
-                      countries: const ["de"],
-                      isLatLngRequired: true,
-                      getPlaceDetailWithLatLng: (Prediction prediction) {},
-                      debounceTime: 600,
-                      itemClick: (Prediction prediction) {
-                        controllerAddress.text = prediction.description ?? "";
-                        controllerAddress.selection =
-                            TextSelection.fromPosition(
-                              TextPosition(
-                                offset: prediction.description?.length ?? 0,
-                              ),
-                            );
+                      textEditingController: _textController,
+                      decoration: const InputDecoration(
+                        hintText: 'Enter your address',
+                        labelText: 'Address',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
                       },
-                      itemBuilder: (context, index, prediction) {
-                        return Container(
-                          padding: const EdgeInsets.all(10),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.location_on),
-                              const SizedBox(width: 7),
-                              Expanded(
-                                child: Text(
-                                  prediction.description ?? "",
-                                  style: AppTextStyles.m,
-                                ),
-                              ),
-                            ],
-                          ),
+                      maxLines: 1,
+                      onSuggestionClicked: (Prediction prediction) async {
+                        _textController.text = prediction.description!;
+                        _textController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: prediction.description!.length),
                         );
+
+                        if (prediction.placeId != null) {
+                          final service = GooglePlacesService(
+                            IConst.googlePlacesApiKey,
+                          );
+                          final state = await service.getStateFromPlaceId(
+                            prediction.placeId!,
+                          );
+                          if (state != null) {
+                            setState(() {
+                              _selectedState = state;
+                            });
+                          }
+                        }
                       },
-                      seperatedBuilder: const Divider(),
+                      minInputLength: 2,
                     ),
                     const SizedBox(height: 10),
                   ],
@@ -278,13 +280,15 @@ class _SetUserDetailsPageState extends State<SetUserDetailsPage> {
                 isFilled: true,
                 label: context.l10n.save,
                 callback: () {
-                  if (controllerAddress.text.trim().isEmpty) {
+                  if (_textController.text.trim().isEmpty) {
                     showErrorSnackBar(context.l10n.enterSomething);
                     return;
                   }
                   if (!Form.of(context).validate()) {
                     showErrorSnackBar(errorMessage);
                   } else {
+                    // Update controllerAddress with _textController.text before saving
+                    controllerAddress.text = _textController.text;
                     _saveUserDetails();
                     if (mounted) {
                       Navigator.of(context).pushAndRemoveUntil(

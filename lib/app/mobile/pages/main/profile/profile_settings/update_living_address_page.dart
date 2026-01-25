@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_places_flutter/google_places_flutter.dart';
-import 'package:google_places_flutter/model/prediction.dart';
+import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
 import 'package:stimmapp/app/mobile/scaffolds/app_bottom_bar_buttons.dart';
 import 'package:stimmapp/app/mobile/widgets/button_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/select_address_widget.dart';
 import 'package:stimmapp/app/mobile/widgets/snackbar_utils.dart';
-import 'package:stimmapp/core/data/firebase/firebase_options.dart';
+import 'package:stimmapp/core/constants/internal_constants.dart';
 import 'package:stimmapp/core/data/models/user_profile.dart';
 import 'package:stimmapp/core/data/repositories/user_repository.dart';
 import 'package:stimmapp/core/data/services/auth_service.dart';
+import 'package:stimmapp/core/data/services/google_places_service.dart';
 import 'package:stimmapp/core/extensions/context_extensions.dart';
 import 'package:stimmapp/core/theme/app_text_styles.dart';
 
@@ -67,46 +67,40 @@ class _UpdateLivingAddressPageState extends State<UpdateLivingAddressPage>
                   child: Center(
                     child: Column(
                       children: [
-                        GooglePlaceAutoCompleteTextField(
+                        GooglePlacesAutoCompleteTextFormField(
                           textEditingController: _controllerAddress,
-                          googleAPIKey:
-                              DefaultFirebaseOptions.currentPlatform.apiKey,
-                          inputDecoration: InputDecoration(
+                          config: GoogleApiConfig(
+                            apiKey: IConst.googlePlacesApiKey,
+                            countries: const ['de'],
+                          ),
+                          decoration: InputDecoration(
                             labelText: context.l10n.address,
                             border: const OutlineInputBorder(),
                           ),
-                          countries: const ["de"],
-                          isLatLngRequired: true,
-                          getPlaceDetailWithLatLng: (Prediction prediction) {},
-                          debounceTime: 600,
-                          itemClick: (Prediction prediction) {
-                            _controllerAddress.text =
+                          onSuggestionClicked: (prediction) async {
+                            final String description =
                                 prediction.description ?? "";
+                            _controllerAddress.text = description;
                             _controllerAddress.selection =
                                 TextSelection.fromPosition(
-                                  TextPosition(
-                                    offset: prediction.description?.length ?? 0,
-                                  ),
+                                  TextPosition(offset: description.length),
                                 );
+
+                            if (prediction.placeId != null) {
+                              final service = GooglePlacesService(
+                                IConst.googlePlacesApiKey,
+                              );
+                              final state = await service.getStateFromPlaceId(
+                                prediction.placeId!,
+                              );
+                              if (state != null) {
+                                setState(() {
+                                  _selectedState = state;
+                                });
+                              }
+                            }
                           },
-                          itemBuilder: (context, index, prediction) {
-                            return Container(
-                              padding: const EdgeInsets.all(10),
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.location_on),
-                                  const SizedBox(width: 7),
-                                  Expanded(
-                                    child: Text(
-                                      prediction.description ?? "",
-                                      style: AppTextStyles.m,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          seperatedBuilder: const Divider(),
+                          minInputLength: 2,
                         ),
                         const SizedBox(height: 20),
                         SelectAddressWidget(

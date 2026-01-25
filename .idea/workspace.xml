@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0c6c051-a91e-427e-837d-d47ff1cdf585" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/set_user_details_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/onboarding/set_user_details_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/profile_settings/update_living_address_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app/mobile/pages/main/profile/profile_settings/update_living_address_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/constants/internal_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/constants/internal_constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/patrol_test/simple_flow_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/integration_test/simple_flow_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/patrol_test/test_bundle.dart" beforeDir="false" afterPath="$PROJECT_DIR$/integration_test/test_bundle.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +22,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="DartProblemsView" group-by-severity="false" />
   <component name="EmbeddingIndexingInfo">
     <option name="cachedIndexableFilesCount" value="2128" />
     <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
@@ -179,7 +183,7 @@
       <workItem from="1769255106556" duration="2006000" />
       <workItem from="1769258237369" duration="5345000" />
       <workItem from="1769265273864" duration="12756000" />
-      <workItem from="1769278942767" duration="2258000" />
+      <workItem from="1769278942767" duration="11564000" />
     </task>
     <servers />
   </component>

@@ -41,6 +41,7 @@ dependencies:
   firebase_auth: ^6.1.3
   shared_preferences: ^2.5.3
   lottie: ^3.3.2
+  dio: ^5.7.0
   http: ^1.5.0
   flutter_launcher_icons: ^0.14.4
   connectivity_plus: ^6.1.1
@@ -65,6 +66,7 @@ dependencies:
   google_mobile_ads: ^7.0.0
   change_package_name: ^1.1.0
   cloud_functions: ^6.0.6
+  google_places_autocomplete_text_field: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -100,6 +102,7 @@ flutter:
 
 patrol:
   app_name: StimmApp
+  test_directory: integration_test
   android:
     package_name: de.lemarq.stimmapp
   # An image asset can refer to one or more resolution-specific "variants", see

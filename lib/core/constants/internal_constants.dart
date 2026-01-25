@@ -19,4 +19,10 @@ class IConst {
   static const String faqUrl = 'https://www.stimmapp.org/faq';
 
   static const String revenueCatApiKey = 'test_VEGOJICjsOpHUeSPdwjeXBwfLph';
+
+  // Google Places API Key.
+  // If your Firebase API key is restricted and doesn't work for Places,
+  // create an unrestricted API key in Google Cloud Console and put it here.
+  static const String googlePlacesApiKey =
+      'AIzaSyC2FIfql1gfwTanWRLCMU3ixmJkzpSIN8M'; // Default to Android key for now
 }
